@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xem bài học — StudyOnline</title>
+  <meta name="description" content="Xem nội dung bài học trên StudyOnline">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+</head>
+
+<body class="student-layout">
+
+  <!-- Overlay mobile -->
+  <div id="sidebarOverlay"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;transition:.2s;"
+    onclick="this.classList.remove('active');document.getElementById('studentSidebar').classList.remove('mobile-open')">
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div>
+      <span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/my-courses.html">
+        <span class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html">
+        <span class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html">
+        <span class="nav-icon">📝</span><span class="nav-label">Quiz</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html">
+        <span class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span>
+      </a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html">
+        <span class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span>
+      </a>
+      <button class="s-nav-item cursor-pointer" onclick="studentLogout()">
+        <span class="nav-icon">🚪</span><span class="nav-label">Đăng xuất</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="s-wrapper">
+
+    <!-- HEADER -->
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle" title="Toggle sidebar">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn" title="Thông báo">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr>
+            <button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="s-main">
+
+      <!-- Breadcrumb -->
+      <nav class="q-breadcrumb" aria-label="Breadcrumb">
+        <a href="/studyonline/frontend/pages/student/dashboard.html">Dashboard</a>
+        <span class="q-breadcrumb-separator">›</span>
+        <a href="/studyonline/frontend/pages/student/my-courses.html">Khóa học của tôi</a>
+        <span class="q-breadcrumb-separator">›</span>
+        <a id="bcCourse" href="#">Đang tải...</a>
+        <span class="q-breadcrumb-separator">›</span>
+        <span id="bcChapter">Chương</span>
+        <span class="q-breadcrumb-separator">›</span>
+        <span id="bcLesson" class="q-breadcrumb-current">Bài học</span>
+      </nav>
+
+      <!-- Main Workspace Grid -->
+      <div id="lessonWorkspace" class="l-workspace">
+
+        <!-- Loading State -->
+        <div style="grid-column: 1 / -1; text-align: center; padding: 5rem 0;">
+          <div class="spinner mb-4"></div>
+          <p style="font-size: 0.95rem; color: var(--s-text-muted); font-weight: 500;">Đang tải nội dung bài học...</p>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script>
+    // ── State ──────────────────────────────────────────────
+    let currentLessonId = null;
+    let currentCourseId = null;
+    let completedIds = new Set();   // lesson_id đã hoàn thành
+    let saveTimer = null;        // debounce timer ghi watched_sec
+    let lastSavedSec = 0;           // tránh ghi trùng
+
+    // ── Helpers ────────────────────────────────────────────
+
+    /** Ghi tiến độ lên server */
+    async function saveProgress(watchedSec, isCompleted) {
+      if (!currentLessonId) return;
+      await Api.updateProgress(currentLessonId, Math.floor(watchedSec), isCompleted ? 1 : 0);
+    }
+
+    /** Cập nhật ✅ icon trong sidebar và thanh % tiến độ */
+    function refreshSidebarState() {
+      // Icon ✅ / 🎬 / 📎 trên từng bài
+      document.querySelectorAll('[data-lesson-id]').forEach(el => {
+        const lid = parseInt(el.dataset.lessonId);
+        const iconEl = el.querySelector('.lesson-icon');
+        if (!iconEl) return;
+        if (completedIds.has(lid)) {
+          iconEl.textContent = '✅';
+          el.classList.add('lesson-done');
+        }
+      });
+
+      // Thanh % tiến độ (dựa trên bài đã hoàn thành thật)
+      const totalCount = document.querySelectorAll('[data-lesson-id]').length;
+      const doneCount = completedIds.size;
+      const pct = totalCount > 0 ? Math.round(doneCount / totalCount * 100) : 0;
+
+      const bar = document.getElementById('progressBar');
+      const pctEl = document.getElementById('progressPct');
+      if (bar) bar.style.width = pct + '%';
+      if (pctEl) pctEl.textContent = pct + '% Hoàn thành';
+    }
+
+    // ── Lifecycle ──────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+
+      // Header user info
+      const user = Api.getUser();
+      if (user) {
+        const initials = user.fullname?.split(' ').map(w => w[0]).slice(-2).join('') || '?';
+        document.getElementById('headerAvatar').textContent = initials;
+        document.getElementById('headerName').textContent = user.fullname?.split(' ').pop() || 'Học viên';
+      }
+
+      // Avatar dropdown
+      document.getElementById('avatarWrap')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        document.getElementById('avatarDropdown')?.classList.remove('open');
+      });
+
+      // Sidebar toggle
+      document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+        const sidebar = document.getElementById('studentSidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          sidebar.classList.toggle('mobile-open');
+          overlay.classList.toggle('active');
+        } else {
+          document.body.classList.toggle('sidebar-collapsed');
+          sidebar.classList.toggle('collapsed');
+        }
+      });
+
+      const id = getParam('id');
+      if (!id) { window.location.href = '/studyonline/frontend/pages/student/my-courses.html'; return; }
+      currentLessonId = Number(id);
+
+      const el = document.getElementById('lessonWorkspace');
+
+      // 1. Fetch lesson
+      const res = await Api.getLesson(currentLessonId);
+      if (!res?.ok || !res.data?.data) {
+        el.innerHTML = `
+          <div class="lg:col-span-12 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl shadow-sm text-sm" role="alert">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">❌</span>
+              <p class="font-semibold">Không tìm thấy bài học hoặc có lỗi xảy ra. Vui lòng kiểm tra lại.</p>
+            </div>
+          </div>`;
+        return;
+      }
+
+      const lesson = res.data.data;
+      document.title = `${lesson.title} — StudyOnline`;
+
+      // 2. Fetch chapter
+      const chapterRes = await Api.getChapter(lesson.chapter_id);
+      const currentChapter = chapterRes?.data?.data;
+      if (!currentChapter) {
+        el.innerHTML = `<div class="lg:col-span-12 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl text-sm">❌ Không tìm thấy thông tin chương học.</div>`;
+        return;
+      }
+      currentCourseId = currentChapter.course_id;
+
+      // 3. Fetch course
+      const courseRes = await Api.getCourse(currentCourseId);
+      const course = courseRes?.data?.data;
+      if (!course) {
+        el.innerHTML = `<div class="lg:col-span-12 bg-red-50 border-l-4 border-red-500 text-red-700 p-4 rounded-xl text-sm">❌ Không tìm thấy thông tin khóa học.</div>`;
+        return;
+      }
+
+      // 4. Breadcrumb
+      const bcCourse = document.getElementById('bcCourse');
+      bcCourse.textContent = course.title;
+      bcCourse.href = `/studyonline/frontend/pages/chapters.html?course_id=${course.id}`;
+      document.getElementById('bcChapter').textContent = currentChapter.chapter_name;
+      document.getElementById('bcLesson').textContent = lesson.title;
+
+      // 5. Fetch chapters + lessons
+      const chaptersRes = await Api.getChapters(currentCourseId);
+      const chapters = chaptersRes?.data?.data || [];
+      const chaptersWithLessons = await Promise.all(chapters.map(async (chap) => {
+        const lessonsRes = await Api.getLessons(chap.id);
+        return { ...chap, lessons: lessonsRes?.data?.data || [] };
+      }));
+
+      // 6. Load tiến độ hiện có từ API
+      const progressRes = await Api.getProgressByCourse(currentCourseId);
+      if (progressRes?.ok && Array.isArray(progressRes.data?.data)) {
+        progressRes.data.data.forEach(lid => completedIds.add(lid));
+      }
+
+      // 7. Flatten lessons để xác định prev / next
+      const allLessons = chaptersWithLessons.flatMap(chap => chap.lessons);
+      const currentIdx = allLessons.findIndex(l => l.id === lesson.id);
+      const prevLesson = currentIdx > 0 ? allLessons[currentIdx - 1] : null;
+      const nextLesson = currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : null;
+
+      // 8. Tính % tiến độ thật
+      const totalCount = allLessons.length;
+      const doneCount = completedIds.size;
+      const initPct = totalCount > 0 ? Math.round(doneCount / totalCount * 100) : 0;
+
+      // 9. Render giao diện
+      el.innerHTML = `
+        <!-- Main Column -->
+        <div class="l-main-col">
+
+          <!-- Video / Placeholder -->
+          <div class="l-video-container">
+            ${lesson.video_url ? `
+              <video id="lessonVideo" controls src="/studyonline/frontend/uploads/videos/${lesson.video_url}">
+                Trình duyệt của bạn không hỗ trợ phát video.
+              </video>
+            ` : `
+              <div class="l-video-placeholder">
+                <span class="icon">📄</span>
+                <p>Bài học này không có video</p>
+                <span>Hãy đọc mô tả và tải tài liệu đính kèm bên dưới.</span>
+              </div>
+            `}
+          </div>
+
+          <!-- Lesson Info -->
+          <div class="s-card s-card-body">
+            <div>
+              <div class="lesson-tags" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                <span class="s-badge ${lesson.video_url ? 's-badge-blue' : 's-badge-warn'}">
+                  ${lesson.video_url ? '🎬 Bài học Video' : '📎 Bài học Văn bản'}
+                </span>
+                <span class="s-badge" style="background: var(--s-surface-2); color: var(--s-text-muted); border: none;">
+                  ${currentChapter.chapter_name}
+                </span>
+                ${completedIds.has(lesson.id) ? `
+                  <span id="completedBadge" class="s-badge s-badge-green">
+                    ✅ Đã hoàn thành
+                  </span>
+                ` : ''}
+              </div>
+              <h1 class="q-title" style="margin: 0.5rem 0 1.5rem 0;">${lesson.title}</h1>
+            </div>
+
+            <!-- Tabs -->
+            <div class="l-tabs-bar">
+              <button id="tabDescBtn" onclick="switchTab('desc')" class="l-tab-btn active">
+                Mô tả bài học
+              </button>
+              ${lesson.document_url ? `
+                <button id="tabDocBtn" onclick="switchTab('doc')" class="l-tab-btn">
+                  Tài liệu đính kèm
+                </button>
+              ` : ''}
+            </div>
+
+            <!-- Tab Panels -->
+            <div style="margin-top: 1.25rem;">
+              <div id="panelDesc" class="l-tab-panel whitespace-pre-line">
+                ${lesson.description || '<p class="text-slate-400 italic">Bài học này chưa có phần mô tả.</p>'}
+              </div>
+              ${lesson.document_url ? `
+                <div id="panelDoc" class="l-tab-panel hidden">
+                  <div class="l-doc-download">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; min-width: 0;">
+                      <span style="font-size: 1.5rem; flex-shrink: 0;">📎</span>
+                      <div style="min-width: 0;">
+                        <p class="truncate" style="font-size: 0.85rem; font-weight: 700; color: var(--s-text); margin: 0;">${lesson.document_url}</p>
+                        <p style="font-size: 0.75rem; color: var(--s-text-muted); margin: 0.15rem 0 0 0;">Tài liệu học tập đính kèm</p>
+                      </div>
+                    </div>
+                    <a href="/studyonline/frontend/uploads/documents/${lesson.document_url}" target="_blank" download
+                       class="s-btn s-btn-primary s-btn-sm">
+                      📥 Tải xuống
+                    </a>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Nút đánh dấu hoàn thành (hiển thị cho bài không có video HOẶC khi chưa hoàn thành) -->
+            ${!completedIds.has(lesson.id) ? `
+              <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--s-border);">
+                <button id="markDoneBtn" onclick="markDone()"
+                  class="s-btn s-btn-primary" style="background: var(--s-success); border-color: var(--s-success); color: #fff;">
+                  ✅ Đánh dấu hoàn thành bài học
+                </button>
+              </div>
+            ` : ''}
+          </div>
+
+          <!-- Navigation -->
+          <div class="l-nav-row">
+            ${prevLesson ? `
+              <a href="/studyonline/frontend/pages/lesson.html?id=${prevLesson.id}" class="l-nav-btn l-nav-btn-prev">
+                <span>←</span>
+                <div class="truncate" style="text-align: left;">
+                  <p style="font-size: 0.65rem; color: var(--s-text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin: 0;">Bài trước</p>
+                  <p class="truncate" style="font-size: 0.85rem; font-weight: 700; margin: 0.15rem 0 0 0;">${prevLesson.title}</p>
+                </div>
+              </a>
+            ` : `<div style="flex: 1;"></div>`}
+
+            ${nextLesson ? `
+              <a href="/studyonline/frontend/pages/lesson.html?id=${nextLesson.id}" class="l-nav-btn l-nav-btn-next">
+                <div class="truncate" style="text-align: left;">
+                  <p style="font-size: 0.65rem; color: rgba(255,255,255,0.7); text-transform: uppercase; font-weight: 700; letter-spacing: 0.05em; margin: 0;">Bài tiếp theo</p>
+                  <p class="truncate" style="font-size: 0.85rem; font-weight: 700; margin: 0.15rem 0 0 0; color: #fff;">${nextLesson.title}</p>
+                </div>
+                <span>→</span>
+              </a>
+            ` : `<div style="flex: 1;"></div>`}
+          </div>
+
+        </div>
+
+        <!-- Sidebar: Curriculum -->
+        <div class="l-curriculum-card">
+
+          <!-- Header -->
+          <div class="l-curriculum-header">
+            <p>Chương trình học</p>
+            <h2>${course.title}</h2>
+            <div class="l-progress-info">
+              <span>${totalCount} bài học</span>
+              <span id="progressPct" style="color: var(--s-primary);">${initPct}% Hoàn thành</span>
+            </div>
+            <div class="l-progress-bar-wrap">
+              <div class="l-progress-bar-fill" id="progressBar" style="width:${initPct}%"></div>
+            </div>
+          </div>
+
+          <!-- Chapters list -->
+          <div class="l-chapters-list custom-scrollbar">
+            ${chaptersWithLessons.map((chap, chapIdx) => `
+              <div class="l-chapter-item">
+                <div class="l-chapter-title-row">
+                  <span class="truncate" style="font-weight: 700; font-size: 0.85rem; color: var(--s-text); cursor: default; line-height: 1.4; max-w: 80%;">${chapIdx + 1}. ${chap.chapter_name}</span>
+                  <span class="s-badge" style="background: var(--s-surface-2); color: var(--s-text-muted); border: none; font-size: 0.7rem; font-weight: 600; flex-shrink: 0;">${chap.lessons.length} bài</span>
+                </div>
+                <div class="l-lessons-sublist">
+                  ${chap.lessons.map((l) => {
+        const isActive = l.id === lesson.id;
+        const isDone = completedIds.has(l.id);
+        const icon = isDone ? '✅' : (l.video_url ? '🎬' : '📎');
+        return `
+                      <a href="/studyonline/frontend/pages/lesson.html?id=${l.id}"
+                         data-lesson-id="${l.id}"
+                         class="l-lesson-link ${isActive ? 'active active-sidebar-item' : ''} ${isDone ? 'lesson-done' : ''}">
+                        <span class="lesson-icon" style="flex-shrink: 0; font-size: 0.9rem;">${icon}</span>
+                        <span class="truncate" style="flex-grow: 1;">${l.title}</span>
+                        ${isActive ? '<span class="s-badge s-badge-blue" style="font-size: 0.65rem; padding: 0.1rem 0.35rem; flex-shrink: 0;">Đang học</span>' : ''}
+                      </a>
+                    `;
+      }).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+
+        </div>
+      `;
+
+      // Scroll sidebar active item vào view
+      setTimeout(() => {
+        document.querySelector('.active-sidebar-item')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }, 150);
+
+      // ── Gắn events video ──────────────────────────────────
+      const videoEl = document.getElementById('lessonVideo');
+      if (videoEl) {
+        // Ghi watched_sec mỗi 10 giây
+        videoEl.addEventListener('timeupdate', () => {
+          const sec = Math.floor(videoEl.currentTime);
+          if (sec - lastSavedSec >= 10) {
+            lastSavedSec = sec;
+            saveProgress(sec, 0);
+          }
+        });
+
+        // Đánh dấu hoàn thành khi video kết thúc
+        videoEl.addEventListener('ended', async () => {
+          await saveProgress(Math.floor(videoEl.duration || 0), 1);
+          completedIds.add(lesson.id);
+          refreshSidebarState();
+          // Ẩn nút "Đánh dấu hoàn thành"
+          document.getElementById('markDoneBtn')?.remove();
+          // Cập nhật badge trên tiêu đề
+          const badgeWrap = document.getElementById('completedBadge');
+          if (!badgeWrap) {
+            // Thêm badge vào chỗ tags
+            const tagsEl = document.querySelector('.lesson-tags');
+            if (tagsEl) {
+              tagsEl.insertAdjacentHTML('beforeend',
+                `<span id="completedBadge" class="s-badge s-badge-green">✅ Đã hoàn thành</span>`
+              );
+            }
+          }
+        });
+      }
+    });
+
+    // ── Đánh dấu hoàn thành thủ công ────────────────────────
+    async function markDone() {
+      const btn = document.getElementById('markDoneBtn');
+      if (!btn) return;
+      btn.disabled = true;
+      btn.textContent = '⏳ Đang lưu...';
+
+      const videoEl = document.getElementById('lessonVideo');
+      const watchedSec = videoEl ? Math.floor(videoEl.currentTime) : 0;
+      const result = await saveProgress(watchedSec, 1);
+
+      completedIds.add(currentLessonId);
+      refreshSidebarState();
+      btn.remove();
+    }
+    window.markDone = markDone;
+
+    // ── Tab Switch ────────────────────────────────────────────
+    function switchTab(tab) {
+      const tabDescBtn = document.getElementById('tabDescBtn');
+      const tabDocBtn = document.getElementById('tabDocBtn');
+      const panelDesc = document.getElementById('panelDesc');
+      const panelDoc = document.getElementById('panelDoc');
+
+      if (tab === 'desc') {
+        tabDescBtn.classList.add('active');
+        if (tabDocBtn) tabDocBtn.classList.remove('active');
+        panelDesc.classList.remove('hidden');
+        if (panelDoc) panelDoc.classList.add('hidden');
+      } else {
+        if (tabDescBtn) tabDescBtn.classList.remove('active');
+        tabDocBtn.classList.add('active');
+        panelDesc.classList.add('hidden');
+        panelDoc.classList.remove('hidden');
+      }
+    }
+    window.switchTab = switchTab;
+
+    function studentLogout() {
+      try { Api.clearAuth(); Api.logout(); } catch (e) { console.error(e); }
+      window.location.href = '/studyonline/frontend/pages/home.html';
+    }
+    window.studentLogout = studentLogout;
+  </script>
+</body>
+
+</html>

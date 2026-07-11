@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ sơ cá nhân — StudyOnline</title>
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+</head>
+
+<body class="student-layout">
+
+  <div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;"
+    onclick="this.style.display='none';document.getElementById('studentSidebar').classList.remove('mobile-open')"></div>
+
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div><span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html"><span
+          class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/my-courses.html"><span
+          class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html"><span
+          class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html"><span class="nav-icon">📝</span><span
+          class="nav-label">Quiz</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html"><span
+          class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span></a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/profile.html"><span
+          class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span></a>
+      <button class="s-nav-item" onclick="studentLogout()"><span class="nav-icon">🚪</span><span class="nav-label">Đăng
+          xuất</span></button>
+    </nav>
+  </aside>
+
+  <div class="s-wrapper">
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr><button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="s-main">
+      <div class="s-page-title">👤 Hồ sơ cá nhân</div>
+      <div class="s-page-subtitle">Quản lý thông tin tài khoản của bạn</div>
+
+      <!-- Profile Hero -->
+      <div class="s-profile-hero">
+        <div class="s-profile-avatar-lg" id="profileAvatarLg">?</div>
+        <div>
+          <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:.25rem;" id="profileName">Học viên</h2>
+          <p style="opacity:.8;margin-bottom:1rem;" id="profileEmail">email@example.com</p>
+          <div style="display:flex;gap:2rem;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;" id="profileCourses">—</div>
+              <div style="font-size:.78rem;opacity:.7;">Khóa học</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;">2</div>
+              <div style="font-size:.78rem;opacity:.7;">Chứng chỉ</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;">8.5</div>
+              <div style="font-size:.78rem;opacity:.7;">Điểm TB</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:1.5rem;font-weight:800;" id="profileJoined">2026</div>
+              <div style="font-size:.78rem;opacity:.7;">Tham gia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-grid-2">
+        <!-- Update Info -->
+        <div class="s-card">
+          <div class="s-card-header">
+            <span class="s-card-title">✏️ Cập nhật thông tin</span>
+          </div>
+          <div class="s-card-body">
+            <div id="infoAlert"></div>
+            <form id="infoForm">
+              <div class="s-form-group">
+                <label class="s-label">Họ và tên</label>
+                <input class="s-input" type="text" id="fullname" placeholder="Nhập họ tên...">
+              </div>
+              <div class="s-form-group">
+                <label class="s-label">Email</label>
+                <input class="s-input" type="email" id="email" placeholder="Email..." disabled style="opacity:.6;">
+              </div>
+              <div class="s-form-group">
+                <label class="s-label">Vai trò</label>
+                <input class="s-input" type="text" id="roleDisplay" disabled style="opacity:.6;">
+              </div>
+              <button type="submit" class="s-btn s-btn-primary" style="width:100%;">💾 Lưu thay đổi</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="s-card">
+          <div class="s-card-header">
+            <span class="s-card-title">🔒 Đổi mật khẩu</span>
+          </div>
+          <div class="s-card-body">
+            <div id="pwAlert"></div>
+            <form id="pwForm">
+              <div class="s-form-group">
+                <label class="s-label">Mật khẩu hiện tại</label>
+                <input class="s-input" type="password" id="currentPw" placeholder="Nhập mật khẩu hiện tại...">
+              </div>
+              <div class="s-form-group">
+                <label class="s-label">Mật khẩu mới</label>
+                <input class="s-input" type="password" id="newPw" placeholder="Ít nhất 8 ký tự...">
+              </div>
+              <div class="s-form-group">
+                <label class="s-label">Xác nhận mật khẩu mới</label>
+                <input class="s-input" type="password" id="confirmPw" placeholder="Nhập lại mật khẩu mới...">
+              </div>
+              <button type="submit" class="s-btn s-btn-outline" style="width:100%;">🔑 Đổi mật khẩu</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar upload card -->
+      <div class="s-card" style="margin-top:1.25rem;">
+        <div class="s-card-header">
+          <span class="s-card-title">🖼 Ảnh đại diện</span>
+        </div>
+        <div class="s-card-body" style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+          <div id="avatarPreview"
+            style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--s-primary),#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:#fff;">
+            ?</div>
+          <div>
+            <p style="font-size:.875rem;color:var(--s-text-muted);margin-bottom:1rem;">Chọn ảnh JPG, PNG hoặc GIF. Tối
+              đa 2MB.</p>
+            <div style="display:flex;gap:.75rem;">
+              <button class="s-btn s-btn-outline" onclick="alert('Tính năng đang phát triển!')">📂 Chọn ảnh</button>
+              <button class="s-btn s-btn-ghost" onclick="alert('Đã xóa ảnh!')">🗑 Xóa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/student-dashboard.js?v=1.1"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+
+      const user = Api.getUser();
+      if (!user) return;
+
+      const initials = user.fullname ? user.fullname.split(' ').map(w => w[0]).slice(-2).join('').toUpperCase() : '?';
+
+      document.getElementById('profileAvatarLg').textContent = initials;
+      document.getElementById('avatarPreview').textContent = initials;
+      document.getElementById('profileName').textContent = user.fullname || '—';
+      document.getElementById('profileEmail').textContent = user.email || '—';
+      document.getElementById('fullname').value = user.fullname || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('roleDisplay').value = { admin: 'Quản trị viên', teacher: 'Giảng viên', student: 'Học viên' }[user.role] || user.role;
+
+      const coursesRes = await Api.getCourses();
+      document.getElementById('profileCourses').textContent = coursesRes?.data?.data?.length ?? '—';
+
+      document.getElementById('profileJoined').textContent = new Date().getFullYear();
+
+      // Update info form
+      document.getElementById('infoForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const alertEl = document.getElementById('infoAlert');
+        const name = document.getElementById('fullname').value.trim();
+        if (!name) {
+          alertEl.innerHTML = `<div class="s-alert s-alert-danger">Vui lòng nhập họ tên!</div>`;
+          return;
+        }
+        // Update localStorage mock
+        const updated = { ...user, fullname: name };
+        localStorage.setItem('user', JSON.stringify(updated));
+        alertEl.innerHTML = `<div class="s-alert s-alert-success">✅ Cập nhật thành công!</div>`;
+        document.getElementById('profileName').textContent = name;
+        setTimeout(() => alertEl.innerHTML = '', 3000);
+      });
+
+      // Change password form
+      document.getElementById('pwForm').addEventListener('submit', async e => {
+        e.preventDefault();
+        const alertEl = document.getElementById('pwAlert');
+        const newPw = document.getElementById('newPw').value;
+        const confirmPw = document.getElementById('confirmPw').value;
+        if (newPw.length < 8) {
+          alertEl.innerHTML = `<div class="s-alert s-alert-danger">Mật khẩu phải có ít nhất 8 ký tự!</div>`;
+          return;
+        }
+        if (newPw !== confirmPw) {
+          alertEl.innerHTML = `<div class="s-alert s-alert-danger">Mật khẩu xác nhận không khớp!</div>`;
+          return;
+        }
+        alertEl.innerHTML = `<div class="s-alert s-alert-success">✅ Đổi mật khẩu thành công!</div>`;
+        document.getElementById('pwForm').reset();
+        setTimeout(() => alertEl.innerHTML = '', 3000);
+      });
+    });
+  </script>
+</body>
+
+</html>

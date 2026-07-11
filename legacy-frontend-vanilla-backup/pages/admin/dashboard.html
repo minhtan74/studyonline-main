@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — StudyOnline</title>
+  <link rel="stylesheet" href="/studyonline/frontend/css/studyonline.css">
+  <style>
+    /* CSS Animations & Modal Styles */
+    @keyframes modalFadeIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.25s ease;
+    }
+    /* Simple toast alert styling */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast {
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      font-size: 0.875rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes toastIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .toast-success { border-left: 4px solid var(--success); color: var(--success); }
+    .toast-error { border-left: 4px solid var(--danger); color: var(--danger); }
+  </style>
+</head>
+
+<body>
+
+  <!-- Protect Route Script (Admin check) -->
+  <script>
+    (function () {
+      const token = localStorage.getItem('token');
+      let user = null;
+      try { user = JSON.parse(localStorage.getItem('user')); } catch (e) { }
+
+      if (!token || !user || user.role !== 'admin') {
+        alert('Cảnh báo: Bạn không có quyền truy cập trang này!');
+        window.location.href = '/studyonline/frontend/pages/login.html';
+      }
+    })();
+  </script>
+
+  <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">🎓</div>
+      <div class="brand-text">
+        <div class="brand-name">StudyOnline</div>
+        <div class="brand-sub">Hệ thống Quản lý</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Bảng điều khiển</div>
+      <nav class="sidebar-menu">
+        <a href="#dashboard" id="menu-dashboard" class="active">
+          <span class="menu-icon">📊</span> Dashboard
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Quản trị hệ thống</div>
+      <nav class="sidebar-menu">
+        <a href="#users" id="menu-users">
+          <span class="menu-icon">👥</span> Quản lý User
+        </a>
+        <a href="#teachers" id="menu-teachers">
+          <span class="menu-icon">👨‍🏫</span> Quản lý Teacher
+        </a>
+        <a href="#students" id="menu-students">
+          <span class="menu-icon">🎒</span> Quản lý Student
+        </a>
+        <a href="#courses" id="menu-courses">
+          <span class="menu-icon">📚</span> Quản lý Khóa học
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Báo cáo & Cấu hình</div>
+      <nav class="sidebar-menu">
+        <a href="#stats" id="menu-stats">
+          <span class="menu-icon">📈</span> Thống kê
+        </a>
+        <a href="#reports" id="menu-reports">
+          <span class="menu-icon">📄</span> Báo cáo
+        </a>
+        <a href="#settings" id="menu-settings">
+          <span class="menu-icon">⚙️</span> Cài đặt
+        </a>
+      </nav>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar avatar-sm" id="sidebarAvatar" style="background:var(--accent);">AD</div>
+        <div class="user-info">
+          <div class="sidebar-user-name" id="sidebarName">Admin</div>
+          <div class="sidebar-user-role">Super Admin</div>
+        </div>
+      </div>
+      <button class="sidebar-logout" onclick="doAdminLogout()">🚪 Đăng xuất</button>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h2 class="topbar-title">Hệ thống Quản trị</h2>
+        <span class="topbar-sub" id="topbarWelcome">Xin chào, Admin!</span>
+      </div>
+      <div class="topbar-right">
+        <button class="btn-icon notif-btn">
+          🔔
+          <span class="notif-dot"></span>
+        </button>
+        <div class="topbar-avatar" id="topbarAvatar">AD</div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <div class="page-header">
+        <div class="breadcrumb">
+          <a href="#">Admin</a> / <span id="breadcrumbCurrent">Dashboard</span>
+        </div>
+        <h1 class="page-title">Dashboard Tổng quan</h1>
+        <p class="page-subtitle">Thống kê hoạt động và quản lý hệ thống thời gian thực.</p>
+      </div>
+
+      <!-- ==================== VIEW 1: DASHBOARD OVERVIEW ==================== -->
+      <div id="dashboardView" class="view-panel">
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(37,99,235,0.1); color:var(--primary);">👥</div>
+            <div>
+              <div class="stat-label">Tổng User</div>
+              <div class="stat-value" id="statUsers">0</div>
+              <span class="stat-trend trend-up">↑ Hoạt động tốt</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(16,185,129,0.1); color:var(--success);">👨‍🏫</div>
+            <div>
+              <div class="stat-label">Giảng viên</div>
+              <div class="stat-value" id="statTeachers">0</div>
+              <span class="stat-trend trend-up">↑ Giảng dạy</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(6,182,212,0.1); color:var(--info);">🎒</div>
+            <div>
+              <div class="stat-label">Học viên</div>
+              <div class="stat-value" id="statStudents">0</div>
+              <span class="stat-trend trend-up">↑ Học trực tuyến</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(139,92,246,0.1); color:var(--accent);">📚</div>
+            <div>
+              <div class="stat-label">Khóa học</div>
+              <div class="stat-value" id="statCourses">0</div>
+              <span class="stat-trend trend-up">↑ Đang chạy</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN GRID -->
+        <div class="col-3-1">
+          <!-- Left Section: Lists -->
+          <div style="display:flex; flex-direction:column; gap:1.75rem;">
+
+            <!-- Recent Courses Table -->
+            <div class="card">
+              <div class="card-header">
+                <h3 style="font-size: 1.1rem;">📚 Khóa học mới nhất</h3>
+                <a href="#courses" class="btn btn-ghost btn-sm">Xem tất cả</a>
+              </div>
+              <div class="card-body" style="padding:0;">
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Thumbnail</th>
+                        <th>Tên khóa học</th>
+                        <th>Giảng viên</th>
+                        <th>Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminCoursesTable">
+                      <tr>
+                        <td colspan="4" style="text-align:center; padding:2rem; color:var(--text-muted);">Đang tải dữ liệu...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Users Table -->
+            <div class="card">
+              <div class="card-header">
+                <h3 style="font-size: 1.1rem;">👥 Người dùng mới nhất</h3>
+                <a href="#users" class="btn btn-ghost btn-sm">Xem tất cả</a>
+              </div>
+              <div class="card-body" style="padding:0;">
+                <div class="table-wrapper">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Avatar</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminUsersTable">
+                      <tr>
+                        <td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Đang tải dữ liệu...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Section: Stats Circle & Activity -->
+          <div style="display:flex; flex-direction:column; gap:1.75rem;">
+
+            <div class="card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.1rem; margin-bottom: 1.25rem;">📊 Phân bổ vai trò</h3>
+              <div style="position: relative; display: flex; justify-content: center; align-items: center; height: 180px;">
+                <div id="roleConicChart" style="width: 140px; height: 140px; border-radius: 50%; background: conic-gradient(var(--primary) 0% 70%, var(--accent) 70% 85%, var(--warning) 85% 100%); display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 90px; height: 90px; border-radius: 50%; background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <strong style="font-size: 1.2rem; color: var(--text);" id="totalUsersChart">0</strong>
+                    <span style="font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;">Thành viên</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:1rem;">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+                  <span style="display:flex; align-items:center; gap:0.5rem;"><span style="width:10px; height:10px; background:var(--primary); border-radius:50%;"></span> Học viên (Students)</span>
+                  <strong id="percentStudents">—</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+                  <span style="display:flex; align-items:center; gap:0.5rem;"><span style="width:10px; height:10px; background:var(--accent); border-radius:50%;"></span> Giảng viên (Teachers)</span>
+                  <strong id="percentTeachers">—</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem;">
+                  <span style="display:flex; align-items:center; gap:0.5rem;"><span style="width:10px; height:10px; background:var(--warning); border-radius:50%;"></span> Quản trị (Admins)</span>
+                  <strong id="percentAdmins">—</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="padding: 1.5rem;">
+              <h3 style="font-size: 1.1rem; margin-bottom: 1rem;">🔔 Hoạt động hệ thống</h3>
+              <div style="display:flex; flex-direction:column; gap:1rem; font-size:0.85rem;" id="recentActivityList">
+                <div style="border-left: 2px solid var(--border); padding-left: 1rem; position: relative;">
+                  <span style="position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--primary);"></span>
+                  <p style="margin: 0; color: var(--text); font-weight: 500;">Kết nối máy chủ cơ sở dữ liệu thành công</p>
+                  <span style="font-size: 0.72rem; color: var(--text-light);">Vừa xong</span>
+                </div>
+                <div style="border-left: 2px solid var(--border); padding-left: 1rem; position: relative;">
+                  <span style="position: absolute; left: -6px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--success);"></span>
+                  <p style="margin: 0; color: var(--text); font-weight: 500;">Hệ thống API RESTful đã sẵn sàng hoạt động</p>
+                  <span style="font-size: 0.72rem; color: var(--text-light);">10 phút trước</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW 2: USERS MANAGEMENT ==================== -->
+      <div id="usersView" class="view-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <h3 style="font-size: 1.1rem; font-weight:700;">👥 Quản lý Thành viên</h3>
+            <button class="btn btn-primary btn-sm" onclick="openUserCreateModal()">+ Thêm Thành viên</button>
+          </div>
+          <div class="card-body">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+              <input type="text" id="userSearchInput" class="form-control" placeholder="Tìm tên hoặc email..." style="max-width:300px;" oninput="filterUsersList()">
+              <select id="userRoleFilter" class="form-control" style="max-width:180px;" onchange="filterUsersList()">
+                <option value="all">Tất cả vai trò</option>
+                <option value="admin">Quản trị viên (Admin)</option>
+                <option value="teacher">Giảng viên (Teacher)</option>
+                <option value="student">Học viên (Student)</option>
+              </select>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Vai trò</th>
+                    <th>Ngày tham gia</th>
+                    <th style="text-align:right;">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="usersListTableBody">
+                  <tr>
+                    <td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Đang tải danh sách người dùng...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== VIEW 3: COURSES MANAGEMENT ==================== -->
+      <div id="coursesView" class="view-panel" style="display:none;">
+        <div class="card">
+          <div class="card-header">
+            <h3 style="font-size: 1.1rem; font-weight:700;">📚 Quản lý Khóa học</h3>
+            <button class="btn btn-primary btn-sm" onclick="openCourseCreateModal()">+ Thêm Khóa học</button>
+          </div>
+          <div class="card-body">
+            <div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+              <input type="text" id="courseSearchInput" class="form-control" placeholder="Tìm tên khóa học..." style="max-width:300px;" oninput="filterCoursesList()">
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Thumbnail</th>
+                    <th>Tên khóa học</th>
+                    <th>Người tạo (Giảng viên)</th>
+                    <th>Mô tả</th>
+                    <th style="text-align:right;">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="coursesListTableBody">
+                  <tr>
+                    <td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Đang tải danh sách khóa học...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder views -->
+      <div id="placeholderView" class="view-panel" style="display:none;">
+        <div class="card" style="padding:3rem; text-align:center;">
+          <div style="font-size:3rem; margin-bottom:1rem;">⚙️</div>
+          <h2>Tính năng đang phát triển</h2>
+          <p style="color:var(--text-muted); margin-top:0.5rem;">Trang cấu hình này đang được thiết lập hệ thống.</p>
+          <a href="#dashboard" class="btn btn-primary btn-sm" style="margin-top:1.5rem; display:inline-flex;">Quay lại Dashboard</a>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- User Modal (Create/Edit) -->
+  <div id="userModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:9999;">
+    <div class="card" style="width:100%; max-width:460px; margin:1.5rem; animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="card-header">
+        <h3 id="userModalTitle">Thêm người dùng mới</h3>
+        <button class="btn-icon" onclick="closeUserModal()">✕</button>
+      </div>
+      <div class="card-body">
+        <form id="userModalForm" onsubmit="handleUserSubmit(event)">
+          <input type="hidden" id="userModalId">
+          <div class="form-group">
+            <label class="form-label" for="userModalName">Họ và tên</label>
+            <input type="text" id="userModalName" class="form-control" required placeholder="Nguyễn Văn A">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="userModalEmail">Email</label>
+            <input type="email" id="userModalEmail" class="form-control" required placeholder="example@gmail.com">
+          </div>
+          <div class="form-group" id="userModalPasswordGroup">
+            <label class="form-label" for="userModalPassword">Mật khẩu</label>
+            <input type="password" id="userModalPassword" class="form-control" placeholder="Tối thiểu 6 ký tự">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="userModalRole">Vai trò</label>
+            <select id="userModalRole" class="form-control">
+              <option value="student">Student (Học viên)</option>
+              <option value="teacher">Teacher (Giảng viên)</option>
+              <option value="admin">Admin (Quản trị)</option>
+            </select>
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.75rem;">
+            <button type="button" class="btn btn-ghost btn-sm" onclick="closeUserModal()">Hủy</button>
+            <button type="submit" class="btn btn-primary btn-sm">Lưu lại</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Modal (Create/Edit) -->
+  <div id="courseModal" class="modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(15,23,42,0.6); backdrop-filter:blur(4px); z-index:9999;">
+    <div class="card" style="width:100%; max-width:460px; margin:1.5rem; animation: modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="card-header">
+        <h3 id="courseModalTitle">Thêm khóa học mới</h3>
+        <button class="btn-icon" onclick="closeCourseModal()">✕</button>
+      </div>
+      <div class="card-body">
+        <form id="courseModalForm" onsubmit="handleCourseSubmit(event)">
+          <input type="hidden" id="courseModalId">
+          <div class="form-group">
+            <label class="form-label" for="courseModalTitleInput">Tên khóa học</label>
+            <input type="text" id="courseModalTitleInput" class="form-control" required placeholder="Lập trình React JS">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="courseModalDesc">Mô tả khóa học</label>
+            <textarea id="courseModalDesc" class="form-control" rows="3" placeholder="Mô tả tóm tắt..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="courseModalThumb">Thumbnail URL</label>
+            <input type="text" id="courseModalThumb" class="form-control" placeholder="https://images.unsplash.com/...">
+          </div>
+          <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.75rem;">
+            <button type="button" class="btn btn-ghost btn-sm" onclick="closeCourseModal()">Hủy</button>
+            <button type="submit" class="btn btn-primary btn-sm">Lưu lại</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script>
+    // State Store
+    let allUsers = [];
+    let allCourses = [];
+
+    // Notification Helper
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <span>${type === 'success' ? '✅' : '❌'}</span>
+        <div>${message}</div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function doAdminLogout() {
+      try {
+        Api.clearAuth();
+        Api.logout();
+      } catch (e) {
+        console.error(e);
+      }
+      window.location.href = '/studyonline/frontend/pages/home.html';
+    }
+
+    // Modal Users Logic
+    function openUserCreateModal() {
+      document.getElementById('userModalTitle').textContent = 'Thêm người dùng mới';
+      document.getElementById('userModalId').value = '';
+      document.getElementById('userModalName').value = '';
+      document.getElementById('userModalEmail').value = '';
+      document.getElementById('userModalPassword').value = '';
+      document.getElementById('userModalPassword').required = true;
+      document.getElementById('userModalPasswordGroup').style.display = '';
+      document.getElementById('userModalRole').value = 'student';
+      document.getElementById('userModal').style.display = 'flex';
+    }
+
+    function openUserEditModal(id, name, email, role) {
+      document.getElementById('userModalTitle').textContent = 'Cập nhật người dùng';
+      document.getElementById('userModalId').value = id;
+      document.getElementById('userModalName').value = name;
+      document.getElementById('userModalEmail').value = email;
+      document.getElementById('userModalPassword').value = '';
+      document.getElementById('userModalPassword').required = false;
+      document.getElementById('userModalPasswordGroup').style.display = 'none'; // hide password for edits
+      document.getElementById('userModalRole').value = role;
+      document.getElementById('userModal').style.display = 'flex';
+    }
+
+    function closeUserModal() {
+      document.getElementById('userModal').style.display = 'none';
+    }
+
+    async function handleUserSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('userModalId').value;
+      const fullname = document.getElementById('userModalName').value.trim();
+      const email = document.getElementById('userModalEmail').value.trim();
+      const password = document.getElementById('userModalPassword').value.trim();
+      const role = document.getElementById('userModalRole').value;
+
+      try {
+        let res;
+        if (id) {
+          // Update
+          res = await Api.updateUser({ id, fullname, email, role });
+        } else {
+          // Create
+          res = await Api.createUser({ fullname, email, password, role });
+        }
+
+        if (res?.ok && res.data?.success) {
+          showToast(res.data.message || 'Thực hiện thành công');
+          closeUserModal();
+          await fetchAndRefreshData();
+          renderUsersTable();
+        } else {
+          showToast(res?.data?.message || 'Có lỗi xảy ra', 'error');
+        }
+      } catch (err) {
+        showToast('Không thể kết nối máy chủ.', 'error');
+      }
+    }
+
+    async function deleteUser(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa thành viên này?')) return;
+      try {
+        const res = await Api.deleteUser(id);
+        if (res?.ok && res.data?.success) {
+          showToast('Xóa thành viên thành công!');
+          await fetchAndRefreshData();
+          renderUsersTable();
+        } else {
+          showToast(res?.data?.message || 'Có lỗi xảy ra', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi kết nối máy chủ', 'error');
+      }
+    }
+
+    // Modal Courses Logic
+    function openCourseCreateModal() {
+      document.getElementById('courseModalTitle').textContent = 'Thêm khóa học mới';
+      document.getElementById('courseModalId').value = '';
+      document.getElementById('courseModalTitleInput').value = '';
+      document.getElementById('courseModalDesc').value = '';
+      document.getElementById('courseModalThumb').value = '';
+      document.getElementById('courseModal').style.display = 'flex';
+    }
+
+    function openCourseEditModal(id, title, desc, thumb) {
+      document.getElementById('courseModalTitle').textContent = 'Cập nhật khóa học';
+      document.getElementById('courseModalId').value = id;
+      document.getElementById('courseModalTitleInput').value = title;
+      document.getElementById('courseModalDesc').value = desc;
+      document.getElementById('courseModalThumb').value = thumb;
+      document.getElementById('courseModal').style.display = 'flex';
+    }
+
+    function closeCourseModal() {
+      document.getElementById('courseModal').style.display = 'none';
+    }
+
+    async function handleCourseSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('courseModalId').value;
+      const title = document.getElementById('courseModalTitleInput').value.trim();
+      const description = document.getElementById('courseModalDesc').value.trim();
+      const thumbnail = document.getElementById('courseModalThumb').value.trim();
+
+      try {
+        let res;
+        if (id) {
+          res = await Api.updateCourse({ id, title, description, thumbnail });
+        } else {
+          res = await Api.createCourse({ title, description, thumbnail });
+        }
+
+        if (res?.ok && res.data?.success) {
+          showToast(res.data.message || 'Thực hiện thành công');
+          closeCourseModal();
+          await fetchAndRefreshData();
+          renderCoursesTable();
+        } else {
+          showToast(res?.data?.message || 'Có lỗi xảy ra', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ', 'error');
+      }
+    }
+
+    async function deleteCourse(id) {
+      if (!confirm('Bạn có chắc chắn muốn xóa khóa học này?')) return;
+      try {
+        const res = await Api.deleteCourse(id);
+        if (res?.ok && res.data?.success) {
+          showToast('Xóa khóa học thành công!');
+          await fetchAndRefreshData();
+          renderCoursesTable();
+        } else {
+          showToast(res?.data?.message || 'Có lỗi xảy ra', 'error');
+        }
+      } catch (err) {
+        showToast('Lỗi máy chủ', 'error');
+      }
+    }
+
+    // Rendering Users View Table
+    function renderUsersTable(filtered = null) {
+      const list = filtered || allUsers;
+      const tbody = document.getElementById('usersListTableBody');
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Không tìm thấy người dùng phù hợp.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(u => `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+              <div class="avatar avatar-sm" style="background:var(--primary); font-size:0.75rem;">
+                ${u.fullname ? u.fullname.split(' ').pop().slice(0,2).toUpperCase() : 'U'}
+              </div>
+              <strong style="color:var(--secondary);">${u.fullname}</strong>
+            </div>
+          </td>
+          <td>${u.email}</td>
+          <td>
+            <span class="badge badge-${u.role === 'admin' ? 'danger' : u.role === 'teacher' ? 'success' : 'primary'}">
+              ${u.role}
+            </span>
+          </td>
+          <td>${u.created_at ? u.created_at.split(' ')[0] : '—'}</td>
+          <td style="text-align:right;">
+            <button class="btn btn-outline btn-sm" onclick="openUserEditModal(${u.id}, '${u.fullname}', '${u.email}', '${u.role}')" style="padding: 0.25rem 0.5rem; margin-right: 0.25rem;">Sửa</button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteUser(${u.id})" style="padding: 0.25rem 0.5rem; background:var(--danger);">Xóa</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Local filter on users list
+    function filterUsersList() {
+      const search = document.getElementById('userSearchInput').value.toLowerCase().trim();
+      const roleFilter = document.getElementById('userRoleFilter').value;
+
+      let filtered = allUsers;
+      if (roleFilter !== 'all') {
+        filtered = filtered.filter(u => u.role === roleFilter);
+      }
+      if (search) {
+        filtered = filtered.filter(u => u.fullname.toLowerCase().includes(search) || u.email.toLowerCase().includes(search));
+      }
+      renderUsersTable(filtered);
+    }
+
+    // Rendering Courses View Table
+    function renderCoursesTable(filtered = null) {
+      const list = filtered || allCourses;
+      const tbody = document.getElementById('coursesListTableBody');
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:2rem; color:var(--text-muted);">Không tìm thấy khóa học nào.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(c => `
+        <tr>
+          <td>
+            <div style="width: 50px; height: 35px; border-radius: var(--radius-sm); overflow:hidden; background:var(--primary-light); display:flex; align-items:center; justify-content:center;">
+              ${c.thumbnail ? `<img src="${c.thumbnail}" style="width:100%; height:100%; object-fit:cover;">` : '📘'}
+            </div>
+          </td>
+          <td><strong>${c.title}</strong></td>
+          <td>${c.teacher_name || 'Chưa phân công'}</td>
+          <td style="color:var(--text-muted); font-size:0.8rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            ${c.description || '—'}
+          </td>
+          <td style="text-align:right;">
+            <button class="btn btn-outline btn-sm" onclick="openCourseEditModal(${c.id}, '${c.title}', '${c.description || ''}', '${c.thumbnail || ''}')" style="padding: 0.25rem 0.5rem; margin-right: 0.25rem;">Sửa</button>
+            <button class="btn btn-secondary btn-sm" onclick="deleteCourse(${c.id})" style="padding: 0.25rem 0.5rem; background:var(--danger);">Xóa</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterCoursesList() {
+      const search = document.getElementById('courseSearchInput').value.toLowerCase().trim();
+      let filtered = allCourses;
+      if (search) {
+        filtered = filtered.filter(c => c.title.toLowerCase().includes(search));
+      }
+      renderCoursesTable(filtered);
+    }
+
+    // Dynamic router switching
+    function switchView(viewName, filterRole = 'all') {
+      // Deactivate all sidebar items
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+
+      // Hide all panels
+      document.getElementById('dashboardView').style.display = 'none';
+      document.getElementById('usersView').style.display = 'none';
+      document.getElementById('coursesView').style.display = 'none';
+      document.getElementById('placeholderView').style.display = 'none';
+
+      const breadcrumb = document.getElementById('breadcrumbCurrent');
+      const title = document.querySelector('.page-title');
+      const subtitle = document.querySelector('.page-subtitle');
+
+      if (viewName === 'dashboard') {
+        document.getElementById('menu-dashboard').classList.add('active');
+        document.getElementById('dashboardView').style.display = '';
+        breadcrumb.textContent = 'Dashboard';
+        title.textContent = 'Dashboard Tổng quan';
+        subtitle.textContent = 'Thống kê hoạt động và quản lý hệ thống thời gian thực.';
+      } 
+      else if (viewName === 'users') {
+        const elementId = `menu-${filterRole === 'all' ? 'users' : filterRole === 'teacher' ? 'teachers' : 'students'}`;
+        const activeLink = document.getElementById(elementId);
+        if (activeLink) activeLink.classList.add('active');
+
+        document.getElementById('usersView').style.display = '';
+        breadcrumb.textContent = 'Quản lý User';
+        
+        let headerText = '👥 Quản lý Thành viên';
+        if (filterRole === 'teacher') headerText = '👨‍🏫 Quản lý Giảng viên';
+        if (filterRole === 'student') headerText = '🎒 Quản lý Học viên';
+
+        title.textContent = headerText;
+        subtitle.textContent = 'Xem danh sách, phân quyền và chỉnh sửa thông tin thành viên.';
+        
+        document.getElementById('userRoleFilter').value = filterRole;
+        filterUsersList();
+      } 
+      else if (viewName === 'courses') {
+        document.getElementById('menu-courses').classList.add('active');
+        document.getElementById('coursesView').style.display = '';
+        breadcrumb.textContent = 'Quản lý Khóa học';
+        title.textContent = '📚 Quản lý Khóa học';
+        subtitle.textContent = 'Thiết lập danh sách khóa học giảng dạy.';
+        filterCoursesList();
+      } 
+      else {
+        // Stats, Reports, Settings placeholders
+        const activeLink = document.getElementById(`menu-${viewName}`);
+        if (activeLink) activeLink.classList.add('active');
+
+        document.getElementById('placeholderView').style.display = '';
+        breadcrumb.textContent = viewName.toUpperCase();
+        title.textContent = `Thiết lập ${viewName}`;
+        subtitle.textContent = 'Chức năng điều khiển hệ thống nâng cao.';
+      }
+    }
+
+    // Global Search helper
+    function handleGlobalSearch(query) {
+      const q = query.toLowerCase().trim();
+      const currentHash = window.location.hash || '#dashboard';
+      
+      if (currentHash.startsWith('#users') || currentHash.startsWith('#teachers') || currentHash.startsWith('#students')) {
+        document.getElementById('userSearchInput').value = q;
+        filterUsersList();
+      } else if (currentHash.startsWith('#courses')) {
+        document.getElementById('courseSearchInput').value = q;
+        filterCoursesList();
+      }
+    }
+
+    // Load metrics and lists from server
+    async function fetchAndRefreshData() {
+      try {
+        // 1. Fetch Courses
+        const coursesRes = await Api.getCourses();
+        allCourses = coursesRes?.data?.data || [];
+        document.getElementById('statCourses').textContent = allCourses.length;
+
+        // 2. Fetch Users
+        const usersRes = await Api.getUsers();
+        allUsers = usersRes?.data?.data || [];
+        
+        const teachers = allUsers.filter(u => u.role === 'teacher');
+        const students = allUsers.filter(u => u.role === 'student');
+        const admins = allUsers.filter(u => u.role === 'admin');
+
+        document.getElementById('statUsers').textContent = allUsers.length;
+        document.getElementById('statTeachers').textContent = teachers.length;
+        document.getElementById('statStudents').textContent = students.length;
+        document.getElementById('totalUsersChart').textContent = allUsers.length;
+
+        // Populate Donut chart info
+        const total = allUsers.length || 1;
+        const pS = Math.round((students.length / total) * 100);
+        const pT = Math.round((teachers.length / total) * 100);
+        const pA = 100 - pS - pT;
+
+        document.getElementById('percentStudents').textContent = `${pS}%`;
+        document.getElementById('percentTeachers').textContent = `${pT}%`;
+        document.getElementById('percentAdmins').textContent = `${pA}%`;
+
+        // Update donut chart conic gradient background dynamically
+        const conicChart = document.getElementById('roleConicChart');
+        if (conicChart) {
+          conicChart.style.background = `conic-gradient(var(--primary) 0% ${pS}%, var(--accent) ${pS}% ${pS + pT}%, var(--warning) ${pS + pT}% 100%)`;
+        }
+
+        // Render Overview Courses Table
+        const coursesTable = document.getElementById('adminCoursesTable');
+        if (allCourses.length > 0) {
+          coursesTable.innerHTML = allCourses.slice(0, 5).map(c => `
+            <tr>
+              <td>
+                <div style="width: 40px; height: 28px; border-radius: var(--radius-sm); overflow:hidden; background:var(--primary-light); display:flex; align-items:center; justify-content:center;">
+                  ${c.thumbnail ? `<img src="${c.thumbnail}" style="width:100%; height:100%; object-fit:cover;">` : '📘'}
+                </div>
+              </td>
+              <td><strong>${c.title}</strong></td>
+              <td>${c.teacher_name || 'Chưa phân công'}</td>
+              <td><span class="badge badge-success">Active</span></td>
+            </tr>
+          `).join('');
+        } else {
+          coursesTable.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Không có khóa học nào.</td></tr>`;
+        }
+
+        // Render Overview Users Table
+        const usersTable = document.getElementById('adminUsersTable');
+        if (allUsers.length > 0) {
+          usersTable.innerHTML = allUsers.slice(0, 5).map(u => `
+            <tr>
+              <td>
+                <div class="avatar avatar-sm" style="background:var(--primary); font-size:0.75rem;">
+                  ${u.fullname ? u.fullname.split(' ').pop().slice(0,2).toUpperCase() : 'U'}
+                </div>
+              </td>
+              <td><strong>${u.fullname}</strong></td>
+              <td>${u.email}</td>
+              <td><span class="badge badge-${u.role === 'admin' ? 'danger' : u.role === 'teacher' ? 'success' : 'primary'}">${u.role.toUpperCase()}</span></td>
+              <td><span class="badge badge-success">Online</span></td>
+            </tr>
+          `).join('');
+        } else {
+          usersTable.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:1.5rem; color:var(--text-muted);">Không có thành viên nào.</td></tr>`;
+        }
+
+      } catch (err) {
+        console.error('Error fetching dashboard metrics:', err);
+      }
+    }
+
+    // SPA Hash Router
+    window.addEventListener('hashchange', () => {
+      const hash = window.location.hash || '#dashboard';
+      if (hash === '#dashboard') {
+        switchView('dashboard');
+      } else if (hash === '#users') {
+        switchView('users', 'all');
+      } else if (hash === '#teachers') {
+        switchView('users', 'teacher');
+      } else if (hash === '#students') {
+        switchView('users', 'student');
+      } else if (hash === '#courses') {
+        switchView('courses');
+      } else {
+        switchView(hash.substring(1));
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', async () => {
+      // User Profile Init
+      const user = Api.getUser();
+      if (user) {
+        const name = user.fullname || 'Admin';
+        const initials = name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+        
+        document.getElementById('sidebarAvatar').textContent = initials;
+        document.getElementById('sidebarName').textContent = name;
+        document.getElementById('topbarWelcome').textContent = `Xin chào, ${name}!`;
+        document.getElementById('topbarAvatar').textContent = initials;
+      }
+
+      await fetchAndRefreshData();
+      
+      // Trigger initial routing
+      window.dispatchEvent(new Event('hashchange'));
+    });
+  </script>
+</body>
+
+</html>

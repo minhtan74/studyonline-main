@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Tự động bật Header CORS nếu cần thiết (được quản lý thêm bằng PHP index.php)
+    
+    # Chuyển hướng tất cả các request không phải là file hoặc thư mục vật lý về index.php
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>

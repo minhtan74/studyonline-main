@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khóa học của tôi — StudyOnline</title>
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+</head>
+
+<body class="student-layout">
+
+  <div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;"
+    onclick="this.style.display='none';document.getElementById('studentSidebar').classList.remove('mobile-open')"></div>
+
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div>
+      <span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html"><span
+          class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/my-courses.html"><span
+          class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html"><span
+          class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html"><span class="nav-icon">📝</span><span
+          class="nav-label">Quiz</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html"><span
+          class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span></a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html"><span
+          class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span></a>
+      <button class="s-nav-item" onclick="studentLogout()"><span class="nav-icon">🚪</span><span class="nav-label">Đăng
+          xuất</span></button>
+    </nav>
+  </aside>
+
+  <div class="s-wrapper">
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr><button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="s-main">
+      <div class="s-page-title">📚 Khóa học của tôi</div>
+      <div class="s-page-subtitle">Danh sách các khóa học bạn đang theo học</div>
+
+      <!-- Filter Bar -->
+      <div class="s-filter-bar">
+        <input class="s-input" type="text" id="courseSearch" placeholder="🔍 Tìm tên khóa học...">
+        <div class="s-filter-tabs">
+          <button class="s-filter-tab active" data-filter="all">Tất cả</button>
+          <button class="s-filter-tab" data-filter="inprogress">Đang học</button>
+          <button class="s-filter-tab" data-filter="done">Hoàn thành</button>
+          <button class="s-filter-tab" data-filter="notstarted">Chưa bắt đầu</button>
+        </div>
+      </div>
+
+      <!-- Course Grid -->
+      <div class="s-course-grid" id="courseGrid">
+        <div style="color:var(--s-text-muted);padding:2rem;">Đang tải khóa học...</div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/student-dashboard.js?v=1.1"></script>
+  <script>
+    const STATUSES = ['inprogress', 'done', 'notstarted'];
+    let allCourses = [];
+    let currentFilter = 'all';
+    let searchVal = '';
+
+    function getCourseStatus(idx) {
+      return STATUSES[idx % 3];
+    }
+
+    function getCourseProgress(status) {
+      if (status === 'done') return 100;
+      if (status === 'notstarted') return 0;
+      return Math.floor(Math.random() * 60) + 20;
+    }
+
+    function renderCourses() {
+      const grid = document.getElementById('courseGrid');
+      const emojis = ['🎨', '💻', '📊', '🔬', '🌐', '📱', '🎵', '✏️', '🧪', '📐'];
+      const colors = ['#2563EB,#8B5CF6', '#0F766E,#06B6D4', '#7C3AED,#EC4899', '#DC2626,#F59E0B', '#059669,#2563EB', '#D97706,#EF4444'];
+
+      let filtered = allCourses.filter((c, i) => {
+        const status = getCourseStatus(i);
+        const matchFilter = currentFilter === 'all' || status === currentFilter;
+        const matchSearch = !searchVal || (c.title || '').toLowerCase().includes(searchVal.toLowerCase());
+        return matchFilter && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="s-empty" style="grid-column:1/-1;"><div class="icon">📭</div><h3>Không có khóa học nào</h3><p>Thử thay đổi bộ lọc hoặc tìm kiếm khác.</p></div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((c, i) => {
+        const status = getCourseStatus(allCourses.indexOf(c));
+        const pct = getCourseProgress(status);
+        const statusBadge = status === 'done'
+          ? `<span class="s-badge s-badge-green">✅ Hoàn thành</span>`
+          : status === 'notstarted'
+            ? `<span class="s-badge s-badge-gray">⏸ Chưa bắt đầu</span>`
+            : `<span class="s-badge s-badge-warn">▶ Đang học</span>`;
+
+        const lessons = Math.floor(Math.random() * 20) + 5;
+        const hours = (lessons * 0.5).toFixed(0);
+
+        return `
+      <div class="s-course-card">
+        <div class="s-course-thumb" style="background:linear-gradient(135deg,${colors[i % colors.length]});">
+          <span style="font-size:2.5rem;">${emojis[i % emojis.length]}</span>
+        </div>
+        <div class="s-course-body">
+          <h3>${c.title || 'Khóa học'}</h3>
+          <p class="teacher">👨‍🏫 Giảng viên StudyOnline</p>
+          <div class="s-course-meta">
+            <span>📖 ${lessons} bài</span>
+            <span>⏱ ${hours}h</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;">
+            <span style="font-size:.78rem;color:var(--s-text-muted);">${pct}% hoàn thành</span>
+            ${statusBadge}
+          </div>
+          <div class="s-progress">
+            <div class="s-progress-bar ${status === 'done' ? 'green' : ''}" style="width:${pct}%"></div>
+          </div>
+        </div>
+        <div class="s-course-footer">
+          <span style="font-size:.8rem;color:var(--s-text-muted);">📅 Cập nhật gần đây</span>
+          <a href="/studyonline/frontend/pages/chapters.html?course_id=${c.id}" class="s-btn s-btn-primary s-btn-sm">
+            ${status === 'notstarted' ? '🚀 Bắt đầu' : status === 'done' ? '🔄 Xem lại' : '▶ Tiếp tục'}
+          </a>
+        </div>
+      </div>`;
+      }).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+
+      const res = await Api.getCourses();
+      allCourses = res?.data?.data || [];
+      renderCourses();
+
+      document.getElementById('courseSearch').addEventListener('input', e => {
+        searchVal = e.target.value;
+        renderCourses();
+      });
+
+      document.querySelectorAll('.s-filter-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.s-filter-tab').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderCourses();
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

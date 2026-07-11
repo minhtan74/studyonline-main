@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — StudyOnline</title>
+  <meta name="description" content="Trang tổng quan học tập của học viên StudyOnline">
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body class="student-layout">
+
+  <!-- Overlay mobile -->
+  <div id="sidebarOverlay"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;transition:.2s;" class=""
+    onclick="this.classList.remove('active');document.getElementById('studentSidebar').classList.remove('mobile-open')">
+  </div>
+  <style>
+    #sidebarOverlay.active {
+      display: block !important
+    }
+  </style>
+
+  <!-- SIDEBAR -->
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div>
+      <span class="logo-text">StudyOnline</span>
+    </a>
+
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/dashboard.html">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/my-courses.html">
+        <span class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html">
+        <span class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html">
+        <span class="nav-icon">📝</span><span class="nav-label">Quiz</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html">
+        <span class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span>
+      </a>
+
+      <div class="s-nav-divider"></div>
+
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html">
+        <span class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span>
+      </a>
+      <button class="s-nav-item" onclick="studentLogout()">
+        <span class="nav-icon">🚪</span><span class="nav-label">Đăng xuất</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="s-wrapper">
+
+    <!-- HEADER -->
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle" title="Toggle sidebar">☰</button>
+
+      <div class="s-header-actions">
+        <button class="s-icon-btn" title="Thông báo">
+          🔔
+          <span class="s-notif-badge"></span>
+        </button>
+
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr>
+            <button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="s-main">
+
+      <!-- Welcome Banner -->
+      <div class="s-welcome">
+        <div>
+          <p style="font-size:.8rem;font-weight:700;text-transform:uppercase;opacity:.7;margin-bottom:.25rem;">🌟 Chào
+            mừng trở lại</p>
+          <h1 id="welcomeName">Xin chào!</h1>
+          <p>Hãy tiếp tục hành trình học tập hôm nay nhé.</p>
+          <a href="/studyonline/frontend/pages/courses.html" class="s-btn s-btn-lg"
+            style="background:#fff;color:var(--s-primary);margin-top:.25rem;">Khám phá khóa học →</a>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="s-stats-grid">
+        <div class="s-stat-card">
+          <div class="s-stat-top">
+            <div class="s-stat-icon" style="background:rgba(37,99,235,.1);">📚</div>
+            <span class="s-stat-trend trend-up">+2</span>
+          </div>
+          <div class="s-stat-value" style="color:var(--s-primary);" id="statTotal">—</div>
+          <div class="s-stat-label">Tổng khóa học</div>
+        </div>
+
+        <div class="s-stat-card">
+          <div class="s-stat-top">
+            <div class="s-stat-icon" style="background:rgba(245,158,11,.1);">⏳</div>
+            <span class="s-stat-trend trend-warn">Đang học</span>
+          </div>
+          <div class="s-stat-value" style="color:var(--s-warning);" id="statInProgress">3</div>
+          <div class="s-stat-label">Đang theo học</div>
+        </div>
+
+        <div class="s-stat-card">
+          <div class="s-stat-top">
+            <div class="s-stat-icon" style="background:rgba(16,185,129,.1);">✅</div>
+            <span class="s-stat-trend trend-up">+1</span>
+          </div>
+          <div class="s-stat-value" style="color:var(--s-success);" id="statDone">2</div>
+          <div class="s-stat-label">Đã hoàn thành</div>
+        </div>
+
+        <div class="s-stat-card">
+          <div class="s-stat-top">
+            <div class="s-stat-icon" style="background:rgba(139,92,246,.1);">📝</div>
+            <span class="s-stat-trend trend-up">8.5</span>
+          </div>
+          <div class="s-stat-value" style="color:#8B5CF6;" id="statQuizAvg">8.5</div>
+          <div class="s-stat-label">Điểm quiz TB</div>
+        </div>
+
+        <div class="s-stat-card">
+          <div class="s-stat-top">
+            <div class="s-stat-icon" style="background:rgba(245,158,11,.1);">🏆</div>
+            <span class="s-stat-trend trend-up">Mới</span>
+          </div>
+          <div class="s-stat-value" style="color:var(--s-warning);" id="statCerts">2</div>
+          <div class="s-stat-label">Chứng chỉ đạt</div>
+        </div>
+      </div>
+
+      <!-- Charts + Recent Activity -->
+      <div class="s-grid-2" style="margin-bottom:1.75rem;">
+
+        <!-- Weekly Chart -->
+        <div class="s-card">
+          <div class="s-card-header">
+            <span class="s-card-title">📈 Tiến độ học trong tuần</span>
+            <span class="s-badge s-badge-blue">Tuần này</span>
+          </div>
+          <div class="s-card-body">
+            <div class="s-chart-wrap">
+              <canvas id="weeklyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="s-card">
+          <div class="s-card-header">
+            <span class="s-card-title">🕐 Hoạt động gần đây</span>
+            <a href="/studyonline/frontend/pages/student/progress.html" class="s-btn s-btn-ghost s-btn-sm">Xem tất
+              cả</a>
+          </div>
+          <div class="s-card-body">
+            <div class="s-activity-list" id="activityList">
+              <div class="s-activity-item">
+                <div class="s-activity-icon" style="background:rgba(37,99,235,.1);">📘</div>
+                <div class="s-activity-body">
+                  <p>Hoàn thành bài: <strong>Giới thiệu HTML cơ bản</strong></p>
+                  <span>2 giờ trước</span>
+                </div>
+              </div>
+              <div class="s-activity-item">
+                <div class="s-activity-icon" style="background:rgba(16,185,129,.1);">✅</div>
+                <div class="s-activity-body">
+                  <p>Đạt quiz: <strong>CSS Fundamentals</strong> — 9/10 điểm</p>
+                  <span>Hôm qua</span>
+                </div>
+              </div>
+              <div class="s-activity-item">
+                <div class="s-activity-icon" style="background:rgba(245,158,11,.1);">🏆</div>
+                <div class="s-activity-body">
+                  <p>Nhận chứng chỉ: <strong>Web Design Basics</strong></p>
+                  <span>3 ngày trước</span>
+                </div>
+              </div>
+              <div class="s-activity-item">
+                <div class="s-activity-icon" style="background:rgba(139,92,246,.1);">📝</div>
+                <div class="s-activity-body">
+                  <p>Bắt đầu khóa học: <strong>JavaScript ES6+</strong></p>
+                  <span>5 ngày trước</span>
+                </div>
+              </div>
+              <div class="s-activity-item">
+                <div class="s-activity-icon" style="background:rgba(37,99,235,.1);">📘</div>
+                <div class="s-activity-body">
+                  <p>Hoàn thành bài: <strong>Flexbox Layout</strong></p>
+                  <span>1 tuần trước</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue Courses -->
+      <div class="s-card" style="margin-bottom:1.75rem;">
+        <div class="s-card-header">
+          <span class="s-card-title">▶️ Tiếp tục học</span>
+          <a href="/studyonline/frontend/pages/student/my-courses.html" class="s-btn s-btn-ghost s-btn-sm">Xem tất
+            cả</a>
+        </div>
+        <div class="s-card-body">
+          <div id="continueList"
+            style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;">
+            <div style="color:var(--s-text-muted);font-size:.9rem;padding:1rem 0;">Đang tải khóa học...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggested Courses -->
+      <div class="s-card">
+        <div class="s-card-header">
+          <span class="s-card-title">💡 Khóa học đề xuất</span>
+          <a href="/studyonline/frontend/pages/student/courses.html" class="s-btn s-btn-primary s-btn-sm">Xem tất cả</a>
+        </div>
+        <div class="s-card-body">
+          <div class="s-course-grid" id="suggestedList">
+            <div style="color:var(--s-text-muted);font-size:.9rem;">Đang tải...</div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/student-dashboard.js?v=1.1"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+
+      const user = Api.getUser();
+      document.getElementById('welcomeName').textContent = `Xin chào, ${user.fullname}! 👋`;
+
+      // Load courses & quizzes
+      const [coursesRes, quizzesRes] = await Promise.all([Api.getCourses(), Api.getQuizzes()]);
+      const courses = coursesRes?.data?.data || [];
+      const quizzes = quizzesRes?.data?.data || [];
+
+      document.getElementById('statTotal').textContent = courses.length || '—';
+
+      // Weekly chart
+      renderWeeklyChart('weeklyChart', [2, 5, 3, 7, 4, 6, 2]);
+
+      // Continue courses (first 3)
+      const continueEl = document.getElementById('continueList');
+      if (courses.length === 0) {
+        continueEl.innerHTML = `<div class="s-empty"><div class="icon">📚</div><h3>Chưa có khóa học nào</h3><p>Hãy đăng ký khóa học đầu tiên!</p><a href="/studyonline/frontend/pages/courses.html" class="s-btn s-btn-primary" style="margin-top:1rem;">Khám phá ngay</a></div>`;
+      } else {
+        continueEl.innerHTML = courses.slice(0, 3).map(c => {
+          const pct = Math.floor(Math.random() * 70) + 10;
+          return `
+        <div style="display:flex;align-items:center;gap:1rem;padding:1rem;border:1px solid var(--s-border);border-radius:10px;background:var(--s-surface-2);">
+          <div style="width:52px;height:52px;border-radius:10px;background:linear-gradient(135deg,var(--s-primary),#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;">📘</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.title || 'Khóa học'}</div>
+            <div style="font-size:.78rem;color:var(--s-text-muted);margin-bottom:.5rem;">${pct}% hoàn thành</div>
+            <div class="s-progress"><div class="s-progress-bar" style="width:${pct}%"></div></div>
+          </div>
+          <a href="/studyonline/frontend/pages/chapters.html?course_id=${c.id}" class="s-btn s-btn-primary s-btn-sm" style="flex-shrink:0;">▶</a>
+        </div>`;
+        }).join('');
+      }
+
+      // Suggested courses
+      const suggestedEl = document.getElementById('suggestedList');
+      if (courses.length === 0) {
+        suggestedEl.innerHTML = `<p style="color:var(--s-text-muted);">Chưa có khóa học nào.</p>`;
+      } else {
+        const emojis = ['🎨', '💻', '📊', '🔬', '🌐', '📱', '🎵', '✏️'];
+        suggestedEl.innerHTML = courses.slice(0, 6).map((c, i) => `
+      <div class="s-course-card">
+        <div class="s-course-thumb" style="background:linear-gradient(135deg,${['#2563EB,#8B5CF6', '#0F766E,#06B6D4', '#7C3AED,#EC4899', '#DC2626,#F59E0B', '#059669,#2563EB', '#D97706,#EF4444'][i % 6]});">
+          <span>${emojis[i % emojis.length]}</span>
+        </div>
+        <div class="s-course-body">
+          <h3>${c.title || 'Khóa học'}</h3>
+          <p class="teacher">👨‍🏫 Giảng viên StudyOnline</p>
+          <div class="s-course-meta">
+            <span>📖 Xem bài học</span>
+          </div>
+        </div>
+        <div class="s-course-footer">
+          <span class="s-badge s-badge-blue">Mới nhất</span>
+          <a href="/studyonline/frontend/pages/chapters.html?course_id=${c.id}" class="s-btn s-btn-primary s-btn-sm">Học ngay</a>
+        </div>
+      </div>`).join('');
+      }
+    });
+  </script>
+</body>
+
+</html>

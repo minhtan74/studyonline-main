@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách Quiz — StudyOnline</title>
+  <meta name="description" content="Danh sách bài quiz trắc nghiệm trên StudyOnline">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+
+</head>
+<body data-page="quiz-list" class="student-layout">
+
+  <!-- Overlay mobile -->
+  <div id="sidebarOverlay"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;transition:.2s;"
+    onclick="this.classList.remove('active');document.getElementById('studentSidebar').classList.remove('mobile-open')">
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div>
+      <span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/my-courses.html">
+        <span class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html">
+        <span class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span>
+      </a>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/quiz.html">
+        <span class="nav-icon">📝</span><span class="nav-label">Quiz</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html">
+        <span class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span>
+      </a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html">
+        <span class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span>
+      </a>
+      <button class="s-nav-item cursor-pointer" onclick="studentLogout()">
+        <span class="nav-icon">🚪</span><span class="nav-label">Đăng xuất</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="s-wrapper">
+
+    <!-- HEADER -->
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle" title="Toggle sidebar">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn" title="Thông báo">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr>
+            <button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="s-main q-container">
+      
+      <!-- Page Title Header -->
+      <div class="q-header">
+        <h1 class="q-title">📝 Danh sách Quiz</h1>
+        <p class="q-subtitle">Chọn một bài tập trắc nghiệm dưới đây để kiểm tra và củng cố kiến thức học tập.</p>
+      </div>
+
+      <!-- Quiz List Container -->
+      <div id="quizList" class="q-card-list">
+        <!-- Loading State -->
+        <div style="text-align: center; padding: 5rem 0;">
+          <div class="spinner mb-4"></div>
+          <p style="font-size: 0.9rem; color: var(--s-text-muted); font-weight: 500;">Đang tải danh sách quiz...</p>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/quiz.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Header user info
+      const user = Api.getUser();
+      if (user) {
+        const initials = user.fullname?.split(' ').map(w => w[0]).slice(-2).join('') || '?';
+        document.getElementById('headerAvatar').textContent = initials;
+        document.getElementById('headerName').textContent = user.fullname?.split(' ').pop() || 'Học viên';
+      }
+
+      // Avatar dropdown toggle
+      document.getElementById('avatarWrap')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        document.getElementById('avatarDropdown')?.classList.remove('open');
+      });
+
+      // Sidebar toggle
+      document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+        const sidebar  = document.getElementById('studentSidebar');
+        const overlay  = document.getElementById('sidebarOverlay');
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          sidebar.classList.toggle('mobile-open');
+          overlay.classList.toggle('active');
+        } else {
+          document.body.classList.toggle('sidebar-collapsed');
+          sidebar.classList.toggle('collapsed');
+        }
+      });
+    });
+
+    function studentLogout() {
+      try {
+        Api.clearAuth();
+        Api.logout();
+      } catch (e) {
+        console.error(e);
+      }
+      window.location.href = '/studyonline/frontend/pages/home.html';
+    }
+    window.studentLogout = studentLogout;
+  </script>
+</body>
+</html>

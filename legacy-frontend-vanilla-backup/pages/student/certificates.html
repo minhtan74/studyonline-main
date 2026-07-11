@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chứng chỉ — StudyOnline</title>
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+  <style>
+    .cert-preview {
+      background: linear-gradient(135deg, #1e3a5f 0%, #0F172A 100%);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .cert-preview::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 250px;
+      height: 250px;
+      background: rgba(37, 99, 235, .25);
+      border-radius: 50%;
+    }
+
+    .cert-preview::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 180px;
+      height: 180px;
+      background: rgba(139, 92, 246, .2);
+      border-radius: 50%;
+    }
+
+    .cert-logo {
+      font-size: 2.5rem;
+      margin-bottom: .5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-brand {
+      font-size: .9rem;
+      font-weight: 700;
+      opacity: .7;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-title-text {
+      font-size: .8rem;
+      opacity: .6;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: .5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-name {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-course {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #93C5FD;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-divider {
+      border: none;
+      border-top: 1px solid rgba(255, 255, 255, .2);
+      margin: 1.5rem 0;
+    }
+
+    .cert-meta {
+      display: flex;
+      justify-content: space-around;
+      font-size: .8rem;
+      opacity: .7;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-qr {
+      width: 70px;
+      height: 70px;
+      background: #fff;
+      border-radius: 8px;
+      margin: 1.25rem auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cert-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+  </style>
+</head>
+
+<body class="student-layout">
+
+  <div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;"
+    onclick="this.style.display='none';document.getElementById('studentSidebar').classList.remove('mobile-open')"></div>
+
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div><span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html"><span
+          class="nav-icon">📊</span><span class="nav-label">Dashboard</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/my-courses.html"><span
+          class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html"><span
+          class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span></a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html"><span class="nav-icon">📝</span><span
+          class="nav-label">Quiz</span></a>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/certificates.html"><span
+          class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span></a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html"><span
+          class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span></a>
+      <button class="s-nav-item" onclick="studentLogout()"><span class="nav-icon">🚪</span><span class="nav-label">Đăng
+          xuất</span></button>
+    </nav>
+  </aside>
+
+  <div class="s-wrapper">
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr><button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="s-main">
+      <div class="s-page-title">🏆 Chứng chỉ của tôi</div>
+      <div class="s-page-subtitle">Các chứng chỉ bạn đã đạt được sau khi hoàn thành khóa học</div>
+
+      <!-- Modal -->
+      <div id="certModal"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:2rem;">
+        <div
+          style="background:var(--s-surface);border-radius:16px;padding:2rem;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+            <h3 style="font-weight:800;">🏆 Xem chứng chỉ</h3>
+            <button onclick="document.getElementById('certModal').style.display='none'"
+              class="s-btn s-btn-ghost s-btn-sm">✕ Đóng</button>
+          </div>
+          <div id="certPreviewWrap"></div>
+          <div style="display:flex;gap:.75rem;margin-top:1.5rem;justify-content:center;">
+            <button class="s-btn s-btn-outline" onclick="window.print()">🖨 In</button>
+            <button class="s-btn s-btn-primary" onclick="alert('Tính năng tải PDF đang phát triển!')">⬇ Tải PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-list" id="certList">
+        <div style="color:var(--s-text-muted);">Đang tải...</div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/student-dashboard.js?v=1.1"></script>
+  <script>
+    const MOCK_CERTS = [
+      { course: 'Web Design Basics', date: '15/03/2026', code: 'CERT-WD-001-2026', score: 95 },
+      { course: 'JavaScript ES6+', date: '02/05/2026', code: 'CERT-JS-042-2026', score: 88 },
+    ];
+
+    function buildCertHTML(userName, cert) {
+      return `
+    <div class="cert-preview">
+      <div class="cert-logo">🎓</div>
+      <div class="cert-brand">StudyOnline — Certificate of Completion</div>
+      <div class="cert-title-text">Chứng nhận hoàn thành khóa học</div>
+      <div class="cert-name">${userName}</div>
+      <div class="cert-course">${cert.course}</div>
+      <hr class="cert-divider">
+      <div class="cert-meta">
+        <div><div style="font-weight:700;font-size:1rem;">${cert.score}%</div><div>Điểm đạt</div></div>
+        <div><div style="font-weight:700;font-size:1rem;">${cert.date}</div><div>Ngày cấp</div></div>
+        <div><div style="font-weight:700;font-size:.85rem;">${cert.code}</div><div>Mã chứng chỉ</div></div>
+      </div>
+      <div class="cert-qr">📱</div>
+      <div style="font-size:.75rem;opacity:.5;margin-top:.75rem;position:relative;z-index:1;">Quét QR để xác thực • studyonline.edu.vn/verify</div>
+    </div>`;
+    }
+
+    function openModal(userName, cert) {
+      document.getElementById('certPreviewWrap').innerHTML = buildCertHTML(userName, cert);
+      document.getElementById('certModal').style.display = 'flex';
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+      const user = Api.getUser();
+      const userName = user?.fullname || 'Học viên';
+
+      const certList = document.getElementById('certList');
+
+      if (MOCK_CERTS.length === 0) {
+        certList.innerHTML = `<div class="s-empty" style="grid-column:1/-1;"><div class="icon">🏆</div><h3>Chưa có chứng chỉ nào</h3><p>Hoàn thành khóa học để nhận chứng chỉ!</p><a href="/studyonline/frontend/pages/courses.html" class="s-btn s-btn-primary" style="margin-top:1rem;">Xem khóa học</a></div>`;
+        return;
+      }
+
+      certList.innerHTML = MOCK_CERTS.map((cert, i) => `
+    <div class="s-card" style="overflow:hidden;">
+      <!-- Mini cert preview -->
+      <div style="background:linear-gradient(135deg,#1e3a5f,#0F172A);padding:1.5rem;text-align:center;color:#fff;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:rgba(37,99,235,.2);border-radius:50%;"></div>
+        <div style="font-size:2rem;margin-bottom:.5rem;position:relative;z-index:1;">🏆</div>
+        <div style="font-size:.7rem;opacity:.6;text-transform:uppercase;letter-spacing:.08em;position:relative;z-index:1;">Certificate of Completion</div>
+        <div style="font-size:.95rem;font-weight:700;margin:.4rem 0;color:#93C5FD;position:relative;z-index:1;">${cert.course}</div>
+        <div style="font-size:.8rem;opacity:.7;position:relative;z-index:1;">${userName}</div>
+      </div>
+      <div class="s-card-body">
+        <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.25rem;">
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;">
+            <span style="color:var(--s-text-muted);">📅 Ngày cấp</span>
+            <span style="font-weight:600;">${cert.date}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;">
+            <span style="color:var(--s-text-muted);">🔑 Mã chứng chỉ</span>
+            <span style="font-weight:600;font-size:.8rem;">${cert.code}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.85rem;">
+            <span style="color:var(--s-text-muted);">🎯 Điểm đạt</span>
+            <span class="s-badge s-badge-green">${cert.score}%</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;">
+          <button class="s-btn s-btn-outline" style="flex:1;" onclick="openModal('${userName}', MOCK_CERTS[${i}])">👁 Xem</button>
+          <button class="s-btn s-btn-primary" style="flex:1;" onclick="alert('Tải PDF đang phát triển!')">⬇ Tải PDF</button>
+        </div>
+      </div>
+    </div>`).join('');
+    });
+  </script>
+</body>
+
+</html>

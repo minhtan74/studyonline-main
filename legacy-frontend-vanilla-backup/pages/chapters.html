@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nội dung khóa học — StudyOnline</title>
+  <meta name="description" content="Xem danh sách chương và bài học của khóa học trên StudyOnline">
+  <link rel="stylesheet" href="/studyonline/frontend/css/student.css">
+  <style>
+    /* ─── Breadcrumb ─── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--s-text-muted);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--s-primary); text-decoration: none; font-weight: 500; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb .sep { opacity: 0.4; }
+
+    /* ─── Course Hero ─── */
+    .course-hero {
+      background: linear-gradient(135deg, #1e3a6e 0%, #2563EB 50%, #7C3AED 100%);
+      border-radius: var(--s-radius);
+      padding: 2rem 2.5rem;
+      color: #fff;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .course-hero::after {
+      content: '📚';
+      position: absolute;
+      right: 2rem; top: 50%;
+      transform: translateY(-50%);
+      font-size: 7rem;
+      opacity: 0.1;
+      pointer-events: none;
+    }
+    .course-hero h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .course-hero p {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    .course-hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .course-hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      opacity: 0.85;
+      background: rgba(255,255,255,0.12);
+      padding: 0.3rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    /* ─── Chapter Accordion ─── */
+    .chapter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+    }
+
+    .chapter-item {
+      background: var(--s-surface);
+      border: 1px solid var(--s-border);
+      border-radius: var(--s-radius);
+      box-shadow: var(--s-shadow);
+      overflow: hidden;
+      transition: box-shadow var(--s-transition);
+    }
+    .chapter-item:hover { box-shadow: var(--s-shadow-lg); }
+
+    .chapter-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.125rem 1.375rem;
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--s-transition);
+    }
+    .chapter-header:hover { background: var(--s-surface-2); }
+
+    .chapter-num {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--s-primary), var(--s-accent));
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chapter-info { flex: 1; min-width: 0; }
+    .chapter-info h3 {
+      font-size: 0.975rem;
+      font-weight: 700;
+      color: var(--s-text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .chapter-info p {
+      font-size: 0.78rem;
+      color: var(--s-text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .chapter-arrow {
+      font-size: 0.8rem;
+      color: var(--s-text-muted);
+      transition: transform var(--s-transition);
+      flex-shrink: 0;
+    }
+    .chapter-item.open .chapter-arrow { transform: rotate(180deg); }
+
+    /* ─── Lessons inside chapter ─── */
+    .lesson-list {
+      display: none;
+      flex-direction: column;
+      border-top: 1px solid var(--s-border);
+    }
+    .chapter-item.open .lesson-list { display: flex; }
+
+    .lesson-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.875rem 1.375rem 0.875rem 2rem;
+      border-bottom: 1px solid var(--s-border);
+      transition: background var(--s-transition);
+      text-decoration: none;
+      color: var(--s-text);
+    }
+    .lesson-row:last-child { border-bottom: none; }
+    .lesson-row:hover { background: rgba(37,99,235,0.04); }
+
+    .lesson-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: rgba(37,99,235,0.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .lesson-info { flex: 1; min-width: 0; }
+    .lesson-info .title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .lesson-info .desc {
+      font-size: 0.75rem;
+      color: var(--s-text-muted);
+      margin-top: 0.1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .lesson-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.35rem 0.875rem;
+      background: var(--s-primary);
+      color: #fff;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all var(--s-transition);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .lesson-cta:hover {
+      background: var(--s-primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(37,99,235,0.3);
+    }
+
+    /* ─── Loading / Empty ─── */
+    .loading-spinner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1rem;
+      color: var(--s-text-muted);
+      gap: 1rem;
+    }
+    .spin {
+      width: 40px; height: 40px;
+      border: 3px solid var(--s-border);
+      border-top-color: var(--s-primary);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Sidebar toggle for mobile ─── */
+    #sidebarOverlay.active { display: block !important; }
+  </style>
+</head>
+
+<body class="student-layout">
+
+  <!-- Overlay mobile -->
+  <div id="sidebarOverlay"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;transition:.2s;"
+    onclick="this.classList.remove('active');document.getElementById('studentSidebar').classList.remove('mobile-open')">
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="s-sidebar" id="studentSidebar">
+    <a class="s-sidebar-logo" href="/studyonline/frontend/pages/home.html">
+      <div class="logo-icon">🎓</div>
+      <span class="logo-text">StudyOnline</span>
+    </a>
+    <nav class="s-sidebar-nav">
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/dashboard.html">
+        <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+      </a>
+      <a class="s-nav-item active" href="/studyonline/frontend/pages/student/my-courses.html">
+        <span class="nav-icon">📚</span><span class="nav-label">Khóa học của tôi</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/progress.html">
+        <span class="nav-icon">📈</span><span class="nav-label">Tiến độ học tập</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/quiz.html">
+        <span class="nav-icon">📝</span><span class="nav-label">Quiz</span>
+      </a>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/certificates.html">
+        <span class="nav-icon">🏆</span><span class="nav-label">Chứng chỉ</span>
+      </a>
+      <div class="s-nav-divider"></div>
+      <a class="s-nav-item" href="/studyonline/frontend/pages/student/profile.html">
+        <span class="nav-icon">👤</span><span class="nav-label">Hồ sơ cá nhân</span>
+      </a>
+      <button class="s-nav-item" onclick="studentLogout()">
+        <span class="nav-icon">🚪</span><span class="nav-label">Đăng xuất</span>
+      </button>
+    </nav>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="s-wrapper">
+
+    <!-- HEADER -->
+    <header class="s-header">
+      <button class="s-toggle-btn" id="sidebarToggle" title="Toggle sidebar">☰</button>
+      <div class="s-header-actions">
+        <button class="s-icon-btn" title="Thông báo">🔔<span class="s-notif-badge"></span></button>
+        <div class="s-avatar-wrap" id="avatarWrap">
+          <div class="s-avatar" id="headerAvatar">?</div>
+          <span class="s-avatar-name" id="headerName">Học viên</span>
+          <span style="color:var(--s-text-muted);font-size:.8rem;">▾</span>
+          <div class="s-dropdown" id="avatarDropdown">
+            <a href="/studyonline/frontend/pages/student/profile.html">👤 Hồ sơ</a>
+            <hr>
+            <button onclick="studentLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="s-main">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/studyonline/frontend/pages/student/dashboard.html">Dashboard</a>
+        <span class="sep">›</span>
+        <a href="/studyonline/frontend/pages/student/my-courses.html">Khóa học của tôi</a>
+        <span class="sep">›</span>
+        <span id="bcCourse">Đang tải...</span>
+      </nav>
+
+      <!-- Course Hero -->
+      <div class="course-hero">
+        <h1 id="courseTitle">Đang tải khóa học...</h1>
+        <p id="courseDesc">Chọn chương để bắt đầu học</p>
+        <div class="course-hero-meta">
+          <span id="chapterCount">📂 — chương</span>
+          <span id="lessonCount">📖 — bài học</span>
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <div id="alertBox"></div>
+
+      <!-- Chapter List -->
+      <div id="chapterList">
+        <div class="loading-spinner">
+          <div class="spin"></div>
+          <p>Đang tải nội dung khóa học...</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/studyonline/frontend/js/api.js"></script>
+  <script src="/studyonline/frontend/js/student-dashboard.js?v=1.1"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!requireLogin()) return;
+
+      // Header user info
+      const user = Api.getUser();
+      if (user) {
+        const initials = user.fullname?.split(' ').map(w => w[0]).slice(-2).join('') || '?';
+        document.getElementById('headerAvatar').textContent = initials;
+        document.getElementById('headerName').textContent = user.fullname?.split(' ').pop() || 'Học viên';
+      }
+
+      // Avatar dropdown toggle
+      document.getElementById('avatarWrap')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.getElementById('avatarDropdown').classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        document.getElementById('avatarDropdown')?.classList.remove('open');
+      });
+
+      // Sidebar toggle
+      document.getElementById('sidebarToggle')?.addEventListener('click', () => {
+        const sidebar  = document.getElementById('studentSidebar');
+        const overlay  = document.getElementById('sidebarOverlay');
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          sidebar.classList.toggle('mobile-open');
+          overlay.classList.toggle('active');
+        } else {
+          document.body.classList.toggle('sidebar-collapsed');
+          sidebar.classList.toggle('collapsed');
+        }
+      });
+
+      // Get course_id from URL
+      const courseId = getParam('course_id');
+      if (!courseId) {
+        window.location.href = '/studyonline/frontend/pages/student/my-courses.html';
+        return;
+      }
+
+      // Load course info
+      const courseRes = await Api.getCourse(Number(courseId));
+      if (courseRes?.ok && courseRes.data?.data) {
+        const course = courseRes.data.data;
+        document.getElementById('courseTitle').textContent = course.title || 'Khóa học';
+        document.getElementById('courseDesc').textContent  = course.description || 'Chọn chương để bắt đầu học';
+        document.getElementById('bcCourse').textContent    = course.title || 'Khóa học';
+        document.title = `${course.title} — StudyOnline`;
+      }
+
+      // Load chapters
+      const chapRes  = await Api.getChapters(Number(courseId));
+      const chapters = chapRes?.data?.data || [];
+      const listEl   = document.getElementById('chapterList');
+
+      document.getElementById('chapterCount').textContent = `📂 ${chapters.length} chương`;
+
+      if (chapters.length === 0) {
+        listEl.innerHTML = `
+          <div class="s-empty">
+            <div class="icon">📂</div>
+            <h3>Chưa có chương nào</h3>
+            <p>Khóa học này chưa có nội dung. Hãy quay lại sau nhé!</p>
+          </div>`;
+        return;
+      }
+
+      // Render chapters — load lessons for each
+      listEl.innerHTML = '';
+      let totalLessons = 0;
+
+      // Load all chapters in parallel
+      const lessonResults = await Promise.all(
+        chapters.map(ch => Api.getLessons(ch.id))
+      );
+
+      chapters.forEach((ch, idx) => {
+        const lessons = lessonResults[idx]?.data?.data || [];
+        totalLessons += lessons.length;
+
+        const item = document.createElement('div');
+        item.className = 'chapter-item';
+        if (idx === 0) item.classList.add('open'); // open first chapter by default
+
+        const lessonsHTML = lessons.length === 0
+          ? `<div style="padding:1.25rem 2rem;font-size:.85rem;color:var(--s-text-muted);">📭 Chương này chưa có bài học.</div>`
+          : lessons.map((lesson, li) => `
+              <a class="lesson-row" href="/studyonline/frontend/pages/lesson.html?id=${lesson.id}">
+                <div class="lesson-icon">${lesson.video_url ? '🎬' : '📄'}</div>
+                <div class="lesson-info">
+                  <div class="title">${lesson.title || `Bài ${li + 1}`}</div>
+                  <div class="desc">${lesson.description ? lesson.description.slice(0, 80) + (lesson.description.length > 80 ? '...' : '') : 'Nhấn để xem bài học'}</div>
+                </div>
+                <span class="lesson-cta">▶ Xem bài</span>
+              </a>`).join('');
+
+        item.innerHTML = `
+          <div class="chapter-header" onclick="toggleChapter(this)">
+            <div class="chapter-num">${idx + 1}</div>
+            <div class="chapter-info">
+              <h3>${ch.chapter_name || `Chương ${idx + 1}`}</h3>
+              <p>${lessons.length} bài học</p>
+            </div>
+            <span class="chapter-arrow">▼</span>
+          </div>
+          <div class="lesson-list">
+            ${lessonsHTML}
+          </div>`;
+
+        listEl.appendChild(item);
+      });
+
+      document.getElementById('lessonCount').textContent = `📖 ${totalLessons} bài học`;
+    });
+
+    function toggleChapter(headerEl) {
+      const item = headerEl.closest('.chapter-item');
+      item.classList.toggle('open');
+    }
+
+    function studentLogout() {
+      try {
+        Api.clearAuth();
+        Api.logout();
+      } catch (e) {
+        console.error(e);
+      }
+      window.location.href = '/studyonline/frontend/pages/home.html';
+    }
+  </script>
+</body>
+</html>

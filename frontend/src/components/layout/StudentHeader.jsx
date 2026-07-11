@@ -1,0 +1,64 @@
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { useClickOutside } from '../../hooks/useClickOutside';
+
+/** Tương đương <header class="s-header"> — avatar dropdown + toggle sidebar, dùng chung mọi trang student */
+export default function StudentHeader({ onToggleSidebar }) {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const wrapRef = useRef(null);
+
+  useClickOutside(wrapRef, () => setDropdownOpen(false));
+
+  const initials = user?.fullname
+    ? user.fullname
+        .split(' ')
+        .map((w) => w[0])
+        .slice(-2)
+        .join('')
+        .toUpperCase()
+    : '?';
+  const displayName = user?.fullname?.split(' ').pop() || 'Học viên';
+
+  function handleLogout() {
+    logout();
+    navigate('/');
+  }
+
+  return (
+    <header className="s-header">
+      <button className="s-toggle-btn" id="sidebarToggle" title="Toggle sidebar" onClick={onToggleSidebar}>
+        ☰
+      </button>
+      <div className="s-header-actions">
+        <button className="s-icon-btn" title="Thông báo">
+          🔔<span className="s-notif-badge"></span>
+        </button>
+        <div
+          className="s-avatar-wrap"
+          id="avatarWrap"
+          ref={wrapRef}
+          onClick={(e) => {
+            e.stopPropagation();
+            setDropdownOpen((v) => !v);
+          }}
+        >
+          <div className="s-avatar" id="headerAvatar">
+            {initials}
+          </div>
+          <span className="s-avatar-name" id="headerName">
+            {displayName}
+          </span>
+          <span style={{ color: 'var(--s-text-muted)', fontSize: '.8rem' }}>▾</span>
+          <div className={`s-dropdown${dropdownOpen ? ' open' : ''}`} id="avatarDropdown">
+            <Link to="/student/profile">👤 Hồ sơ</Link>
+            <hr />
+            <button onClick={handleLogout}>🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
