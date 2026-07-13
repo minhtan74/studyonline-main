@@ -82,7 +82,7 @@ export default function Certificates() {
             <div className="icon">🏆</div>
             <h3>Chưa có chứng chỉ nào</h3>
             <p>Hoàn thành khóa học để nhận chứng chỉ!</p>
-            <Link to="/courses" className="s-btn s-btn-primary" style={{ marginTop: '1rem' }}>
+            <Link to="/student/courses" className="s-btn s-btn-primary" style={{ marginTop: '1rem' }}>
               Xem khóa học
             </Link>
           </div>

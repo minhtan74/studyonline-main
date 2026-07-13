@@ -303,40 +303,80 @@ export default function TeacherOverview() {
                   Tất cả
                 </Link>
               </div>
-              <div className="card-body" style={{ padding: 0 }}>
-                <div className="table-wrapper">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Học viên</th>
-                        <th>Email</th>
-                        <th>Vai trò</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentEnrollments.length === 0 && (
-                        <tr>
-                          <td colSpan={3} style={{ textAlign: 'center', padding: '1rem', color: 'var(--text-muted)' }}>
-                            Chưa có học viên đăng ký.
-                          </td>
-                        </tr>
-                      )}
-                      {recentEnrollments.map((e, idx) => (
-                        <tr key={e.id ?? idx}>
-                          <td>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                              <div className="avatar avatar-sm">{initialsOf(e.user_name)}</div>
-                              <strong>{e.user_name}</strong>
-                            </div>
-                          </td>
-                          <td>{e.user_email}</td>
-                          <td>
-                            <span className="badge badge-success">{e.course_title}</span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+              <div className="card-body" style={{ padding: '1.25rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  {recentEnrollments.length === 0 ? (
+                    <p style={{ textAlign: 'center', fontSize: '0.85rem', color: 'var(--text-muted)', padding: '1rem' }}>
+                      Chưa có học viên đăng ký.
+                    </p>
+                  ) : (
+                    recentEnrollments.map((e, idx) => (
+                      <div
+                        key={e.id ?? idx}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.75rem',
+                          paddingBottom: idx < recentEnrollments.length - 1 ? '1rem' : '0',
+                          borderBottom: idx < recentEnrollments.length - 1 ? '1px solid var(--border)' : 'none',
+                        }}
+                      >
+                        <div
+                          className="avatar avatar-sm"
+                          style={{
+                            flexShrink: 0,
+                            background: 'linear-gradient(135deg, var(--primary), var(--accent))',
+                            fontWeight: 700,
+                          }}
+                        >
+                          {initialsOf(e.user_name)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>
+                            <strong
+                              style={{
+                                fontSize: '0.875rem',
+                                color: 'var(--text)',
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                            >
+                              {e.user_name}
+                            </strong>
+                          </div>
+                          <p
+                            style={{
+                              fontSize: '0.75rem',
+                              color: 'var(--text-muted)',
+                              margin: '0.1rem 0 0.25rem 0',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                            }}
+                          >
+                            {e.user_email}
+                          </p>
+                          <span
+                            className="badge badge-success"
+                            style={{
+                              fontSize: '0.7rem',
+                              padding: '0.15rem 0.5rem',
+                              textTransform: 'none',
+                              letterSpacing: 'normal',
+                              display: 'inline-block',
+                              maxWidth: '100%',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {e.course_title}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>

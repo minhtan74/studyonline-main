@@ -69,30 +69,40 @@ class LessonProgress extends Model
     }
 
     /**
-     * Tổng hợp tiến độ theo từng khóa học mà user đã đăng ký.
+     * Tổng hợp tiến độ theo từng khóa học mà user đã học (có lesson_progress).
+     * Ưu tiên khóa đã đăng ký; nếu không có enrollment vẫn hiển thị nếu có tiến độ.
      * Trả về mảng: [course_id, course_title, total_lessons, done_lessons, watched_sec_total]
      */
     public function getProgressByCourse(int $userId): array
     {
         $stmt = $this->db->prepare("
             SELECT
-                c.id                                AS course_id,
-                c.title                             AS course_title,
+                c.id                                                        AS course_id,
+                c.title                                                     AS course_title,
                 c.thumbnail,
-                COUNT(DISTINCT l.id)                AS total_lessons,
+                COUNT(DISTINCT l.id)                                        AS total_lessons,
                 COUNT(DISTINCT CASE WHEN lp.is_completed = 1 THEN l.id END) AS done_lessons,
-                COALESCE(SUM(lp.watched_sec), 0)    AS watched_sec_total
-            FROM enrollments e
-            JOIN courses  c  ON c.id  = e.course_id
+                COALESCE(SUM(lp.watched_sec), 0)                            AS watched_sec_total
+            FROM courses c
             JOIN chapters ch ON ch.course_id = c.id
-            JOIN lessons  l  ON l.chapter_id = ch.id
+            JOIN lessons  l  ON l.chapter_id  = ch.id
             LEFT JOIN lesson_progress lp
-                ON lp.lesson_id = l.id AND lp.user_id = e.user_id
-            WHERE e.user_id = ?
+                ON lp.lesson_id = l.id AND lp.user_id = ?
+            WHERE c.id IN (
+                -- Khóa đã đăng ký
+                SELECT course_id FROM enrollments WHERE user_id = ?
+                UNION
+                -- Khóa có tiến độ (học mà chưa đăng ký)
+                SELECT ch2.course_id
+                FROM lesson_progress lp2
+                JOIN lessons l2 ON l2.id = lp2.lesson_id
+                JOIN chapters ch2 ON ch2.id = l2.chapter_id
+                WHERE lp2.user_id = ?
+            )
             GROUP BY c.id, c.title, c.thumbnail
             ORDER BY done_lessons DESC
         ");
-        $stmt->execute([$userId]);
+        $stmt->execute([$userId, $userId, $userId]);
         return $stmt->fetchAll();
     }
 
@@ -144,5 +154,30 @@ class LessonProgress extends Model
         ");
         $stmt->execute([$userId]);
         return (int)($stmt->fetch()['total'] ?? 0);
+    }
+
+    /**
+     * Lấy danh sách bài hoàn thành gần nhất của user (kèm tên bài và tên khóa học).
+     * Dùng cho mục "Hoạt động gần đây" trên Dashboard học viên.
+     */
+    public function getRecentCompleted(int $userId, int $limit = 10): array
+    {
+        $stmt = $this->db->prepare("
+            SELECT
+                lp.lesson_id,
+                lp.completed_at,
+                l.title         AS lesson_title,
+                c.title         AS course_title,
+                c.id            AS course_id
+            FROM lesson_progress lp
+            JOIN lessons  l  ON l.id  = lp.lesson_id
+            JOIN chapters ch ON ch.id = l.chapter_id
+            JOIN courses  c  ON c.id  = ch.course_id
+            WHERE lp.user_id = ? AND lp.is_completed = 1 AND lp.completed_at IS NOT NULL
+            ORDER BY lp.completed_at DESC
+            LIMIT ?
+        ");
+        $stmt->execute([$userId, $limit]);
+        return $stmt->fetchAll();
     }
 }

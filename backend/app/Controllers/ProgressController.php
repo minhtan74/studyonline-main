@@ -35,6 +35,14 @@ class ProgressController extends Controller
             return;
         }
 
+        // Hoạt động gần đây: các bài hoàn thành, sắp xếp theo completed_at giảm dần
+        if (!empty($q['recent'])) {
+            $limit = (int)($q['limit'] ?? 10);
+            $recent = $model->getRecentCompleted($user['id'], $limit);
+            $this->success(['data' => $recent]);
+            return;
+        }
+
         // Tổng hợp tiến độ theo từng khóa học + tổng số giây học
         $byCourse   = $model->getProgressByCourse($user['id']);
         $totalSec   = $model->getTotalWatchedSec($user['id']);
@@ -73,6 +81,21 @@ class ProgressController extends Controller
         if (!$lessonId) {
             $this->error('Thiếu lesson_id.');
             return;
+        }
+
+        // Tự động đăng ký khóa học nếu chưa có enrollment
+        // (trường hợp user truy cập trực tiếp bài học mà chưa đăng ký)
+        $lessonModel = new \App\Models\Lesson();
+        $lesson = $lessonModel->find($lessonId);
+        if ($lesson) {
+            $chapterModel = new \App\Models\Chapter();
+            $chapter = $chapterModel->find((int)($lesson['chapter_id'] ?? 0));
+            if ($chapter) {
+                $enrollModel = new \App\Models\Enrollment();
+                if (!$enrollModel->isEnrolled($user['id'], (int)$chapter['course_id'])) {
+                    $enrollModel->enroll($user['id'], (int)$chapter['course_id']);
+                }
+            }
         }
 
         $model = new LessonProgress();

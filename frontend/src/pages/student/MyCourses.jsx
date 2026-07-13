@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { courseService } from '../../services/courseService';
+import { progressService } from '../../services/progressService';
 
-const STATUSES = ['inprogress', 'done', 'notstarted'];
 const EMOJIS = ['🎨', '💻', '📊', '🔬', '🌐', '📱', '🎵', '✏️', '🧪', '📐'];
 const COLORS = ['#2563EB,#8B5CF6', '#0F766E,#06B6D4', '#7C3AED,#EC4899', '#DC2626,#F59E0B', '#059669,#2563EB', '#D97706,#EF4444'];
 
@@ -13,34 +13,61 @@ const FILTERS = [
   { key: 'notstarted', label: 'Chưa bắt đầu' },
 ];
 
-function getCourseStatus(idx) {
-  return STATUSES[idx % 3];
-}
-
-function getCourseProgress(status) {
-  if (status === 'done') return 100;
-  if (status === 'notstarted') return 0;
-  return Math.floor(Math.random() * 60) + 20;
-}
-
-/** Tương đương _legacy/pages/student/my-courses.html — status/progress hoàn toàn mock/deterministic theo idx */
+/**
+ * Lấy tiến độ thực từ GET /api/progress (không param) trả về:
+ * { data: { courses: [{course_id, total_lessons, done_lessons}] } }
+ */
 export default function MyCourses() {
   const [allCourses, setAllCourses] = useState(null); // null = đang tải
+  // courseProgress: Map<courseId, { pct, status, totalLessons, doneLessons }>
+  const [courseProgress, setCourseProgress] = useState({});
+  const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState('all');
   const [searchVal, setSearchVal] = useState('');
 
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      const res = await courseService.getCourses();
-      setAllCourses(res?.data?.data || []);
+      setLoading(true);
+      // 2 lần gọi song song: danh sách khóa + tổng hợp tiến độ
+      const [coursesRes, progressRes] = await Promise.all([
+        courseService.getCourses(),
+        progressService.getProgress(), // GET /api/progress → { courses: [{course_id, total_lessons, done_lessons}] }
+      ]);
+
+      if (cancelled) return;
+
+      const list = coursesRes?.data?.data || [];
+      setAllCourses(list);
+
+      // Xây dựng map tiến độ từ dữ liệu backend
+      const progressMap = {};
+      const byCourse = progressRes?.data?.data?.courses || [];
+
+      byCourse.forEach((c) => {
+        const total = Number(c.total_lessons) || 0;
+        const done  = Number(c.done_lessons)  || 0;
+        const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+        const status = done === 0 ? 'notstarted' : pct >= 100 ? 'done' : 'inprogress';
+        progressMap[c.course_id] = { pct, status, totalLessons: total, doneLessons: done };
+      });
+
+      // Với các khóa học chưa bắt đầu học → mặc định 0%
+      list.forEach((c) => {
+        if (!progressMap[c.id]) {
+          progressMap[c.id] = { pct: 0, status: 'notstarted', totalLessons: 0, doneLessons: 0 };
+        }
+      });
+
+      setCourseProgress(progressMap);
+      setLoading(false);
     })();
+    return () => { cancelled = true; };
   }, []);
 
-  // Không memo hoá: bản gốc gọi getCourseProgress() (Math.random) mỗi lần renderCourses(),
-  // nên % tiến độ "inprogress" đổi mỗi lần re-render — giữ nguyên hành vi mock đó ở đây.
-  const filtered = (allCourses || []).filter((c, i) => {
-    const status = getCourseStatus(i);
-    const matchFilter = currentFilter === 'all' || status === currentFilter;
+  const filtered = (allCourses || []).filter((c) => {
+    const prog = courseProgress[c.id] || { pct: 0, status: 'notstarted' };
+    const matchFilter = currentFilter === 'all' || prog.status === currentFilter;
     const matchSearch = !searchVal || (c.title || '').toLowerCase().includes(searchVal.toLowerCase());
     return matchFilter && matchSearch;
   });
@@ -74,9 +101,11 @@ export default function MyCourses() {
 
       {/* Course Grid */}
       <div className="s-course-grid" id="courseGrid">
-        {allCourses === null && <div style={{ color: 'var(--s-text-muted)', padding: '2rem' }}>Đang tải khóa học...</div>}
+        {loading && (
+          <div style={{ color: 'var(--s-text-muted)', padding: '2rem' }}>Đang tải khóa học...</div>
+        )}
 
-        {allCourses !== null && filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <div className="s-empty" style={{ gridColumn: '1/-1' }}>
             <div className="icon">📭</div>
             <h3>Không có khóa học nào</h3>
@@ -84,13 +113,12 @@ export default function MyCourses() {
           </div>
         )}
 
-        {allCourses !== null &&
+        {!loading &&
           filtered.map((c) => {
-            const idx = allCourses.indexOf(c);
-            const status = getCourseStatus(idx);
-            const pct = getCourseProgress(status);
-            const lessons = Math.floor(Math.random() * 20) + 5;
-            const hours = (lessons * 0.5).toFixed(0);
+            const idx = (allCourses || []).indexOf(c);
+            const prog = courseProgress[c.id] || { pct: 0, status: 'notstarted', totalLessons: 0, doneLessons: 0 };
+            const { pct, status, totalLessons, doneLessons } = prog;
+
             const statusBadge =
               status === 'done' ? (
                 <span className="s-badge s-badge-green">✅ Hoàn thành</span>
@@ -109,15 +137,17 @@ export default function MyCourses() {
                   <h3>{c.title || 'Khóa học'}</h3>
                   <p className="teacher">👨‍🏫 Giảng viên StudyOnline</p>
                   <div className="s-course-meta">
-                    <span>📖 {lessons} bài</span>
-                    <span>⏱ {hours}h</span>
+                    <span>📖 {doneLessons}/{totalLessons} bài hoàn thành</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '.5rem' }}>
                     <span style={{ fontSize: '.78rem', color: 'var(--s-text-muted)' }}>{pct}% hoàn thành</span>
                     {statusBadge}
                   </div>
                   <div className="s-progress">
-                    <div className={`s-progress-bar${status === 'done' ? ' green' : ''}`} style={{ width: `${pct}%` }}></div>
+                    <div
+                      className={`s-progress-bar${status === 'done' ? ' green' : ''}`}
+                      style={{ width: `${pct}%`, transition: 'width 0.6s ease' }}
+                    />
                   </div>
                 </div>
                 <div className="s-course-footer">

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { courseService } from '../../services/courseService';
-import { quizService } from '../../services/quizService';
+import { progressService } from '../../services/progressService';
 import WeeklyBarChart from '../../components/common/WeeklyBarChart.jsx';
 
 const EMOJIS = ['🎨', '💻', '📊', '🔬', '🌐', '📱', '🎵', '✏️'];
@@ -15,25 +15,83 @@ const COLORS = [
   '#D97706,#EF4444',
 ];
 
-/** Tương đương _legacy/pages/student/dashboard.html */
+/** Chuyển timestamp thành chuỗi thời gian tương đối: "2 giờ trước", "hôm qua"... */
+function formatRelativeTime(dateStr) {
+  if (!dateStr) return '';
+  const now = new Date();
+  const d = new Date(dateStr);
+  const diffMs = now - d;
+  const diffMin = Math.floor(diffMs / 60000);
+  const diffHour = Math.floor(diffMin / 60);
+  const diffDay = Math.floor(diffHour / 24);
+  if (diffMin < 5) return 'Vừa xong';
+  if (diffMin < 60) return `${diffMin} phút trước`;
+  if (diffHour < 24) return `${diffHour} giờ trước`;
+  if (diffDay === 1) return 'Hôm qua';
+  if (diffDay < 7) return `${diffDay} ngày trước`;
+  if (diffDay < 30) return `${Math.floor(diffDay / 7)} tuần trước`;
+  return d.toLocaleDateString('vi-VN');
+}
+
+/** Tương đương _legacy/pages/student/dashboard.html — nối API tiến độ thực */
 export default function Dashboard() {
   const { user } = useAuth();
   const [courses, setCourses] = useState(null); // null = đang tải
-  const [continuePcts, setContinuePcts] = useState([]);
+  // courseProgress: Map<courseId, { pct, status, totalLessons, doneLessons }>
+  const [courseProgress, setCourseProgress] = useState({});
+  const [stats, setStats] = useState({ total: 0, inProgress: 0, done: 0 });
+  const [weeklyData, setWeeklyData] = useState(null);   // null = loading
+  const [weeklyLabels, setWeeklyLabels] = useState([]);
+  const [recentActivities, setRecentActivities] = useState(null); // null = loading
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const [coursesRes] = await Promise.all([courseService.getCourses(), quizService.getQuizzes()]);
+      // 3 lần gọi song song
+      const [coursesRes, progressRes, weeklyRes, activitiesRes] = await Promise.all([
+        courseService.getCourses(),
+        progressService.getProgress(),         // tổng hợp khóa học
+        progressService.getWeeklyProgress(),   // GET /api/progress?weekly=1
+        progressService.getRecentActivities(), // GET /api/progress?recent=1
+      ]);
+
       if (cancelled) return;
+
+      // --- Danh sách khóa ---
       const list = coursesRes?.data?.data || [];
       setCourses(list);
-      // % ngẫu nhiên cho "Tiếp tục học" — giữ nguyên hành vi mock gốc (Math.random mỗi lần render danh sách)
-      setContinuePcts(list.slice(0, 3).map(() => Math.floor(Math.random() * 70) + 10));
+
+      // --- Tiến độ theo khóa ---
+      const progressMap = {};
+      const byCourse = progressRes?.data?.data?.courses || [];
+      byCourse.forEach((c) => {
+        const total = Number(c.total_lessons) || 0;
+        const done  = Number(c.done_lessons)  || 0;
+        const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
+        const status = done === 0 ? 'notstarted' : pct >= 100 ? 'done' : 'inprogress';
+        progressMap[c.course_id] = { pct, status, totalLessons: total, doneLessons: done };
+      });
+      list.forEach((c) => {
+        if (!progressMap[c.id]) {
+          progressMap[c.id] = { pct: 0, status: 'notstarted', totalLessons: 0, doneLessons: 0 };
+        }
+      });
+      setCourseProgress(progressMap);
+      const total = list.length;
+      const done = Object.values(progressMap).filter((p) => p.status === 'done').length;
+      const inProgress = Object.values(progressMap).filter((p) => p.status === 'inprogress').length;
+      setStats({ total, inProgress, done });
+
+      // --- Biểu đồ tuần ---
+      const weeklyRows = weeklyRes?.data?.data || [];
+      setWeeklyLabels(weeklyRows.map((r) => r.label || r.date?.slice(5) || ''));
+      setWeeklyData(weeklyRows.map((r) => Number(r.count) || 0));
+
+      // --- Hoạt động gần đây ---
+      const activities = activitiesRes?.data?.data || [];
+      setRecentActivities(activities.slice(0, 6));
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
   return (
@@ -46,160 +104,94 @@ export default function Dashboard() {
           </p>
           <h1 id="welcomeName">Xin chào, {user?.fullname}! 👋</h1>
           <p>Hãy tiếp tục hành trình học tập hôm nay nhé.</p>
-          <Link to="/courses" className="s-btn s-btn-lg" style={{ background: '#fff', color: 'var(--s-primary)', marginTop: '.25rem' }}>
+          <Link to="/student/courses" className="s-btn s-btn-lg" style={{ background: '#fff', color: 'var(--s-primary)', marginTop: '.25rem' }}>
             Khám phá khóa học →
           </Link>
         </div>
       </div>
 
-      {/* Stats Grid — các số liệu placeholder giữ nguyên như bản gốc (chưa nối API thật) */}
+      {/* Stats Grid — dữ liệu thực từ API */}
       <div className="s-stats-grid">
         <div className="s-stat-card">
           <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(37,99,235,.1)' }}>
-              📚
-            </div>
-            <span className="s-stat-trend trend-up">+2</span>
+            <div className="s-stat-icon" style={{ background: 'rgba(37,99,235,.1)' }}>📚</div>
           </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-primary)' }} id="statTotal">
-            {courses === null ? '—' : courses.length || '—'}
+          <div className="s-stat-value" style={{ color: 'var(--s-primary)' }}>
+            {courses === null ? '—' : stats.total}
           </div>
           <div className="s-stat-label">Tổng khóa học</div>
         </div>
 
         <div className="s-stat-card">
           <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(245,158,11,.1)' }}>
-              ⏳
-            </div>
-            <span className="s-stat-trend trend-warn">Đang học</span>
+            <div className="s-stat-icon" style={{ background: 'rgba(245,158,11,.1)' }}>⏳</div>
           </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-warning)' }} id="statInProgress">
-            3
+          <div className="s-stat-value" style={{ color: 'var(--s-warning)' }}>
+            {courses === null ? '—' : stats.inProgress}
           </div>
           <div className="s-stat-label">Đang theo học</div>
         </div>
 
         <div className="s-stat-card">
           <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(16,185,129,.1)' }}>
-              ✅
-            </div>
-            <span className="s-stat-trend trend-up">+1</span>
+            <div className="s-stat-icon" style={{ background: 'rgba(16,185,129,.1)' }}>✅</div>
           </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-success)' }} id="statDone">
-            2
+          <div className="s-stat-value" style={{ color: 'var(--s-success)' }}>
+            {courses === null ? '—' : stats.done}
           </div>
           <div className="s-stat-label">Đã hoàn thành</div>
-        </div>
-
-        <div className="s-stat-card">
-          <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(139,92,246,.1)' }}>
-              📝
-            </div>
-            <span className="s-stat-trend trend-up">8.5</span>
-          </div>
-          <div className="s-stat-value" style={{ color: '#8B5CF6' }} id="statQuizAvg">
-            8.5
-          </div>
-          <div className="s-stat-label">Điểm quiz TB</div>
-        </div>
-
-        <div className="s-stat-card">
-          <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(245,158,11,.1)' }}>
-              🏆
-            </div>
-            <span className="s-stat-trend trend-up">Mới</span>
-          </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-warning)' }} id="statCerts">
-            2
-          </div>
-          <div className="s-stat-label">Chứng chỉ đạt</div>
         </div>
       </div>
 
       {/* Charts + Recent Activity */}
       <div className="s-grid-2" style={{ marginBottom: '1.75rem' }}>
-        {/* Weekly Chart */}
+        {/* Weekly Chart — dữ liệu thực từ API */}
         <div className="s-card">
           <div className="s-card-header">
             <span className="s-card-title">📈 Tiến độ học trong tuần</span>
-            <span className="s-badge s-badge-blue">Tuần này</span>
+            <span className="s-badge s-badge-blue">7 ngày qua</span>
           </div>
           <div className="s-card-body">
             <div className="s-chart-wrap">
-              <WeeklyBarChart data={[2, 5, 3, 7, 4, 6, 2]} />
+              {weeklyData === null ? (
+                <div style={{ textAlign: 'center', paddingTop: '4rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>Đang tải...</div>
+              ) : (
+                <WeeklyBarChart data={weeklyData} labels={weeklyLabels} />
+              )}
             </div>
           </div>
         </div>
 
-        {/* Recent Activity — dữ liệu mẫu tĩnh giữ nguyên như bản gốc */}
+        {/* Recent Activity — dữ liệu thực từ API */}
         <div className="s-card">
           <div className="s-card-header">
             <span className="s-card-title">🕐 Hoạt động gần đây</span>
-            <Link to="/student/progress" className="s-btn s-btn-ghost s-btn-sm">
-              Xem tất cả
-            </Link>
+            <Link to="/student/progress" className="s-btn s-btn-ghost s-btn-sm">Xem tất cả</Link>
           </div>
           <div className="s-card-body">
             <div className="s-activity-list" id="activityList">
-              <div className="s-activity-item">
-                <div className="s-activity-icon" style={{ background: 'rgba(37,99,235,.1)' }}>
-                  📘
+              {recentActivities === null && (
+                <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>Đang tải...</div>
+              )}
+              {recentActivities !== null && recentActivities.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>
+                  Chưa có hoạt động nào. Hãy bắt đầu học!
                 </div>
-                <div className="s-activity-body">
-                  <p>
-                    Hoàn thành bài: <strong>Giới thiệu HTML cơ bản</strong>
-                  </p>
-                  <span>2 giờ trước</span>
+              )}
+              {recentActivities !== null && recentActivities.map((act, i) => (
+                <div key={i} className="s-activity-item">
+                  <div className="s-activity-icon" style={{ background: 'rgba(37,99,235,.1)' }}>📘</div>
+                  <div className="s-activity-body">
+                    <p>
+                      Hoàn thành bài: <strong>{act.lesson_title || 'Bài học'}</strong>
+                    </p>
+                    <p style={{ fontSize: '.75rem', color: 'var(--s-text-muted)', marginBottom: '.15rem', fontWeight: 400 }}>
+                      {act.course_title || ''}
+                    </p>
+                    <span>{formatRelativeTime(act.completed_at)}</span>
+                  </div>
                 </div>
-              </div>
-              <div className="s-activity-item">
-                <div className="s-activity-icon" style={{ background: 'rgba(16,185,129,.1)' }}>
-                  ✅
-                </div>
-                <div className="s-activity-body">
-                  <p>
-                    Đạt quiz: <strong>CSS Fundamentals</strong> — 9/10 điểm
-                  </p>
-                  <span>Hôm qua</span>
-                </div>
-              </div>
-              <div className="s-activity-item">
-                <div className="s-activity-icon" style={{ background: 'rgba(245,158,11,.1)' }}>
-                  🏆
-                </div>
-                <div className="s-activity-body">
-                  <p>
-                    Nhận chứng chỉ: <strong>Web Design Basics</strong>
-                  </p>
-                  <span>3 ngày trước</span>
-                </div>
-              </div>
-              <div className="s-activity-item">
-                <div className="s-activity-icon" style={{ background: 'rgba(139,92,246,.1)' }}>
-                  📝
-                </div>
-                <div className="s-activity-body">
-                  <p>
-                    Bắt đầu khóa học: <strong>JavaScript ES6+</strong>
-                  </p>
-                  <span>5 ngày trước</span>
-                </div>
-              </div>
-              <div className="s-activity-item">
-                <div className="s-activity-icon" style={{ background: 'rgba(37,99,235,.1)' }}>
-                  📘
-                </div>
-                <div className="s-activity-body">
-                  <p>
-                    Hoàn thành bài: <strong>Flexbox Layout</strong>
-                  </p>
-                  <span>1 tuần trước</span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -221,14 +213,16 @@ export default function Dashboard() {
                 <div className="icon">📚</div>
                 <h3>Chưa có khóa học nào</h3>
                 <p>Hãy đăng ký khóa học đầu tiên!</p>
-                <Link to="/courses" className="s-btn s-btn-primary" style={{ marginTop: '1rem' }}>
+                <Link to="/student/courses" className="s-btn s-btn-primary" style={{ marginTop: '1rem' }}>
                   Khám phá ngay
                 </Link>
               </div>
             )}
             {courses !== null &&
               courses.slice(0, 3).map((c, i) => {
-                const pct = continuePcts[i] ?? 10;
+                const prog = courseProgress[c.id];
+                const pct = prog?.pct ?? 0;
+                const status = prog?.status ?? 'notstarted';
                 return (
                   <div
                     key={c.id}
@@ -247,7 +241,7 @@ export default function Dashboard() {
                         width: 52,
                         height: 52,
                         borderRadius: 10,
-                        background: 'linear-gradient(135deg,var(--s-primary),#8B5CF6)',
+                        background: `linear-gradient(135deg,${COLORS[i % COLORS.length]})`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -255,7 +249,7 @@ export default function Dashboard() {
                         flexShrink: 0,
                       }}
                     >
-                      📘
+                      {EMOJIS[i % EMOJIS.length]}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div
@@ -263,13 +257,18 @@ export default function Dashboard() {
                       >
                         {c.title || 'Khóa học'}
                       </div>
-                      <div style={{ fontSize: '.78rem', color: 'var(--s-text-muted)', marginBottom: '.5rem' }}>{pct}% hoàn thành</div>
+                      <div style={{ fontSize: '.78rem', color: 'var(--s-text-muted)', marginBottom: '.5rem' }}>
+                        {prog ? `${pct}% hoàn thành` : 'Đang tải...'}
+                      </div>
                       <div className="s-progress">
-                        <div className="s-progress-bar" style={{ width: `${pct}%` }}></div>
+                        <div
+                          className={`s-progress-bar${status === 'done' ? ' green' : ''}`}
+                          style={{ width: `${pct}%`, transition: 'width 0.6s ease' }}
+                        />
                       </div>
                     </div>
                     <Link to={`/chapters?course_id=${c.id}`} className="s-btn s-btn-primary s-btn-sm" style={{ flexShrink: 0 }}>
-                      ▶
+                      {status === 'done' ? '🔄' : '▶'}
                     </Link>
                   </div>
                 );
