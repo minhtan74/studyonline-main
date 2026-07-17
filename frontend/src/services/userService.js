@@ -16,4 +16,10 @@ export const userService = {
   deleteUser(id) {
     return axiosClient.delete(`/api/users?id=${id}`);
   },
+  changePassword(oldPassword, newPassword) {
+    return axiosClient.post('/api/auth/change-password', {
+      old_password: oldPassword,
+      new_password: newPassword,
+    });
+  },
 };

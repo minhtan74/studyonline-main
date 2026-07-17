@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
-import { courseService } from '../../services/courseService';
+import { enrollmentService } from '../../services/enrollmentService';
+import { userService } from '../../services/userService';
 
 const ROLE_LABELS = { admin: 'Quản trị viên', teacher: 'Giảng viên', student: 'Học viên' };
 
@@ -12,23 +13,27 @@ export default function Profile() {
   const { user, login, token } = useAuth();
 
   const [fullname, setFullname] = useState(user?.fullname || '');
+  const [displayName, setDisplayName] = useState(user?.fullname || ''); // chỉ cập nhật khi lưu thành công
   const [infoAlert, setInfoAlert] = useState(null);
   const [coursesCount, setCoursesCount] = useState(null);
+  const [savingInfo, setSavingInfo] = useState(false);
 
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
   const [pwAlert, setPwAlert] = useState(null);
+  const [changingPw, setChangingPw] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const res = await courseService.getCourses();
+      // Hiển thị số khóa học đã đăng ký
+      const res = await enrollmentService.getEnrolledIds();
       setCoursesCount(res?.data?.data?.length ?? null);
     })();
   }, []);
 
-  const initials = user?.fullname
-    ? user.fullname
+  const initials = displayName
+    ? displayName
         .split(' ')
         .map((w) => w[0])
         .slice(-2)
@@ -36,35 +41,60 @@ export default function Profile() {
         .toUpperCase()
     : '?';
 
-  function handleInfoSubmit(e) {
+  async function handleInfoSubmit(e) {
     e.preventDefault();
     const name = fullname.trim();
     if (!name) {
       setInfoAlert({ type: 'danger', text: 'Vui lòng nhập họ tên!' });
       return;
     }
-    // Không có API cập nhật user thật — chỉ cập nhật localStorage/context (thay cho localStorage.setItem('user', ...) bản gốc)
-    const updated = { ...user, fullname: name };
-    login(token, updated);
-    setInfoAlert({ type: 'success', text: '✅ Cập nhật thành công!' });
-    setTimeout(() => setInfoAlert(null), 3000);
+    setSavingInfo(true);
+    const res = await userService.updateUser({
+      id: user.id,
+      fullname: name,
+      email: user.email,
+      role: user.role,
+    });
+    setSavingInfo(false);
+
+    if (res?.ok && res.data?.success) {
+      const updated = { ...user, fullname: name };
+      login(token, updated);
+      setDisplayName(name); // chỉ cập nhật hiển thị sau khi lưu thành công
+      setInfoAlert({ type: 'success', text: '✅ Cập nhật thành công!' });
+    } else {
+      setInfoAlert({ type: 'danger', text: res?.data?.message || 'Không thể cập nhật thông tin.' });
+    }
+    setTimeout(() => setInfoAlert(null), 3500);
   }
 
-  function handlePwSubmit(e) {
+  async function handlePwSubmit(e) {
     e.preventDefault();
-    if (newPw.length < 8) {
-      setPwAlert({ type: 'danger', text: 'Mật khẩu phải có ít nhất 8 ký tự!' });
+    if (newPw.length < 6) {
+      setPwAlert({ type: 'danger', text: 'Mật khẩu phải có ít nhất 6 ký tự!' });
       return;
     }
     if (newPw !== confirmPw) {
       setPwAlert({ type: 'danger', text: 'Mật khẩu xác nhận không khớp!' });
       return;
     }
-    setPwAlert({ type: 'success', text: '✅ Đổi mật khẩu thành công!' });
-    setCurrentPw('');
-    setNewPw('');
-    setConfirmPw('');
-    setTimeout(() => setPwAlert(null), 3000);
+    if (!currentPw) {
+      setPwAlert({ type: 'danger', text: 'Vui lòng nhập mật khẩu hiện tại!' });
+      return;
+    }
+    setChangingPw(true);
+    const res = await userService.changePassword(currentPw, newPw);
+    setChangingPw(false);
+
+    if (res?.ok && res.data?.success) {
+      setPwAlert({ type: 'success', text: '✅ Đổi mật khẩu thành công!' });
+      setCurrentPw('');
+      setNewPw('');
+      setConfirmPw('');
+    } else {
+      setPwAlert({ type: 'danger', text: res?.data?.message || 'Mật khẩu hiện tại không đúng.' });
+    }
+    setTimeout(() => setPwAlert(null), 4000);
   }
 
   return (
@@ -79,7 +109,7 @@ export default function Profile() {
         </div>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '.25rem' }} id="profileName">
-            {user?.fullname || '—'}
+            {displayName || '—'}
           </h2>
           <p style={{ opacity: 0.8, marginBottom: '1rem' }} id="profileEmail">
             {user?.email || '—'}
@@ -90,14 +120,6 @@ export default function Profile() {
                 {coursesCount ?? '—'}
               </div>
               <div style={{ fontSize: '.78rem', opacity: 0.7 }}>Khóa học</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>2</div>
-              <div style={{ fontSize: '.78rem', opacity: 0.7 }}>Chứng chỉ</div>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>8.5</div>
-              <div style={{ fontSize: '.78rem', opacity: 0.7 }}>Điểm TB</div>
             </div>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '1.5rem', fontWeight: 800 }} id="profileJoined">
@@ -143,8 +165,8 @@ export default function Profile() {
                   readOnly
                 />
               </div>
-              <button type="submit" className="s-btn s-btn-primary" style={{ width: '100%' }}>
-                💾 Lưu thay đổi
+              <button type="submit" className="s-btn s-btn-primary" style={{ width: '100%' }} disabled={savingInfo}>
+                {savingInfo ? '⏳ Đang lưu...' : '💾 Lưu thay đổi'}
               </button>
             </form>
           </div>
@@ -188,8 +210,8 @@ export default function Profile() {
                   onChange={(e) => setConfirmPw(e.target.value)}
                 />
               </div>
-              <button type="submit" className="s-btn s-btn-outline" style={{ width: '100%' }}>
-                🔑 Đổi mật khẩu
+              <button type="submit" className="s-btn s-btn-outline" style={{ width: '100%' }} disabled={changingPw}>
+                {changingPw ? '⏳ Đang xử lý...' : '🔑 Đổi mật khẩu'}
               </button>
             </form>
           </div>

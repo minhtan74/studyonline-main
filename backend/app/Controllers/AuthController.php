@@ -101,4 +101,34 @@ class AuthController extends Controller
     {
         $this->success([], 'Đăng xuất thành công.');
     }
+
+    /**
+     * POST /api/auth/change-password
+     */
+    public function changePassword(): void
+    {
+        $user  = JwtMiddleware::handle();
+        $data  = $this->getBody();
+
+        $oldPassword = trim($data['old_password'] ?? '');
+        $newPassword = trim($data['new_password'] ?? '');
+
+        if (empty($oldPassword) || empty($newPassword)) {
+            $this->error('Vui lòng nhập đầy đủ mật khẩu cũ và mới.');
+            return;
+        }
+        if (strlen($newPassword) < 6) {
+            $this->error('Mật khẩu mới phải có ít nhất 6 ký tự.');
+            return;
+        }
+
+        $userModel = new User();
+        $changed   = $userModel->changePassword($user['id'], $oldPassword, $newPassword);
+
+        if ($changed) {
+            $this->success([], 'Đổi mật khẩu thành công!');
+        } else {
+            $this->error('Mật khẩu hiện tại không đúng.', 400);
+        }
+    }
 }

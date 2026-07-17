@@ -520,8 +520,9 @@ tr:hover td {
    thấp (mobile ngang, hoặc form nhiều field) nội dung bị cắt mất, không cuộn
    được. Thêm class phụ (không đổi .card gốc, chỉ cộng thêm) để modal tự cuộn. */
 .modal-panel {
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: none;
+  overflow-y: visible;
+  box-shadow: var(--shadow-xl);
 }
 
 /* Topbar */

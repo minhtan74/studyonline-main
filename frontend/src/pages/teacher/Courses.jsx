@@ -5,6 +5,7 @@ import { useToast } from '../../hooks/useToast';
 import { courseService } from '../../services/courseService';
 import { enrollmentService } from '../../services/enrollmentService';
 import Modal from '../../components/common/Modal.jsx';
+import { uploadFile } from '../../services/uploadService';
 
 const emptyForm = { title: '', description: '', thumbnail: '', price: '', status: 'active' };
 
@@ -25,6 +26,30 @@ export default function TeacherCourses() {
   const [editingId, setEditingId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [thumbUploading, setThumbUploading] = useState(false);
+  const [thumbPct, setThumbPct] = useState(0);
+
+  async function handleThumbUpload(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = '';
+    setThumbUploading(true);
+    setThumbPct(0);
+    try {
+      const res = await uploadFile(file, 'image', (pct) => setThumbPct(pct));
+      if (res?.data?.success && res.data?.data?.url) {
+        setForm((prev) => ({ ...prev, thumbnail: res.data.data.url }));
+        showToast('Upload ảnh thành công!', 'success');
+      } else {
+        showToast(res?.data?.message || 'Upload thất bại.', 'error');
+      }
+    } catch {
+      showToast('Lỗi kết nối khi upload ảnh.', 'error');
+    } finally {
+      setThumbUploading(false);
+      setThumbPct(0);
+    }
+  }
 
   async function loadData() {
     setLoading(true);
@@ -253,6 +278,12 @@ export default function TeacherCourses() {
               </div>
               <div className="form-group">
                 <label className="form-label">Thumbnail URL</label>
+                {/* Preview */}
+                {form.thumbnail && (
+                  <div style={{ marginBottom: '0.5rem', borderRadius: 8, overflow: 'hidden', height: 100, background: '#1e293b', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <img src={form.thumbnail} alt="preview" style={{ maxHeight: '100%', maxWidth: '100%', objectFit: 'cover', width: '100%' }} />
+                  </div>
+                )}
                 <input
                   type="text"
                   className="form-control"
@@ -260,6 +291,35 @@ export default function TeacherCourses() {
                   value={form.thumbnail}
                   onChange={(e) => setForm({ ...form, thumbnail: e.target.value })}
                 />
+                {/* Upload từ máy */}
+                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <label
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                      padding: '0.3rem 0.75rem', borderRadius: 6, cursor: 'pointer',
+                      background: 'var(--surface-2,#1e293b)', border: '1px solid var(--border,#334155)',
+                      fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap',
+                      opacity: thumbUploading ? 0.5 : 1,
+                      pointerEvents: thumbUploading ? 'none' : 'auto',
+                    }}
+                  >
+                    🖼️ Chọn ảnh từ máy
+                    <input
+                      type="file"
+                      accept="image/jpeg,image/png,image/gif,image/webp"
+                      style={{ display: 'none' }}
+                      onChange={handleThumbUpload}
+                    />
+                  </label>
+                  {thumbUploading && (
+                    <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${thumbPct}%`, background: 'var(--primary)', transition: 'width 0.2s' }} />
+                    </div>
+                  )}
+                  {thumbUploading && (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{thumbPct}%</span>
+                  )}
+                </div>
               </div>
               <div className="grid grid-2">
                 <div className="form-group">

@@ -69,15 +69,11 @@ export default function AdminSidebar({ mobileOpen, onNavigate }) {
       <div className="sidebar-section">
         <div className="sidebar-section-label">Báo cáo &amp; Cấu hình</div>
         <nav className="sidebar-menu">
-          <NavLink to="/admin/stats">
-            <span className="menu-icon">📈</span> Thống kê
-          </NavLink>
+
           <NavLink to="/admin/reports">
             <span className="menu-icon">📄</span> Báo cáo
           </NavLink>
-          <NavLink to="/admin/settings">
-            <span className="menu-icon">⚙️</span> Cài đặt
-          </NavLink>
+
         </nav>
       </div>
 

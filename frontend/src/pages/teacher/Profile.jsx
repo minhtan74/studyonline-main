@@ -30,6 +30,7 @@ export default function TeacherProfile() {
   const [studentCount, setStudentCount] = useState(0);
 
   const [fullname, setFullname] = useState(user?.fullname || '');
+  const [displayName, setDisplayName] = useState(user?.fullname || ''); // chỉ cập nhật khi lưu thành công
   const [specialization, setSpecialization] = useState('');
   const [biography, setBiography] = useState('');
   const [savingProfile, setSavingProfile] = useState(false);
@@ -37,10 +38,12 @@ export default function TeacherProfile() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [changingPw, setChangingPw] = useState(false);
 
   useEffect(() => {
     if (!user) return;
     setFullname(user.fullname || '');
+    setDisplayName(user.fullname || '');
     setSpecialization(localStorage.getItem(specKey(user.id)) || 'Giảng viên chuyên môn');
     setBiography(localStorage.getItem(bioKey(user.id)) || 'Chưa có tiểu sử giới thiệu.');
 
@@ -77,7 +80,8 @@ export default function TeacherProfile() {
       localStorage.setItem(bioKey(user.id), biography.trim());
 
       const updatedUser = { ...user, fullname: name };
-      login(token, updatedUser); // đồng bộ sidebar/topbar (tương đương cập nhật localStorage['user'] + DOM thủ công của bản gốc)
+      login(token, updatedUser);
+      setDisplayName(name); // chỉ cập nhật hiển thị sau khi lưu thành công
 
       showToast('Cập nhật thông tin hồ sơ thành công!', 'success');
     } else {
@@ -85,7 +89,7 @@ export default function TeacherProfile() {
     }
   }
 
-  function handleChangePassword(e) {
+  async function handleChangePassword(e) {
     e.preventDefault();
 
     if (newPassword.length < 6) {
@@ -96,15 +100,26 @@ export default function TeacherProfile() {
       showToast('Mật khẩu xác nhận không khớp.', 'error');
       return;
     }
+    if (!oldPassword) {
+      showToast('Vui lòng nhập mật khẩu hiện tại.', 'error');
+      return;
+    }
 
-    // Giả lập thao tác đổi mật khẩu — bản gốc không gọi API nào cho việc này.
-    showToast('Đã cập nhật mật khẩu mới thành công!', 'success');
-    setOldPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
+    setChangingPw(true);
+    const res = await userService.changePassword(oldPassword, newPassword);
+    setChangingPw(false);
+
+    if (res?.ok && res.data?.success) {
+      showToast('Đổi mật khẩu thành công!', 'success');
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+    } else {
+      showToast(res?.data?.message || 'Mật khẩu hiện tại không đúng.', 'error');
+    }
   }
 
-  const initials = getInitials(fullname);
+  const initials = getInitials(displayName);
 
   return (
     <>
@@ -121,7 +136,7 @@ export default function TeacherProfile() {
           {initials}
         </div>
         <div>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 800 }}>{fullname || 'Loading...'}</h2>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 800 }}>{displayName || 'Loading...'}</h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>{specialization}</p>
           <div style={{ display: 'flex', gap: '1.5rem', marginTop: '1rem' }}>
             <div>
@@ -221,8 +236,8 @@ export default function TeacherProfile() {
                   onChange={(e) => setConfirmNewPassword(e.target.value)}
                 />
               </div>
-              <button type="submit" className="btn btn-secondary btn-sm" style={{ width: '100%' }}>
-                Cập nhật mật khẩu
+              <button type="submit" className="btn btn-secondary btn-sm" style={{ width: '100%' }} disabled={changingPw}>
+                {changingPw ? '⏳ Đang xử lý...' : 'Cập nhật mật khẩu'}
               </button>
             </form>
           </div>

@@ -1,4 +1,5 @@
 import Modal from '../common/Modal.jsx';
+import { isYoutubeUrl, getEmbedUrl } from '../../utils/videoUrl';
 
 // Base path gốc dùng để phát video/tài liệu local — giữ nguyên chuỗi cứng từ
 // bản gốc (previewLesson() trong teacher/dashboard.html) vì không có thông tin
@@ -16,10 +17,18 @@ export default function LessonPreviewModal({ open, onClose, lesson }) {
   if (!lesson) return null;
 
   const videoUrl = lesson.video_url;
-  const isYoutube = videoUrl && (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be'));
+  const isYoutube = isYoutubeUrl(videoUrl);
+  // YouTube: chuyển sang URL embed chuẩn; file local: thêm base path
+  const videoSrc = videoUrl
+    ? isYoutube
+      ? getEmbedUrl(videoUrl)
+      : (videoUrl.startsWith('http://') || videoUrl.startsWith('https://')
+          ? videoUrl
+          : LEGACY_VIDEO_BASE + videoUrl)
+    : null;
 
   const docUrl = lesson.document_url;
-  const docHref = docUrl ? (docUrl.includes('http') ? docUrl : LEGACY_DOC_BASE + docUrl) : null;
+  const docHref = docUrl ? (docUrl.startsWith('http://') || docUrl.startsWith('https://') ? docUrl : LEGACY_DOC_BASE + docUrl) : null;
 
   return (
     <Modal open={open} onClose={onClose}>
@@ -51,15 +60,16 @@ export default function LessonPreviewModal({ open, onClose, lesson }) {
             {!videoUrl && <p style={{ color: '#fff' }}>🚫 Không có tệp video gắn kèm.</p>}
             {videoUrl && isYoutube && (
               <iframe
-                src={videoUrl}
+                src={videoSrc}
                 style={{ width: '100%', height: '100%', border: 'none' }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
                 title={lesson.title}
               />
             )}
             {videoUrl && !isYoutube && (
               <video controls style={{ width: '100%', height: '100%', objectFit: 'contain' }}>
-                <source src={LEGACY_VIDEO_BASE + videoUrl} type="video/mp4" />
+                <source src={videoSrc} type="video/mp4" />
                 Trình duyệt của bạn không hỗ trợ phát video HTML5.
               </video>
             )}

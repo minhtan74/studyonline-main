@@ -9,13 +9,21 @@ export default function Modal({ open, onClose, children, overlayClassName }) {
     <div
       className={
         overlayClassName ||
-        'fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4'
+        'fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 overflow-y-auto p-4 md:p-10'
       }
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      {children}
+      <div
+        className="flex min-h-full items-start md:items-center justify-center"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
+

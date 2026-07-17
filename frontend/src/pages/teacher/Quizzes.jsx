@@ -156,20 +156,22 @@ export default function TeacherQuizzes() {
                     </td>
                     <td>{q.duration || 15} phút</td>
                     <td>{q.passing_score || 80}%</td>
-                    <td style={{ textAlign: 'right' }}>
-                      <Link
-                        className="btn btn-outline btn-sm"
-                        style={{ padding: '0.25rem 0.5rem', marginRight: '0.25rem' }}
-                        to={`/teacher/quizzes/${q.id}/questions`}
-                      >
-                        Câu hỏi
-                      </Link>
-                      <button className="btn btn-ghost btn-sm" onClick={() => openEditModal(q)}>
-                        ✏️
-                      </button>
-                      <button className="btn btn-ghost btn-sm" style={{ color: 'var(--danger)' }} onClick={() => handleDelete(q.id)}>
-                        ✕
-                      </button>
+                    <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                      <div style={{ display: 'inline-flex', gap: '0.25rem', justifyContent: 'flex-end', alignItems: 'center' }}>
+                        <Link
+                          className="btn btn-outline btn-sm"
+                          style={{ padding: '0.25rem 0.5rem' }}
+                          to={`/teacher/quizzes/${q.id}/questions`}
+                        >
+                          Câu hỏi
+                        </Link>
+                        <button className="btn btn-ghost btn-sm" style={{ padding: '0.25rem 0.5rem' }} onClick={() => openEditModal(q)}>
+                          ✏️
+                        </button>
+                        <button className="btn btn-ghost btn-sm" style={{ padding: '0.25rem 0.5rem', color: 'var(--danger)' }} onClick={() => handleDelete(q.id)}>
+                          ✕
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

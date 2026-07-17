@@ -13,12 +13,15 @@ use App\Controllers\QuizController;
 use App\Controllers\EnrollmentController;
 use App\Controllers\PaymentController;
 use App\Controllers\ProgressController;
+use App\Controllers\UploadController;
+use App\Controllers\ReportController;
 
 // ── Auth Endpoints ──────────────────────────────────────
-Router::post('/api/auth/login',      [AuthController::class, 'login']);
-Router::post('/api/auth/register',   [AuthController::class, 'register']);
-Router::post('/api/auth/logout',     [AuthController::class, 'logout']);
-Router::get('/api/auth/me',          [AuthController::class, 'me']);
+Router::post('/api/auth/login',           [AuthController::class, 'login']);
+Router::post('/api/auth/register',        [AuthController::class, 'register']);
+Router::post('/api/auth/logout',          [AuthController::class, 'logout']);
+Router::get('/api/auth/me',              [AuthController::class, 'me']);
+Router::post('/api/auth/change-password', [AuthController::class, 'changePassword']);
 
 // ── Users Management Endpoints ──────────────────────────
 Router::get('/api/users',            [UserController::class, 'index']);
@@ -72,3 +75,9 @@ Router::get('/api/payments/check',   [PaymentController::class, 'check']);
 // ── Progress Endpoints ─────────────────────────────────────────────────────────────────────────────────
 Router::get('/api/progress',         [ProgressController::class, 'index']);
 Router::post('/api/progress',        [ProgressController::class, 'update']);
+
+// ── Upload Endpoints ──────────────────────────────────────────────────────────────────────────────────
+Router::post('/api/upload',          [UploadController::class, 'upload']);
+
+// ── Report Endpoints (Admin) ───────────────────────────────────────────────────────────────────────────
+Router::get('/api/reports/summary',  [ReportController::class, 'summary']);

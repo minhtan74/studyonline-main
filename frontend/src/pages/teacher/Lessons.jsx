@@ -4,6 +4,7 @@ import { useToast } from '../../hooks/useToast';
 import { courseService } from '../../services/courseService';
 import { chapterService } from '../../services/chapterService';
 import { lessonService } from '../../services/lessonService';
+import { uploadFile } from '../../services/uploadService';
 import Modal from '../../components/common/Modal.jsx';
 import LessonPreviewModal from '../../components/teacher/LessonPreviewModal.jsx';
 
@@ -30,6 +31,32 @@ export default function TeacherLessons() {
 
   const [previewLesson, setPreviewLesson] = useState(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+
+  // Upload state: { video: {pct, uploading}, document: {pct, uploading} }
+  const [uploadState, setUploadState] = useState({ video: { pct: 0, uploading: false }, document: { pct: 0, uploading: false } });
+
+  async function handleFileUpload(e, type) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = ''; // reset input
+    setUploadState((prev) => ({ ...prev, [type]: { pct: 0, uploading: true } }));
+    try {
+      const res = await uploadFile(file, type, (pct) =>
+        setUploadState((prev) => ({ ...prev, [type]: { pct, uploading: true } }))
+      );
+      if (res?.data?.success && res.data?.data?.url) {
+        const field = type === 'video' ? 'video_url' : 'document_url';
+        setForm((prev) => ({ ...prev, [field]: res.data.data.url }));
+        showToast('Upload thành công!', 'success');
+      } else {
+        showToast(res?.data?.message || 'Upload thất bại.', 'error');
+      }
+    } catch {
+      showToast('Lỗi kết nối khi upload file.', 'error');
+    } finally {
+      setUploadState((prev) => ({ ...prev, [type]: { pct: 0, uploading: false } }));
+    }
+  }
 
   // Load khóa học của giảng viên — select mặc định chọn khóa học đầu tiên,
   // giống hành vi populateCourseDropdowns() của bản gốc (không có option rỗng).
@@ -262,16 +289,18 @@ export default function TeacherLessons() {
                         <span className="badge badge-success">Active</span>
                       </td>
                       <td>{new Date().toLocaleDateString('vi-VN')}</td>
-                      <td style={{ textAlign: 'right' }}>
-                        <button className="btn btn-outline btn-sm" style={{ padding: '0.25rem 0.5rem', marginRight: '0.25rem' }} onClick={() => handlePreview(l.id)}>
-                          Xem trước
-                        </button>
-                        <button className="btn btn-ghost btn-sm" onClick={() => openEditModal(l)}>
-                          ✏️
-                        </button>
-                        <button className="btn btn-ghost btn-sm" style={{ color: 'var(--danger)' }} onClick={() => handleDelete(l.id)}>
-                          ✕
-                        </button>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>
+                        <div style={{ display: 'inline-flex', gap: '0.25rem', justifyContent: 'flex-end', alignItems: 'center' }}>
+                          <button className="btn btn-outline btn-sm" style={{ padding: '0.25rem 0.5rem' }} onClick={() => handlePreview(l.id)}>
+                            Xem trước
+                          </button>
+                          <button className="btn btn-ghost btn-sm" style={{ padding: '0.25rem 0.5rem' }} onClick={() => openEditModal(l)}>
+                            ✏️
+                          </button>
+                          <button className="btn btn-ghost btn-sm" style={{ padding: '0.25rem 0.5rem', color: 'var(--danger)' }} onClick={() => handleDelete(l.id)}>
+                            ✕
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -325,6 +354,35 @@ export default function TeacherLessons() {
                   value={form.video_url}
                   onChange={(e) => setForm({ ...form, video_url: e.target.value })}
                 />
+                {/* Upload từ máy */}
+                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <label
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                      padding: '0.3rem 0.75rem', borderRadius: 6, cursor: 'pointer',
+                      background: 'var(--surface-2,#1e293b)', border: '1px solid var(--border,#334155)',
+                      fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap',
+                      opacity: uploadState.video.uploading ? 0.5 : 1,
+                      pointerEvents: uploadState.video.uploading ? 'none' : 'auto',
+                    }}
+                  >
+                    🎬 Chọn video từ máy
+                    <input
+                      type="file"
+                      accept="video/mp4,video/webm,video/ogg,video/quicktime,.mkv"
+                      style={{ display: 'none' }}
+                      onChange={(e) => handleFileUpload(e, 'video')}
+                    />
+                  </label>
+                  {uploadState.video.uploading && (
+                    <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${uploadState.video.pct}%`, background: 'var(--primary)', transition: 'width 0.2s' }} />
+                    </div>
+                  )}
+                  {uploadState.video.uploading && (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.video.pct}%</span>
+                  )}
+                </div>
               </div>
               <div className="form-group">
                 <label className="form-label">Tài liệu PDF URL</label>
@@ -335,6 +393,35 @@ export default function TeacherLessons() {
                   value={form.document_url}
                   onChange={(e) => setForm({ ...form, document_url: e.target.value })}
                 />
+                {/* Upload từ máy */}
+                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <label
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
+                      padding: '0.3rem 0.75rem', borderRadius: 6, cursor: 'pointer',
+                      background: 'var(--surface-2,#1e293b)', border: '1px solid var(--border,#334155)',
+                      fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap',
+                      opacity: uploadState.document.uploading ? 0.5 : 1,
+                      pointerEvents: uploadState.document.uploading ? 'none' : 'auto',
+                    }}
+                  >
+                    📄 Chọn PDF từ máy
+                    <input
+                      type="file"
+                      accept="application/pdf,.pdf"
+                      style={{ display: 'none' }}
+                      onChange={(e) => handleFileUpload(e, 'document')}
+                    />
+                  </label>
+                  {uploadState.document.uploading && (
+                    <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
+                      <div style={{ height: '100%', width: `${uploadState.document.pct}%`, background: 'var(--accent)', transition: 'width 0.2s' }} />
+                    </div>
+                  )}
+                  {uploadState.document.uploading && (
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.document.pct}%</span>
+                  )}
+                </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.5rem' }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={() => setModalOpen(false)}>

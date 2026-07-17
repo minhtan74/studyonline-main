@@ -58,14 +58,6 @@ export default function TeacherTopbar({ onToggleSidebar }) {
         </div>
       </div>
       <div className="topbar-right">
-        <button className="btn-icon" type="button">
-          💬
-          <span className="notif-dot" style={{ background: 'var(--primary)' }}></span>
-        </button>
-        <button className="btn-icon notif-btn" type="button">
-          🔔
-          <span className="notif-dot"></span>
-        </button>
         <div className="topbar-avatar">{initials}</div>
       </div>
     </header>

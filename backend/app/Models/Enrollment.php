@@ -48,7 +48,7 @@ class Enrollment extends Model
             "SELECT e.*, u.fullname AS user_name, u.email AS user_email, c.title AS course_title, c.teacher_id, c.thumbnail, c.price,
                 (SELECT COUNT(*) FROM lessons l JOIN chapters ch ON l.chapter_id = ch.id WHERE ch.course_id = c.id) AS total_lessons,
                 (SELECT COUNT(*) FROM lesson_progress lp JOIN lessons l ON lp.lesson_id = l.id JOIN chapters ch ON l.chapter_id = ch.id WHERE ch.course_id = c.id AND lp.user_id = e.user_id AND lp.is_completed = 1) AS completed_lessons,
-                (SELECT ROUND(AVG(r.score * 100 / r.total)) FROM results r JOIN quizzes q ON r.quiz_id = q.id WHERE q.course_id = c.id AND r.user_id = e.user_id) AS avg_quiz_score
+                (SELECT ROUND(AVG(r.score * 100.0 / NULLIF(r.total, 0))) FROM results r JOIN quizzes q ON r.quiz_id = q.id WHERE q.course_id = c.id AND r.user_id = e.user_id) AS avg_quiz_score
              FROM enrollments e
              JOIN users u ON u.id = e.user_id
              JOIN courses c ON c.id = e.course_id
@@ -64,7 +64,7 @@ class Enrollment extends Model
             "SELECT e.*, u.fullname AS user_name, u.email AS user_email, c.title AS course_title, c.thumbnail, c.price,
                 (SELECT COUNT(*) FROM lessons l JOIN chapters ch ON l.chapter_id = ch.id WHERE ch.course_id = c.id) AS total_lessons,
                 (SELECT COUNT(*) FROM lesson_progress lp JOIN lessons l ON lp.lesson_id = l.id JOIN chapters ch ON l.chapter_id = ch.id WHERE ch.course_id = c.id AND lp.user_id = e.user_id AND lp.is_completed = 1) AS completed_lessons,
-                (SELECT ROUND(AVG(r.score * 100 / r.total)) FROM results r JOIN quizzes q ON r.quiz_id = q.id WHERE q.course_id = c.id AND r.user_id = e.user_id) AS avg_quiz_score
+                (SELECT ROUND(AVG(r.score * 100.0 / NULLIF(r.total, 0))) FROM results r JOIN quizzes q ON r.quiz_id = q.id WHERE q.course_id = c.id AND r.user_id = e.user_id) AS avg_quiz_score
              FROM enrollments e
              JOIN users u ON u.id = e.user_id
              JOIN courses c ON c.id = e.course_id

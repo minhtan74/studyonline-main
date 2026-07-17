@@ -21,7 +21,6 @@ import QuizShow from '../pages/QuizShow.jsx';
 import StudentDashboard from '../pages/student/Dashboard.jsx';
 import StudentCourses from '../pages/student/Courses.jsx';
 import StudentMyCourses from '../pages/student/MyCourses.jsx';
-import StudentCertificates from '../pages/student/Certificates.jsx';
 import StudentProfile from '../pages/student/Profile.jsx';
 import StudentProgress from '../pages/student/Progress.jsx';
 import StudentQuizResult from '../pages/student/QuizResult.jsx';
@@ -91,7 +90,6 @@ export default function AppRoutes() {
         <Route path="/student/dashboard" element={<StudentDashboard />} />
         <Route path="/student/courses" element={<StudentCourses />} />
         <Route path="/student/my-courses" element={<StudentMyCourses />} />
-        <Route path="/student/certificates" element={<StudentCertificates />} />
         <Route path="/student/profile" element={<StudentProfile />} />
         <Route path="/student/progress" element={<StudentProgress />} />
         <Route path="/student/quiz-result" element={<StudentQuizResult />} />

@@ -68,7 +68,6 @@ export default function TeacherStats() {
     });
     return sorted.slice(0, 3).map((c, i) => ({
       course: c,
-      rating: (4.9 - i * 0.1).toFixed(1),
       count: enrollments.filter((e) => e.course_id === c.id).length,
       rank: i + 1,
     }));
@@ -90,7 +89,7 @@ export default function TeacherStats() {
         </div>
       ) : (
         <>
-          <div className="grid grid-3" style={{ marginBottom: '2rem' }}>
+          <div className="grid grid-2" style={{ marginBottom: '2rem' }}>
             <div className="card" style={{ padding: '1.5rem', textAlign: 'center' }}>
               <span style={{ fontSize: '2.5rem' }}>🎓</span>
               <h3 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--primary)', margin: '0.5rem 0' }}>{completionRate}%</h3>
@@ -100,11 +99,6 @@ export default function TeacherStats() {
               <span style={{ fontSize: '2.5rem' }}>💵</span>
               <h3 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--success)', margin: '0.5rem 0' }}>{revenueDisplay}</h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Doanh thu tạm tính</p>
-            </div>
-            <div className="card" style={{ padding: '1.5rem', textAlign: 'center' }}>
-              <span style={{ fontSize: '2.5rem' }}>⭐</span>
-              <h3 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--warning)', margin: '0.5rem 0' }}>4.9 / 5</h3>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textTransform: 'uppercase' }}>Đánh giá giảng viên</p>
             </div>
           </div>
 
@@ -127,7 +121,7 @@ export default function TeacherStats() {
                 {topCourses.length === 0 && (
                   <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem', padding: '1rem' }}>Chưa có khóa học.</p>
                 )}
-                {topCourses.map(({ course, rating, count, rank }) => (
+                {topCourses.map(({ course, count, rank }) => (
                   <div
                     key={course.id}
                     style={{
@@ -141,7 +135,7 @@ export default function TeacherStats() {
                     <div>
                       <strong style={{ fontSize: '0.9rem' }}>{course.title}</strong>
                       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                        {count} học viên đăng ký | ⭐ {rating}
+                        {count} học viên đăng ký
                       </div>
                     </div>
                     <span className="badge badge-success" style={{ fontSize: '0.7rem' }}>

@@ -44,4 +44,25 @@ class User extends Model
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
         return $stmt->execute([$id]);
     }
+
+    /**
+     * Đổi mật khẩu — trả về false nếu mật khẩu hiện tại sai.
+     */
+    public function changePassword(int $id, string $oldPassword, string $newPassword): bool
+    {
+        // Lấy hash hiện tại
+        $stmt = $this->db->prepare("SELECT password FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch();
+        if (!$row) return false;
+
+        $stored = $row['password'];
+        // Hỗ trợ cả plain-text (dữ liệu mẫu) lẫn bcrypt
+        $correct = ($oldPassword === $stored) || password_verify($oldPassword, $stored);
+        if (!$correct) return false;
+
+        $hashed = password_hash($newPassword, PASSWORD_DEFAULT);
+        $stmt2 = $this->db->prepare("UPDATE users SET password = ? WHERE id = ?");
+        return $stmt2->execute([$hashed, $id]);
+    }
 }

@@ -4,6 +4,7 @@ import { courseService } from '../services/courseService';
 import { chapterService } from '../services/chapterService';
 import { lessonService } from '../services/lessonService';
 import { progressService } from '../services/progressService';
+import { isYoutubeUrl, getEmbedUrl } from '../utils/videoUrl';
 
 /** Tương đương _legacy/pages/lesson.html (logic inline trong file đó, lessons.js là dead code) */
 export default function Lesson() {
@@ -204,16 +205,29 @@ export default function Lesson() {
           {/* Video / Placeholder */}
           <div className="l-video-container">
             {lesson.video_url ? (
-              <video
-                id="lessonVideo"
-                ref={videoRef}
-                controls
-                src={`/studyonline/frontend/uploads/videos/${lesson.video_url}`}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleEnded}
-              >
-                Trình duyệt của bạn không hỗ trợ phát video.
-              </video>
+              isYoutubeUrl(lesson.video_url) ? (
+                /* ── YouTube: dùng iframe với URL embed đã chuẩn hoá ── */
+                <iframe
+                  id="lessonVideo"
+                  src={getEmbedUrl(lesson.video_url)}
+                  title={lesson.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  style={{ width: '100%', height: '100%', border: 'none', borderRadius: '12px' }}
+                />
+              ) : (
+                /* ── Video local / CDN: dùng thẻ <video> HTML5 ── */
+                <video
+                  id="lessonVideo"
+                  ref={videoRef}
+                  controls
+                  src={lesson.video_url}
+                  onTimeUpdate={handleTimeUpdate}
+                  onEnded={handleEnded}
+                >
+                  Trình duyệt của bạn không hỗ trợ phát video.
+                </video>
+              )
             ) : (
               <div className="l-video-placeholder">
                 <span className="icon">📄</span>
@@ -296,7 +310,7 @@ export default function Lesson() {
                       </div>
                     </div>
                     <a
-                      href={`/studyonline/frontend/uploads/documents/${lesson.document_url}`}
+                      href={lesson.document_url}
                       target="_blank"
                       rel="noreferrer"
                       download

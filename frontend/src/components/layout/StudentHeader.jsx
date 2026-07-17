@@ -14,11 +14,11 @@ export default function StudentHeader({ onToggleSidebar }) {
 
   const initials = user?.fullname
     ? user.fullname
-        .split(' ')
-        .map((w) => w[0])
-        .slice(-2)
-        .join('')
-        .toUpperCase()
+      .split(' ')
+      .map((w) => w[0])
+      .slice(-2)
+      .join('')
+      .toUpperCase()
     : '?';
   const displayName = user?.fullname?.split(' ').pop() || 'Học viên';
 
@@ -33,9 +33,6 @@ export default function StudentHeader({ onToggleSidebar }) {
         ☰
       </button>
       <div className="s-header-actions">
-        <button className="s-icon-btn" title="Thông báo">
-          🔔<span className="s-notif-badge"></span>
-        </button>
         <div
           className="s-avatar-wrap"
           id="avatarWrap"

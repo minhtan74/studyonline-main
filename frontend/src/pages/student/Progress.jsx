@@ -87,7 +87,7 @@ export default function Progress() {
             </div>
           </div>
           <div className="s-stat-value" style={{ color: '#8B5CF6' }} id="pHours">
-            {loading ? '24h' : hoursLabel}
+            {loading ? '—' : hoursLabel}
           </div>
           <div className="s-stat-label">Tổng thời gian học</div>
         </div>

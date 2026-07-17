@@ -1,17 +1,9 @@
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { Link, NavLink } from 'react-router-dom';
 
 const navClass = ({ isActive }) => 's-nav-item' + (isActive ? ' active' : '');
 
 /** Tương đương <aside class="s-sidebar"> trong các trang student cũ */
 export default function StudentSidebar({ collapsed, mobileOpen }) {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  function handleLogout() {
-    logout();
-    navigate('/');
-  }
 
   return (
     <aside
@@ -43,19 +35,7 @@ export default function StudentSidebar({ collapsed, mobileOpen }) {
           <span className="nav-icon">📝</span>
           <span className="nav-label">Quiz</span>
         </NavLink>
-        <NavLink className={navClass} to="/student/certificates">
-          <span className="nav-icon">🏆</span>
-          <span className="nav-label">Chứng chỉ</span>
-        </NavLink>
-        <div className="s-nav-divider"></div>
-        <NavLink className={navClass} to="/student/profile">
-          <span className="nav-icon">👤</span>
-          <span className="nav-label">Hồ sơ cá nhân</span>
-        </NavLink>
-        <button className="s-nav-item" onClick={handleLogout}>
-          <span className="nav-icon">🚪</span>
-          <span className="nav-label">Đăng xuất</span>
-        </button>
+
       </nav>
     </aside>
   );
