@@ -1,8 +1,8 @@
 # StudyOnline — Hệ thống Quản lý Học tập Trực tuyến (LMS)
 
-Hệ thống quản lý học tập trực tuyến **StudyOnline**: Backend viết bằng **PHP** (REST API thuần, không framework) và Frontend là ứng dụng **React (Vite)**. Hai phần giao tiếp với nhau hoàn toàn qua API JSON — không phụ thuộc lẫn nhau về mã nguồn, có thể triển khai độc lập.
+Hệ thống quản lý học tập trực tuyến **StudyOnline**: Backend viết bằng **Node.js/Express + Sequelize** (REST API, JWT, Swagger) và Frontend là ứng dụng **React (Vite)**. Hai phần giao tiếp với nhau hoàn toàn qua API JSON — không phụ thuộc lẫn nhau về mã nguồn, có thể triển khai độc lập.
 
-> Dự án còn giữ lại một phiên bản **Classic MVC (Monolithic)** cũ hơn (`app/`, `core/`, `public/`) và bản Frontend HTML/CSS/JS thuần trước khi chuyển sang React (`legacy-frontend-vanilla-backup/`) để tham khảo/đối chiếu. Hai phần này **không còn được phát triển tiếp**, chỉ giữ làm tư liệu.
+> Dự án còn giữ lại một phiên bản **Classic MVC (Monolithic)** cũ hơn (`app/`, `core/`, `public/`), bản Frontend HTML/CSS/JS thuần trước khi chuyển sang React (`legacy-frontend-vanilla-backup/`), và bản **Backend PHP MVC gốc** (`backend-php-legacy/`, trước khi chuyển sang Node.js) để tham khảo/đối chiếu. Các phần này **không còn được phát triển tiếp**, chỉ giữ làm tư liệu.
 
 ---
 
@@ -30,17 +30,18 @@ studyonline/
 │   ├── package.json
 │   └── .env                     # VITE_API_BASE_URL trỏ tới backend
 │
-├── backend/                   # ⭐ Backend chính — REST API PHP thuần, JWT Authentication
-│   ├── app/
-│   │   ├── Controllers/         # Auth, User, Course, Chapter, Lesson, Quiz, Enrollment, Payment, Progress
-│   │   ├── Core/                 # Router, Request, Response
-│   │   ├── Middleware/           # AuthMiddleware, JwtMiddleware, RoleMiddleware
-│   │   ├── Models/
-│   │   └── Services/             # JwtService...
-│   ├── config/                   # app.php, database.php, jwt.php
-│   ├── public/                   # Điểm vào API duy nhất (index.php) + .htaccess (CORS, rewrite)
-│   ├── routes/api.php            # Toàn bộ định nghĩa route /api/...
-│   └── .env                      # Biến môi trường (DB, JWT secret, APP_URL)
+├── backend/                   # ⭐ Backend chính — Node.js/Express + Sequelize, JWT Authentication
+│   ├── config/                    # database.js (Sequelize), app.js, jwt.js
+│   ├── controllers/               # Auth, User, Course, Chapter, Lesson, Quiz, Enrollment, Payment, Progress, Upload, Report
+│   ├── middlewares/               # auth (JWT), role (RBAC), upload (Multer), notFound, errorHandler
+│   ├── models/                    # Sequelize models — map 1:1 vào các bảng MySQL hiện có
+│   ├── routes/                    # 1 file / resource, có JSDoc @swagger cho từng endpoint
+│   ├── services/                  # Business logic + query (raw SQL cho JOIN/aggregate phức tạp)
+│   ├── utils/                     # jwt.js, response.js, asyncHandler.js
+│   ├── docs/swagger/               # Cấu hình swagger-jsdoc → phục vụ tại /api-docs
+│   ├── public/uploads/             # File đã upload (video/document/image)
+│   ├── app.js / server.js
+│   └── .env                       # Biến môi trường (DB, JWT secret, PORT)
 │
 ├── database/                  # File CSDL SQL & dữ liệu mẫu
 │   ├── studyonline_db.sql
@@ -49,6 +50,7 @@ studyonline/
 │
 ├── app/ core/ public/          # [Legacy] Classic MVC monolithic — không còn phát triển tiếp
 ├── legacy-frontend-vanilla-backup/  # [Legacy] Frontend HTML/CSS/JS thuần trước khi chuyển React
+├── backend-php-legacy/         # [Legacy] Backend PHP MVC gốc trước khi chuyển sang Node.js
 └── README.md
 ```
 
@@ -84,7 +86,7 @@ Dự án hỗ trợ 3 phân quyền người dùng chính: **Admin**, **Teacher 
 Toàn bộ hệ thống dùng **JWT (JSON Web Token)**:
 - Đăng nhập/đăng ký trả về `token` + thông tin `user`, được lưu ở `localStorage` phía frontend.
 - Mọi request tới API được gắn tự động header `Authorization: Bearer <token>`.
-- Backend kiểm tra token qua `JwtMiddleware`/`RoleMiddleware` theo từng route (xem `backend/routes/api.php`).
+- Backend kiểm tra token qua middleware `authenticate`/`requireRole` theo từng route (xem `backend/routes/*.js`).
 - Token hết hạn hoặc không hợp lệ (401) → frontend tự xóa phiên đăng nhập và chuyển về trang `/login`.
 
 ---
@@ -92,9 +94,8 @@ Toàn bộ hệ thống dùng **JWT (JSON Web Token)**:
 ## 🛠️ Hướng dẫn Cài đặt & Chạy ứng dụng
 
 ### 1. Yêu cầu Hệ thống
-- **PHP** >= 8.0 (khuyến nghị dùng qua XAMPP/Laragon)
-- **MySQL / MariaDB**
-- **Node.js** >= 18 & npm (cho phần frontend React)
+- **Node.js** >= 18 & npm (cho cả Backend Express và Frontend React)
+- **MySQL / MariaDB** (khuyến nghị dùng qua XAMPP/Laragon — chỉ cần chạy MySQL, không cần Apache/PHP cho backend nữa)
 
 ### 2. Thiết lập Cơ sở Dữ liệu
 1. Mở công cụ quản lý CSDL (phpMyAdmin, DBeaver, HeidiSQL...).
@@ -110,12 +111,12 @@ Toàn bộ hệ thống dùng **JWT (JSON Web Token)**:
 > - **Mật khẩu**: `123456`
 
 ### 3. Chạy Backend (`/backend`)
-1. Đặt thư mục dự án trong `htdocs` của XAMPP (đường dẫn ví dụ: `http://localhost/studyonline/backend/public`).
-2. Kiểm tra/sửa file `backend/.env`:
+1. Kiểm tra/sửa file `backend/.env` cho khớp với MySQL trên máy bạn:
    ```ini
    APP_ENV=local
    APP_DEBUG=true
    APP_URL=http://localhost/studyonline
+   PORT=8000
 
    DB_HOST=127.0.0.1
    DB_PORT=3307
@@ -126,9 +127,14 @@ Toàn bộ hệ thống dùng **JWT (JSON Web Token)**:
    JWT_SECRET=studyonline_super_secret_key_2026
    JWT_EXPIRE=604800
    ```
-   > Lưu ý cổng MySQL trong ví dụ trên là `3307` (thường dùng khi máy có nhiều bản MySQL) — đổi lại `3306` nếu XAMPP của bạn dùng cổng mặc định.
-3. Bật Apache + MySQL trong XAMPP. Đảm bảo `mod_rewrite` và hỗ trợ `.htaccess` được bật (file `.htaccess` đã có sẵn trong `backend/public/`).
-4. Kiểm tra API hoạt động: truy cập `http://localhost/studyonline/backend/public/api/courses` — phải trả về JSON.
+   > Lưu ý cổng MySQL trong ví dụ trên là `3307` (thường dùng khi máy có nhiều bản MySQL) — đổi lại `3306` nếu MySQL của bạn dùng cổng mặc định.
+2. Bật MySQL (XAMPP/Laragon...). Sau đó cài đặt và khởi chạy server:
+   ```bash
+   cd backend
+   npm install
+   npm run dev
+   ```
+3. Backend sẽ chạy tại `http://localhost:8000`. Kiểm tra API hoạt động: truy cập `http://localhost:8000/api/courses` — phải trả về JSON. Xem tài liệu Swagger đầy đủ tại `http://localhost:8000/api-docs`.
 
 ### 4. Chạy Frontend React (`/frontend`)
 ```bash
@@ -140,7 +146,7 @@ Mặc định Vite chạy tại `http://localhost:5173`.
 
 Kiểm tra file `frontend/.env`, đảm bảo trỏ đúng tới backend:
 ```ini
-VITE_API_BASE_URL=http://localhost/studyonline/backend/public
+VITE_API_BASE_URL=http://localhost:8000
 ```
 
 Mở trình duyệt tại `http://localhost:5173` để sử dụng ứng dụng.

@@ -1,8 +1,10 @@
 # Hướng Dẫn Chạy Dự Án StudyOnline 🚀
 
 Dự án này gồm 2 phần độc lập (Decoupled):
-1. **Backend**: REST API viết bằng PHP (không cần Composer, dùng auto-loader tự chế).
+1. **Backend**: REST API viết bằng Node.js/Express + Sequelize (JWT, Multer, Swagger tại `/api-docs`).
 2. **Frontend**: Giao diện Single Page App sử dụng React, Vite và TailwindCSS v4.
+
+> Bản Backend PHP MVC gốc vẫn còn giữ lại tại `backend-php-legacy/` để tham khảo/đối chiếu, không còn được dùng để chạy hệ thống.
 
 ---
 
@@ -41,12 +43,13 @@ DB_PASS=""           # Thêm mật khẩu nếu MySQL của bạn có set passwo
 ```
 
 ### 2. Chạy Server Backend:
-Mở một Terminal mới, di chuyển vào thư mục `backend` và khởi chạy máy chủ PHP:
+Mở một Terminal mới, di chuyển vào thư mục `backend`, cài đặt dependencies và khởi chạy máy chủ Node.js:
 ```bash
 cd backend
-php -S localhost:8000 -t public
+npm install
+npm run dev
 ```
-*Lúc này, API Backend sẽ chạy tại địa chỉ: **`http://localhost:8000`***
+*Lúc này, API Backend sẽ chạy tại địa chỉ: **`http://localhost:8000`** (Swagger UI tại `http://localhost:8000/api-docs`)*
 
 ---
 
