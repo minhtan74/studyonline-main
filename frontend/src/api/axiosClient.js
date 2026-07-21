@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://103.195.239.128:8000/api';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const TOKEN_KEY = 'token';
 export const USER_KEY = 'user';
@@ -46,7 +46,7 @@ axiosClient.interceptors.response.use(
     if (error.response) {
       const { status, data, config } = error.response;
       const path = config?.url || '';
-      if (status === 401 && !path.startsWith('/api/auth/')) {
+      if (status === 401 && !path.startsWith('/auth/')) {
         clearAuthStorage();
         window.location.href = '/login';
         return new Promise(() => {});

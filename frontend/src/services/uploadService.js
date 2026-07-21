@@ -12,7 +12,7 @@ export function uploadFile(file, type = 'document', onProgress) {
   formData.append('file', file);
   formData.append('type', type);
 
-  return axiosClient.post('/api/upload', formData, {
+  return axiosClient.post('/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: (event) => {
       if (onProgress && event.total) {
