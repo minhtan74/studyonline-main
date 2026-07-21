@@ -1,28 +1,21 @@
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const databaseUrl = process.env.DATABASE_URL;
+const host = process.env.DB_HOST || '127.0.0.1';
+const port = process.env.DB_PORT || '3307';
+const database = process.env.DB_NAME || 'studyonline_db';
+const username = process.env.DB_USER || 'root';
+const password = process.env.DB_PASS || '';
 
-const commonOptions = {
+const sequelize = new Sequelize(database, username, password, {
+  host,
+  port,
   dialect: 'mysql',
   logging: false,
   define: {
     timestamps: false,
     freezeTableName: true,
   },
-};
-
-const sequelize = databaseUrl
-  ? new Sequelize(databaseUrl, commonOptions)
-  : new Sequelize(
-      process.env.DB_NAME || 'studyonline_db',
-      process.env.DB_USER || 'root',
-      process.env.DB_PASS || '',
-      {
-        host: process.env.DB_HOST || '127.0.0.1',
-        port: Number.parseInt(process.env.DB_PORT, 10) || 3307,
-        ...commonOptions,
-      }
-    );
+});
 
 module.exports = sequelize;
