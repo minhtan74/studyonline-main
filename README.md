@@ -128,6 +128,7 @@ Toàn bộ hệ thống dùng **JWT (JSON Web Token)**:
    JWT_EXPIRE=604800
    ```
    > Lưu ý cổng MySQL trong ví dụ trên là `3307` (thường dùng khi máy có nhiều bản MySQL) — đổi lại `3306` nếu MySQL của bạn dùng cổng mặc định.
+   > Khi deploy lên production, không dùng `127.0.0.1` nữa. Hãy tạo một database MySQL bên ngoài (Railway, PlanetScale, Render, Aiven, Supabase MySQL, v.v.) rồi set biến `DATABASE_URL` hoặc bộ `DB_HOST`/`DB_PORT`/`DB_NAME`/`DB_USER`/`DB_PASS` trong dashboard của nơi deploy.
 2. Bật MySQL (XAMPP/Laragon...). Sau đó cài đặt và khởi chạy server:
    ```bash
    cd backend
