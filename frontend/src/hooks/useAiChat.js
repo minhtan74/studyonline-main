@@ -7,8 +7,6 @@ const isOldError = (text) => String(text || '').startsWith('[Lỗi gọi LLM');
 // Dùng chung ở AI Tutor và bài học: mỗi trang chỉ có một lượt đang chờ, phản hồi cũ không ghi đè trang mới.
 export function useAiChat({ scopeKey, setMessages, onConversationId }) {
   const [sending, setSending] = useState(false);
-  const [startedAt, setStartedAt] = useState(null);
-  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [feedback, setFeedback] = useState(null);
   const activeRef = useRef(null);
   const lastAttemptRef = useRef(null);
@@ -28,8 +26,6 @@ export function useAiChat({ scopeKey, setMessages, onConversationId }) {
     invalidate();
     lastAttemptRef.current = null;
     setSending(false);
-    setStartedAt(null);
-    setElapsedSeconds(0);
     setFeedback(null);
   }, [invalidate]);
 
@@ -38,22 +34,12 @@ export function useAiChat({ scopeKey, setMessages, onConversationId }) {
     return invalidate;
   }, [scopeKey, reset, invalidate]);
 
-  useEffect(() => {
-    if (startedAt == null) return;
-    const tick = () => setElapsedSeconds(Math.max(0, Math.floor((Date.now() - startedAt) / 1000)));
-    tick();
-    const timer = setInterval(tick, 1000);
-    return () => clearInterval(timer);
-  }, [startedAt]);
-
   const run = useCallback((attempt) => {
     if (activeRef.current) return false;
     const active = { controller: new AbortController(), scope: scopeRef.current, attempt };
     activeRef.current = active;
     lastAttemptRef.current = attempt;
     setSending(true);
-    setStartedAt(Date.now());
-    setElapsedSeconds(0);
     setFeedback(null);
     optionsRef.current.setMessages((prev) => prev.some((m) => m._turnId === attempt.turnId) ? prev
       : [...prev, { role: 'user', content: attempt.payload.message, _turnId: attempt.turnId }]);
@@ -73,7 +59,6 @@ export function useAiChat({ scopeKey, setMessages, onConversationId }) {
       }
       activeRef.current = null;
       setSending(false);
-      setStartedAt(null);
 
       if (!res?.ok || res?.data?.success === false || !data?.answer || data.response_status === 'error' || isOldError(data.answer)) {
         const timedOut = res?.timedOut || res?.status === 504;
@@ -110,7 +95,6 @@ export function useAiChat({ scopeKey, setMessages, onConversationId }) {
     if (!active) return;
     invalidate();
     setSending(false);
-    setStartedAt(null);
     setFeedback({ kind: 'stopped', message: 'Bạn đã dừng chờ. Câu hỏi vẫn được giữ để sửa hoặc gửi lại.',
       question: active.attempt.payload.message, retryable: true, mayFinish: true });
   }, [invalidate]);
@@ -132,5 +116,5 @@ export function useAiChat({ scopeKey, setMessages, onConversationId }) {
     optionsRef.current.setMessages(saved);
   }, [reset]);
 
-  return { sending, elapsedSeconds, feedback, sendMessage, retry, stop, reset, loadHistory };
+  return { sending, feedback, sendMessage, retry, stop, reset, loadHistory };
 }

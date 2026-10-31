@@ -1,0 +1,498 @@
+{
+  "mode": "read_only_real_database_in_process_identity_override",
+  "checks": [
+    {
+      "role": "student",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "ms": 19,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/courses",
+      "status": 200,
+      "expected": 200,
+      "ms": 36,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/enrollments?ids_only=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 14,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/progress?weekly=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/progress?recent=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/quizzes",
+      "status": 200,
+      "expected": 200,
+      "ms": 67,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/quizzes/results",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/analytics/overview",
+      "status": 200,
+      "expected": 200,
+      "ms": 11,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/analytics/topics",
+      "status": 200,
+      "expected": 200,
+      "ms": 27,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/recommendations",
+      "status": 200,
+      "expected": 200,
+      "ms": 125,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/recommendations/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 12,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/payments",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/ai/conversations",
+      "status": 200,
+      "expected": 200,
+      "ms": 9,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/ai/status",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/users",
+      "status": 403,
+      "expected": 403,
+      "ms": 3,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/reports/summary",
+      "status": 403,
+      "expected": 403,
+      "ms": 3,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/chapters?course_id=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/courses/materials?course_id=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 9,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/recommendations?course_id=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 37,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/lessons?id=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "student",
+      "path": "/api/quizzes/results?id=302",
+      "status": 200,
+      "expected": 200,
+      "ms": 16,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "ms": 3,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/courses",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/enrollments?ids_only=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress?weekly=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress?recent=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/quizzes",
+      "status": 200,
+      "expected": 200,
+      "ms": 82,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/quizzes/results",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/analytics/overview",
+      "status": 200,
+      "expected": 200,
+      "ms": 9,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/analytics/topics",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/recommendations",
+      "status": 200,
+      "expected": 200,
+      "ms": 16,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/recommendations/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/payments",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/ai/conversations",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/ai/status",
+      "status": 200,
+      "expected": 200,
+      "ms": 4,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "ms": 4,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/courses",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/enrollments?ids_only=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/progress?weekly=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/progress?recent=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/quizzes",
+      "status": 200,
+      "expected": 200,
+      "ms": 94,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/quizzes/results",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/analytics/overview",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/analytics/topics",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/recommendations",
+      "status": 200,
+      "expected": 200,
+      "ms": 13,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/recommendations/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/payments",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/ai/conversations",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/ai/status",
+      "status": 200,
+      "expected": 200,
+      "ms": 2,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/users",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/reports/summary",
+      "status": 200,
+      "expected": 200,
+      "ms": 22,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/reports/learning",
+      "status": 200,
+      "expected": 200,
+      "ms": 112,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/payments/manage",
+      "status": 200,
+      "expected": 200,
+      "ms": 32,
+      "ok": true
+    },
+    {
+      "role": "guest",
+      "path": "/api/health",
+      "status": 200,
+      "expected": 200,
+      "ms": 2,
+      "ok": true
+    },
+    {
+      "role": "guest",
+      "path": "/api/courses",
+      "status": 200,
+      "expected": 200,
+      "ms": 23,
+      "ok": true
+    },
+    {
+      "role": "guest",
+      "path": "/api/auth/me",
+      "status": 401,
+      "expected": 401,
+      "ms": 2,
+      "ok": true
+    },
+    {
+      "role": "guest",
+      "path": "/api/quizzes/results",
+      "status": 401,
+      "expected": 401,
+      "ms": 2,
+      "ok": true
+    }
+  ],
+  "errors": [],
+  "config": {
+    "runtime_mysql": true,
+    "debug_off": true,
+    "llm_key_configured": true,
+    "vnpay_configured": true
+  },
+  "lesson_files": {
+    "checked": 137,
+    "missing": []
+  },
+  "schema": "0024_question_evidence",
+  "passed": 60
+}

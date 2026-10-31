@@ -44,14 +44,14 @@ def protected_path(url: str | None) -> str | None:
 
 
 # Tạo chữ ký HMAC-SHA256 cho bộ (user, bài học, loại file, hạn dùng) bằng khóa JWT_SECRET
-def _sig(uid: int, lesson_id: int, kind: str, exp: int) -> str:
-    msg = f"{uid}:{lesson_id}:{kind}:{exp}".encode()
+def _sig(uid: int, lesson_id: int, kind: str, exp: int, version: int = 0) -> str:
+    msg = f"{uid}:{lesson_id}:{kind}:{exp}:{version}".encode()
     return hmac.new(settings.jwt_secret.encode(), msg, hashlib.sha256).hexdigest()
 
 
 # Link hợp lệ khi chưa hết hạn và chữ ký khớp (compare_digest chống dò chữ ký theo thời gian so sánh)
-def verify(uid: int, lesson_id: int, kind: str, exp: int, sig: str) -> bool:
-    return exp >= int(time.time()) and hmac.compare_digest(_sig(uid, lesson_id, kind, exp), sig or "")
+def verify(uid: int, lesson_id: int, kind: str, exp: int, sig: str, version: int = 0) -> bool:
+    return exp >= int(time.time()) and hmac.compare_digest(_sig(uid, lesson_id, kind, exp, version), sig or "")
 
 
 def signed_src(user: dict | None, lesson: dict, kind: str) -> str | None:
@@ -70,6 +70,6 @@ def signed_src(user: dict | None, lesson: dict, kind: str) -> str | None:
     exp = int(time.time()) + LINK_TTL_SEC
     query = urlencode(
         {"lesson_id": lesson["id"], "kind": kind, "uid": user["id"], "exp": exp,
-         "sig": _sig(user["id"], lesson["id"], kind, exp)}
+         "sig": _sig(user["id"], lesson["id"], kind, exp, user.get("token_version", 0))}
     )
     return f"{settings.public_base_url.rstrip('/')}/api/lessons/media?{query}"

@@ -42,7 +42,7 @@ Tổng các bản toàn khóa: **402 trang**, gồm phần gốc, **101 trang b�
 
 Giữ toàn bộ PDF gốc, document và chunk cũ. Với 65 bài có index tài liệu chính, chỉ thêm index phụ lục; 36 bài trước đó chưa có index theo bài được index cả bản PDF. Phần bổ sung được ghi cùng URL mới trong một transaction. Có manifest và lệnh rollback để khôi phục riêng edition.
 
-Khóa `PYTEST Course` và bài thử nghiệm #365 được loại khỏi bộ giáo trình. Đây là dữ liệu test, không phải khóa giảng dạy được bổ sung. Kết quả đã áp dụng cho database local; Docker/database khác cần áp dụng riêng theo quy trình.
+Khóa `PYTEST Course` và bài thử nghiệm #365 được loại khỏi bộ giáo trình. Đây là dữ liệu test, không phải khóa giảng dạy được bổ sung. Kết quả đã áp dụng cho database local; Database ở máy khác cần áp dụng riêng theo quy trình.
 
 ## Nguồn, nhật ký và cách dựng lại
 

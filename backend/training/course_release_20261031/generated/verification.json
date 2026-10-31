@@ -1,0 +1,410 @@
+{
+  "protected_data_unchanged": true,
+  "authentication": "temporary_student_fixture_transaction_rolled_back",
+  "documents": [
+    {
+      "id": 208,
+      "title": "Sổ tay học tập và dự án cuối khóa — Python Cơ Bản Cho Người Mới Bắt Đầu",
+      "pages": 4,
+      "http": 200,
+      "chunks": 32
+    },
+    {
+      "id": 209,
+      "title": "Sổ tay học tập và dự án cuối khóa — JavaScript Từ Zero Đến Hero",
+      "pages": 4,
+      "http": 200,
+      "chunks": 32
+    },
+    {
+      "id": 210,
+      "title": "Sổ tay học tập và dự án cuối khóa — Lập Trình Java Căn Bản",
+      "pages": 4,
+      "http": 200,
+      "chunks": 32
+    },
+    {
+      "id": 211,
+      "title": "Sổ tay học tập và dự án cuối khóa — HTML & CSS Nhập Môn",
+      "pages": 4,
+      "http": 200,
+      "chunks": 33
+    },
+    {
+      "id": 212,
+      "title": "Sổ tay học tập và dự án cuối khóa — ReactJS Chuyên Sâu",
+      "pages": 4,
+      "http": 200,
+      "chunks": 33
+    },
+    {
+      "id": 213,
+      "title": "Sổ tay học tập và dự án cuối khóa — MySQL & Thiết Kế Cơ Sở Dữ Liệu",
+      "pages": 4,
+      "http": 200,
+      "chunks": 33
+    },
+    {
+      "id": 214,
+      "title": "Sổ tay học tập và dự án cuối khóa — Nguyên Lí HDH",
+      "pages": 4,
+      "http": 200,
+      "chunks": 29
+    },
+    {
+      "id": 215,
+      "title": "Sổ tay học tập và dự án cuối khóa — Mạng máy tính cơ bản",
+      "pages": 5,
+      "http": 200,
+      "chunks": 34
+    },
+    {
+      "id": 216,
+      "title": "Sổ tay học tập và dự án cuối khóa — Cấu trúc dữ liệu và giải thuật cơ bản",
+      "pages": 4,
+      "http": 200,
+      "chunks": 32
+    },
+    {
+      "id": 217,
+      "title": "Sổ tay học tập và dự án cuối khóa — Kiểm thử phần mềm nhập môn",
+      "pages": 5,
+      "http": 200,
+      "chunks": 38
+    },
+    {
+      "id": 218,
+      "title": "Sổ tay và dự án cuối khóa — Git & GitHub: quản lý phiên bản và cộng tác thực hành",
+      "pages": 4,
+      "http": 200,
+      "chunks": 26
+    },
+    {
+      "id": 219,
+      "title": "Chương 1 — Bài 1: Repository, commit và ba vùng dữ liệu",
+      "pages": 3,
+      "http": 200,
+      "chunks": 17
+    },
+    {
+      "id": 220,
+      "title": "Chương 1 — Bài 2: Danh tính, cấu hình và commit có mục đích",
+      "pages": 3,
+      "http": 200,
+      "chunks": 19
+    },
+    {
+      "id": 221,
+      "title": "Chương 2 — Bài 1: Diff, lịch sử và truy vết một thay đổi",
+      "pages": 3,
+      "http": 200,
+      "chunks": 18
+    },
+    {
+      "id": 222,
+      "title": "Chương 2 — Bài 2: Gitignore, cấu trúc file và dữ liệu nhạy cảm",
+      "pages": 3,
+      "http": 200,
+      "chunks": 19
+    },
+    {
+      "id": 223,
+      "title": "Chương 3 — Bài 1: Thiết kế nhánh tính năng và hợp nhất có kiểm tra",
+      "pages": 3,
+      "http": 200,
+      "chunks": 18
+    },
+    {
+      "id": 224,
+      "title": "Chương 3 — Bài 2: Giải quyết xung đột theo yêu cầu nội dung",
+      "pages": 3,
+      "http": 200,
+      "chunks": 20
+    },
+    {
+      "id": 225,
+      "title": "Chương 4 — Bài 1: Clone, fetch và trao đổi qua remote local",
+      "pages": 3,
+      "http": 200,
+      "chunks": 18
+    },
+    {
+      "id": 226,
+      "title": "Chương 4 — Bài 2: GitHub, quyền truy cập và hồ sơ thay đổi",
+      "pages": 3,
+      "http": 200,
+      "chunks": 19
+    },
+    {
+      "id": 227,
+      "title": "Chương 5 — Bài 1: Review, kiểm tra tự động và bằng chứng",
+      "pages": 3,
+      "http": 200,
+      "chunks": 17
+    },
+    {
+      "id": 228,
+      "title": "Chương 5 — Bài 2: Sửa sai bằng commit bổ sung và revert",
+      "pages": 3,
+      "http": 200,
+      "chunks": 18
+    },
+    {
+      "id": 229,
+      "title": "Chương 6 — Bài 1: Tag, ghi chú phát hành và bàn giao tái tạo",
+      "pages": 3,
+      "http": 200,
+      "chunks": 17
+    },
+    {
+      "id": 230,
+      "title": "Chương 6 — Bài 2: Dự án Study Notes và đánh giá hoàn thành",
+      "pages": 3,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 231,
+      "title": "Sổ tay và dự án cuối khóa — Python hướng đối tượng: từ mô hình đến ứng dụng CLI",
+      "pages": 8,
+      "http": 200,
+      "chunks": 60
+    },
+    {
+      "id": 232,
+      "title": "Chương 1 — Bài 1: Từ yêu cầu nghiệp vụ đến lớp và đối tượng",
+      "pages": 3,
+      "http": 200,
+      "chunks": 23
+    },
+    {
+      "id": 233,
+      "title": "Chương 1 — Bài 2: Khởi tạo đối tượng hợp lệ và bảo vệ bất biến",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 234,
+      "title": "Chương 2 — Bài 1: Thuộc tính thực thể, thuộc tính lớp và dữ liệu dùng chung",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 235,
+      "title": "Chương 2 — Bài 2: Đóng gói bằng thuộc tính và property",
+      "pages": 3,
+      "http": 200,
+      "chunks": 23
+    },
+    {
+      "id": 236,
+      "title": "Chương 3 — Bài 1: Composition và phân chia trách nhiệm dịch vụ",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 237,
+      "title": "Chương 3 — Bài 2: Dataclass, đối tượng giá trị và biểu diễn dữ liệu",
+      "pages": 3,
+      "http": 200,
+      "chunks": 22
+    },
+    {
+      "id": 238,
+      "title": "Chương 4 — Bài 1: Kế thừa, ghi đè và hợp đồng thay thế",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 239,
+      "title": "Chương 4 — Bài 2: Đa hình, duck typing và lớp trừu tượng",
+      "pages": 4,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 240,
+      "title": "Chương 5 — Bài 1: Ngoại lệ nghiệp vụ và ranh giới xử lý lỗi",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 241,
+      "title": "Chương 5 — Bài 2: Kiểm thử đơn vị và thiết kế tình huống biên",
+      "pages": 3,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 242,
+      "title": "Chương 6 — Bài 1: Lưu JSON có phiên bản và tải lại dữ liệu hợp lệ",
+      "pages": 4,
+      "http": 200,
+      "chunks": 27
+    },
+    {
+      "id": 243,
+      "title": "Chương 6 — Bài 2: Tích hợp dự án thư viện CLI và nghiệm thu",
+      "pages": 3,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 244,
+      "title": "Sổ tay và dự án cuối khóa — Xây dựng API thực hành với FastAPI",
+      "pages": 10,
+      "http": 200,
+      "chunks": 75
+    },
+    {
+      "id": 245,
+      "title": "Chương 1 — Bài 1: HTTP, hợp đồng API và ứng dụng đầu tiên",
+      "pages": 3,
+      "http": 200,
+      "chunks": 23
+    },
+    {
+      "id": 246,
+      "title": "Chương 1 — Bài 2: Tham số đường dẫn, truy vấn và phân trang",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 247,
+      "title": "Chương 2 — Bài 1: Dữ liệu đầu vào với Pydantic 2",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 248,
+      "title": "Chương 2 — Bài 2: CRUD, mô hình phản hồi và lỗi nghiệp vụ",
+      "pages": 4,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 249,
+      "title": "Chương 3 — Bài 1: Dependency injection và tách trách nhiệm",
+      "pages": 3,
+      "http": 200,
+      "chunks": 22
+    },
+    {
+      "id": 250,
+      "title": "Chương 3 — Bài 2: Vòng đời tài nguyên và lựa chọn sync hoặc async",
+      "pages": 4,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 251,
+      "title": "Chương 4 — Bài 1: SQLite, truy vấn tham số và dữ liệu bền vững",
+      "pages": 4,
+      "http": 200,
+      "chunks": 26
+    },
+    {
+      "id": 252,
+      "title": "Chương 4 — Bài 2: Giao dịch, ràng buộc và xử lý xung đột",
+      "pages": 4,
+      "http": 200,
+      "chunks": 26
+    },
+    {
+      "id": 253,
+      "title": "Chương 5 — Bài 1: Xác thực Bearer và quyền sở hữu tài nguyên",
+      "pages": 4,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 254,
+      "title": "Chương 5 — Bài 2: Kiểm thử hợp đồng, quyền và cô lập dữ liệu",
+      "pages": 4,
+      "http": 200,
+      "chunks": 25
+    },
+    {
+      "id": 255,
+      "title": "Chương 6 — Bài 1: Cấu hình, nhật ký và chuẩn bị chạy cục bộ",
+      "pages": 3,
+      "http": 200,
+      "chunks": 24
+    },
+    {
+      "id": 256,
+      "title": "Chương 6 — Bài 2: Dự án tổng hợp Task API và nghiệm thu",
+      "pages": 4,
+      "http": 200,
+      "chunks": 29
+    }
+  ],
+  "courses": [
+    {
+      "id": 894,
+      "slug": "git-github-thuc-hanh",
+      "title": "Git & GitHub: quản lý phiên bản và cộng tác thực hành",
+      "chapters": 6,
+      "lessons": 12,
+      "quizzes": 19,
+      "questions": 180
+    },
+    {
+      "id": 895,
+      "slug": "python-huong-doi-tuong-thuc-hanh",
+      "title": "Python hướng đối tượng: từ mô hình đến ứng dụng CLI",
+      "chapters": 6,
+      "lessons": 12,
+      "quizzes": 19,
+      "questions": 180
+    },
+    {
+      "id": 896,
+      "slug": "fastapi-xay-dung-api-thuc-hanh",
+      "title": "Xây dựng API thực hành với FastAPI",
+      "chapters": 6,
+      "lessons": 12,
+      "quizzes": 19,
+      "questions": 180
+    }
+  ],
+  "examples": 26,
+  "project_tests": [
+    {
+      "course": "git-github-thuc-hanh",
+      "tests": 1,
+      "passed": true
+    },
+    {
+      "course": "python-huong-doi-tuong-thuc-hanh",
+      "tests": 10,
+      "passed": true
+    },
+    {
+      "course": "fastapi-xay-dung-api-thuc-hanh",
+      "tests": 8,
+      "passed": true
+    }
+  ],
+  "retrieval": [
+    {
+      "course_id": 894,
+      "chunks_found": 3
+    },
+    {
+      "course_id": 895,
+      "chunks_found": 3
+    },
+    {
+      "course_id": 896,
+      "chunks_found": 3
+    }
+  ]
+}

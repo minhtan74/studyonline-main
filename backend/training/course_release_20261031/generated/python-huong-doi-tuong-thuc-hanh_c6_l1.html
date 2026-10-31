@@ -1,0 +1,86 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Python hướng đối tượng: từ mô hình đến ứng dụng CLI</div><h1>Chương 6 — Bài 1: Lưu JSON có phiên bản và tải lại dữ liệu hợp lệ</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Tách định dạng lưu trữ khỏi cấu trúc đối tượng trong bộ nhớ.</li><li>Xác thực schema và dữ liệu khi tải JSON.</li><li>Lưu bằng file tạm và hiểu giới hạn một tiến trình.</li></ul>
+<p>Thời gian dự kiến: 120 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện học</h2>
+<ul><li>Tách định dạng lưu trữ khỏi cấu trúc đối tượng trong bộ nhớ.</li><li>Xác thực schema và dữ liệu khi tải JSON.</li><li>Lưu bằng file tạm và hiểu giới hạn một tiến trình.</li></ul>
+<p>Mỗi bài dành khoảng 100–150 phút gồm đọc, chạy mã, sửa ví dụ và tự luyện. Dùng Python 3.12 trở lên trong một thư mục học riêng; các ví dụ chỉ dùng thư viện chuẩn. Tạo file <code>example.py</code>, chép nguyên khối mã rồi chạy <code>python example.py</code>. Trên Windows có thể dùng <code>py -3.12 example.py</code> khi lệnh <code>python</code> trỏ tới bản khác. Không ghép các lớp cùng tên của nhiều bài vào một file: mỗi ví dụ là một chương trình độc lập.</p>
+<h2>Giải thích và lập luận thiết kế</h2>
+<p>Dữ liệu trong đối tượng mất khi tiến trình kết thúc. Ta cần một định dạng có thể đọc lại, kiểm tra được và đủ rõ để nâng cấp. JSON phù hợp bài nhỏ vì biểu diễn được dict, list, chuỗi và số. Ta chọn cấu trúc {schema_version: 1, books: [...]} và mapping tường minh cho từng trường; không lưu thẳng __dict__ vì thêm thuộc tính nội bộ có thể làm định dạng đổi ngoài ý muốn.</p>
+<p>Tải file là một ranh giới đầu vào khác. File có thể bị sửa tay, hỏng cú pháp hoặc chứa giá trị sai dù JSON hợp lệ. Kiểm tra root là dict, version đúng, books là list, từng bản ghi có trường bắt buộc và mọi mã duy nhất. Khởi tạo Book qua cùng quy tắc bất biến của ứng dụng để available âm bị từ chối. Cần phân biệt file chưa tồn tại lần đầu với file có tồn tại nhưng sai: không âm thầm biến file hỏng thành thư viện rỗng rồi ghi đè mất dữ liệu.</p>
+<p>Ghi file tạm ở cùng thư mục rồi thay file đích giúp tránh để lại file đích bị cắt nửa trong một số lỗi ghi. Nó không tự tạo giao dịch nhiều tiến trình, không khóa hai phiên CLI cùng sửa và không bảo đảm tồn tại sau mọi sự cố phần cứng. Bài này giới hạn một người chạy một lệnh tại một thời điểm, dữ liệu nhỏ và có bản sao lưu thủ công trước khi thử file hỏng. Yêu cầu nhiều người dùng nên chuyển sang cơ chế lưu có giao dịch và kiểm soát đồng thời.</p>
+<p>Mã ví dụ dùng TemporaryDirectory để mọi file thử nằm trong một vùng tạm được dọn sau khi kết thúc. Trong dự án hoàn chỉnh, đường dẫn dữ liệu do người dùng chỉ định và lỗi đọc/ghi cần được trình bày rõ. Không kiểm tra tải JSON từ nguồn không tin cậy không giới hạn; ví dụ dự án đặt giới hạn kích thước file để tránh vô tình đọc dữ liệu quá lớn cho bài tự học.</p>
+<h2>Ví dụ hoàn chỉnh để chạy</h2>
+<pre><code>import sys
+if hasattr(sys.stdout, &#x27;reconfigure&#x27;):
+    sys.stdout.reconfigure(encoding=&#x27;utf-8&#x27;)
+
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+def save(path, books):
+    payload = {&quot;schema_version&quot;: 1, &quot;books&quot;: books}
+    temporary = path.with_name(path.name + &quot;.tmp&quot;)
+    temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding=&quot;utf-8&quot;)
+    temporary.replace(path)
+
+def load(path):
+    payload = json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+    if not isinstance(payload, dict) or payload.get(&quot;schema_version&quot;) != 1:
+        raise ValueError(&quot;Sai phiên bản dữ liệu&quot;)
+    books = payload.get(&quot;books&quot;)
+    if not isinstance(books, list):
+        raise ValueError(&quot;books phải là danh sách&quot;)
+    codes = set()
+    for row in books:
+        if not isinstance(row, dict) or set(row) != {&quot;code&quot;, &quot;total&quot;}:
+            raise ValueError(&quot;Sai trường của sách&quot;)
+        if not isinstance(row[&quot;code&quot;], str) or not row[&quot;code&quot;].strip():
+            raise ValueError(&quot;Mã không hợp lệ&quot;)
+        if type(row[&quot;total&quot;]) is not int or row[&quot;total&quot;] &lt; 0:
+            raise ValueError(&quot;Số lượng không hợp lệ&quot;)
+        if row[&quot;code&quot;] in codes:
+            raise ValueError(&quot;Mã trùng&quot;)
+        codes.add(row[&quot;code&quot;])
+    return books
+
+with TemporaryDirectory() as folder:
+    path = Path(folder) / &quot;books.json&quot;
+    save(path, [{&quot;code&quot;: &quot;PY01&quot;, &quot;total&quot;: 2}])
+    assert load(path) == [{&quot;code&quot;: &quot;PY01&quot;, &quot;total&quot;: 2}]
+    assert not path.with_name(&quot;books.json.tmp&quot;).exists()
+print(&quot;JSON round-trip: OK&quot;)</code></pre>
+<h2>Kết quả mong đợi và cách kiểm tra</h2>
+<p>In <code>JSON round-trip: OK</code>. File đích chứa tiếng Việt được giữ bằng ensure_ascii=False khi có tên sách; UTF-8 được chỉ rõ lúc đọc và ghi. Test này chứng minh round-trip cho schema đơn giản đang dùng, chưa bao phủ lỗi ghi đĩa hay hai tiến trình cạnh tranh. Thử JSON sai version trong thư mục tạm và xác nhận ValueError.</p>
+<p>Đọc từng dòng thực thi và dự đoán trạng thái trước khi chạy. Sau lần chạy đầu, đổi dữ liệu theo bài tập rồi đối chiếu cả kết quả lẫn trạng thái đối tượng; một dòng in đúng chưa chứng minh các trường hợp lỗi đã đúng. Các lệnh <code>assert</code> trong ví dụ dùng kiểm tra khi học, không thay thế việc kiểm tra đầu vào của ứng dụng vì Python có thể bỏ assert khi chạy chế độ tối ưu.</p>
+<h2>Bài tập có hướng dẫn và bài tự làm</h2>
+<p>Hướng dẫn: thêm title và available vào schema, kiểm tra 0 &lt;= available &lt;= total. Tự viết bốn file dữ liệu: đúng, sai cú pháp, trùng mã, số lượng âm; chạy load và ghi kết quả mong đợi. Chỉ tạo các file này trong thư mục học riêng hoặc thư mục tạm.</p>
+<p>Nâng mức: thêm schema_version = 2 trong một bản sao dữ liệu và thiết kế thông báo từ chối rõ thay vì đoán cấu trúc. Viết kế hoạch chuyển đổi dữ liệu cũ thành mới trên bản sao, có bước xác nhận số bản ghi trước và sau.</p>
+<h2>Hướng giải và tiêu chí hoàn thành</h2>
+<p>Với schema mở rộng, luôn dựng đối tượng bằng constructor đã xác thực và kiểm tra mã trùng ở Library.add. Đạt khi tải sai không ghi lại file nguồn, các giá trị biên được kiểm tra, và round-trip giữ nguyên cả tổng lẫn số có sẵn. Ghi rõ một tiến trình là giới hạn triển khai; atomic replace giúp một loại lỗi ghi, không thay khóa đồng thời hay backup. Bài nộp có ít nhất một test xác nhận bytes file hỏng không bị tự thay bằng dữ liệu rỗng.</p>
+<h2>Sai sót thường gặp và cách phát hiện</h2>
+<p>Chỉ json.loads thành công rồi tin mọi trường là bỏ qua xác thực miền. Dùng int(True) làm total hợp lệ trái quy tắc bài. Luôn bắt OSError rồi trả [] có thể làm mất dữ liệu ở lần save kế tiếp. Tạm file khác ổ đĩa rồi coi replace luôn có cùng bảo đảm là suy luận vượt điều kiện bài.</p>
+<h2>Câu hỏi tự kiểm tra và đáp án</h2>
+<ol><li>JSON đúng cú pháp có bảo đảm số lượng hợp lệ không? Đáp án: Không, cần xác thực schema và miền giá trị.</li><li>File chưa có và file hỏng có nên cùng trả kho rỗng không? Đáp án: Không; file hỏng cần được báo rõ.</li><li>Ghi tạm rồi replace có giải quyết mọi xung đột nhiều tiến trình không? Đáp án: Không, bài giới hạn một tiến trình tại một thời điểm.</li></ol>
+<h2>Đọc thêm từ tài liệu chính thức</h2>
+<ul><li>https://docs.python.org/3.12/library/json.html</li><li>https://docs.python.org/3.12/library/pathlib.html#pathlib.Path.replace</li><li>https://docs.python.org/3.12/library/tempfile.html</li></ul>
+<p>Ghi lại phiên bản Python, lệnh đã chạy, dữ liệu thử và một quyết định thiết kế vào nhật ký học tập. Khi nhờ hỗ trợ, gửi ví dụ nhỏ tái hiện được cùng thông báo lỗi đầy đủ; không gửi dữ liệu cá nhân hoặc đường dẫn chứa thông tin bí mật.</p></body></html>

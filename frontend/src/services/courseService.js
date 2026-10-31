@@ -8,6 +8,9 @@ export const courseService = {
   getCourse(id) {
     return axiosClient.get(`/api/courses?id=${id}`);
   },
+  getMaterials(courseId) {
+    return axiosClient.get(`/api/courses/materials?course_id=${courseId}`);
+  },
   createCourse(data) {
     return axiosClient.post('/api/courses', data);
   },

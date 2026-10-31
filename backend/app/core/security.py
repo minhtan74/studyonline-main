@@ -2,7 +2,7 @@
 
 - Giữ tương thích token cũ khi token_version của tài khoản còn bằng 0;
   sau khôi phục mật khẩu, tăng token_version để thu hồi các phiên trước đó.
-- verify_password chấp nhận cả plaintext (dữ liệu seed) lẫn bcrypt.
+- Chỉ chấp nhận mật khẩu đã băm bcrypt; dữ liệu cũ phải được chuyển đổi trước.
 """
 import time
 from typing import Any
@@ -23,8 +23,6 @@ def hash_password(plain: str) -> str:
 
 # So khớp mật khẩu người dùng nhập với giá trị lưu trong DB
 def verify_password(plain: str, stored: str) -> bool:
-    if plain == stored:  # dữ liệu mẫu để mật khẩu thô "123456"
-        return True
     # Mật khẩu đã băm bcrypt; chuỗi lưu không đúng định dạng bcrypt -> coi như sai
     try:
         return bcrypt.checkpw(plain.encode("utf-8"), stored.encode("utf-8"))

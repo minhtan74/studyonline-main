@@ -1,0 +1,25 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "findings": [
+    {
+      "scenario": "progressError",
+      "cards": 1,
+      "cardText": [
+        "🎨\nKhóa mẫu\n\n👨‍🏫 Giảng viên StudyOnline\n\n📖 0/0 bài hoàn thành\n0% hoàn thành\n⏸ Chưa bắt đầu\n📚 Khóa đã đăng ký\n🚀 Bắt đầu"
+      ],
+      "hasAlert": false
+    },
+    {
+      "scenario": "enrollmentError",
+      "cards": 0,
+      "cardText": [],
+      "hasAlert": false
+    },
+    {
+      "scenario": "stringIds",
+      "cards": 0,
+      "cardText": [],
+      "hasAlert": false
+    }
+  ]
+}

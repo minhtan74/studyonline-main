@@ -1,4 +1,4 @@
-import { createContext, useCallback, useMemo, useState } from 'react';
+import { createContext, useCallback, useMemo, useRef, useState } from 'react';
 import { getStoredUser, getToken, setAuthStorage, clearAuthStorage } from '../api/axiosClient';
 import { authService } from '../services/authService';
 
@@ -17,16 +17,25 @@ export function AuthProvider({ children }) {
     setUser(newUser);
   }, []);
 
-  // Đăng xuất: xóa phiên ở client rồi báo backend (lỗi cũng bỏ qua)
+  // Keep the bearer token until the server confirms revocation.
+  const logoutPending = useRef(null);
   const logout = useCallback(() => {
-    clearAuthStorage();
-    setToken(null);
-    setUser(null);
-    try {
-      authService.logout();
-    } catch {
-      /* best-effort, giữ đúng hành vi bản gốc */
-    }
+    if (logoutPending.current) return logoutPending.current;
+    logoutPending.current = (async () => {
+      try {
+        const response = await authService.logout();
+        if (!(response?.ok && response.data?.success) && response?.status !== 401) return false;
+        clearAuthStorage();
+        setToken(null);
+        setUser(null);
+        return true;
+      } catch {
+        return false;
+      } finally {
+        logoutPending.current = null;
+      }
+    })();
+    return logoutPending.current;
   }, []);
 
   // Giá trị cung cấp cho các component (useMemo để tránh render lại không cần thiết)

@@ -1,0 +1,91 @@
+{
+  "cases": [
+    {
+      "course_id": 894,
+      "case": "same_five_questions_in_three_quizzes",
+      "raw_observations": 15,
+      "distinct_questions": 5,
+      "correct": 2
+    },
+    {
+      "course_id": 894,
+      "case": "6_of_10",
+      "percent": 60,
+      "needs_review": true,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 894,
+      "case": "7_of_10",
+      "percent": 70,
+      "needs_review": false,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 894,
+      "case": "2_of_3",
+      "sufficient": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 895,
+      "case": "same_five_questions_in_three_quizzes",
+      "raw_observations": 15,
+      "distinct_questions": 5,
+      "correct": 2
+    },
+    {
+      "course_id": 895,
+      "case": "6_of_10",
+      "percent": 60,
+      "needs_review": true,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 895,
+      "case": "7_of_10",
+      "percent": 70,
+      "needs_review": false,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 895,
+      "case": "2_of_3",
+      "sufficient": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 896,
+      "case": "same_five_questions_in_three_quizzes",
+      "raw_observations": 15,
+      "distinct_questions": 5,
+      "correct": 2
+    },
+    {
+      "course_id": 896,
+      "case": "6_of_10",
+      "percent": 60,
+      "needs_review": true,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 896,
+      "case": "7_of_10",
+      "percent": 70,
+      "needs_review": false,
+      "snapshots_saved": 10
+    },
+    {
+      "course_id": 896,
+      "case": "2_of_3",
+      "sufficient": false,
+      "needs_review": false
+    }
+  ],
+  "authentication": "temporary_student_fixture_rolled_back",
+  "lesson_reviews": 36,
+  "questions_per_review": 10,
+  "new_questions": 180,
+  "passed": 12,
+  "test_data_rolled_back": true
+}

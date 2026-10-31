@@ -207,4 +207,4 @@ CREATE TABLE results (
 -- =========================================
 
 INSERT INTO users (fullname, email, password, role)
-VALUES ('Administrator', 'admin@gmail.com', '123456', 'admin');
+VALUES ('Administrator', 'admin@gmail.com', '$2b$12$8sGEJDZebTB1HrBNsA0kFOFw8iIDUKBGCdCG1MUYWNeUXB9EbOi9S', 'admin');

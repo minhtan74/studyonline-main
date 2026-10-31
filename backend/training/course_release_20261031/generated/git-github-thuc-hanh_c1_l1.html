@@ -1,0 +1,52 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 1 — Bài 1: Repository, commit và ba vùng dữ liệu</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Giải thích được mục đích lưu phiên bản.</li><li>Phân biệt working tree, staging area và commit.</li><li>Tạo repository và commit đầu trong thư mục mới.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện đầu</h2>
+<p>Bắt đầu trong một thư mục mới chưa có dữ liệu quan trọng. Cần Git hỗ trợ <code>git switch</code>; xác nhận bằng <code>git --version</code>. Toàn bộ bài là thao tác local, chưa liên hệ GitHub. Sản phẩm là repository <code>study-notes</code> với README và một commit, kèm bản giải thích file đi qua những trạng thái nào. Khi gõ lệnh, đọc kết quả của lệnh trước thay vì dán cả khối rồi bỏ qua lỗi.</p>
+<h2>Vì sao cần lưu phiên bản</h2>
+<p>Giả sử bạn có ba bản ghi chú tên “cuối”, “cuối sửa” và “cuối thật”. Tên file không giải thích được dòng nào đổi, tại sao đổi hay phiên bản nào dùng được. Một lịch sử commit giúp gắn thay đổi nội dung với thời điểm và thông điệp. Trong bài tập, một commit đại diện cho một bước học có mục tiêu; bản sao dự phòng và việc quản lý phiên bản phục vụ các nhu cầu liên quan nhưng khác nhau. Repository local vẫn có thể mất nếu ổ đĩa hỏng, nên chưa thể coi một commit local là đã sao lưu từ xa.</p>
+<p>Working tree là các file bạn đang mở và sửa. Staging area, còn gọi là index, ghi lựa chọn nội dung cho commit kế tiếp. Commit lưu một snapshot được chọn cùng thông tin như thông điệp và cha của nó. Một file được sửa sau <code>git add</code> có thể có hai phiên bản khác nhau: một bản đã stage và một bản mới hơn ở working tree. Nắm điểm này giúp tránh tưởng rằng commit luôn lấy mọi thay đổi đang thấy trong editor.</p>
+<h2>Thực hành có hướng dẫn</h2>
+<p>Ví dụ dưới dùng PowerShell và địa chỉ minh họa. Tạo file bằng trình soạn thảo cũng cho kết quả tương đương.</p>
+<pre><code>mkdir study-notes
+cd study-notes
+git init --initial-branch=main
+git config user.name &quot;Nguoi Hoc&quot;
+git config user.email &quot;learner@example.invalid&quot;
+Set-Content -LiteralPath README.md -Value &#x27;# Study Notes&#x27; -Encoding utf8
+git status --short
+git add -- README.md
+git diff --cached
+git commit -m &quot;docs: khoi tao ghi chu hoc tap&quot;
+git status --short
+git log --oneline -1</code></pre>
+<p>Trước add, <code>README.md</code> thường được ghi là untracked bằng <code>??</code>. Sau add, nó là file mới đã stage. <code>git diff --cached</code> cho thấy tiêu đề sẽ đi vào commit. Sau commit, <code>git status --short</code> không in dòng nào nếu không còn thay đổi. <code>git log</code> có một commit; mã hash không cần giống ảnh hoặc máy khác. Nếu chưa cấu hình danh tính, đọc lỗi và cấu hình trong đúng repository rồi thực hiện lại commit.</p>
+<h2>Quan sát thay đổi theo từng bước</h2>
+<p>Thêm dòng mô tả, chạy <code>git diff</code>, sau đó add và chạy lại cả <code>git diff</code> lẫn <code>git diff --cached</code>. Trước add, phần mới nằm ở so sánh working tree với index; sau add, phần đó chuyển sang so sánh index với HEAD. Dùng ba ô trên giấy ghi “đang sửa”, “đã chọn”, “đã lưu”; ghi nội dung README ở mỗi ô. Đừng thay một khái niệm bằng một câu lệnh: <code>git add</code> là hành động cập nhật lựa chọn, còn index là trạng thái dữ liệu.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Tạo <code>goals.md</code> gồm tiêu đề và ba mục tiêu học. Stage riêng file này rồi sửa thêm một mục tiêu thứ tư trước khi commit. Dự đoán commit có ba hay bốn mục tiêu, xác nhận bằng <code>git show HEAD:goals.md</code>. Hướng giải: khi chưa add lại, snapshot staged vẫn có ba mục tiêu; working tree có bốn. Muốn commit cả bốn cần add lại file rồi đọc diff staged. Đạt yêu cầu khi bạn giải thích kết quả bằng phiên bản nội dung, không chỉ nói lệnh chạy thành công.</p>
+<h2>Lỗi thường gặp</h2>
+<p>Chạy lệnh ngoài repository gây thông báo không tìm thấy Git repository; kiểm tra thư mục bằng <code>Get-Location</code>. Nhầm commit với upload khiến tưởng đồng đội đã nhận bài dù chưa có remote. Chọn nhầm thư mục dự án đang làm thật có thể đưa file ngoài bài vào lịch sử; luôn xem <code>git rev-parse --show-toplevel</code>. Thông điệp “update” khó giúp người đọc; mô tả điều đã thay đổi như “thêm mục tiêu tuần đầu”.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Sửa file sau khi add có tự thay nội dung đã stage không? Không; cần add lại nếu muốn chọn bản mới.</li><li>Commit local đã đồng nghĩa có bản trên GitHub chưa? Chưa; bài này chưa có remote và chưa trao đổi dữ liệu.</li><li>Vì sao trạng thái sạch không chứng minh nội dung đúng? Nó chỉ cho biết các vùng dữ liệu đang đồng bộ theo trạng thái Git; lỗi nội dung vẫn có thể đã được commit.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/gittutorial</li><li>https://git-scm.com/docs/git-init</li><li>https://git-scm.com/docs/git-add</li></ul></body></html>

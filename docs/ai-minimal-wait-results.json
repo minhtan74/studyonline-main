@@ -1,0 +1,25 @@
+{
+  "passed": 18,
+  "checks": [
+    "AI Tutor: only compact dots while waiting",
+    "AI Tutor: timer and stop button removed",
+    "AI Tutor: duplicate input disabled",
+    "AI Tutor: no long waiting notice appears",
+    "AI Tutor: indicator stays small",
+    "AI Tutor: answer replaces waiting dots",
+    "AI Tutor: no horizontal overflow",
+    "Lesson AI: only compact dots while waiting",
+    "Lesson AI: timer and stop button removed",
+    "Lesson AI: duplicate input disabled",
+    "Lesson AI: no long waiting notice appears",
+    "Lesson AI: indicator stays small",
+    "Lesson AI: answer replaces waiting dots",
+    "Lesson AI: no horizontal overflow",
+    "Service errors still offer retry and edit",
+    "Retry still works without duplicate question",
+    "Exactly four simulated requests",
+    "No JavaScript exceptions"
+  ],
+  "errors": [],
+  "aiRequests": "simulated"
+}

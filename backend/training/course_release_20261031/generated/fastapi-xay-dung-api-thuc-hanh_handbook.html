@@ -1,0 +1,357 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Xây dựng API thực hành với FastAPI</div><h1>Sổ tay và dự án cuối khóa — Xây dựng API thực hành với FastAPI</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Giới thiệu và phạm vi</h2>
+<p>Khóa dành cho người đã biết Python cơ bản và muốn xây dựng một API có thể chạy, sửa và kiểm tra trên máy cá nhân. Sản phẩm xuyên suốt là Task API quản lý nhiệm vụ học tập của hai người dùng cục bộ. Nội dung được biên soạn bằng tiếng Việt, dùng FastAPI và Pydantic 2, có ví dụ TestClient thực thi độc lập. Khóa gồm 6 chương, 12 bài và khoảng 36 giờ học: 20 giờ đọc/chạy ví dụ, 10 giờ bài tập/dự án và 6 giờ ôn/test/review. Thời lượng là dự kiến, không phải số phút video.</p>
+<h2>Điều kiện bắt đầu và thiết lập</h2>
+<p>Cần biết hàm, kiểu dữ liệu Python, exception và import. Dùng Python 3.12+ trong thư mục mới. Tạo môi trường ảo bằng <code>python -m venv .venv</code>, kích hoạt theo hệ điều hành rồi chạy <code>python -m pip install -r requirements.txt</code> của gói dự án. Bộ phiên bản đã kiểm tra cùng tài liệu: FastAPI 0.115.6, Pydantic 2.10.4, httpx 0.28.1; ví dụ sử dụng API của Pydantic 2. requirements dự án khóa phiên bản để tái hiện, việc nâng cấp cần chạy lại test trước.</p>
+<p>Không trỏ bài thực hành vào database của StudyOnline. Ví dụ dùng bộ nhớ hoặc TemporaryDirectory; dự án dùng file SQLite mới trong thư mục dự án. Không cần tài khoản cloud, token thật hay dịch vụ trả phí. Chỉ chạy máy chủ trên 127.0.0.1 trong khóa.</p>
+<h2>Chuẩn đầu ra có thể quan sát</h2>
+<ul><li>Viết bảng hợp đồng cho POST/GET/PATCH/DELETE với status và JSON cụ thể.</li><li>Từ chối title trắng, vượt giới hạn và dữ liệu sai kiểu bằng model kiểm tra.</li><li>Tạo dữ liệu tồn tại sau khi đóng app và khởi tạo lại trên cùng file SQLite.</li><li>Chặn tài khoản hợp lệ đọc/sửa/xóa nhiệm vụ của tài khoản khác; owner do server xác định.</li><li>Chứng minh rollback và trạng thái không đổi sau lỗi bằng test.</li><li>Nộp source, test, README và tự đánh giá giới hạn mà người khác chạy lại được.</li></ul>
+<h2>Kế hoạch sáu tuần</h2>
+<ol><li>Tuần 1 — HTTP/OpenAPI, path/query; viết bảng endpoint và test tham số biên. Hoàn thành bài 1–2, khoảng 5 giờ.</li><li>Tuần 2 — Pydantic 2, CRUD/response/error; hoàn thành API dùng bộ nhớ với test 201/404/409/422. Bài 3–4, khoảng 6 giờ.</li><li>Tuần 3 — Dependency và lifespan/sync-async; vẽ vòng đời tài nguyên, test cleanup sau lỗi. Bài 5–6, khoảng 5 giờ.</li><li>Tuần 4 — SQLite/transaction; chuyển dữ liệu sang file tạm, chứng minh persistence và rollback. Bài 7–8, khoảng 6 giờ.</li><li>Tuần 5 — Danh tính/quyền và testing; hoàn thành ma trận hai người dùng, test các đường lỗi và quyền chéo. Bài 9–10, khoảng 6 giờ.</li><li>Tuần 6 — Cấu hình/log và dự án; chạy nghiệm thu từ thư mục mới, review README và trình bày giới hạn. Bài 11–12, khoảng 8 giờ.</li></ol>
+<h2>Quy trình học mỗi bài</h2>
+<p>Đọc mục tiêu, chạy ví dụ nguyên bản, giải thích từng assertion rồi tự làm bài tập trước khi mở hướng giải. Ghi lại request, status, JSON và trạng thái dữ liệu. Làm năm câu kiểm tra sau thực hành; câu sai cần liên hệ lại đoạn code tương ứng. Làm lại câu quen thuộc có thể giúp ôn nhưng chưa chứng minh áp dụng được vào đầu vào mới. Nếu gặp lỗi, thu nhỏ ví dụ và giữ nguyên thông báo lỗi đã bỏ token.</p>
+<h2>Đánh giá trong khóa</h2>
+<p>Mỗi bài có 5 câu trắc nghiệm kèm giải thích, tổng 60 câu gốc phân loại theo chương/bài. Bộ ôn hỗ trợ tự kiểm tra; bài kiểm tra cuối khóa dùng tổng hợp nội dung. Ngưỡng quiz đề xuất là 70%; đạt quiz không tự thay việc chấm dự án. Học viên nộp 12 minh chứng bài tập ngắn và dự án. Giảng viên có thể điều chỉnh tiến độ/lịch kiểm tra theo lớp nhưng cần giữ tiêu chí và phản hồi cụ thể.</p>
+<h2>Đề bài dự án Task API</h2>
+<p>Xây API cho hai tài khoản local cấu hình từ ngoài app. Nhiệm vụ gồm id, owner_id, title, done. Có tạo, danh sách phân trang/lọc done, đọc một nhiệm vụ, đổi done và xóa. title trim, dài 1–120 ký tự và duy nhất trong mỗi owner. Database SQLite có UNIQUE(owner_id,title), truy vấn tham số và quản lý connection. Client không được đặt owner_id trong body. Token demo phải có chú thích phạm vi, không phải hệ thống đăng nhập Internet.</p>
+<p>Hợp đồng: thiếu/sai token 401; truy cập nhiệm vụ người khác 403; không có ID 404; xung đột title 409; đầu vào sai 422; tạo 201; xóa 204 rỗng. Giữ owner filter trong cả danh sách và thao tác bản ghi. Nếu chọn hợp đồng khác, học viên phải giải thích và cập nhật đủ test, không được mở quyền rộng hơn.</p>
+<h2>Rubric dự án 100 điểm</h2>
+<ul><li>25 điểm CRUD và hợp đồng: mỗi thao tác thành công đúng trạng thái/JSON, đọc lại dữ liệu và 204 rỗng; thiếu thao tác nào trừ phần tương ứng.</li><li>20 điểm validation và lỗi: title trắng/quá dài, path/query sai, trùng title; lỗi trả rõ, không lộ SQL/token. Có test dữ liệu không đổi sau lỗi.</li><li>20 điểm quyền: thiếu/sai token, danh sách theo owner, GET/PATCH/DELETE chéo bị chặn, body không giả owner. Đây là tiêu chí bắt buộc.</li><li>15 điểm SQLite/giao dịch: placeholder, connection được đóng, dữ liệu tồn tại sau restart, quy tắc UNIQUE đúng phạm vi. Persistence là tiêu chí bắt buộc.</li><li>15 điểm test: môi trường tạm độc lập, test lặp lại được, bao phủ đường lỗi/quyền/biên và assertions có ý nghĩa.</li><li>5 điểm tài liệu: README có lệnh chạy/test, cấu hình, bảng endpoint và giới hạn demo.</li></ul>
+<p>Đề xuất đạt từ 70/100 đồng thời cả tiêu chí bắt buộc về quyền và persistence đều đạt. Điểm dự án cần giảng viên/reviewer chấm theo minh chứng; hệ thống LMS hiện không tự đánh giá toàn bộ rubric này.</p>
+<h2>Hồ sơ nộp và nghiệm thu</h2>
+<p>Nộp app.py, run.py, test_app.py, requirements.txt, README.md và bảng yêu cầu→test. Không nộp token thật hoặc database chứa dữ liệu cá nhân. Từ thư mục sạch, cài dependencies, chạy <code>python -m pytest -q test_app.py</code>, cấu hình token demo và chạy Uvicorn theo README. Reviewer tự gửi chuỗi tạo/đọc/sửa/xóa với hai user, khởi động lại app trên cùng file và kiểm tra dữ liệu. Chạy lại test lần hai để tìm phụ thuộc trạng thái. Gói mẫu cung cấp điểm xuất phát và test minh họa; bài nộp cần có mở rộng và giải thích của học viên.</p>
+<h2>Giới hạn và hướng học tiếp</h2>
+<p>Token tĩnh của lab không cấp, hết hạn hoặc thu hồi động; chưa có login/password/JWT hoàn chỉnh. SQLite phù hợp quy mô thực hành, cần đánh giá truy cập đồng thời trước workload khác. Khi triển khai mạng cần review TLS, quản lý bí mật, migration/backup/restore, hạn mức, giám sát, bảo mật và quy trình cập nhật. Có thể học tiếp OAuth2/OIDC với nhà cung cấp danh tính, PostgreSQL và chiến lược deploy sau khi nắm hợp đồng/quyền/test. Tài liệu này không tuyên bố chứng nhận học thuật hay bảo đảm ứng dụng production cho mọi hoàn cảnh.</p>
+<h2>Nguồn chính thức</h2>
+<ul><li>https://fastapi.tiangolo.com/tutorial/</li><li>https://fastapi.tiangolo.com/tutorial/testing/</li><li>https://docs.pydantic.dev/latest/concepts/models/</li><li>https://docs.python.org/3/library/sqlite3.html</li></ul>
+<h2>Mã nguồn dự án tham khảo</h2>
+<p>Tự làm dự án theo đề bài trước khi đối chiếu mã tham khảo bên dưới.</p>
+<h3>File: app.py</h3>
+<pre><code>&quot;&quot;&quot;Task API for a local teaching lab; fixed demo tokens are not a login service.&quot;&quot;&quot;
+import logging
+from contextlib import asynccontextmanager
+from pathlib import Path
+import sqlite3
+from uuid import uuid4
+
+from fastapi import Depends, FastAPI, HTTPException, Path as ApiPath, Query, Response
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, ConfigDict, Field
+
+logger = logging.getLogger(&quot;task_lab&quot;)
+bearer = HTTPBearer(auto_error=False)
+
+class TaskCreate(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True, extra=&quot;forbid&quot;)
+    title: str = Field(min_length=1, max_length=120)
+
+class TaskPatch(BaseModel):
+    model_config = ConfigDict(extra=&quot;forbid&quot;)
+    done: bool = Field(strict=True)
+
+class TaskOut(BaseModel):
+    id: int
+    owner_id: int
+    title: str
+    done: bool
+
+class TaskPage(BaseModel):
+    items: list[TaskOut]
+    total: int
+    offset: int
+    limit: int
+
+def create_app(database_path, tokens):
+    &quot;&quot;&quot;Create an isolated app. Token mapping is supplied only for local exercises.&quot;&quot;&quot;
+    if not str(database_path).strip() or str(database_path) == &quot;:memory:&quot;:
+        raise ValueError(&quot;Use a new SQLite file path for this lab&quot;)
+    token_map = dict(tokens)
+    if not token_map or any(not isinstance(key, str) or len(key) &lt; 12 or
+                            type(owner) is not int or owner &lt; 1
+                            for key, owner in token_map.items()):
+        raise ValueError(&quot;Provide local demo tokens (12+ chars) mapped to positive user IDs&quot;)
+    database = str(Path(database_path).resolve())
+
+    def connect():
+        conn = sqlite3.connect(database, timeout=5, check_same_thread=False)
+        conn.row_factory = sqlite3.Row
+        return conn
+
+    @asynccontextmanager
+    async def lifespan(app):
+        Path(database).parent.mkdir(parents=True, exist_ok=True)
+        conn = connect()
+        try:
+            with conn:
+                conn.execute(&quot;&quot;&quot;CREATE TABLE IF NOT EXISTS tasks (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    owner_id INTEGER NOT NULL CHECK(owner_id &gt; 0),
+                    title TEXT NOT NULL CHECK(length(title) BETWEEN 1 AND 120),
+                    done INTEGER NOT NULL DEFAULT 0 CHECK(done IN (0,1)),
+                    UNIQUE(owner_id,title))&quot;&quot;&quot;)
+        finally:
+            conn.close()
+        yield
+
+    app = FastAPI(title=&quot;Local Study Task API&quot;, version=&quot;1.0.0&quot;, lifespan=lifespan)
+
+    @app.middleware(&quot;http&quot;)
+    async def request_id(request, call_next):
+        marker = uuid4().hex
+        response = await call_next(request)
+        response.headers[&quot;X-Request-ID&quot;] = marker
+        # Never log Authorization or request body in this example.
+        logger.info(&quot;request=%s method=%s path=%s status=%s&quot;, marker,
+                    request.method, request.url.path, response.status_code)
+        return response
+
+    def get_db():
+        conn = connect()
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    def current_user(credentials: HTTPAuthorizationCredentials | None = Depends(bearer)):
+        owner = token_map.get(credentials.credentials) if credentials is not None else None
+        if credentials is None or credentials.scheme.lower() != &quot;bearer&quot; or owner is None:
+            raise HTTPException(401, &quot;Authentication required&quot;,
+                                headers={&quot;WWW-Authenticate&quot;: &quot;Bearer&quot;})
+        return owner
+
+    def owned_task(conn, task_id, owner):
+        task = conn.execute(&quot;SELECT id,owner_id,title,done FROM tasks WHERE id=?&quot;, (task_id,)).fetchone()
+        if task is None:
+            raise HTTPException(404, &quot;Task not found&quot;)
+        if task[&quot;owner_id&quot;] != owner:
+            raise HTTPException(403, &quot;Not allowed&quot;)
+        return dict(task)
+
+    @app.get(&quot;/health&quot;)
+    def health():
+        return {&quot;status&quot;: &quot;ok&quot;}
+
+    @app.post(&quot;/tasks&quot;, response_model=TaskOut, status_code=201)
+    def create_task(payload: TaskCreate, owner: int = Depends(current_user),
+                    conn: sqlite3.Connection = Depends(get_db)):
+        try:
+            with conn:
+                cursor = conn.execute(&quot;INSERT INTO tasks(owner_id,title) VALUES (?,?)&quot;,
+                                      (owner, payload.title))
+                task_id = cursor.lastrowid
+        except sqlite3.IntegrityError as exc:
+            if getattr(exc, &quot;sqlite_errorcode&quot;, None) == sqlite3.SQLITE_CONSTRAINT_UNIQUE:
+                raise HTTPException(409, &quot;A task with this title already exists&quot;)
+            raise
+        return owned_task(conn, task_id, owner)
+
+    @app.get(&quot;/tasks&quot;, response_model=TaskPage)
+    def list_tasks(done: bool | None = None, offset: int = Query(0, ge=0),
+                   limit: int = Query(20, ge=1, le=50),
+                   owner: int = Depends(current_user),
+                   conn: sqlite3.Connection = Depends(get_db)):
+        where = &quot;owner_id=?&quot;
+        values = [owner]
+        if done is not None:
+            where += &quot; AND done=?&quot;
+            values.append(int(done))
+        total = conn.execute(&quot;SELECT COUNT(*) FROM tasks WHERE &quot; + where, values).fetchone()[0]
+        rows = conn.execute(&quot;SELECT id,owner_id,title,done FROM tasks WHERE &quot; + where +
+                            &quot; ORDER BY id LIMIT ? OFFSET ?&quot;, values + [limit, offset]).fetchall()
+        return {&quot;items&quot;: [dict(row) for row in rows], &quot;total&quot;: total, &quot;offset&quot;: offset, &quot;limit&quot;: limit}
+
+    @app.get(&quot;/tasks/{task_id}&quot;, response_model=TaskOut)
+    def read_task(task_id: int = ApiPath(ge=1), owner: int = Depends(current_user),
+                  conn: sqlite3.Connection = Depends(get_db)):
+        return owned_task(conn, task_id, owner)
+
+    @app.patch(&quot;/tasks/{task_id}&quot;, response_model=TaskOut)
+    def update_task(payload: TaskPatch, task_id: int = ApiPath(ge=1),
+                    owner: int = Depends(current_user),
+                    conn: sqlite3.Connection = Depends(get_db)):
+        owned_task(conn, task_id, owner)
+        with conn:
+            conn.execute(&quot;UPDATE tasks SET done=? WHERE id=? AND owner_id=?&quot;,
+                         (int(payload.done), task_id, owner))
+        return owned_task(conn, task_id, owner)
+
+    @app.delete(&quot;/tasks/{task_id}&quot;, status_code=204)
+    def delete_task(task_id: int = ApiPath(ge=1), owner: int = Depends(current_user),
+                    conn: sqlite3.Connection = Depends(get_db)):
+        owned_task(conn, task_id, owner)
+        with conn:
+            conn.execute(&quot;DELETE FROM tasks WHERE id=? AND owner_id=?&quot;, (task_id, owner))
+        return Response(status_code=204)
+
+    return app
+</code></pre>
+<h3>File: run.py</h3>
+<pre><code>&quot;&quot;&quot;Read local lab settings; start with python -m uvicorn run:app --host 127.0.0.1.&quot;&quot;&quot;
+import json
+import os
+from app import create_app
+
+raw_tokens = os.environ.get(&quot;LAB_TOKENS_JSON&quot;)
+if not raw_tokens:
+    raise RuntimeError(&quot;Set LAB_TOKENS_JSON to local demo token/user pairs; see README&quot;)
+try:
+    tokens = json.loads(raw_tokens)
+except json.JSONDecodeError as exc:
+    raise RuntimeError(&quot;LAB_TOKENS_JSON must be valid JSON&quot;) from exc
+if not isinstance(tokens, dict):
+    raise RuntimeError(&quot;LAB_TOKENS_JSON must be an object&quot;)
+app = create_app(os.environ.get(&quot;LAB_DATABASE_PATH&quot;, &quot;lab_tasks.sqlite3&quot;), tokens)
+</code></pre>
+<h3>File: test_app.py</h3>
+<pre><code>&quot;&quot;&quot;Behavior checks against temporary local data; no external services or real tokens.&quot;&quot;&quot;
+from pathlib import Path
+from contextlib import closing
+import sqlite3
+from tempfile import TemporaryDirectory
+import pytest
+from fastapi.testclient import TestClient
+from app import create_app
+
+TOKENS = {&quot;training-alice-only&quot;: 1, &quot;training-bob-only&quot;: 2}
+ALICE = {&quot;Authorization&quot;: &quot;Bearer training-alice-only&quot;}
+BOB = {&quot;Authorization&quot;: &quot;Bearer training-bob-only&quot;}
+
+@pytest.fixture
+def lab():
+    with TemporaryDirectory() as folder:
+        database = str(Path(folder) / &quot;test.sqlite3&quot;)
+        with TestClient(create_app(database, TOKENS)) as client:
+            yield client, database
+
+def add(client, title=&quot;HTTP&quot;, headers=None):
+    response = client.post(&quot;/tasks&quot;, json={&quot;title&quot;: title}, headers=headers or ALICE)
+    assert response.status_code == 201
+    return response.json()
+
+def test_crud_and_response_contract(lab):
+    client, _ = lab
+    item = add(client, &quot;  HTTP  &quot;)
+    assert item == {&quot;id&quot;: item[&quot;id&quot;], &quot;owner_id&quot;: 1, &quot;title&quot;: &quot;HTTP&quot;, &quot;done&quot;: False}
+    assert client.get(f&quot;/tasks/{item[&#x27;id&#x27;]}&quot;, headers=ALICE).json() == item
+    changed = client.patch(f&quot;/tasks/{item[&#x27;id&#x27;]}&quot;, json={&quot;done&quot;: True}, headers=ALICE)
+    assert changed.status_code == 200 and changed.json()[&quot;done&quot;] is True
+    deleted = client.delete(f&quot;/tasks/{item[&#x27;id&#x27;]}&quot;, headers=ALICE)
+    assert deleted.status_code == 204 and deleted.content == b&quot;&quot;
+    assert client.get(f&quot;/tasks/{item[&#x27;id&#x27;]}&quot;, headers=ALICE).status_code == 404
+
+def test_validation_and_state_after_error(lab):
+    client, _ = lab
+    add(client, &quot;A&quot; * 120)
+    for title in [&quot;&quot;, &quot;   &quot;, &quot;A&quot; * 121]:
+        assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: title}, headers=ALICE).status_code == 422
+    assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: &quot;Spoof&quot;, &quot;owner_id&quot;: 2}, headers=ALICE).status_code == 422
+    assert client.get(&quot;/tasks?limit=51&quot;, headers=ALICE).status_code == 422
+    assert client.get(&quot;/tasks/0&quot;, headers=ALICE).status_code == 422
+    assert client.get(&quot;/tasks&quot;, headers=ALICE).json()[&quot;total&quot;] == 1
+
+def test_authentication_and_cross_owner_writes(lab):
+    client, _ = lab
+    task = add(client)
+    path = f&quot;/tasks/{task[&#x27;id&#x27;]}&quot;
+    assert client.get(path).status_code == 401
+    assert client.get(path, headers={&quot;Authorization&quot;: &quot;Bearer invalid&quot;}).status_code == 401
+    assert client.get(path, headers=BOB).status_code == 403
+    assert client.patch(path, json={&quot;done&quot;: True}, headers=BOB).status_code == 403
+    assert client.delete(path, headers=BOB).status_code == 403
+    assert client.get(path, headers=ALICE).json()[&quot;done&quot;] is False
+    assert client.get(&quot;/tasks&quot;, headers=BOB).json()[&quot;items&quot;] == []
+
+def test_unique_titles_are_scoped_by_owner(lab):
+    client, database = lab
+    add(client, &quot;Same&quot;)
+    assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: &quot;Same&quot;}, headers=ALICE).status_code == 409
+    other = add(client, &quot;Same&quot;, BOB)
+    assert other[&quot;owner_id&quot;] == 2
+    with closing(sqlite3.connect(database)) as conn:
+        assert conn.execute(&quot;SELECT COUNT(*) FROM tasks&quot;).fetchone()[0] == 2
+
+def test_filtered_pagination_and_boolean_update(lab):
+    client, _ = lab
+    one = add(client, &quot;First&quot;)
+    add(client, &quot;Second&quot;)
+    add(client, &quot;Third&quot;)
+    assert client.patch(f&quot;/tasks/{one[&#x27;id&#x27;]}&quot;, json={&quot;done&quot;: &quot;true&quot;}, headers=ALICE).status_code == 422
+    assert client.patch(f&quot;/tasks/{one[&#x27;id&#x27;]}&quot;, json={&quot;done&quot;: True}, headers=ALICE).status_code == 200
+    result = client.get(&quot;/tasks?done=false&amp;offset=1&amp;limit=1&quot;, headers=ALICE).json()
+    assert result[&quot;total&quot;] == 2 and result[&quot;items&quot;][0][&quot;title&quot;] == &quot;Third&quot;
+    assert client.get(&quot;/tasks?done=true&quot;, headers=ALICE).json()[&quot;total&quot;] == 1
+
+def test_restart_keeps_committed_data(lab):
+    client, database = lab
+    item = add(client, &quot;Persistence&quot;)
+    with TestClient(create_app(database, TOKENS)) as another_app:
+        response = another_app.get(f&quot;/tasks/{item[&#x27;id&#x27;]}&quot;, headers=ALICE)
+        assert response.status_code == 200 and response.json()[&quot;title&quot;] == &quot;Persistence&quot;
+
+def test_parameterized_input_remains_data(lab):
+    client, database = lab
+    strange = &quot;Title&#x27;); DROP TABLE tasks; --&quot;
+    task = add(client, strange)
+    assert client.get(f&quot;/tasks/{task[&#x27;id&#x27;]}&quot;, headers=ALICE).json()[&quot;title&quot;] == strange
+    with closing(sqlite3.connect(database)) as conn:
+        assert conn.execute(&quot;SELECT COUNT(*) FROM tasks&quot;).fetchone()[0] == 1
+
+def test_configuration_and_request_ids(lab):
+    client, _ = lab
+    one, two = client.get(&quot;/health&quot;), client.get(&quot;/health&quot;)
+    assert one.json() == {&quot;status&quot;: &quot;ok&quot;}
+    assert len(one.headers[&quot;x-request-id&quot;]) == 32
+    assert one.headers[&quot;x-request-id&quot;] != two.headers[&quot;x-request-id&quot;]
+    with pytest.raises(ValueError):
+        create_app(&quot;uncreated-test.db&quot;, {})
+</code></pre>
+<h3>File: requirements.txt</h3>
+<pre><code>fastapi==0.115.6
+pydantic==2.10.4
+httpx==0.28.1
+uvicorn==0.34.0
+pytest==8.3.4
+</code></pre>
+<h3>File: README.md</h3>
+<h1>Task API — dự án thực hành FastAPI</h1>
+<p>API quản lý nhiệm vụ cục bộ có validation, SQLite, quyền chủ sở hữu và tests. Hai token giả phục vụ học cách tách danh tính/quyền, chưa phải hệ thống đăng nhập Internet. Dùng Python 3.12+ trong thư mục riêng. Không dùng database/tài khoản thật.</p>
+<h2>Cài và kiểm tra</h2>
+<p>Tạo môi trường ảo bằng <code>python -m venv .venv</code>, kích hoạt rồi chạy:</p>
+<pre><code>python -m pip install -r requirements.txt
+python -m pytest -q test_app.py</code></pre>
+<p>Tests dùng thư mục tạm, xóa dữ liệu sau mỗi test và không gọi mạng ngoài. Khi nâng dependencies, chạy lại toàn bộ tests. Phiên bản khóa giúp tái hiện bộ bài; đây không phải khuyến nghị duy trì phiên bản cũ vô thời hạn.</p>
+<h2>Chạy trên máy học viên</h2>
+<p>PowerShell, từ thư mục dự án:</p>
+<pre><code>$env:LAB_TOKENS_JSON = &#x27;{&quot;training-alice-only&quot;:1,&quot;training-bob-only&quot;:2}&#x27;
+$env:LAB_DATABASE_PATH = &#x27;lab_tasks.sqlite3&#x27;
+python -m uvicorn run:app --host 127.0.0.1 --port 8000 --reload</code></pre>
+<p>Bash:</p>
+<pre><code>export LAB_TOKENS_JSON=&#x27;{&quot;training-alice-only&quot;:1,&quot;training-bob-only&quot;:2}&#x27;
+export LAB_DATABASE_PATH=&#x27;lab_tasks.sqlite3&#x27;
+python -m uvicorn run:app --host 127.0.0.1 --port 8000 --reload</code></pre>
+<p>Truy cập http://127.0.0.1:8000/docs. Nhấn Authorize và nhập một token giả, không gõ thêm chữ Bearer nếu giao diện HTTPBearer chỉ yêu cầu giá trị. Dừng bằng Ctrl+C. File SQLite giữ dữ liệu sau khi dừng; bài test dùng file khác. Không đưa .env hoặc database cá nhân vào bài nộp.</p>
+<h2>Hợp đồng</h2>
+<ul><li>GET /health: 200, status ok, không công bố token/path. Chỉ là liveness cơ bản.</li><li>POST /tasks: body title 1–120 ký tự sau trim, trả 201 với id/owner_id/title/done. Body có owner_id bị từ chối 422.</li><li>GET /tasks: danh sách của user hiện tại, hỗ trợ done=true/false, offset&gt;=0, limit 1–50; lọc trước phân trang, total là số dòng đã lọc.</li><li>GET /tasks/{id}: trả một nhiệm vụ thuộc user hiện tại.</li><li>PATCH /tasks/{id}: body {"done":true} với boolean JSON, trả trạng thái mới.</li><li>DELETE /tasks/{id}: 204 không body.</li><li>Thiếu/sai token: 401 với WWW-Authenticate. Nhiệm vụ không tồn tại: 404. ID của người khác: 403. Title trùng trong cùng owner: 409. Đầu vào sai: 422.</li><li>UNIQUE(owner_id,title) cho phép hai user dùng cùng title. Tất cả giá trị client được bind trong SQL; tên cột/sắp xếp do code kiểm soát.</li></ul>
+<h2>Nghiệm thu và mở rộng</h2>
+<p>Xem test_app.py cho CRUD, title biên/trắng, query biên, trường owner giả, quyền GET/PATCH/DELETE chéo, title trùng, phân trang, persistence và dữ liệu giống cú pháp SQL. Request lỗi không tạo thêm bản ghi hoặc sửa nhiệm vụ trái quyền. Chạy lại tests lần hai để kiểm tra cô lập.</p>
+<p>Mở rộng yêu cầu: đổi title có kiểm tra UNIQUE, deadline hoặc lọc nâng cao. Giữ owner filter và thêm test trước/sau lỗi; giữ tests cũ đạt. Nộp bảng yêu cầu→test và rubric tự chấm. Giảng viên đánh giá code và giải thích, không chỉ xem ảnh /docs.</p>
+<h2>Giới hạn thiết kế</h2>
+<p>Token tĩnh chỉ dành cho loopback lab: chưa có phát hành, hết hạn, thu hồi, password hashing hay OIDC. Khi đưa lên mạng cần review danh tính thật, TLS, cấu hình bí mật, backup/restore, migration, hạn mức, log và theo dõi theo yêu cầu sản phẩm. SQLite có giới hạn khóa ghi; cần đánh giá workload trước chọn kiến trúc khác. Bộ mẫu này là nền tảng thực hành, chưa chứng nhận an toàn/khả năng vận hành cho mọi hệ thống thực tế.</p></body></html>

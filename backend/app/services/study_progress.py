@@ -25,7 +25,8 @@ def start(db,user_id,topic_id):
 def comparison(before,after):
     if not after:
         return {'state':'waiting','difference_pct':None,'same_questions':False,'sufficient_data':False}
-    same=set(before.get('question_ids',[]))==set(after.get('question_ids',[]))
+    field = 'question_keys' if before.get('question_keys') and after.get('question_keys') else 'question_ids'
+    same=set(before.get(field,[]))==set(after.get(field,[]))
     sufficient=before['answered']>=an.MIN_TOPIC_QUESTIONS and after['answered']>=an.MIN_TOPIC_QUESTIONS
     return {'state':'compared','difference_pct':round(after['avg_score']-before['avg_score'],1),
             'same_questions':same,'sufficient_data':sufficient,

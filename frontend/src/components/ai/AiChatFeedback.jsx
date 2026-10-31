@@ -1,14 +1,8 @@
-export default function AiChatFeedback({ sending, elapsedSeconds, feedback, onStop, onRetry, onEdit }) {
+export default function AiChatFeedback({ sending, feedback, onRetry, onEdit }) {
   if (sending) {
-    const message = elapsedSeconds >= 45 ? 'AI đang mất nhiều thời gian hơn thường lệ. Bạn có thể dừng chờ; câu hỏi vẫn được giữ.'
-      : elapsedSeconds >= 15 ? 'AI vẫn đang xử lý. Một số câu hỏi cần thêm thời gian.' : 'AI đang xử lý câu hỏi của bạn…';
     return (
-      <div className="ai-chat-feedback ai-chat-waiting">
-        <p role="status" aria-live="polite"><span className="spinner" aria-hidden="true" /> {message}</p>
-        <div className="ai-chat-feedback-actions">
-          <span>Đã chờ {Math.floor(elapsedSeconds / 60)}:{String(elapsedSeconds % 60).padStart(2, '0')} · Tối đa 2 phút</span>
-          <button type="button" className="s-btn s-btn-outline s-btn-sm" onClick={onStop}>Dừng chờ</button>
-        </div>
+      <div className="ai-typing" role="status" aria-label="Đang chờ câu trả lời">
+        <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
       </div>
     );
   }

@@ -17,26 +17,26 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO users (fullname, email, password, role, avatar, bio, is_active) VALUES
 -- Giảng viên (id 2-5)
-('Nguyễn Văn An',   'an.nguyen@studyonline.vn',   '123456', 'teacher', 'avatars/teacher_an.jpg',
+('Nguyễn Văn An',   'an.nguyen@studyonline.vn',   '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'teacher', 'avatars/teacher_an.jpg',
  'Giảng viên Python với 8 năm kinh nghiệm phát triển backend.', 1),
-('Trần Thị Bình',   'binh.tran@studyonline.vn',   '123456', 'teacher', 'avatars/teacher_binh.jpg',
+('Trần Thị Bình',   'binh.tran@studyonline.vn',   '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'teacher', 'avatars/teacher_binh.jpg',
  'Frontend Developer, chuyên JavaScript, React và UI/UX.', 1),
-('Lê Văn Cường',    'cuong.le@studyonline.vn',    '123456', 'teacher', 'avatars/teacher_cuong.jpg',
+('Lê Văn Cường',    'cuong.le@studyonline.vn',    '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'teacher', 'avatars/teacher_cuong.jpg',
  'Kỹ sư backend Java, từng làm việc tại nhiều dự án doanh nghiệp lớn.', 1),
-('Phạm Thị Duyên',  'duyen.pham@studyonline.vn',  '123456', 'teacher', 'avatars/teacher_duyen.jpg',
+('Phạm Thị Duyên',  'duyen.pham@studyonline.vn',  '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'teacher', 'avatars/teacher_duyen.jpg',
  'Chuyên gia cơ sở dữ liệu, quản trị hệ thống MySQL/PostgreSQL.', 1),
 
 -- Học viên (id 6-15)
-('Hoàng Văn Em',    'em.hoang@gmail.com',    '123456', 'student', 'avatars/student_em.jpg',    'Sinh viên năm 3, đam mê lập trình web.', 1),
-('Vũ Thị Phương',   'phuong.vu@gmail.com',   '123456', 'student', 'avatars/student_phuong.jpg', 'Đang chuyển ngành sang IT.', 1),
-('Đặng Văn Giang',  'giang.dang@gmail.com',  '123456', 'student', 'avatars/student_giang.jpg',  'Học lập trình để tự động hoá công việc.', 1),
-('Bùi Thị Hoa',     'hoa.bui@gmail.com',     '123456', 'student', 'avatars/student_hoa.jpg',    'Yêu thích thiết kế web và giao diện.', 1),
-('Đỗ Văn Khôi',     'khoi.do@gmail.com',     '123456', 'student', 'avatars/student_khoi.jpg',   'Mới bắt đầu học lập trình.', 1),
-('Ngô Thị Lan',     'lan.ngo@gmail.com',     '123456', 'student', 'avatars/student_lan.jpg',    'Sinh viên CNTT năm 2.', 1),
-('Dương Văn Minh',  'minh.duong@gmail.com',  '123456', 'student', 'avatars/student_minh.jpg',   'Muốn trở thành Fullstack Developer.', 1),
-('Lý Thị Ngọc',     'ngoc.ly@gmail.com',     '123456', 'student', 'avatars/student_ngoc.jpg',   'Đang ôn thi chứng chỉ lập trình.', 1),
-('Phan Văn Phúc',   'phuc.phan@gmail.com',   '123456', 'student', 'avatars/student_phuc.jpg',   'Tự học lập trình qua các khoá online.', 0),
-('Trịnh Thị Quỳnh', 'quynh.trinh@gmail.com', '123456', 'student', 'avatars/student_quynh.jpg',  'Yêu thích cơ sở dữ liệu và phân tích số liệu.', 1);
+('Hoàng Văn Em',    'em.hoang@gmail.com',    '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_em.jpg',    'Sinh viên năm 3, đam mê lập trình web.', 1),
+('Vũ Thị Phương',   'phuong.vu@gmail.com',   '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_phuong.jpg', 'Đang chuyển ngành sang IT.', 1),
+('Đặng Văn Giang',  'giang.dang@gmail.com',  '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_giang.jpg',  'Học lập trình để tự động hoá công việc.', 1),
+('Bùi Thị Hoa',     'hoa.bui@gmail.com',     '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_hoa.jpg',    'Yêu thích thiết kế web và giao diện.', 1),
+('Đỗ Văn Khôi',     'khoi.do@gmail.com',     '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_khoi.jpg',   'Mới bắt đầu học lập trình.', 1),
+('Ngô Thị Lan',     'lan.ngo@gmail.com',     '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_lan.jpg',    'Sinh viên CNTT năm 2.', 1),
+('Dương Văn Minh',  'minh.duong@gmail.com',  '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_minh.jpg',   'Muốn trở thành Fullstack Developer.', 1),
+('Lý Thị Ngọc',     'ngoc.ly@gmail.com',     '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_ngoc.jpg',   'Đang ôn thi chứng chỉ lập trình.', 1),
+('Phan Văn Phúc',   'phuc.phan@gmail.com',   '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_phuc.jpg',   'Tự học lập trình qua các khoá online.', 0),
+('Trịnh Thị Quỳnh', 'quynh.trinh@gmail.com', '$2b$12$d39iMBvsGxOKK2CYXPeJ7uT8/eg0rwUlSKyF.N/dbBWMYqPNHevuq', 'student', 'avatars/student_quynh.jpg',  'Yêu thích cơ sở dữ liệu và phân tích số liệu.', 1);
 
 -- =========================================================
 -- 2. COURSES  (id 1 -> 6)

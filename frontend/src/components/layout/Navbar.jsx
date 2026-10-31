@@ -1,3 +1,4 @@
+import { useToast } from '../../hooks/useToast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -12,12 +13,13 @@ const PANEL_BY_ROLE = {
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const panel = user?.role ? PANEL_BY_ROLE[user.role] : null;
 
   // Đăng xuất rồi về trang chủ
-  function handleLogout() {
-    logout();
-    navigate('/');
+  async function handleLogout() {
+    if (await logout()) navigate('/');
+    else showToast('Chưa thể thu hồi phiên đăng nhập. Kiểm tra kết nối rồi thử đăng xuất lại.', 'error');
   }
 
   return (
@@ -26,13 +28,6 @@ export default function Navbar() {
         <div className="flex items-center gap-1 min-w-0">
           <Link to="/" className="text-blue-600 font-extrabold text-lg sm:text-xl flex items-center gap-2 whitespace-nowrap">
             🎓 <span className="text-slate-900">StudyOnline</span>
-          </Link>
-          {/* Trên điện thoại logo đã dẫn về trang chủ -> ẩn link này để các nút bên phải không bị cắt */}
-          <Link
-            to="/"
-            className="hidden sm:inline-block ml-4 text-slate-600 hover:text-blue-600 font-medium text-sm px-3 py-2 rounded-lg hover:bg-slate-100 transition-all"
-          >
-            Trang chủ
           </Link>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -49,7 +44,7 @@ export default function Navbar() {
               onClick={handleLogout}
               className="whitespace-nowrap px-3 sm:px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold text-sm rounded-lg transition-all"
             >
-              Đăng xuất<span className="hidden sm:inline"> ({user.fullname?.split(' ').pop()})</span>
+              Đăng xuất mọi thiết bị<span className="hidden sm:inline"> ({user.fullname?.split(' ').pop()})</span>
             </button>
           ) : (
             <>

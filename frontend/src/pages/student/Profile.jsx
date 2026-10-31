@@ -93,7 +93,8 @@ export default function Profile() {
     setChangingPw(false);
 
     if (res?.ok && res.data?.success) {
-      setPwAlert({ type: 'success', text: '✅ Đổi mật khẩu thành công!' });
+      login(res.data.token, user);
+      setPwAlert({ type: 'success', text: '✅ Đổi mật khẩu thành công. Các phiên đăng nhập cũ đã được thu hồi.' });
       setCurrentPw('');
       setNewPw('');
       setConfirmPw('');

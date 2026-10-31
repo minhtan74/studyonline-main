@@ -24,7 +24,6 @@ truy cập terminal máy chủ đáng tin cậy, vào thư mục `backend` và c
 .venv\Scripts\python.exe scripts/recover_admin.py
 ```
 
-Docker: `docker compose exec backend python scripts/recover_admin.py`.
 Nhập email hai lần, sau đó nhập mật khẩu mới và xác nhận (ẩn khi nhập).
 Công cụ chỉ xử lý Admin đang hoạt động, đã tồn tại; không tạo Admin, không đổi vai trò hoặc mở khóa.
 Không truyền mật khẩu bằng tham số dòng lệnh hay gửi vào chat/log.

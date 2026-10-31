@@ -1,0 +1,29 @@
+{
+  "mode": "mocked_student_ui_no_real_credentials",
+  "passed": 22,
+  "checks": [
+    "Main list starts with five established review lessons",
+    "Review counter excludes all eight insufficient lessons",
+    "Insufficient group is collapsed by default",
+    "Summary retains both category totals",
+    "Review expands to ten without opening insufficient group",
+    "All eleven review lessons are retained",
+    "Review more button disappears at end",
+    "Insufficient group has its own five initial rows",
+    "Insufficient counter is separate",
+    "Insufficient score does not display percentage",
+    "All eight insufficient lessons remain accessible",
+    "Single-question row shows minimum evidence and wrong count",
+    "Practice action is retained",
+    "Reopening insufficient group resets its own pagination",
+    "Collapsing review keeps independent group open",
+    "Only-insufficient course has no misleading review list",
+    "Only-insufficient course can open its lessons",
+    "Empty course has no phantom insufficient group",
+    "Course change resets both groups",
+    "Both groups fit mobile",
+    "Reading and expanding groups never writes learning data",
+    "No frontend errors"
+  ],
+  "errors": []
+}

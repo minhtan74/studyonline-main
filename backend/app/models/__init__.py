@@ -269,6 +269,7 @@ class ResultAnswer(Base):
     topic_id: Mapped[int | None] = mapped_column(Integer)
     topic_name: Mapped[str | None] = mapped_column(String(100))
     classification_version: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    question_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
     knowledge_chapter_id: Mapped[int | None] = mapped_column(Integer)
     knowledge_lesson_id: Mapped[int | None] = mapped_column(Integer)
     knowledge_chapter_name: Mapped[str | None] = mapped_column(String(255))

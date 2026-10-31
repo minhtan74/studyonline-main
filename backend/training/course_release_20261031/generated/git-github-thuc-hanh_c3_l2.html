@@ -1,0 +1,64 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 3 — Bài 2: Giải quyết xung đột theo yêu cầu nội dung</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Tái tạo xung đột trong repository riêng.</li><li>Kết hợp hai yêu cầu thay vì chọn bên ngẫu nhiên.</li><li>Hoàn tất merge và xác nhận không còn marker.</li></ul>
+<p>Thời gian dự kiến: 110 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và môi trường riêng</h2>
+<p>Bài này dùng repository mới <code>conflict-lab</code> trong thư mục học, để các bước tạo xung đột không ảnh hưởng dự án xuyên khóa. Sản phẩm là file kế hoạch chứa đồng thời hai yêu cầu, một merge commit và biên bản giải thích cách giải. Mở terminal ở thư mục cha không chứa repository quan trọng rồi tự kiểm tra đường dẫn trước khi tạo thư mục.</p>
+<h2>Xung đột là thông tin cần quyết định</h2>
+<p>Hai người có thể sửa cùng một dòng từ một bản gốc nhưng theo mục tiêu khác. Git không đủ dữ liệu để chọn phiên bản đúng, nên yêu cầu người dùng quyết định. Mục tiêu học không phải làm biến mất dấu xung đột bằng cách chọn ngẫu nhiên một bên; mục tiêu là hiểu hai yêu cầu và dựng một kết quả đáp ứng chúng. Có trường hợp chỉ một yêu cầu được chấp nhận, nhưng quyết định phải được ghi cùng lý do.</p>
+<p>Trong tình huống giả lập, bản gốc ghi giờ ôn chưa chốt. Nhánh thực hành yêu cầu có phần làm bài; main yêu cầu có phần thảo luận. Kết quả hợp lý có thể là cả thực hành và thảo luận, không nhất thiết giống nguyên văn bên nào. Khi yêu cầu thật xung đột về thời gian hoặc giới hạn khác, cần làm rõ với người phụ trách trước khi sửa, thay vì tự suy đoán.</p>
+<h2>Tạo tình huống có thể lặp lại</h2>
+<p>Các dòng PowerShell dưới chỉ ghi đè <code>plan.txt</code> trong repository bài tập vừa tạo.</p>
+<pre><code>mkdir conflict-lab
+cd conflict-lab
+git init --initial-branch=main
+git config user.name &quot;Nguoi Hoc&quot;
+git config user.email &quot;learner@example.invalid&quot;
+Set-Content -LiteralPath plan.txt -Value &#x27;Buoi hoc: chua chot&#x27; -Encoding utf8
+git add -- plan.txt
+git commit -m &quot;docs: tao ke hoach goc&quot;
+git switch -c feature/practice
+Set-Content -LiteralPath plan.txt -Value &#x27;Buoi hoc: thuc hanh&#x27; -Encoding utf8
+git add -- plan.txt
+git commit -m &quot;docs: de xuat phan thuc hanh&quot;
+git switch main
+Set-Content -LiteralPath plan.txt -Value &#x27;Buoi hoc: thao luan&#x27; -Encoding utf8
+git add -- plan.txt
+git commit -m &quot;docs: de xuat phan thao luan&quot;
+git merge feature/practice
+git status --short</code></pre>
+<p>Lệnh merge cuối dự kiến trả trạng thái lỗi do conflict; đây là kết quả được tạo có chủ đích, không cần sửa cài đặt Git. Mở file và xác định các marker cùng hai phần nội dung. Không dùng toàn bộ khối lệnh như một test yêu cầu mọi mã thoát đều bằng 0; bước conflict phải được quan sát riêng.</p>
+<h2>Hoàn tất theo hai yêu cầu</h2>
+<p>Sửa <code>plan.txt</code> thành <code>Buoi hoc: thuc hanh va thao luan</code>. Xóa các dòng marker bằng cách chỉnh đúng file bài tập, đọc lại kết quả cuối, sau đó:</p>
+<pre><code>git add -- plan.txt
+git diff --cached
+git status
+git commit -m &quot;merge: ket hop thuc hanh va thao luan&quot;
+git log --graph --oneline -5</code></pre>
+<p>Đầu ra mong đợi: không còn unmerged path; commit hợp nhất xuất hiện; file chứa cả hai phần. Một công cụ có nút accept current/incoming có thể giúp thao tác, nhưng nút không tự hiểu tiêu chí. Nếu chưa sẵn sàng quyết định, ghi lại yêu cầu và hỏi người phụ trách; không biến việc chọn theo màu thành quy tắc nghiệp vụ.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Trong repository khác dành riêng cho bài tập, dựng xung đột ở dòng hướng dẫn nộp bài: một phía thêm yêu cầu báo cáo, phía kia thêm yêu cầu test. Viết kết quả gộp, kèm hai câu giải thích nguồn gốc từng yêu cầu. Hướng giải chấp nhận một câu hoặc hai dòng miễn thể hiện cả báo cáo và test, không còn marker và người khác đọc được. Tự kiểm tra trên clone local sạch hoặc mở commit kết quả bằng <code>git show</code>.</p>
+<h2>Chẩn đoán lỗi thường gặp</h2>
+<p>Merge chưa kết thúc vì đã sửa file nhưng chưa add; status thường cho biết file còn unmerged. Hoàn tất commit mà vẫn để marker trong nội dung là lỗi kiểm tra của người giải; cần đọc sản phẩm cuối và dùng kiểm tra phù hợp. Xung đột không chỉ là hai người viết cùng một chữ; đổi/xóa hoặc đổi tên file cũng có thể tạo tình huống cần quyết định. Bài này giữ ví dụ văn bản nhỏ để người học nắm quy trình trước.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Conflict có nghĩa repository bị hỏng không? Không; cần quyết định cách tích hợp nội dung.</li><li>Vì sao add sau khi giải? Để ghi phiên bản đã giải vào index trước khi hoàn tất merge.</li><li>Chọn “incoming” luôn đúng không? Không; đúng sai phụ thuộc yêu cầu và kết quả cần đạt.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/git-merge</li><li>https://git-scm.com/docs/git-status</li></ul></body></html>

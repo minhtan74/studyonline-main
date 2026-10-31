@@ -1,3 +1,4 @@
+import { useToast } from '../../hooks/useToast';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -8,11 +9,12 @@ const navClass = ({ isActive }) => 's-nav-item' + (isActive ? ' active' : '');
 export default function StudentSidebar({ collapsed, mobileOpen }) {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   // Đăng xuất rồi về trang chủ
-  function handleLogout() {
-    logout();
-    navigate('/');
+  async function handleLogout() {
+    if (await logout()) navigate('/');
+    else showToast('Chưa thể thu hồi phiên đăng nhập. Kiểm tra kết nối rồi thử đăng xuất lại.', 'error');
   }
 
   return (
@@ -58,7 +60,7 @@ export default function StudentSidebar({ collapsed, mobileOpen }) {
       <div className="s-sidebar-footer">
         <button className="s-nav-item s-logout" onClick={handleLogout}>
           <span className="nav-icon">🚪</span>
-          <span className="nav-label">Đăng xuất</span>
+          <span className="nav-label">Đăng xuất mọi thiết bị</span>
         </button>
       </div>
     </aside>

@@ -1,0 +1,54 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 6 — Bài 1: Tag, ghi chú phát hành và bàn giao tái tạo</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Gắn tag chú thích cho phiên bản được kiểm tra.</li><li>Phân biệt archive mã nguồn với repository đầy đủ.</li><li>Kiểm tra một bản bàn giao ở thư mục mới.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện</h2>
+<p>Repository Study Notes có các ghi chú, quy tắc ignore và test được commit. Working tree phải sạch trước khi chọn phiên bản phát hành; nếu còn sửa, quyết định có đưa vào bản phát hành hay không và kiểm tra lại. Sản phẩm là tag chú thích <code>v1.0.0</code>, CHANGELOG, archive ZIP và báo cáo kiểm tra từ một bản clone mới.</p>
+<h2>Phiên bản cần được chỉ rõ</h2>
+<p>Một tag đặt tên cho một đối tượng Git, giúp nhóm tham chiếu một mốc được thống nhất như phiên bản 1.0.0. Tag chú thích có thông tin bổ sung, phù hợp khi cần mô tả lý do phát hành. Tên tag không tự bảo đảm mọi test đã chạy; trách nhiệm của quy trình là ghi bằng chứng gắn với đúng commit. Trong bài, chỉ tạo tag sau khi đọc diff cuối, chạy test và cập nhật hướng dẫn.</p>
+<p>Ghi chú phát hành trả lời ba câu: có gì mới, ai bị ảnh hưởng, cần làm gì khi dùng bản này. Không cần liệt kê mọi commit nếu người dùng chỉ cần hiểu hành vi. Với dự án ghi chú, ghi chú có thể nêu thêm bộ kiểm tra tiêu đề, cách chạy và giới hạn chưa kiểm chứng nội dung chuyên môn. Nếu còn lỗi đã biết, ghi ngắn và cụ thể để người nhận quyết định sử dụng phù hợp.</p>
+<h2>Thực hành phát hành local</h2>
+<p>Sửa CHANGELOG thêm mục 1.0.0, đối chiếu tên file và lệnh test trong README, rồi commit phần bàn giao. Chạy từ thư mục gốc repository:</p>
+<pre><code>git status --short
+python -m unittest discover -s tests -v
+git log --oneline -1
+git tag -a v1.0.0 -m &quot;Phat hanh ghi chu va bo kiem tra nen tang&quot;
+git show v1.0.0 --stat
+git archive --format=zip --output=../study-notes-v1.0.0.zip v1.0.0</code></pre>
+<p>Nếu dự án chỉ dùng file <code>test_heading.py</code> của bài trước, chạy đúng file đó thay cho discovery và ghi lựa chọn trong README. Đừng ghi test chưa tồn tại để cho giống mẫu. Archive được tạo từ tag nên chỉ gồm nội dung được quản lý tại mốc đó; file ignored hoặc thay đổi chưa commit không tự nằm trong archive.</p>
+<h2>Clone sạch để xác nhận</h2>
+<p>Từ thư mục cha, clone repository Study Notes sang tên mới <code>study-notes-check</code>, chuyển vào đó rồi chọn tag:</p>
+<pre><code>git clone study-notes study-notes-check
+cd study-notes-check
+git switch --detach v1.0.0
+git status --short
+python -m unittest discover -s tests -v</code></pre>
+<p>Trạng thái detached HEAD ở đây là dự kiến vì đang xem mốc phát hành, chưa bắt đầu một nhánh làm việc mới. Nếu cần sửa tiếp, tạo nhánh có tên thay vì để commit mới khó nhận diện. Bài kiểm tra bàn giao phải dùng đường dẫn và cách chạy trong README, không dựa vào file riêng còn nằm ở bản gốc.</p>
+<h2>Archive và lịch sử</h2>
+<p>ZIP từ git archive phục vụ phân phối nội dung tại một phiên bản, thường không chứa thư mục .git và toàn bộ lịch sử. Người nhận ZIP có thể đọc/chạy nội dung nhưng không tự có mọi commit để nghiên cứu quy trình. Khi bài nộp yêu cầu lịch sử, gửi repository phù hợp hoặc một Git bundle có hướng dẫn phục hồi, đồng thời archive cho sản phẩm phát hành. Hai loại bàn giao cần được ghi rõ, tránh nộp ZIP rồi khẳng định người chấm xem được các nhánh.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Sau khi tạo v1.0.0, thêm một ghi chú chưa commit vào bản làm việc. Tạo archive lại từ chính tag với tên file khác, rồi kiểm tra ghi chú mới có xuất hiện không. Hướng giải: tag vẫn trỏ mốc cũ, nên file chưa commit không thuộc archive đó. Đạt khi bạn giải thích bằng mốc nguồn, không kết luận archive bị lỗi. Không di chuyển tag cũ tùy tiện để làm kết quả giống mong muốn; tạo phiên bản tiếp theo theo chính sách nhóm khi có thay đổi đã được duyệt.</p>
+<h2>Lỗi thường gặp</h2>
+<p>Gắn tag trước lần sửa cuối dẫn tới bản phát hành thiếu bản sửa. Thử chạy test trong bản gốc rồi bỏ qua clone sạch có thể che phụ thuộc local. Nén cả thư mục bằng công cụ hệ điều hành có thể đưa file riêng hoặc secret vào ZIP nếu chọn bừa; git archive giúp xác định nội dung theo mốc đã chọn nhưng vẫn cần kiểm tra nguồn được quản lý.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Tag có tự chạy test không? Không.</li><li>Archive từ tag có lấy file mới chưa commit không? Không, nó lấy nội dung của mốc được chỉ định.</li><li>Vì sao ZIP chưa đủ khi yêu cầu đánh giá lịch sử? ZIP nội dung không chứa toàn bộ dữ liệu Git để xem quá trình phát triển.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/git-tag</li><li>https://git-scm.com/docs/git-archive</li><li>https://git-scm.com/docs/git-bundle</li><li>https://git-scm.com/docs/git-switch</li></ul></body></html>

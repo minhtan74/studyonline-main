@@ -1,0 +1,50 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 4 — Bài 2: GitHub, quyền truy cập và hồ sơ thay đổi</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Hiểu vai trò GitHub trong quy trình cộng tác.</li><li>Lập phương án xác thực không đưa bí mật vào tài liệu.</li><li>Mô tả một đề xuất thay đổi có thể review.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và lựa chọn thực hành</h2>
+<p>GitHub bổ sung nơi lưu repository, thảo luận, review và các dịch vụ cộng tác. Bài cho hai lộ trình: mô phỏng toàn bộ hồ sơ bằng Markdown local hoặc tự thao tác trên repository học tập riêng ở GitHub. Kết quả cần đạt giống nhau: một đề xuất thay đổi có mục đích, diff, cách kiểm tra và nhận xét. Lộ trình web do người học tự thực hiện trên tài khoản được phép; không cần gửi token cho giảng viên hay AI Tutor.</p>
+<h2>Git và GitHub trong một quy trình</h2>
+<p>Commit và branch là dữ liệu/quy trình Git đã thực hành local. Pull request là đề xuất tích hợp thay đổi trên GitHub, cung cấp ngữ cảnh để thảo luận và đánh giá trước khi merge. Một pull request có thể gồm nhiều commit; lời mô tả cần giải thích trạng thái sản phẩm sau thay đổi, không chỉ chép danh sách file. Việc mở đề xuất không đồng nghĩa đã được chấp nhận, và một review được chấp thuận không tự thay thế các kiểm tra khác của nhóm.</p>
+<h2>Danh tính, xác thực và quyền</h2>
+<p>Danh tính tác giả trong commit không phải quyền ghi vào GitHub. Quyền tài nguyên phụ thuộc tài khoản, xác thực và phân quyền của repository/tổ chức. GitHub hỗ trợ nhiều cách xác thực cho các ngữ cảnh khác nhau; người học chọn hướng dẫn chính thức hiện hành cho HTTPS/credential helper hoặc SSH thay vì ghi mật khẩu vào lệnh. Không nhúng bí mật vào URL remote, không đặt private key trong thư mục nguồn, không chụp token làm bằng chứng hoàn thành bài. Các yêu cầu tài khoản và giao diện có thể thay đổi, nên đọc tài liệu xác thực gắn ở cuối bài.</p>
+<h2>Thực hành local: hồ sơ tương đương một đề xuất</h2>
+<p>Tạo nhánh <code>feature/learning-checklist</code> trong repository xuyên khóa, thêm checklist ba bước kiểm tra. Đọc diff, commit rồi tạo file <code>reviews/change-01.md</code> theo mẫu:</p>
+<pre><code># Thêm checklist học tập
+## Vấn đề
+Người mới chưa biết cần ghi bằng chứng nào sau mỗi bài.
+## Hành vi sau thay đổi
+README dẫn tới checklist gồm diff, kết quả test và câu hỏi còn vướng.
+## Cách kiểm tra
+Mở link tương đối từ README và đối chiếu ba mục với nội dung file.
+## Phản hồi review
+Ghi nhận xét, cách xử lý và vấn đề còn chưa giải quyết.</code></pre>
+<p>Đừng ghi “đã test” khi chưa chạy; thay bằng đúng lệnh hoặc thao tác cùng kết quả. Ghi một nhận xét cụ thể như “link README trỏ sai chữ hoa/thường”, sửa rồi tạo commit tiếp. Không cần tác giả khác giả mạo tên để minh họa; bản tự review phải ghi rõ tự review.</p>
+<h2>Thực hành GitHub tùy chọn</h2>
+<p>Trước khi tạo repository học tập, quyết định ai được xem nội dung. Dùng một repository riêng không chứa dữ liệu công việc. Tự cấu hình remote theo URL mà GitHub cung cấp, kiểm tra <code>git remote -v</code>, gửi nhánh tính năng rồi mở pull request vào nhánh đích. Điền mục đích, tác động, cách kiểm tra và giới hạn. Có thể dùng draft khi vẫn đang hoàn thiện. Nếu chưa có người review, ghi tự review và giữ báo cáo honest; không gọi đó là đã được nhóm phê duyệt.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Một đề xuất chỉ ghi “sửa file”. Viết lại thành mô tả đủ để người chưa học cùng buổi hiểu lý do, kết quả và cách xác minh. Thêm một tình huống sai để người review thử, chẳng hạn link tới file không tồn tại. Hướng giải cần nêu kết quả mong đợi và bằng chứng, không dùng số dòng thay đổi làm thước đo chất lượng. Đạt khi người khác có thể tìm đúng diff, thực hiện kiểm tra và biết lỗi nào cần phản hồi.</p>
+<h2>Lỗi thường gặp</h2>
+<p>Nhầm fork với branch dẫn tới không biết thay đổi nằm ở repository nào; xác định cả chủ repository và tên nhánh. Sửa description sau review mà không báo phạm vi thay đổi có thể làm người review bỏ sót; cập nhật thông tin khi kết quả cuối đổi. Lấy ảnh nút màu xanh làm bằng chứng duy nhất bỏ qua nội dung và quyền. Trên máy dùng chung, dùng credential helper theo chính sách máy và đăng xuất phiên không còn cần thiết.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Pull request có phải lệnh Git local không? Không; đây là cơ chế cộng tác của dịch vụ GitHub.</li><li>Có nên gửi token cho người chấm để chứng minh đăng nhập không? Không; minh chứng bằng trạng thái và nội dung đã che thông tin riêng.</li><li>Đề xuất đã mở có nghĩa đã merge chưa? Chưa; cần quyết định tích hợp theo quy trình và quyền.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://docs.github.com/en/pull-requests/reference/pull-requests</li><li>https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github</li><li>https://docs.github.com/en/get-started/git-basics/about-remote-repositories</li></ul></body></html>

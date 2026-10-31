@@ -1,0 +1,29 @@
+{
+  "mode": "mocked_student_ui_no_real_credentials",
+  "applied": true,
+  "passed": 21,
+  "checks": [
+    "Course 894 resource links visible",
+    "Course 894 has six chapters",
+    "Course 894 first chapter has two lessons",
+    "Course 894 handbook visible",
+    "Course 894 resource PDF viewer opens",
+    "Course 894 mobile has no overflow",
+    "Course 895 resource links visible",
+    "Course 895 has six chapters",
+    "Course 895 first chapter has two lessons",
+    "Course 895 handbook visible",
+    "Course 895 resource PDF viewer opens",
+    "Course 895 mobile has no overflow",
+    "Course 896 resource links visible",
+    "Course 896 has six chapters",
+    "Course 896 first chapter has two lessons",
+    "Course 896 handbook visible",
+    "Course 896 resource PDF viewer opens",
+    "Course 896 mobile has no overflow",
+    "Lesson print HTML contains Vietnamese title",
+    "Lesson print HTML keeps code blocks",
+    "No frontend runtime errors"
+  ],
+  "errors": []
+}

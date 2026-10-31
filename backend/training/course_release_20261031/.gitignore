@@ -1,0 +1,6 @@
+__pycache__/
+generated/browser_profiles/
+generated/checks/
+generated/*.rag.json
+generated/projects/**/__pycache__/
+generated/projects/**/.pytest_cache/

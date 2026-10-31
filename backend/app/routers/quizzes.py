@@ -729,20 +729,22 @@ def submit(
         # Lưu chi tiết từng câu -> phục vụ phân tích topic mạnh/yếu (Phase 4/5)
         if result_id:
             from app.services.knowledge import outline, snapshot
+            from app.services.question_evidence import fingerprint
             structure = outline(db, quiz['course_id'])
             question_meta={q['id']:q for q in questions}
             for d in details:
                 execute(
                     db,
                     "INSERT INTO result_answers (result_id, question_id, chosen, is_correct, topic_id, topic_name, classification_version, "
-                    "knowledge_chapter_id,knowledge_lesson_id,knowledge_chapter_name,knowledge_lesson_name,knowledge_version) "
-                    "VALUES (:r, :q, :c, :ic, :tid, :tn, 2, :knowledge_chapter_id,:knowledge_lesson_id,:knowledge_chapter_name,:knowledge_lesson_name,2)",
+                    "knowledge_chapter_id,knowledge_lesson_id,knowledge_chapter_name,knowledge_lesson_name,knowledge_version,question_fingerprint) "
+                    "VALUES (:r, :q, :c, :ic, :tid, :tn, 2, :knowledge_chapter_id,:knowledge_lesson_id,:knowledge_chapter_name,:knowledge_lesson_name,2,:fingerprint)",
                     r=result_id,
                     q=d["question_id"],
                     c=(d["chosen"] or None) if len(d["chosen"] or "") <= 1 else None,
                     ic=1 if d["is_right"] else 0,
                     tid=question_meta[d['question_id']].get('topic_id'),
                     tn=question_meta[d['question_id']].get('topic'),
+                    fingerprint=fingerprint(question_meta[d['question_id']]),
                     **snapshot(db, question_meta[d['question_id']], structure),
                 )
         # Chốt lượt làm của đề có ràng buộc, gắn với kết quả vừa lưu
@@ -895,7 +897,7 @@ _WORD_MAX_BYTES = 5 * 1024 * 1024
 
 
 # Lưu ảnh trong câu hỏi ra uploads/images/quiz (phục vụ công khai qua /uploads/images); tên file = mã băm
-# nội dung -> cùng 1 ảnh nhập nhiều lần chỉ lưu 1 file. Trả URL tương đối để chạy được cả dev lẫn Docker.
+# nội dung -> cùng 1 ảnh nhập nhiều lần chỉ lưu 1 file. Trả URL tương đối để không phụ thuộc địa chỉ triển khai.
 def _save_quiz_image(blob: bytes, ext: str) -> str:
     folder = os.path.join(settings.upload_dir, "images", "quiz")
     os.makedirs(folder, exist_ok=True)

@@ -10,7 +10,7 @@
 |---|---|
 | Frontend | React 18 · Vite · React Router · Axios · Chart.js |
 | Backend | **FastAPI** · SQLAlchemy · Pydantic · Alembic · JWT (HS256) · bcrypt |
-| CSDL | MySQL 8 |
+| CSDL | MySQL 8.4 |
 | AI | fastembed (embedding ONNX, không cần PyTorch) · vector store trên MySQL · Gemini/OpenAI qua REST, Claude qua SDK · công cụ nghiên cứu LoRA/QLoRA trên Colab |
 
 > Backend hiện tại dùng FastAPI, thay cho backend PHP trước đây;
@@ -36,13 +36,12 @@ studyonline/
 │   │   ├── services/     analytics_service
 │   │   └── ai/           rag/ (loader·splitter·embeddings·vector_store·retriever·pipeline)
 │   │                     model_manager · recommendation · quiz_generator
-│   ├── alembic/          migration CSDL (0001 baseline → 0023)
+│   ├── alembic/          migration CSDL (0001 baseline → 0024)
 │   ├── training/         dataset/ · prepare_dataset.py · train_lora.py · evaluate.py
 │   │                     sample_docs/ · seed_documents.py · seed_result_answers.py
 │   └── tests/            smoke_writes.py · test_api.py (pytest)
 ├── database/            studyonline_db.sql · migration_add_payments.sql · sample_data.sql
-├── docs/               architecture · rag · fine-tuning · recommendation · api
-└── docker-compose.yml
+└── docs/               architecture · rag · fine-tuning · recommendation · api
 ```
 
 ---
@@ -52,46 +51,15 @@ studyonline/
 Khôi phục mật khẩu: **Giảng viên/Học viên liên hệ Admin quản lý**, **Admin qua quy trình riêng trên máy chủ**;
 không dùng email SMTP. Xem [hướng dẫn cấp lại mật khẩu](docs/password-recovery.md).
 
-Có 2 cách. **Docker** để chạy thử nhanh trên máy bất kỳ (dữ liệu mẫu). **Windows local** là cách dùng
-hằng ngày khi phát triển và khi demo với dữ liệu thật.
+Dự án chạy trực tiếp trên Windows với **MySQL 8.4**, **Python 3.12+** và **Node.js 18+**.
 
-| Cách | Cần cài | Giao diện | API + Swagger | MySQL |
-|---|---|---|---|---|
-| Docker | Docker Desktop | <http://localhost:8088> | <http://localhost:8080/docs> | `localhost:3307` |
-| Windows local | Python 3.12+, Node.js 18+, MySQL 8.4 | <http://localhost:5173> | <http://127.0.0.1:8080/docs> | `localhost:3306` |
+| Thành phần | Địa chỉ mặc định |
+|---|---|
+| Frontend React/Vite | <http://localhost:5173> |
+| Backend FastAPI + Swagger | <http://127.0.0.1:8080/docs> |
+| MySQL 8.4 | `localhost:3306` |
 
----
-
-### Cách 1 — Docker (nhanh nhất)
-
-```bash
-docker compose up -d --build
-```
-
-Khi volume MySQL còn trống, Docker chạy các file SQL để tạo bảng và nạp dữ liệu mẫu.
-Backend chạy `alembic upgrade head` khi khởi động để cập nhật schema. Volume đã có dữ liệu
-thì các file SQL khởi tạo không chạy lại.
-
-Nạp thêm dữ liệu demo (tuỳ chọn, chạy theo đúng thứ tự):
-
-```bash
-docker compose exec backend python training/seed_documents.py              # tài liệu mẫu cho AI Tutor
-docker compose exec backend python training/seed_result_answers.py         # chi tiết câu trả lời cho kết quả quiz cũ
-docker compose exec backend python training/seed_learning_data.py          # thêm lượt làm quiz + tiến độ học
-docker compose exec backend python training/fix_report_data.py             # chỉnh ngày tháng cho trang Báo cáo
-docker compose exec backend python training/lesson_docs/seed_lesson_docs.py  # gắn PDF tài liệu cho bài học
-```
-
-Dùng LLM (Gemini): điền `LLM_API_KEY` trong nhóm `backend.environment` của `docker-compose.yml`
-rồi chạy lại `docker compose up -d`. Biến này hiện được khai báo trực tiếp trong Compose,
-nên chỉ điền vào `backend/.env` hoặc `.env` ở thư mục gốc sẽ không thay thế giá trị đó.
-Để trống thì AI dùng chế độ trích xuất từ tài liệu. Model embedding cần được tải ở lần dùng đầu tiên.
-
-Dừng: `docker compose down` (thêm `-v` để xoá luôn dữ liệu).
-
----
-
-### Cách 2 — Windows local
+### Windows local
 
 #### Lần đầu tiên (cài đặt)
 
@@ -123,8 +91,12 @@ EXIT;
 cd backend
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt
-copy .env.example .env           # rồi sửa DB_PASS, LLM_API_KEY (Gemini), VNPAY_* nếu có
+copy .env.example .env           # chỉ trên máy mới; không ghi đè .env hiện tại
+.venv\Scripts\python scripts/generate_jwt_secret.py
+# Lần đầu: cấu hình DB_USER/DB_PASS của quản trị schema để chạy migration.
 .venv\Scripts\python -m alembic upgrade head
+# Sau migration local, nếu đang cấu hình root:
+.venv\Scripts\python scripts/configure_local_runtime.py --apply
 ```
 
 Migration `0001` chỉ đánh dấu baseline, không tạo bảng ban đầu; cần import schema SQL
@@ -134,7 +106,7 @@ Các biến quan trọng trong `backend/.env`:
 
 | Biến | Ý nghĩa |
 |---|---|
-| `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS` | Kết nối MySQL (mặc định `127.0.0.1:3306`, user `root`) |
+| `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS` | Kết nối MySQL (mặc định `127.0.0.1:3306`; ứng dụng dùng `studyonline_app`) |
 | `LLM_PROVIDER`, `LLM_API_KEY` | `gemini` + khoá Gemini; để trống khoá -> AI chạy offline |
 | `VNPAY_TMN_CODE`, `VNPAY_HASH_SECRET` | Khoá VNPay Sandbox; để trống -> nút thanh toán báo "chưa cấu hình" |
 
@@ -162,6 +134,10 @@ Các script này ghi dữ liệu; riêng `fix_report_data.py` còn chỉnh ngày
 PDF tài liệu bài học nằm sẵn trong `backend/training/lesson_docs/pdf/`. Muốn sửa nội dung: chỉnh file `.md`
 trong `backend/training/lesson_docs/content/` rồi chạy `python training/lesson_docs/build_pdfs.py` (cần Chrome
 hoặc Edge) để dựng lại.
+
+Bộ bổ sung 31/10/2026 thêm ba khóa Git & GitHub, Python hướng đối tượng và FastAPI, cùng sổ tay/dự án cho
+10 khóa hiện có. Xem [nội dung, cách học và kiểm chứng](docs/course-release-20261031.md); nguồn bộ mới ở
+`backend/training/course_release_20261031/`. Tài liệu toàn khóa nằm ngay trên trang đề cương của khóa.
 
 #### Các lần sau (chạy hằng ngày)
 
@@ -342,7 +318,6 @@ Khóa có phí thanh toán qua **VNPay Sandbox** (môi trường thử, không t
    VNPAY_TMN_CODE=<mã website>
    VNPAY_HASH_SECRET=<chuỗi bí mật>
    ```
-   (Docker: đặt 2 biến này trong môi trường hoặc file `.env` cạnh `docker-compose.yml`.)
 3. Mở web bằng đúng địa chỉ trong `FRONTEND_URL` (mặc định <http://localhost:5173>). VNPay trả về địa chỉ
    này; mở bằng `127.0.0.1` sẽ mất phiên đăng nhập.
 4. Học viên → Khám phá khóa học → Đăng ký khóa có phí → **Thanh toán qua VNPay**. Thẻ test (ngân hàng **NCB**):
@@ -394,3 +369,24 @@ và [mục lục học thêm](backend/training/lesson_docs/supplements/README.md
 | [docs/api.md](docs/api.md) | Tham chiếu toàn bộ endpoint + schema CSDL |
 | [backend/README.md](backend/README.md) | Chi tiết backend |
 | [backend/training/README.md](backend/training/README.md) | Hướng dẫn fine-tune trên Colab |
+
+## Cấu hình local và triển khai
+
+Xem [hướng dẫn cấu hình](docs/deployment-config.md). Backend mặc định tắt debug,
+chỉ cho phép frontend local `localhost:5173` và `127.0.0.1:5173` gọi qua CORS.
+Tài khoản chạy ứng dụng `studyonline_app` chỉ có quyền SELECT/INSERT/UPDATE/DELETE
+trên database ứng dụng. Các lệnh Alembic/import SQL phải chạy riêng bằng tài khoản quản trị schema,
+không cấp quyền thay đổi bảng cho tài khoản runtime.
+
+Mẫu triển khai: `backend/.env.production.example`. Khi `APP_ENV=production`, cấu hình
+bật debug, CORS `*`, user MySQL `root` hoặc mật khẩu DB trống sẽ bị từ chối lúc khởi động.
+
+### Khóa JWT và mật khẩu
+
+Backend yêu cầu JWT_SECRET riêng ít nhất 32 byte, không chấp nhận khóa mẫu. Sau khi sao chép
+.env.example, chạy `scripts/generate_jwt_secret.py` bằng Python của backend để tạo khóa mà không in ra console.
+`--rotate` thay khóa hiện có và làm mọi token/link media cũ mất hiệu lực sau khi backend nạp cấu hình mới.
+
+Đăng nhập chỉ xác minh bcrypt. SQL mẫu đã dùng bcrypt; tài khoản mẫu vẫn đăng nhập bằng mật khẩu được ghi bên trên.
+Database cũ cần chạy `scripts/hash_legacy_passwords.py --apply` trong backend để chuyển mật khẩu thô;
+script mặc định chỉ kiểm tra, giữ nguyên mật khẩu người dùng và không chuyển lại hash đã có.

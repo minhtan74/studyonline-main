@@ -1,0 +1,158 @@
+[
+  {
+    "course": "git-github-thuc-hanh",
+    "lesson": "Giải quyết xung đột theo yêu cầu nội dung",
+    "name": "git_conflict_resolution",
+    "passed": true
+  },
+  {
+    "course": "git-github-thuc-hanh",
+    "lesson": "Dự án Study Notes và đánh giá hoàn thành",
+    "name": "git_local_workflow",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Từ yêu cầu nghiệp vụ đến lớp và đối tượng",
+    "name": "Từ yêu cầu nghiệp vụ đến lớp và đối tượng",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Khởi tạo đối tượng hợp lệ và bảo vệ bất biến",
+    "name": "Khởi tạo đối tượng hợp lệ và bảo vệ bất biến",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Thuộc tính thực thể, thuộc tính lớp và dữ liệu dùng chung",
+    "name": "Thuộc tính thực thể, thuộc tính lớp và dữ liệu dùng chung",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Đóng gói bằng thuộc tính và property",
+    "name": "Đóng gói bằng thuộc tính và property",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Composition và phân chia trách nhiệm dịch vụ",
+    "name": "Composition và phân chia trách nhiệm dịch vụ",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Dataclass, đối tượng giá trị và biểu diễn dữ liệu",
+    "name": "Dataclass, đối tượng giá trị và biểu diễn dữ liệu",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Kế thừa, ghi đè và hợp đồng thay thế",
+    "name": "Kế thừa, ghi đè và hợp đồng thay thế",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Đa hình, duck typing và lớp trừu tượng",
+    "name": "Đa hình, duck typing và lớp trừu tượng",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Ngoại lệ nghiệp vụ và ranh giới xử lý lỗi",
+    "name": "Ngoại lệ nghiệp vụ và ranh giới xử lý lỗi",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Kiểm thử đơn vị và thiết kế tình huống biên",
+    "name": "Kiểm thử đơn vị và thiết kế tình huống biên",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Lưu JSON có phiên bản và tải lại dữ liệu hợp lệ",
+    "name": "Lưu JSON có phiên bản và tải lại dữ liệu hợp lệ",
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "lesson": "Tích hợp dự án thư viện CLI và nghiệm thu",
+    "name": "Tích hợp dự án thư viện CLI và nghiệm thu",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "HTTP, hợp đồng API và ứng dụng đầu tiên",
+    "name": "HTTP, hợp đồng API và ứng dụng đầu tiên",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Tham số đường dẫn, truy vấn và phân trang",
+    "name": "Tham số đường dẫn, truy vấn và phân trang",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Dữ liệu đầu vào với Pydantic 2",
+    "name": "Dữ liệu đầu vào với Pydantic 2",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "CRUD, mô hình phản hồi và lỗi nghiệp vụ",
+    "name": "CRUD, mô hình phản hồi và lỗi nghiệp vụ",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Dependency injection và tách trách nhiệm",
+    "name": "Dependency injection và tách trách nhiệm",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Vòng đời tài nguyên và lựa chọn sync hoặc async",
+    "name": "Vòng đời tài nguyên và lựa chọn sync hoặc async",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "SQLite, truy vấn tham số và dữ liệu bền vững",
+    "name": "SQLite, truy vấn tham số và dữ liệu bền vững",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Giao dịch, ràng buộc và xử lý xung đột",
+    "name": "Giao dịch, ràng buộc và xử lý xung đột",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Xác thực Bearer và quyền sở hữu tài nguyên",
+    "name": "Xác thực Bearer và quyền sở hữu tài nguyên",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Kiểm thử hợp đồng, quyền và cô lập dữ liệu",
+    "name": "Kiểm thử hợp đồng, quyền và cô lập dữ liệu",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Cấu hình, nhật ký và chuẩn bị chạy cục bộ",
+    "name": "Cấu hình, nhật ký và chuẩn bị chạy cục bộ",
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "lesson": "Dự án tổng hợp Task API và nghiệm thu",
+    "name": "Dự án tổng hợp Task API và nghiệm thu",
+    "passed": true
+  }
+]

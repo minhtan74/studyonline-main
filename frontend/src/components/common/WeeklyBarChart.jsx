@@ -12,7 +12,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip);
 
 /** Tương đương renderWeeklyChart() trong student-dashboard.js cũ */
 // Biểu đồ cột số bài hoàn thành theo ngày (data/labels không truyền thì dùng số liệu mẫu)
-export default function WeeklyBarChart({ data, labels }) {
+export default function WeeklyBarChart({ data, labels, animated = true }) {
   const chartData = {
     labels: labels || ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
     datasets: [
@@ -28,6 +28,7 @@ export default function WeeklyBarChart({ data, labels }) {
   };
 
   const options = {
+    animation: animated ? undefined : false,
     responsive: true,
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },

@@ -4,6 +4,7 @@ import { aiService } from '../../services/aiService';
 import { enrollmentService } from '../../services/enrollmentService';
 import { useAiChat } from '../../hooks/useAiChat';
 import AiChatFeedback, { AiReplyLabel } from '../../components/ai/AiChatFeedback.jsx';
+import AiMessageContent, { AiSources } from '../../components/ai/AiMessageContent.jsx';
 
 /** PHASE 6 — AI Tutor (RAG): hỏi đáp dựa trên tài liệu khóa học, có trích dẫn nguồn. */
 export default function AiTutor() {
@@ -202,7 +203,7 @@ export default function AiTutor() {
                 key={i}
                 style={{
                   alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start',
-                  maxWidth: '80%',
+                  maxWidth: '80%', minWidth: 0,
                 }}
               >
                 <div
@@ -211,39 +212,21 @@ export default function AiTutor() {
                     borderRadius: 12,
                     fontSize: '.88rem',
                     lineHeight: 1.5,
-                    whiteSpace: 'pre-wrap',
+                    whiteSpace: m.role === 'user' ? 'pre-wrap' : 'normal',
                     background: m.role === 'user' ? 'var(--s-primary)' : 'var(--s-surface-2)',
                     color: m.role === 'user' ? '#fff' : 'inherit',
                     border: m.role === 'user' ? 'none' : '1px solid var(--s-border)',
                   }}
                 >
                   <AiReplyLabel message={m} />
-                  {m.content}
+                  {m.role === 'assistant' ? <AiMessageContent content={m.content} /> : m.content}
                 </div>
-                {m.role === 'assistant' && Array.isArray(m.sources) && m.sources.length > 0 && (
-                  <div style={{ marginTop: '.4rem', display: 'flex', flexWrap: 'wrap', gap: '.35rem' }}>
-                    {m.sources.map((s, j) => (
-                      <span
-                        key={j}
-                        style={{
-                          fontSize: '.7rem',
-                          padding: '.2rem .5rem',
-                          borderRadius: 999,
-                          background: 'rgba(37,99,235,.1)',
-                          color: 'var(--s-primary)',
-                          fontWeight: 600,
-                        }}
-                      >
-                        📄 {s.document}{s.page ? ` — tr. ${s.page}` : ''}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                {m.role === 'assistant' && <AiSources sources={m.sources} />}
               </div>
             ))}
 
-            <AiChatFeedback sending={sending} elapsedSeconds={chat.elapsedSeconds} feedback={chat.feedback}
-              onStop={chat.stop} onRetry={chat.retry} onEdit={setInput} />
+            <AiChatFeedback sending={sending} feedback={chat.feedback}
+              onRetry={chat.retry} onEdit={setInput} />
           </div>
 
           <form

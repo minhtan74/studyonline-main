@@ -1,0 +1,83 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Python hướng đối tượng: từ mô hình đến ứng dụng CLI</div><h1>Chương 5 — Bài 1: Ngoại lệ nghiệp vụ và ranh giới xử lý lỗi</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Diễn đạt các lỗi dự kiến bằng ngoại lệ có ý nghĩa.</li><li>Bắt lỗi ở ranh giới CLI và giữ nguyên bất biến miền.</li><li>Phân biệt thông báo người dùng với lỗi lập trình cần sửa.</li></ul>
+<p>Thời gian dự kiến: 120 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện học</h2>
+<ul><li>Diễn đạt các lỗi dự kiến bằng ngoại lệ có ý nghĩa.</li><li>Bắt lỗi ở ranh giới CLI và giữ nguyên bất biến miền.</li><li>Phân biệt thông báo người dùng với lỗi lập trình cần sửa.</li></ul>
+<p>Mỗi bài dành khoảng 100–150 phút gồm đọc, chạy mã, sửa ví dụ và tự luyện. Dùng Python 3.12 trở lên trong một thư mục học riêng; các ví dụ chỉ dùng thư viện chuẩn. Tạo file <code>example.py</code>, chép nguyên khối mã rồi chạy <code>python example.py</code>. Trên Windows có thể dùng <code>py -3.12 example.py</code> khi lệnh <code>python</code> trỏ tới bản khác. Không ghép các lớp cùng tên của nhiều bài vào một file: mỗi ví dụ là một chương trình độc lập.</p>
+<h2>Giải thích và lập luận thiết kế</h2>
+<p>Người dùng mượn một mã không có trong thư viện là tình huống dự kiến; NameError do viết sai tên biến là lỗi lập trình. Nếu bắt Exception quanh mọi thứ rồi in “không tìm thấy sách”, hai tình huống sẽ bị trộn và lỗi thật khó truy tìm. Ta tạo LibraryError cho các lỗi nghiệp vụ có thể trình bày ngắn ở CLI, với NotFound và NoCopies để phân biệt nguyên nhân khi cần.</p>
+<p>Ngoại lệ cho phép một thao tác báo không hoàn tất mà không phải trả nhiều kiểu kết quả mơ hồ như -1, None hoặc chuỗi “error”. Nơi gọi phải biết trường hợp nào có thể thất bại và bắt đúng loại cần xử lý. Không lạm dụng ngoại lệ cho mọi nhánh bình thường: list danh mục rỗng có thể trả danh sách rỗng, còn yêu cầu mượn mã không có phải báo không thực hiện được theo hợp đồng.</p>
+<p>Miền nghiệp vụ không đọc input và không tự gọi sys.exit. Nó kiểm tra dữ liệu và ném lỗi. CLI chuyển lỗi dự kiến thành thông báo và mã thoát, nhờ vậy test dịch vụ không phải chạy tiến trình mới. Lỗi không dự kiến nên còn traceback khi phát triển để tìm nguyên nhân. Ghi log trong ứng dụng thật cần cân nhắc dữ liệu nhạy cảm; ví dụ khóa học chỉ dùng mã sách giả và không lưu danh tính người mượn.</p>
+<p>Khi bọc một lỗi thấp hơn, dùng raise ... from exc để giữ nguyên chuỗi nguyên nhân. Ví dụ lỗi đọc JSON không hợp lệ có thể được báo là “Tệp thư viện không hợp lệ” nhưng người phát triển vẫn tìm thấy JSONDecodeError phía sau. Kiểm tra lỗi phải đi kèm kiểm tra trạng thái: mượn sách hết không làm available âm; lỗi đọc file không nên dẫn tới ghi đè file lỗi bằng kho rỗng mà không cho người dùng biết.</p>
+<h2>Ví dụ hoàn chỉnh để chạy</h2>
+<pre><code>import sys
+if hasattr(sys.stdout, &#x27;reconfigure&#x27;):
+    sys.stdout.reconfigure(encoding=&#x27;utf-8&#x27;)
+
+class LibraryError(Exception):
+    pass
+
+class NotFound(LibraryError):
+    pass
+
+class NoCopies(LibraryError):
+    pass
+
+class Library:
+    def __init__(self):
+        self._available = {&quot;PY01&quot;: 1}
+
+    def borrow(self, code):
+        if code not in self._available:
+            raise NotFound(&quot;Không có mã sách&quot;)
+        if self._available[code] == 0:
+            raise NoCopies(&quot;Sách đã được mượn hết&quot;)
+        self._available[code] -= 1
+
+def borrow_message(library, code):
+    try:
+        library.borrow(code)
+    except LibraryError as exc:
+        return f&quot;Không thể mượn: {exc}&quot;
+    return &quot;Đã mượn&quot;
+
+lib = Library()
+assert borrow_message(lib, &quot;PY01&quot;) == &quot;Đã mượn&quot;
+assert &quot;mượn hết&quot; in borrow_message(lib, &quot;PY01&quot;)
+assert &quot;Không có mã&quot; in borrow_message(lib, &quot;NONE&quot;)
+assert lib._available[&quot;PY01&quot;] == 0
+print(borrow_message(lib, &quot;NONE&quot;))</code></pre>
+<h2>Kết quả mong đợi và cách kiểm tra</h2>
+<p>In <code>Không thể mượn: Không có mã sách</code>. Lần mượn thứ hai không làm số lượng âm. borrow_message là một ranh giới trình bày nhỏ để minh họa; lớp Library không tự in hay thoát tiến trình. Khi học viên cố tình viết sai tên biến trong borrow, lỗi đó cần được lộ ra trong môi trường kiểm thử.</p>
+<p>Đọc từng dòng thực thi và dự đoán trạng thái trước khi chạy. Sau lần chạy đầu, đổi dữ liệu theo bài tập rồi đối chiếu cả kết quả lẫn trạng thái đối tượng; một dòng in đúng chưa chứng minh các trường hợp lỗi đã đúng. Các lệnh <code>assert</code> trong ví dụ dùng kiểm tra khi học, không thay thế việc kiểm tra đầu vào của ứng dụng vì Python có thể bỏ assert khi chạy chế độ tối ưu.</p>
+<h2>Bài tập có hướng dẫn và bài tự làm</h2>
+<p>Hướng dẫn: thêm DuplicateCode(LibraryError) cho thao tác add. Tự làm chức năng reserve của SeatPool với SoldOutError và InvalidAmountError. Viết bảng ba cột: loại lỗi, nơi phát hiện, nơi trình bày. Mỗi nhánh từ chối cần assert trạng thái sau lỗi.</p>
+<p>Nâng mức: thử bọc ValueError khi chuyển số lượng chuỗi sang số nguyên bằng một ngoại lệ giao diện, giữ from exc. Chỉ chuyển lỗi ở đúng ranh giới đầu vào; không bắt mọi ValueError phát sinh sâu trong chương trình mà không hiểu nguồn gốc.</p>
+<h2>Hướng giải và tiêu chí hoàn thành</h2>
+<p>DuplicateCode được ném trước khi thêm vào dict. CLI có thể bắt LibraryError để trả mã thoát 2 và một thông báo cụ thể, còn test miền bắt đúng lớp con để phân biệt các quy tắc. Đạt khi chức năng thất bại không thực hiện một phần và lỗi không dự kiến vẫn có thể truy tìm. Một lớp cha ngoại lệ chung có ích để ranh giới bắt nhóm lỗi dự kiến, trong khi các lớp con giúp test và giao diện xử lý từng trường hợp khi cần.</p>
+<h2>Sai sót thường gặp và cách phát hiện</h2>
+<p>except Exception: pass làm người dùng tưởng đã mượn dù thao tác thất bại. Gọi sys.exit trong Book khiến test khó dùng lại và thư viện không thể nhúng vào giao diện khác. Trả về chuỗi lỗi từ phương thức vốn trả số lượng khiến caller dễ tính toán sai; chọn một hợp đồng kết quả rõ và sử dụng thống nhất.</p>
+<h2>Câu hỏi tự kiểm tra và đáp án</h2>
+<ol><li>NotFound và NameError có cùng ý nghĩa không? Đáp án: Không; một lỗi nghiệp vụ dự kiến, một lỗi tên trong chương trình.</li><li>Nơi nào nên chuyển lỗi thành thông báo CLI? Đáp án: Tại ranh giới giao diện.</li><li>raise NewError(...) from exc giúp gì? Đáp án: Giữ chuỗi nguyên nhân khi bọc lỗi.</li></ol>
+<h2>Đọc thêm từ tài liệu chính thức</h2>
+<ul><li>https://docs.python.org/3.12/tutorial/errors.html#user-defined-exceptions</li><li>https://docs.python.org/3.12/tutorial/errors.html#exception-chaining</li></ul>
+<p>Ghi lại phiên bản Python, lệnh đã chạy, dữ liệu thử và một quyết định thiết kế vào nhật ký học tập. Khi nhờ hỗ trợ, gửi ví dụ nhỏ tái hiện được cùng thông báo lỗi đầy đủ; không gửi dữ liệu cá nhân hoặc đường dẫn chứa thông tin bí mật.</p></body></html>

@@ -1,0 +1,63 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 5 — Bài 1: Review, kiểm tra tự động và bằng chứng</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Lập checklist review dựa trên yêu cầu.</li><li>Chạy một test tự động đơn giản cho dự án.</li><li>Ghi nhận giới hạn thay vì khẳng định quá mức.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và môi trường</h2>
+<p>Sử dụng repository Study Notes. Cần Python 3 hiện hành có thư viện chuẩn; bài không yêu cầu cài package mạng. Mục tiêu là kiểm tra một quy tắc nội dung cụ thể: ghi chú phải có tiêu đề Markdown. Sau bài, repo có một test chạy được trên clone sạch và một hồ sơ review ghi rõ test kiểm tra được gì. Tên file hoặc trạng thái sạch không đủ chứng minh mọi liên kết hay kiến thức đều đúng.</p>
+<h2>Review bắt đầu bằng hợp đồng</h2>
+<p>Trước khi đọc diff, ghi yêu cầu: tất cả file Markdown trong notes phải bắt đầu bằng tiêu đề cấp 1 và không còn placeholder bắt buộc. Người review đối chiếu kết quả với hợp đồng này, kiểm tra đường dẫn, đầu vào rỗng và thông báo lỗi. Kiểm thử tự động giúp lặp một phép kiểm đã định nghĩa; nó không tự biết mọi yêu cầu chưa được mã hóa. Do đó cần cả bài tập thành công và tình huống bị từ chối, cùng lời giải thích giới hạn.</p>
+<h2>Ví dụ thực thi độc lập</h2>
+<p>Lưu đoạn dưới thành <code>test_heading.py</code> trong repository bài tập rồi chạy <code>python test_heading.py</code>. Đây là ví dụ thuần Python, không truy cập mạng và chưa quét file trên máy.</p>
+<pre><code>import unittest
+
+def has_heading(text):
+    return text.lstrip(&#x27;\ufeff&#x27;).startswith(&#x27;# &#x27;)
+
+class HeadingTests(unittest.TestCase):
+    def test_valid_note(self):
+        self.assertTrue(has_heading(&#x27;# Tuan mot\nNoi dung&#x27;))
+
+    def test_missing_heading(self):
+        self.assertFalse(has_heading(&#x27;Noi dung chua co tieu de&#x27;))
+
+    def test_bom_from_editor(self):
+        self.assertTrue(has_heading(&#x27;\ufeff# Tuan mot&#x27;))
+
+if __name__ == &#x27;__main__&#x27;:
+    unittest.main()</code></pre>
+<p>Đầu ra mong đợi là ba test đạt. Test BOM nhắc rằng editor có thể tạo ký tự đánh dấu mã hóa trước chữ đầu; hợp đồng đã chọn cho phép ký tự đó. Đây là một quyết định phải nói rõ, không phải mọi ứng dụng đều có cùng quy tắc xử lý khoảng trắng. Nếu dùng dự án mẫu kèm khóa, kiểm tra thực tế bằng <code>python -m unittest discover -s tests -v</code> từ thư mục gốc.</p>
+<h2>Đưa kiểm tra vào quy trình nhánh</h2>
+<p>Tạo nhánh <code>feature/heading-check</code>, thêm test và hướng dẫn chạy vào README. Đọc diff cached trước commit, chạy test rồi ghi kết quả vào hồ sơ review. Thử thay dữ liệu test thành văn bản thiếu tiêu đề để kiểm chứng test có thể phát hiện lỗi; khôi phục nội dung mong muốn bằng editor sau khi đã ghi bằng chứng, rồi chạy lại. Không thêm test chỉ khẳng định <code>True</code> để có màu xanh; một test hữu ích cần phân biệt được ít nhất hai tình huống có ý nghĩa.</p>
+<h2>Mẫu ghi bằng chứng</h2>
+<pre><code>Yeu cau: ghi chu can tieu de cap 1.
+Lenh: python test_heading.py
+Ket qua: 3 test dat.
+Tinh huong am: doi du lieu thanh van ban thieu tieu de, test hop le that bai.
+Gioi han: chua kiem tra tinh dung kien thuc trong ghi chu.</code></pre>
+<p>Thời điểm, phiên bản Python và commit được kiểm tra giúp tái hiện. Chỉ ghi dữ liệu cần thiết, không chụp toàn bộ terminal chứa thông tin khác của máy. Nếu test chạy trước lần sửa cuối, cần chạy lại hoặc ghi rõ kết quả chưa áp dụng cho trạng thái cuối.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Thêm quy tắc không chứa <code>TODO_REQUIRED</code>. Viết một trường hợp có placeholder và một trường hợp bình thường. Giải thích vì sao không cấm toàn bộ chuỗi “TODO” nếu người học đang viết bài dạy về TODO như một khái niệm. Hướng giải nên nhận đầu vào rõ ràng, có kết quả mong đợi và mô tả phạm vi; đạt khi test phát hiện đúng vi phạm được thống nhất và README cho người khác chạy lại.</p>
+<h2>Lỗi thường gặp</h2>
+<p>Chỉ chạy test trên file không được commit khiến clone sạch thiếu công cụ. Tạo test phụ thuộc đường dẫn cá nhân làm người khác không chạy được. Nhầm số test lớn với độ bao phủ đầy đủ; ba test có ý nghĩa vẫn chỉ kiểm tra ba góc nhìn. Review chỉ xem format mà bỏ yêu cầu có thể bỏ sót một công cụ luôn trả thành công.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Test tiêu đề đạt có chứng minh nội dung ghi chú đúng học thuật không? Không; chỉ quy tắc tiêu đề được kiểm.</li><li>Vì sao cần test tình huống sai? Để chứng minh phép kiểm có thể phân biệt một vi phạm đã định nghĩa.</li><li>Sửa code sau khi test đạt cần làm gì? Chạy lại kiểm tra liên quan cho trạng thái mới rồi cập nhật bằng chứng.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://docs.python.org/3/library/unittest.html</li><li>https://docs.github.com/en/pull-requests/reference/pull-request-reviews</li><li>https://git-scm.com/docs/git-diff</li></ul></body></html>

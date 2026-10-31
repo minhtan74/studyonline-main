@@ -1,0 +1,29 @@
+{
+  "mode": "mocked_student_ui_no_real_credentials",
+  "passed": 22,
+  "checks": [
+    "All courses is default",
+    "All nine lesson suggestions available",
+    "Selected course shows only its two lessons",
+    "Course filter does not refetch recommendations",
+    "Selection is in URL",
+    "Counter follows selected course",
+    "Full page retains selected course",
+    "Full page group is scoped",
+    "Statistics use current review categories",
+    "Priority combines with course",
+    "Clear resets course, priority and text",
+    "All course groups restored including chapter-only notes",
+    "Course without Quiz remains selectable",
+    "Chapter-only course filtering works",
+    "Back link retains course",
+    "Reload retains course",
+    "Changing course resets pagination to five",
+    "Good course has specific empty state",
+    "Mobile course selector fits screen",
+    "Full page course filter and search fit mobile",
+    "Filtering does not write learning records",
+    "No runtime errors"
+  ],
+  "errors": []
+}

@@ -6,6 +6,7 @@ import { lessonService } from '../services/lessonService';
 import { progressService } from '../services/progressService';
 import { useAiChat } from '../hooks/useAiChat';
 import AiChatFeedback, { AiReplyLabel } from '../components/ai/AiChatFeedback.jsx';
+import AiMessageContent, { AiSources } from '../components/ai/AiMessageContent.jsx';
 import { isYoutubeUrl, getEmbedUrl, isUsableMediaUrl } from '../utils/videoUrl';
 
 /** Tương đương _legacy/pages/lesson.html (logic inline trong file đó, lessons.js là dead code) */
@@ -405,7 +406,7 @@ export default function Lesson() {
                           className="truncate"
                           style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--s-text)', margin: 0 }}
                         >
-                          {lesson.document_url.split('/').pop()}
+                          {lesson.document_name || `${chapter.chapter_name} — ${lesson.title}.pdf`}
                         </p>
                         <p style={{ fontSize: '0.75rem', color: 'var(--s-text-muted)', margin: '0.15rem 0 0 0' }}>
                           Tài liệu học tập đính kèm
@@ -427,7 +428,7 @@ export default function Lesson() {
                         </button>
                       )}
                       {docSrc ? (
-                        <a href={docSrc} target="_blank" rel="noreferrer" download className="s-btn s-btn-primary s-btn-sm">
+                        <a href={docSrc} target="_blank" rel="noreferrer" download={lesson.document_name || `${lesson.title}.pdf`} className="s-btn s-btn-primary s-btn-sm">
                           📥 Tải xuống
                         </a>
                       ) : (
@@ -520,7 +521,7 @@ export default function Lesson() {
                       lineHeight: 1.4,
                     }}
                   >
-                    {/^chương\s+\d+\s*:/i.test(chap.chapter_name || '') ? chap.chapter_name : `${chapIdx + 1}. ${chap.chapter_name}`}
+                    {/^chương\s+\d+(?:\s|[:.\-–—]|$)/i.test(chap.chapter_name || '') ? chap.chapter_name : `Chương ${chapIdx + 1}: ${chap.chapter_name}`}
                   </span>
                   <span
                     className="s-badge"
@@ -669,46 +670,28 @@ export default function Lesson() {
             )}
 
             {aiMessages.map((m, i) => (
-              <div key={i} style={{ alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '88%' }}>
+              <div key={i} style={{ alignSelf: m.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '88%', minWidth: 0 }}>
                 <div
                   style={{
                     padding: '0.55rem 0.75rem',
                     borderRadius: 12,
                     fontSize: '0.8rem',
                     lineHeight: 1.5,
-                    whiteSpace: 'pre-wrap',
+                    whiteSpace: m.role === 'user' ? 'pre-wrap' : 'normal',
                     background: m.role === 'user' ? 'var(--s-primary)' : 'var(--s-surface-2)',
                     color: m.role === 'user' ? '#fff' : 'inherit',
                     border: m.role === 'user' ? 'none' : '1px solid var(--s-border)',
                   }}
                 >
                   <AiReplyLabel message={m} />
-                  {m.content}
+                  {m.role === 'assistant' ? <AiMessageContent content={m.content} /> : m.content}
                 </div>
-                {m.role === 'assistant' && Array.isArray(m.sources) && m.sources.length > 0 && (
-                  <div style={{ marginTop: '0.3rem', display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-                    {m.sources.map((s, j) => (
-                      <span
-                        key={j}
-                        style={{
-                          fontSize: '0.65rem',
-                          padding: '0.15rem 0.4rem',
-                          borderRadius: 999,
-                          background: 'rgba(37,99,235,.1)',
-                          color: 'var(--s-primary)',
-                          fontWeight: 600,
-                        }}
-                      >
-                        📄 {s.document}{s.page ? ` — tr. ${s.page}` : ''}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                {m.role === 'assistant' && <AiSources sources={m.sources} />}
               </div>
             ))}
 
-            <AiChatFeedback sending={aiSending} elapsedSeconds={aiChat.elapsedSeconds} feedback={aiChat.feedback}
-              onStop={aiChat.stop} onRetry={aiChat.retry} onEdit={setAiInput} />
+            <AiChatFeedback sending={aiSending} feedback={aiChat.feedback}
+              onRetry={aiChat.retry} onEdit={setAiInput} />
           </div>
 
           <form

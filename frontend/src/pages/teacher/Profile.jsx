@@ -116,7 +116,8 @@ export default function TeacherProfile() {
     setChangingPw(false);
 
     if (res?.ok && res.data?.success) {
-      showToast('Đổi mật khẩu thành công!', 'success');
+      login(res.data.token, user);
+      showToast('Đổi mật khẩu thành công. Các phiên đăng nhập cũ đã được thu hồi.', 'success');
       setOldPassword('');
       setNewPassword('');
       setConfirmNewPassword('');

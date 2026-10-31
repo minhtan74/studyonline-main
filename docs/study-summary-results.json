@@ -1,0 +1,31 @@
+{
+  "passed": 25,
+  "checks": [
+    "Real API loads at most five lessons",
+    "Five initial rows",
+    "Initial counter",
+    "Desktop row height 65-80px",
+    "Lesson title tooltip exists",
+    "Reason hidden initially",
+    "Only one reason opens",
+    "Evidence result link retained",
+    "Ten rows",
+    "Fifteen rows",
+    "All seventeen, more hidden",
+    "Single wrong question labelled review and sorted last",
+    "Insufficient evidence explained",
+    "Collapse restores five and closes reason",
+    "Pagination makes no API requests",
+    "No overflow 768",
+    "Review button stays compact 768",
+    "No overflow 390",
+    "Review button stays compact 390",
+    "Exact lesson and course checkpoint",
+    "Empty state",
+    "Error state",
+    "Retry resets to five",
+    "Full list navigation",
+    "No JavaScript exceptions"
+  ],
+  "notes": "Real API checked; edge cases use browser fixtures; writes intercepted."
+}

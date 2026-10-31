@@ -1,0 +1,88 @@
+{
+  "account": "phuong.vu@gmail.com",
+  "passed": 17,
+  "checks": [
+    "Real summary starts with five",
+    "Show 10 real lessons",
+    "Show 15 real lessons",
+    "Show 17 real lessons",
+    "Full summary matches real API count",
+    "Insufficient lessons labelled review",
+    "Real explanation shown",
+    "Only one explanation",
+    "Real Quiz evidence opens",
+    "Exact real lesson checkpoint",
+    "Full list count matches",
+    "Chapter collapses",
+    "Chapter expands",
+    "Mobile no overflow",
+    "Mobile summary no overflow",
+    "Saved progress unchanged",
+    "No JavaScript exceptions"
+  ],
+  "totalLessons": 17,
+  "courses": [
+    "Kiểm thử phần mềm nhập môn",
+    "Nguyên Lí HDH",
+    "Python Cơ Bản Cho Người Mới Bắt Đầu"
+  ],
+  "high": 5,
+  "insufficient": 12,
+  "progress": {
+    "courses": [
+      {
+        "course_id": 2,
+        "course_title": "JavaScript Từ Zero Đến Hero",
+        "thumbnail": "thumbnails/javascript-hero.jpg",
+        "total_lessons": 9,
+        "done_lessons": 9,
+        "watched_sec_total": "3878"
+      },
+      {
+        "course_id": 4,
+        "course_title": "HTML & CSS Nhập Môn",
+        "thumbnail": "thumbnails/html-css.jpg",
+        "total_lessons": 9,
+        "done_lessons": 9,
+        "watched_sec_total": "6074"
+      },
+      {
+        "course_id": 6,
+        "course_title": "MySQL & Thiết Kế Cơ Sở Dữ Liệu",
+        "thumbnail": "thumbnails/mysql-database.jpg",
+        "total_lessons": 9,
+        "done_lessons": 6,
+        "watched_sec_total": "4503"
+      },
+      {
+        "course_id": 7,
+        "course_title": "Nguyên Lí HDH",
+        "thumbnail": "",
+        "total_lessons": 11,
+        "done_lessons": 6,
+        "watched_sec_total": "5616"
+      },
+      {
+        "course_id": 1,
+        "course_title": "Python Cơ Bản Cho Người Mới Bắt Đầu",
+        "thumbnail": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/960px-Python-logo-notext.svg.png?utm_source=vi.wikipedia.org&utm_campaign=index&utm_content=thumbnail",
+        "total_lessons": 9,
+        "done_lessons": 0,
+        "watched_sec_total": "0"
+      },
+      {
+        "course_id": 515,
+        "course_title": "Kiểm thử phần mềm nhập môn",
+        "thumbnail": null,
+        "total_lessons": 12,
+        "done_lessons": 0,
+        "watched_sec_total": "0"
+      }
+    ],
+    "total_lessons": 59,
+    "done_lessons": 30,
+    "total_watched_sec": 20071
+  },
+  "errors": [],
+  "note": "Real API data only; study/progress POST requests intercepted to preserve account."
+}

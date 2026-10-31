@@ -64,3 +64,6 @@
 .pay-method{display:flex;align-items:center;gap:.75rem;padding:.75rem 1rem;border:1.5px solid var(--s-border);border-radius:10px;cursor:pointer;transition:all .2s;font-size:.875rem;font-weight:500;}
 .pay-method input{accent-color:var(--s-primary);}
 .pay-method.active{border-color:var(--s-primary);background:rgba(37,99,235,.05);}
+
+.explore-load-error { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; padding:18px; margin-bottom:16px; border:1px solid #f2d4a1; background:#fffaf0; border-radius:10px; font-size:.85rem; }
+.explore-load-error p { margin-top:5px; color:var(--s-text-muted); line-height:1.6; }

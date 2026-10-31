@@ -4,6 +4,7 @@ import re
 from app.core.database import q_all, q_one
 from app.core.responses import ApiError
 from app.services.analytics_service import MIN_TOPIC_QUESTIONS, TOPIC_REVIEW_THRESHOLD, normalize_topic
+from app.services.question_evidence import evidence_key, independent_answers
 
 
 def outline(db, course_id):
@@ -79,6 +80,7 @@ def snapshot(db, question, structure=None):
 
 def rows(db, user_id, course_id=None, result_id=None):
     return q_all(db, '''SELECT ra.question_id,ra.is_correct,ra.knowledge_chapter_id AS chapter_id,
+        ra.question_fingerprint,q.content AS question_content,q.option_a,q.option_b,q.option_c,q.option_d,
         ra.knowledge_lesson_id AS lesson_id,ra.knowledge_chapter_name AS chapter_name,
         ra.knowledge_lesson_name AS lesson_name,ra.knowledge_version,
         CASE WHEN live_ch.id IS NOT NULL THEN 1 ELSE 0 END AS chapter_available,
@@ -88,6 +90,7 @@ def rows(db, user_id, course_id=None, result_id=None):
         CASE WHEN qz.review_lesson_id IS NOT NULL OR qz.lesson_id IS NOT NULL THEN 'lesson'
              WHEN qz.chapter_id IS NOT NULL THEN 'chapter' ELSE 'course' END AS assessment_scope
         FROM result_answers ra JOIN results r ON r.id=ra.result_id
+        JOIN questions q ON q.id=ra.question_id
         JOIN quizzes qz ON qz.id=r.quiz_id JOIN courses c ON c.id=qz.course_id
         LEFT JOIN chapters live_ch ON live_ch.id=ra.knowledge_chapter_id AND live_ch.course_id=qz.course_id
         LEFT JOIN lessons live_l ON live_l.id=ra.knowledge_lesson_id
@@ -101,14 +104,7 @@ def summarize(evidence, latest=True):
     # A newer result replaces evidence for the same lesson across all quiz types.
     # Keep the other lessons of a broad exam until those are assessed again.
     selected = {}
-    latest_question = {}
-    if latest:
-        for row in evidence:
-            key = (row['course_id'], row['question_id'])
-            latest_question[key] = max(row['result_id'], latest_question.get(key, 0))
-    for row in evidence:
-        if latest and row['result_id'] != latest_question[(row['course_id'], row['question_id'])]:
-            continue
+    for row in independent_answers(evidence):
         if not row['chapter_id']:
             continue
         key = (row['course_id'], row['chapter_id'], row['lesson_id'])
@@ -126,9 +122,11 @@ def summarize(evidence, latest=True):
                 key = (row['course_id'], kind, unit_id)
                 group = groups.setdefault(key, dict(kind=kind, id=unit_id, title=title,
                     course_id=row['course_id'], course_title=row['course_title'], chapter_id=row['chapter_id'],
-                    chapter_name=row['chapter_name'], answers={}, sources={}, reconstructed=False,
+                    chapter_name=row['chapter_name'], answers={}, question_ids=set(), sources={}, reconstructed=False, identity_reconstructed=False,
                     available=bool(row.get(f'{kind}_available', True))))
-                group['answers'][row['question_id']] = int(row['is_correct'])
+                group['answers'][evidence_key(row)] = int(row['is_correct'])
+                group['question_ids'].add(row['question_id'])
+                group['identity_reconstructed'] |= not bool(row.get('question_fingerprint'))
                 group['reconstructed'] |= row.get('knowledge_version') == 1
                 source = group['sources'].setdefault(row['result_id'], dict(result_id=row['result_id'],
                     quiz_id=row['quiz_id'], quiz_title=row['quiz_title'], submitted_at=str(row['submit_time']),
@@ -141,7 +139,7 @@ def summarize(evidence, latest=True):
         n, correct = len(answers), sum(answers.values())
         sufficient = n >= MIN_TOPIC_QUESTIONS
         score = round(100 * correct / n, 1)
-        group.update(answered=n, correct=correct, avg_score=score, sufficient_data=sufficient, question_ids=sorted(answers),
+        group.update(answered=n, correct=correct, avg_score=score, sufficient_data=sufficient, question_ids=sorted(group['question_ids']), question_keys=sorted(answers),
                      needs_review=sufficient and score < TOPIC_REVIEW_THRESHOLD,
                      status='Insufficient' if not sufficient else 'Review' if score < TOPIC_REVIEW_THRESHOLD else 'Good',
                      sources=list(group['sources'].values()), latest_result_id=max(group['sources']))

@@ -139,7 +139,7 @@ def root():
     return {"success": True, "name": "StudyOnline API", "engine": "fastapi", "time": dt.datetime.now()}
 
 
-# Health check (Docker / script khởi động dùng để biết backend đã sẵn sàng)
+# Health check (script khởi động dùng để biết backend đã sẵn sàng)
 @app.get("/api/health")
 def health():
     return {"success": True, "status": "ok"}

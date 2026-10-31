@@ -1,348 +1,156 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { courseService } from '../../services/courseService';
 import { enrollmentService } from '../../services/enrollmentService';
 import { progressService } from '../../services/progressService';
+import WeeklyBarChart from '../../components/common/WeeklyBarChart';
+import StudyRecommendationSummary from '../../components/common/StudyRecommendationSummary';
+import { buildDashboardOverview } from '../../utils/dashboardOverview';
+import { formatStudyDate } from '../../utils/studyDate';
+import '../../assets/css/student-courses.css';
+import '../../assets/css/student-dashboard.css';
 
-// Thứ tự hiển thị "Tiếp tục học": đang học dở trước, rồi chưa bắt đầu, cuối cùng là đã xong.
-const STATUS_ORDER = { inprogress: 0, notstarted: 1, done: 2 };
-import WeeklyBarChart from '../../components/common/WeeklyBarChart.jsx';
-import RecommendationCard from '../../components/common/RecommendationCard.jsx';
+const INITIAL = { catalog: null, enrolledIds: null, progress: null, weekly: null, recent: null,
+  pending: { catalog:true, enrolledIds:true, progress:true, weekly:true, recent:true } };
 
-// Biểu tượng và màu nền trang trí thẻ khóa học
-const EMOJIS = ['🎨', '💻', '📊', '🔬', '🌐', '📱', '🎵', '✏️'];
-const COLORS = [
-  '#2563EB,#8B5CF6',
-  '#0F766E,#06B6D4',
-  '#7C3AED,#EC4899',
-  '#DC2626,#F59E0B',
-  '#059669,#2563EB',
-  '#D97706,#EF4444',
-];
-
-/** Chuyển timestamp thành chuỗi thời gian tương đối: "2 giờ trước", "hôm qua"... */
-function formatRelativeTime(dateStr) {
-  if (!dateStr) return '';
-  const now = new Date();
-  const d = new Date(dateStr);
-  const diffMs = now - d;
-  const diffMin = Math.floor(diffMs / 60000);
-  const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
-  if (diffMin < 5) return 'Vừa xong';
-  if (diffMin < 60) return `${diffMin} phút trước`;
-  if (diffHour < 24) return `${diffHour} giờ trước`;
-  if (diffDay === 1) return 'Hôm qua';
-  if (diffDay < 7) return `${diffDay} ngày trước`;
-  if (diffDay < 30) return `${Math.floor(diffDay / 7)} tuần trước`;
-  return d.toLocaleDateString('vi-VN');
-}
-
-/** Tương đương _legacy/pages/student/dashboard.html — nối API tiến độ thực */
 export default function Dashboard() {
   const { user } = useAuth();
-  const [courses, setCourses] = useState(null); // khóa đã ghi danh; null = đang tải
-  const [suggested, setSuggested] = useState(null); // khóa đã xuất bản nhưng chưa ghi danh
-  // courseProgress: Map<courseId, { pct, status, totalLessons, doneLessons }>
-  const [courseProgress, setCourseProgress] = useState({});
-  const [stats, setStats] = useState({ total: 0, inProgress: 0, done: 0 });
-  const [weeklyData, setWeeklyData] = useState(null);   // null = loading
-  const [weeklyLabels, setWeeklyLabels] = useState([]);
-  const [recentActivities, setRecentActivities] = useState(null); // null = loading
-
-  // Khi mở trang: tải song song khóa học, tiến độ, biểu đồ tuần, hoạt động gần đây, id khóa đã ghi danh
+  const [state, setState] = useState(INITIAL);
+  const [version, setVersion] = useState(0);
+  const [selectedCourseId, setSelectedCourseId] = useState('');
   useEffect(() => {
-    let cancelled = false;
+    let active = true;
+    setState(INITIAL);
     (async () => {
-      // 3 lần gọi song song
-      const [coursesRes, progressRes, weeklyRes, activitiesRes, enrolledRes] = await Promise.all([
-        courseService.getCourses(),
-        progressService.getProgress(),         // tổng hợp khóa học
-        progressService.getWeeklyProgress(),   // GET /api/progress?weekly=1
-        progressService.getRecentActivities(), // GET /api/progress?recent=1
-        enrollmentService.getEnrolledIds(),
-      ]);
-
-      if (cancelled) return;
-
-      // --- Danh sách khóa: tách khóa đã ghi danh và khóa để đề xuất ---
-      const enrolledIds = new Set(enrolledRes?.data?.data || []);
-      const catalog = coursesRes?.data?.data || [];
-      const list = catalog.filter((c) => enrolledIds.has(c.id));
-      setSuggested(catalog.filter((c) => !enrolledIds.has(c.id) && c.status === 'published'));
-
-      // --- Tiến độ theo khóa ---
-      const progressMap = {};
-      const byCourse = progressRes?.data?.data?.courses || [];
-      byCourse.forEach((c) => {
-        const total = Number(c.total_lessons) || 0;
-        const done  = Number(c.done_lessons)  || 0;
-        const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
-        // Trạng thái: chưa học bài nào = chưa bắt đầu; xong 100% = hoàn thành; còn lại = đang học
-        const status = done === 0 ? 'notstarted' : pct >= 100 ? 'done' : 'inprogress';
-        progressMap[c.course_id] = { pct, status, totalLessons: total, doneLessons: done };
-      });
-      // Khóa đã ghi danh nhưng chưa có dữ liệu tiến độ -> mặc định 0%
-      list.forEach((c) => {
-        if (!progressMap[c.id]) {
-          progressMap[c.id] = { pct: 0, status: 'notstarted', totalLessons: 0, doneLessons: 0 };
-        }
-      });
-      // Sắp xếp theo STATUS_ORDER, cùng trạng thái thì khóa có % cao hơn lên trước
-      list.sort(
-        (a, b) =>
-          STATUS_ORDER[progressMap[a.id].status] - STATUS_ORDER[progressMap[b.id].status] ||
-          progressMap[b.id].pct - progressMap[a.id].pct,
-      );
-      setCourses(list);
-      setCourseProgress(progressMap);
-      // Đếm số khóa cho các thẻ thống kê (tổng / đang học / hoàn thành)
-      const total = list.length;
-      const done = list.filter((c) => progressMap[c.id].status === 'done').length;
-      const inProgress = list.filter((c) => progressMap[c.id].status === 'inprogress').length;
-      setStats({ total, inProgress, done });
-
-      // --- Biểu đồ tuần ---
-      const weeklyRows = weeklyRes?.data?.data || [];
-      setWeeklyLabels(weeklyRows.map((r) => r.label || r.date?.slice(5) || ''));
-      setWeeklyData(weeklyRows.map((r) => Number(r.count) || 0));
-
-      // --- Hoạt động gần đây ---
-      const activities = activitiesRes?.data?.data || [];
-      setRecentActivities(activities.slice(0, 6));
+      const requests = [
+        ['catalog', () => courseService.getCourses()], ['enrolledIds', () => enrollmentService.getEnrolledIds()],
+        ['progress', () => progressService.getProgress()], ['weekly', () => progressService.getWeeklyProgress()],
+        ['recent', () => progressService.getRecentActivities()],
+      ];
+      await Promise.allSettled(requests.map(async ([key,request]) => {
+        let value = null;
+        try {
+          const response = await request();
+          if (response?.ok && response.data?.success !== false) {
+            const payload = key === 'progress' ? response.data?.data?.courses : response.data?.data;
+            if (Array.isArray(payload)) value = payload;
+          }
+        } catch { /* Each panel reports its own unavailable data. */ }
+        if (active) setState(previous => ({...previous,[key]:value,pending:{...previous.pending,[key]:false}}));
+      }));
     })();
-    return () => { cancelled = true; };
-  }, []);
+    return () => { active = false; };
+  }, [version]);
 
-  return (
-    <main className="s-main">
-      {/* Welcome Banner */}
-      <div className="s-welcome">
-        <div>
-          <p style={{ fontSize: '.8rem', fontWeight: 700, textTransform: 'uppercase', opacity: 0.7, marginBottom: '.25rem' }}>
-            🌟 Chào mừng trở lại
-          </p>
-          <h1 id="welcomeName">Xin chào, {user?.fullname}! 👋</h1>
-          <p>Hãy tiếp tục hành trình học tập hôm nay nhé.</p>
-          <Link to="/student/courses" className="s-btn s-btn-lg" style={{ background: '#fff', color: 'var(--s-primary)', marginTop: '.25rem' }}>
-            Khám phá khóa học →
-          </Link>
-        </div>
-      </div>
+  const overview = useMemo(() => buildDashboardOverview(state.catalog, state.enrolledIds, state.progress), [state.catalog,state.enrolledIds,state.progress]);
+  const { metrics } = overview;
+  const focusCourse = overview.continueCourses.find(course => String(course.id) === selectedCourseId) || overview.continueCourses[0];
+  const coreLoading = state.pending.catalog || state.pending.enrolledIds;
+  const selectedCourses = useMemo(() => overview.enrolled?.map(c => ({course_id:c.id,course_title:c.title})) || [], [overview.enrolled]);
+  const weeklyTotal = state.weekly?.reduce((sum,row) => sum + (Number(row.count) || 0),0);
+  const retry = <button type="button" className="s-btn s-btn-ghost s-btn-sm" onClick={() => setVersion(value => value + 1)}>Thử lại</button>;
+  const stats = [
+    { icon:'📚', label:'Khóa đã đăng ký', value:metrics.enrolled, tone:'blue' },
+    { icon:'▶', label:'Khóa đang học', value:metrics.inProgress, tone:'violet' },
+    { icon:'✓', label:'Khóa hoàn thành', value:metrics.completed, tone:'green' },
+    { icon:'📖', label:'Bài đã hoàn thành', value:metrics.doneLessons == null ? null : `${metrics.doneLessons}/${metrics.totalLessons}`, tone:'amber' },
+  ];
 
-      {/* Stats Grid — dữ liệu thực từ API */}
-      <div className="s-stats-grid">
-        <div className="s-stat-card">
-          <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(37,99,235,.1)' }}>📚</div>
-          </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-primary)' }}>
-            {courses === null ? '—' : stats.total}
-          </div>
-          <div className="s-stat-label">Tổng khóa học</div>
-        </div>
+  return <main className="s-main student-dashboard">
+    <header className="dash-heading">
+      <div><p className="dash-eyebrow">Góc học tập của bạn</p><h1>Xin chào, {user?.fullname || 'bạn'}! 👋</h1>
+        <p>Chọn một khóa học để tiếp tục, hoặc củng cố nội dung bạn chưa nắm vững.</p></div>
+      <Link to="/student/my-courses" className="s-btn s-btn-outline s-btn-sm">Khóa học của tôi →</Link>
+    </header>
 
-        <div className="s-stat-card">
-          <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(245,158,11,.1)' }}>⏳</div>
-          </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-warning)' }}>
-            {courses === null ? '—' : stats.inProgress}
-          </div>
-          <div className="s-stat-label">Đang theo học</div>
-        </div>
+    <div className="dash-start-grid">
+      <section className="dash-focus s-card dash-continue" aria-label="Tiếp tục học">
+        <div className="dash-focus-heading"><div><span className="dash-step-label">Bước tiếp theo của bạn</span><h2>Tiếp tục học</h2></div><span className="dash-focus-symbol" aria-hidden="true">📘</span></div>
+        {coreLoading ? <p className="dash-muted" role="status">Đang tải khóa học…</p>
+          : overview.enrolled === null ? <div role="alert"><p>Chưa tải được danh sách khóa học.</p>{retry}</div>
+            : !overview.enrolled.length ? <div className="dash-empty"><h3>Bắt đầu lộ trình đầu tiên</h3><p>Khám phá nội dung và chọn khóa học phù hợp với bạn.</p><Link to="/student/courses" className="s-btn s-btn-primary">Khám phá khóa học →</Link></div>
+              : !focusCourse ? <div className="dash-empty"><h3>{overview.enrolled.every(course => course.status === 'done') ? 'Bạn đã hoàn thành các khóa đã đăng ký' : 'Chưa có khóa học có thể tiếp tục'}</h3><p>Xem lại bài đã học hoặc chọn nội dung cần ôn bên dưới.</p><Link to="/student/my-courses" className="s-btn s-btn-primary">Xem lại khóa học →</Link></div>
+                : <>
+                  {overview.continueCourses.length > 1 && <div className="dash-course-picker"><label htmlFor="dashboard-course">Chọn khóa để học</label><select id="dashboard-course" value={String(focusCourse.id)} onChange={event => setSelectedCourseId(event.target.value)}>{overview.continueCourses.map(course => <option value={course.id} key={course.id}>{course.title}</option>)}</select></div>}
+                  <article className="dash-focus-course" key={focusCourse.id}>
+                    <span className="dash-course-status">{focusCourse.status === 'inprogress' ? 'Đang học' : focusCourse.status === 'notstarted' ? 'Sẵn sàng bắt đầu' : 'Khóa học đã đăng ký'}</span>
+                    <h3>{focusCourse.title || 'Khóa học'}</h3>
+                    {focusCourse.progress ? <><div className="dash-course-progress-copy"><span>{focusCourse.progress.done}/{focusCourse.progress.total} bài hoàn thành</span><strong>{focusCourse.progress.percent}%</strong></div>
+                      <div className="s-progress" role="progressbar" aria-label={`Tiến độ ${focusCourse.title}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={focusCourse.progress.percent}><div className="s-progress-bar" style={{width:`${focusCourse.progress.percent}%`}} /></div>
+                      <p className="dash-focus-hint">Còn {focusCourse.progress.total - focusCourse.progress.done} bài chưa hoàn thành trong khóa.</p></> : <p className="dash-muted">Chưa xác định tiến độ. Bạn vẫn có thể mở khóa để học.</p>}
+                    <div className="dash-focus-actions"><Link to={`/chapters?course_id=${focusCourse.id}`} className="s-btn s-btn-primary" aria-label={`Vào học: ${focusCourse.title}`}>{focusCourse.status === 'notstarted' ? 'Bắt đầu học' : 'Vào học ngay'} <span aria-hidden="true">→</span></Link><span>Chọn chương và bài bạn muốn tiếp tục.</span></div>
+                  </article>
+                </>}
+      </section>
 
-        <div className="s-stat-card">
-          <div className="s-stat-top">
-            <div className="s-stat-icon" style={{ background: 'rgba(16,185,129,.1)' }}>✅</div>
-          </div>
-          <div className="s-stat-value" style={{ color: 'var(--s-success)' }}>
-            {courses === null ? '—' : stats.done}
-          </div>
-          <div className="s-stat-label">Đã hoàn thành</div>
-        </div>
-      </div>
+      <section className="s-card dash-overview" aria-label="Tổng quan học tập">
+        <div className="dash-overview-heading"><h2>Hành trình của bạn</h2><Link to="/student/progress">Xem chi tiết →</Link></div>
+        <div className="dash-metrics">{stats.map(stat => <div className={`dash-metric dash-metric-${stat.tone}`} key={stat.label}>
+          <span className="dash-metric-icon" aria-hidden="true">{stat.icon}</span><div><strong>{coreLoading || stat.value == null ? '—' : stat.value}</strong><span>{stat.label}</span></div>
+        </div>)}</div>
+        <p className="dash-overview-note">Tiến độ tính theo các bài đã hoàn thành trong khóa bạn đăng ký.</p>
+      </section>
+    </div>
+    {!state.pending.progress && state.progress === null && <div className="dash-data-notice" role="alert">Chưa tải được tiến độ. Các chỉ số chưa xác định được hiển thị bằng dấu —. {retry}</div>}
 
-      {/* Personalized Recommendation — PHASE 5 */}
-      <div style={{ marginBottom: '1.75rem' }}>
-        <RecommendationCard compact />
-      </div>
+    <nav className="dash-tools" aria-label="Truy cập nhanh">
+      <Link to="/quiz"><span className="dash-tool-icon" aria-hidden="true">📝</span><span><strong>Luyện tập với Quiz</strong><small>Kiểm tra kiến thức đã học</small></span><span aria-hidden="true">→</span></Link>
+      <Link to="/student/ai-tutor"><span className="dash-tool-icon" aria-hidden="true">💬</span><span><strong>Hỏi AI Tutor</strong><small>Giải đáp theo tài liệu khóa học</small></span><span aria-hidden="true">→</span></Link>
+      <Link to="/student/progress"><span className="dash-tool-icon" aria-hidden="true">📈</span><span><strong>Xem tiến độ</strong><small>Theo dõi kết quả và nội dung cần ôn</small></span><span aria-hidden="true">→</span></Link>
+    </nav>
 
-      {/* Charts + Recent Activity */}
-      <div className="s-grid-2" style={{ marginBottom: '1.75rem' }}>
-        {/* Weekly Chart — dữ liệu thực từ API */}
-        <div className="s-card">
-          <div className="s-card-header">
-            <span className="s-card-title">📈 Tiến độ học trong tuần</span>
-            <span className="s-badge s-badge-blue">7 ngày qua</span>
+    <div className="dash-workspace">
+      <div className="dash-primary"><StudyRecommendationSummary courses={selectedCourses} pageSize={3} /></div>
+      <aside className="dash-secondary" aria-label="Nhịp học và hoạt động">
+        <section className="s-card" aria-label="Hoạt động học trong 7 ngày">
+          <div className="s-card-header"><div><h2 className="s-card-title">Nhịp học 7 ngày</h2><p className="dash-section-caption">Nhìn lại các bài bạn đã hoàn thành.</p></div><span aria-hidden="true">📊</span></div>
+          <div className="s-card-body">{state.pending.weekly ? <p className="dash-muted" role="status">Đang tải hoạt động…</p>
+            : state.weekly === null ? <div role="alert"><p>Chưa tải được biểu đồ.</p>{retry}</div>
+              : <><p className="dash-weekly-total"><strong>{weeklyTotal}</strong><span>bài hoàn thành trong 7 ngày gần nhất</span></p>
+                {state.weekly.length > 0 && <div className="dash-weekly-chart"><WeeklyBarChart animated={false} data={state.weekly.map(row => Number(row.count) || 0)} labels={state.weekly.map(row => row.label || row.date?.slice(5) || '')} /></div>}
+                {!weeklyTotal && <p className="dash-muted">Chưa có bài hoàn thành trong khoảng thời gian này.</p>}</>}
+            <details className="dash-recent" aria-label="Hoạt động gần đây"><summary>Hoạt động gần đây</summary>
+              {state.pending.recent ? <p className="dash-muted" role="status">Đang tải hoạt động…</p>
+                : state.recent === null ? <div role="alert"><p>Chưa tải được hoạt động gần đây.</p>{retry}</div>
+                  : !state.recent.length ? <p className="dash-muted">Các bài đã hoàn thành sẽ xuất hiện tại đây.</p>
+                    : <ul className="dash-activity-list">{state.recent.slice(0,3).map((activity,index) => <li key={`${activity.lesson_id}-${index}`}><span className="dash-activity-dot" aria-hidden="true">✓</span>
+                      <div>{Number(activity.lesson_id) > 0 ? <Link to={`/lesson?id=${activity.lesson_id}`}>{activity.lesson_title || 'Bài học'}</Link> : <strong>{activity.lesson_title || 'Bài học'}</strong>}<p>{activity.course_title}</p><time>{formatStudyDate(activity.completed_at)}</time></div></li>)}</ul>}
+            </details>
           </div>
-          <div className="s-card-body">
-            <div className="s-chart-wrap">
-              {weeklyData === null ? (
-                <div style={{ textAlign: 'center', paddingTop: '4rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>Đang tải...</div>
-              ) : (
-                <WeeklyBarChart data={weeklyData} labels={weeklyLabels} />
-              )}
-            </div>
-          </div>
-        </div>
+        </section>
+      </aside>
+    </div>
 
-        {/* Recent Activity — dữ liệu thực từ API */}
-        <div className="s-card">
-          <div className="s-card-header">
-            <span className="s-card-title">🕐 Hoạt động gần đây</span>
-            <Link to="/student/progress" className="s-btn s-btn-ghost s-btn-sm">Xem tất cả</Link>
-          </div>
-          <div className="s-card-body">
-            <div className="s-activity-list" id="activityList">
-              {recentActivities === null && (
-                <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>Đang tải...</div>
-              )}
-              {recentActivities !== null && recentActivities.length === 0 && (
-                <div style={{ textAlign: 'center', padding: '1.5rem', color: 'var(--s-text-muted)', fontSize: '.875rem' }}>
-                  Chưa có hoạt động nào. Hãy bắt đầu học!
-                </div>
-              )}
-              {recentActivities !== null && recentActivities.map((act, i) => (
-                <div key={i} className="s-activity-item">
-                  <div className="s-activity-icon" style={{ background: 'rgba(37,99,235,.1)' }}>📘</div>
-                  <div className="s-activity-body">
-                    <p>
-                      Hoàn thành bài: <strong>{act.lesson_title || 'Bài học'}</strong>
-                    </p>
-                    <p style={{ fontSize: '.75rem', color: 'var(--s-text-muted)', marginBottom: '.15rem', fontWeight: 400 }}>
-                      {act.course_title || ''}
-                    </p>
-                    <span>{formatRelativeTime(act.completed_at)}</span>
+    <section className="dash-discover" aria-label="Khám phá thêm khóa học">
+      <div className="dash-discover-heading"><div><h2 className="s-card-title">Khám phá thêm khóa học</h2><p className="dash-section-caption">Mở rộng lộ trình khi bạn sẵn sàng.</p></div><Link to="/student/courses" className="s-btn s-btn-ghost s-btn-sm">Xem danh mục →</Link></div>
+      <div>{coreLoading ? <p className="dash-muted" role="status">Đang tải danh mục…</p>
+        : overview.suggested === null ? <div role="alert"><p>Chưa tải được danh mục khóa học.</p>{retry}</div>
+          : !overview.suggested.length ? <p className="dash-muted">Hiện chưa có khóa học mới để khám phá.</p>
+            : <div className="s-course-grid dash-discover-grid">{overview.suggested.slice(0,3).map(course => {
+              const index = Math.max(0, state.catalog.findIndex(item => Number(item.id) === Number(course.id)));
+              const colors = ['#2563EB,#8B5CF6','#0F766E,#06B6D4','#7C3AED,#EC4899','#DC2626,#F59E0B','#059669,#2563EB','#D97706,#EF4444','#1D4ED8,#06B6D4','#7C3AED,#2563EB'];
+              const icons = ['🎨','💻','📊','🔬','🌐','📱','🎵','✏️','🧪','📐','🚀','🔐'];
+              const level = {beginner:['Cơ bản','level-begin'],intermediate:['Trung cấp','level-mid'],advanced:['Nâng cao','level-adv']}[course.level];
+              const price = course.price == null ? null : Number(course.price);
+              return <article className="s-course-card dash-discover-course" key={course.id}>
+                <div className="s-course-thumb" style={{background:`linear-gradient(135deg,${colors[index % colors.length]})`}} aria-hidden="true"><span>{icons[index % icons.length]}</span></div>
+                <div className="s-course-body">
+                  <h3><Link to={`/chapters?course_id=${course.id}`}>{course.title}</Link></h3>
+                  <p className="teacher">👨‍🏫 {course.teacher_name || 'Giảng viên StudyOnline'}</p>
+                  <div className="s-course-meta">
+                    {course.lesson_count != null && <span>📖 {Number(course.lesson_count) || 0} bài</span>}
+                    {course.document_count != null && <span>📄 {Number(course.document_count) || 0} tài liệu</span>}
+                  </div>
+                  <div className="dash-discover-details">
+                    {level && <span className={`level-badge ${level[1]}`}>{level[0]}</span>}
+                    <span className={price === 0 ? 'price-free' : 'price-paid'}>{price != null && Number.isFinite(price) ? price > 0 ? `${price.toLocaleString('vi-VN')}đ` : '🆓 Miễn phí' : 'Xem thông tin khóa'}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
+                <div className="s-course-footer"><Link to={`/chapters?course_id=${course.id}`} className="s-btn s-btn-outline s-btn-sm" aria-label={`Xem đề cương: ${course.title}`}>Xem đề cương →</Link></div>
+              </article>;
+            })}</div>}
       </div>
-
-      {/* Continue Courses */}
-      <div className="s-card" style={{ marginBottom: '1.75rem' }}>
-        <div className="s-card-header">
-          <span className="s-card-title">▶️ Tiếp tục học</span>
-          <Link to="/student/my-courses" className="s-btn s-btn-ghost s-btn-sm">
-            Xem tất cả
-          </Link>
-        </div>
-        <div className="s-card-body">
-          <div id="continueList" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: '1rem' }}>
-            {courses === null && <div style={{ color: 'var(--s-text-muted)', fontSize: '.9rem', padding: '1rem 0' }}>Đang tải khóa học...</div>}
-            {courses !== null && courses.length === 0 && (
-              <div className="s-empty">
-                <div className="icon">📚</div>
-                <h3>Bạn chưa đăng ký khóa học nào</h3>
-                <p>Hãy đăng ký khóa học đầu tiên!</p>
-                <Link to="/student/courses" className="s-btn s-btn-primary" style={{ marginTop: '1rem' }}>
-                  Khám phá ngay
-                </Link>
-              </div>
-            )}
-            {courses !== null &&
-              courses.slice(0, 3).map((c, i) => {
-                const prog = courseProgress[c.id];
-                const pct = prog?.pct ?? 0;
-                const status = prog?.status ?? 'notstarted';
-                return (
-                  <div
-                    key={c.id}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      padding: '1rem',
-                      border: '1px solid var(--s-border)',
-                      borderRadius: '10px',
-                      background: 'var(--s-surface-2)',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 52,
-                        height: 52,
-                        borderRadius: 10,
-                        background: `linear-gradient(135deg,${COLORS[i % COLORS.length]})`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '1.5rem',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {EMOJIS[i % EMOJIS.length]}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div
-                        style={{ fontWeight: 700, fontSize: '.9rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
-                      >
-                        {c.title || 'Khóa học'}
-                      </div>
-                      <div style={{ fontSize: '.78rem', color: 'var(--s-text-muted)', marginBottom: '.5rem' }}>
-                        {prog ? `${pct}% hoàn thành` : 'Đang tải...'}
-                      </div>
-                      <div className="s-progress">
-                        <div
-                          className={`s-progress-bar${status === 'done' ? ' green' : ''}`}
-                          style={{ width: `${pct}%`, transition: 'width 0.6s ease' }}
-                        />
-                      </div>
-                    </div>
-                    <Link to={`/chapters?course_id=${c.id}`} className="s-btn s-btn-primary s-btn-sm" style={{ flexShrink: 0 }}>
-                      {status === 'done' ? '🔄' : '▶'}
-                    </Link>
-                  </div>
-                );
-              })}
-          </div>
-        </div>
-      </div>
-
-      {/* Suggested Courses */}
-      <div className="s-card">
-        <div className="s-card-header">
-          <span className="s-card-title">💡 Khóa học đề xuất</span>
-          <Link to="/student/courses" className="s-btn s-btn-primary s-btn-sm">
-            Xem tất cả
-          </Link>
-        </div>
-        <div className="s-card-body">
-          <div className="s-course-grid" id="suggestedList">
-            {suggested === null && <div style={{ color: 'var(--s-text-muted)', fontSize: '.9rem' }}>Đang tải...</div>}
-            {suggested !== null && suggested.length === 0 && (
-              <p style={{ color: 'var(--s-text-muted)' }}>Bạn đã đăng ký tất cả khóa học hiện có. 🎉</p>
-            )}
-            {suggested !== null &&
-              suggested.slice(0, 6).map((c, i) => (
-                <div key={c.id} className="s-course-card">
-                  <div className="s-course-thumb" style={{ background: `linear-gradient(135deg,${COLORS[i % COLORS.length]})` }}>
-                    <span>{EMOJIS[i % EMOJIS.length]}</span>
-                  </div>
-                  <div className="s-course-body">
-                    <h3>{c.title || 'Khóa học'}</h3>
-                    <p className="teacher">👨‍🏫 {c.teacher_name || 'Giảng viên StudyOnline'}</p>
-                    <div className="s-course-meta">
-                      <span>{+c.price > 0 ? `💰 ${Number(c.price).toLocaleString('vi-VN')}đ` : '🆓 Miễn phí'}</span>
-                    </div>
-                  </div>
-                  <div className="s-course-footer">
-                    <Link to={`/chapters?course_id=${c.id}`} className="s-btn s-btn-ghost s-btn-sm">
-                      Xem đề cương
-                    </Link>
-                    <Link to="/student/courses" className="s-btn s-btn-primary s-btn-sm">
-                      Đăng ký
-                    </Link>
-                  </div>
-                </div>
-              ))}
-          </div>
-        </div>
-      </div>
-    </main>
-  );
+    </section>
+  </main>;
 }

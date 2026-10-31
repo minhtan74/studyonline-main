@@ -1,0 +1,23 @@
+.public-help { width:100%; max-width:1200px; margin:0 auto; padding:32px 24px 64px; }
+.public-help > nav { display:flex; gap:10px; font-size:12px; color:#64748b; margin-bottom:32px; }
+.public-help > nav a { color:#2563eb; }
+.public-help header { max-width:720px; margin-bottom:36px; }
+.public-help-eyebrow { font-size:12px; color:#2563eb; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.public-help h1 { font-size:clamp(25px,3vw,36px); font-weight:800; line-height:1.3; letter-spacing:-.025em; margin:12px 0; color:#0f172a; }
+.public-help header > p:last-child { font-size:15px; line-height:1.8; color:#64748b; }
+.public-help-layout { display:grid; grid-template-columns:280px minmax(0,1fr); gap:32px; align-items:start; }
+.public-help-layout > aside { background:#eff4ff; border:1px solid #dce6fb; padding:20px; border-radius:14px; }
+.public-help h2 { font-size:14px; font-weight:700; color:#1e293b; margin-bottom:12px; }
+.public-help-layout aside a { display:flex; align-items:baseline; gap:10px; padding:10px 0; font-size:12px; color:#475569; line-height:1.6; text-decoration:none; }
+.public-help-layout aside a span { color:#2563eb; font-size:11px; }
+.public-help-layout aside a:hover { color:#2563eb; }
+.public-help-question { scroll-margin-top:90px; border:1px solid #e2e8f0; border-radius:12px; background:#fff; margin-bottom:12px; }
+.public-help-question summary { cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:20px; list-style:none; padding:20px; font-size:14px; font-weight:650; color:#1e293b; }
+.public-help-question summary::-webkit-details-marker { display:none; }
+.public-help-question summary > span { color:#2563eb; font-size:20px; }
+.public-help-question[open] summary > span { transform:rotate(45deg); }
+.public-help-question > div { padding:0 20px 20px; font-size:14px; color:#475569; line-height:1.9; }
+.public-help-question > div a { display:inline-block; color:#2563eb; font-size:13px; font-weight:600; margin-top:14px; }
+.public-help-note { color:#64748b; font-size:12px; line-height:1.8; margin-top:24px; }
+.public-help :is(a,summary):focus-visible { outline:3px solid #93b0ff; outline-offset:3px; border-radius:5px; }
+@media(max-width:760px) { .public-help-layout { grid-template-columns:minmax(0,1fr); gap:24px; } .public-help { padding:24px 20px 40px; } .public-help-question summary { padding:16px; } }

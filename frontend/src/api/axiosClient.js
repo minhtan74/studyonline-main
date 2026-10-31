@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// VITE_API_BASE_URL: URL tuyệt đối (dev) hoặc chuỗi rỗng "" (Docker — gọi cùng origin, Nginx proxy /api).
+// VITE_API_BASE_URL: URL tuyệt đối (dev) hoặc chuỗi rỗng "" (gọi API cùng origin khi có reverse proxy).
 // Không đặt biến này → fallback về backend dev cục bộ.
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL === undefined
@@ -52,6 +52,10 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use((config) => {
   const token = getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;
+  // Snapshot the bearer actually sent: a later response may belong to an old session.
+  const authorization = config.headers.get?.('Authorization') || config.headers.Authorization;
+  config.sessionToken = typeof authorization === 'string' && authorization.startsWith('Bearer ')
+    ? authorization.slice(7) : null;
   return config;
 });
 
@@ -63,8 +67,8 @@ axiosClient.interceptors.response.use(
     if (error.response) {
       const { status, data, config } = error.response;
       const path = config?.url || '';
-      // Token hết hạn / không hợp lệ (401) ở API ngoài /api/auth -> xóa phiên và chuyển về trang đăng nhập
-      if (status === 401 && !path.startsWith('/api/auth/')) {
+      // Only revoke the session whose token was rejected. Never replay failed requests.
+      if (status === 401 && !path.startsWith('/api/auth/') && config?.sessionToken && config.sessionToken === getToken()) {
         clearAuthStorage();
         window.location.href = '/login';
         return new Promise(() => {});

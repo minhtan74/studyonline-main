@@ -1,0 +1,33 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 26,
+  "checks": [
+    "One accessible shared footer",
+    "Real support guidance replaces placeholders",
+    "Guest CTA leads to registration",
+    "Guest account links valid",
+    "No dummy links",
+    "Desktop uses four columns",
+    "Guide link opens start",
+    "Guide link opens materials",
+    "Guide link opens quiz",
+    "Guide link opens recommendations",
+    "Guide link opens ai",
+    "Guide link opens support",
+    "Recovery link opens existing support flow",
+    "Back to top respects reduced motion and works",
+    "Footer fits width 768",
+    "Footer fits width 390",
+    "Footer fits width 320",
+    "Direct guide anchor works after reload",
+    "student CTA goes to correct workspace",
+    "student hides guest account prompts",
+    "teacher CTA goes to correct workspace",
+    "teacher hides guest account prompts",
+    "admin CTA goes to correct workspace",
+    "admin hides guest account prompts",
+    "No frontend errors",
+    "Footer does not send writes"
+  ],
+  "errors": []
+}

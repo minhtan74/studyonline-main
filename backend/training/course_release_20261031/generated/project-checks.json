@@ -1,0 +1,17 @@
+[
+  {
+    "course": "git-github-thuc-hanh",
+    "tests": 1,
+    "passed": true
+  },
+  {
+    "course": "python-huong-doi-tuong-thuc-hanh",
+    "tests": 10,
+    "passed": true
+  },
+  {
+    "course": "fastapi-xay-dung-api-thuc-hanh",
+    "tests": 8,
+    "passed": true
+  }
+]

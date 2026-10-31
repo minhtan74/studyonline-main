@@ -1,0 +1,2051 @@
+{
+  "numbering_idempotent": true,
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Chương 1: Làm Quen Với Python",
+      "lessons": 3
+    },
+    {
+      "id": 2,
+      "title": "Chương 2: Cấu Trúc Điều Khiển & Hàm",
+      "lessons": 3
+    },
+    {
+      "id": 3,
+      "title": "Chương 3: Lập Trình Hướng Đối Tượng Cơ Bản",
+      "lessons": 3
+    },
+    {
+      "id": 4,
+      "title": "Chương 1: Nhập Môn JavaScript",
+      "lessons": 3
+    },
+    {
+      "id": 5,
+      "title": "Chương 2: DOM & Xử Lý Sự Kiện",
+      "lessons": 3
+    },
+    {
+      "id": 6,
+      "title": "Chương 3: JavaScript Hiện Đại (ES6+)",
+      "lessons": 3
+    },
+    {
+      "id": 7,
+      "title": "Chương 1: Cú Pháp Cơ Bản Java",
+      "lessons": 3
+    },
+    {
+      "id": 8,
+      "title": "Chương 2: Lập Trình Hướng Đối Tượng Trong Java",
+      "lessons": 3
+    },
+    {
+      "id": 9,
+      "title": "Chương 3: Xử Lý Ngoại Lệ & Collection",
+      "lessons": 3
+    },
+    {
+      "id": 10,
+      "title": "Chương 1: HTML Cơ Bản",
+      "lessons": 3
+    },
+    {
+      "id": 11,
+      "title": "Chương 2: CSS Cơ Bản",
+      "lessons": 3
+    },
+    {
+      "id": 12,
+      "title": "Chương 3: Responsive Design",
+      "lessons": 3
+    },
+    {
+      "id": 13,
+      "title": "Chương 1: React Cơ Bản",
+      "lessons": 3
+    },
+    {
+      "id": 14,
+      "title": "Chương 2: State Management & Hooks Nâng Cao",
+      "lessons": 3
+    },
+    {
+      "id": 15,
+      "title": "Chương 3: Xây Dựng Ứng Dụng Thực Tế",
+      "lessons": 3
+    },
+    {
+      "id": 16,
+      "title": "Chương 1: Nhập Môn Cơ Sở Dữ Liệu",
+      "lessons": 3
+    },
+    {
+      "id": 17,
+      "title": "Chương 2: Truy Vấn SQL Nâng Cao",
+      "lessons": 3
+    },
+    {
+      "id": 18,
+      "title": "Chương 3: Thiết Kế Database Chuẩn Hoá",
+      "lessons": 3
+    },
+    {
+      "id": 19,
+      "title": "Chương 1: Tổng quan",
+      "lessons": 2
+    },
+    {
+      "id": 20,
+      "title": "Chương 2: Tiểu trình và tiến trình",
+      "lessons": 3
+    },
+    {
+      "id": 21,
+      "title": "Chương 3: Lập trình và tiến trình",
+      "lessons": 2
+    },
+    {
+      "id": 22,
+      "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+      "lessons": 4
+    },
+    {
+      "id": 277,
+      "title": "Chương 1: Nền tảng kết nối mạng",
+      "lessons": 2
+    },
+    {
+      "id": 278,
+      "title": "Chương 2: Dịch vụ và ứng dụng mạng",
+      "lessons": 2
+    },
+    {
+      "id": 299,
+      "title": "Chương 3: Ethernet và mạng cục bộ",
+      "lessons": 2
+    },
+    {
+      "id": 300,
+      "title": "Chương 4: Cấp phát địa chỉ và chuyển tiếp",
+      "lessons": 2
+    },
+    {
+      "id": 301,
+      "title": "Chương 5: Giao vận và vận hành an toàn",
+      "lessons": 2
+    },
+    {
+      "id": 302,
+      "title": "Chương 6: Chẩn đoán và bài thực hành tổng hợp",
+      "lessons": 2
+    },
+    {
+      "id": 279,
+      "title": "Chương 1: Cấu trúc dữ liệu tuyến tính",
+      "lessons": 2
+    },
+    {
+      "id": 280,
+      "title": "Chương 2: Tìm kiếm và sắp xếp",
+      "lessons": 2
+    },
+    {
+      "id": 303,
+      "title": "Chương 3: Phân tích thuật toán và đệ quy",
+      "lessons": 2
+    },
+    {
+      "id": 304,
+      "title": "Chương 4: Tra cứu và dữ liệu có thứ tự",
+      "lessons": 2
+    },
+    {
+      "id": 305,
+      "title": "Chương 5: Ưu tiên và đồ thị",
+      "lessons": 2
+    },
+    {
+      "id": 306,
+      "title": "Chương 6: Thiết kế lời giải và thực hành",
+      "lessons": 2
+    },
+    {
+      "id": 281,
+      "title": "Chương 1: Nền tảng kiểm thử",
+      "lessons": 2
+    },
+    {
+      "id": 282,
+      "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+      "lessons": 2
+    },
+    {
+      "id": 295,
+      "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+      "lessons": 2
+    },
+    {
+      "id": 296,
+      "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+      "lessons": 2
+    },
+    {
+      "id": 297,
+      "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+      "lessons": 2
+    },
+    {
+      "id": 298,
+      "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+      "lessons": 2
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Bài 1: Cài đặt Python & IDE",
+      "document_name": "Chương 1 - Bài 1 - Cài đặt Python & IDE.pdf",
+      "http": 200
+    },
+    {
+      "id": 2,
+      "title": "Bài 2: Biến và kiểu dữ liệu",
+      "document_name": "Chương 1 - Bài 2 - Biến và kiểu dữ liệu.pdf",
+      "http": 200
+    },
+    {
+      "id": 3,
+      "title": "Bài 3: Toán tử trong Python",
+      "document_name": "Chương 1 - Bài 3 - Toán tử trong Python.pdf",
+      "http": 200
+    },
+    {
+      "id": 4,
+      "title": "Bài 1: Câu lệnh if - else",
+      "document_name": "Chương 2 - Bài 1 - Câu lệnh if - else.pdf",
+      "http": 200
+    },
+    {
+      "id": 5,
+      "title": "Bài 2: Vòng lặp for, while",
+      "document_name": "Chương 2 - Bài 2 - Vòng lặp for, while.pdf",
+      "http": 200
+    },
+    {
+      "id": 6,
+      "title": "Bài 3: Định nghĩa và sử dụng hàm",
+      "document_name": "Chương 2 - Bài 3 - Định nghĩa và sử dụng hàm.pdf",
+      "http": 200
+    },
+    {
+      "id": 7,
+      "title": "Bài 1: Class và Object",
+      "document_name": "Chương 3 - Bài 1 - Class và Object.pdf",
+      "http": 200
+    },
+    {
+      "id": 8,
+      "title": "Bài 2: Kế thừa (Inheritance)",
+      "document_name": "Chương 3 - Bài 2 - Kế thừa (Inheritance).pdf",
+      "http": 200
+    },
+    {
+      "id": 9,
+      "title": "Bài 3: Dự án nhỏ: Quản lý sinh viên",
+      "document_name": "Chương 3 - Bài 3 - Dự án nhỏ - Quản lý sinh viên.pdf",
+      "http": 200
+    },
+    {
+      "id": 10,
+      "title": "Bài 1: JavaScript là gì?",
+      "document_name": "Chương 1 - Bài 1 - JavaScript là gì.pdf",
+      "http": 200
+    },
+    {
+      "id": 11,
+      "title": "Bài 2: Biến, kiểu dữ liệu & toán tử",
+      "document_name": "Chương 1 - Bài 2 - Biến, kiểu dữ liệu & toán tử.pdf",
+      "http": 200
+    },
+    {
+      "id": 12,
+      "title": "Bài 3: Hàm trong JavaScript",
+      "document_name": "Chương 1 - Bài 3 - Hàm trong JavaScript.pdf",
+      "http": 200
+    },
+    {
+      "id": 13,
+      "title": "Bài 1: Tổng quan về DOM",
+      "document_name": "Chương 2 - Bài 1 - Tổng quan về DOM.pdf",
+      "http": 200
+    },
+    {
+      "id": 14,
+      "title": "Bài 2: Xử lý sự kiện click, submit",
+      "document_name": "Chương 2 - Bài 2 - Xử lý sự kiện click, submit.pdf",
+      "http": 200
+    },
+    {
+      "id": 15,
+      "title": "Bài 3: Dự án: To-do List",
+      "document_name": "Chương 2 - Bài 3 - Dự án - To-do List.pdf",
+      "http": 200
+    },
+    {
+      "id": 16,
+      "title": "Bài 1: Arrow function & Destructuring",
+      "document_name": "Chương 3 - Bài 1 - Arrow function & Destructuring.pdf",
+      "http": 200
+    },
+    {
+      "id": 17,
+      "title": "Bài 2: Promise & Async/Await",
+      "document_name": "Chương 3 - Bài 2 - Promise & Async - Await.pdf",
+      "http": 200
+    },
+    {
+      "id": 18,
+      "title": "Bài 3: Module & Fetch API",
+      "document_name": "Chương 3 - Bài 3 - Module & Fetch API.pdf",
+      "http": 200
+    },
+    {
+      "id": 19,
+      "title": "Bài 1: Cài đặt JDK & IntelliJ",
+      "document_name": "Chương 1 - Bài 1 - Cài đặt JDK & IntelliJ.pdf",
+      "http": 200
+    },
+    {
+      "id": 20,
+      "title": "Bài 2: Biến, kiểu dữ liệu trong Java",
+      "document_name": "Chương 1 - Bài 2 - Biến, kiểu dữ liệu trong Java.pdf",
+      "http": 200
+    },
+    {
+      "id": 21,
+      "title": "Bài 3: Cấu trúc điều khiển",
+      "document_name": "Chương 1 - Bài 3 - Cấu trúc điều khiển.pdf",
+      "http": 200
+    },
+    {
+      "id": 22,
+      "title": "Bài 1: Class, Object, Constructor",
+      "document_name": "Chương 2 - Bài 1 - Class, Object, Constructor.pdf",
+      "http": 200
+    },
+    {
+      "id": 23,
+      "title": "Bài 2: Kế thừa & Đa hình",
+      "document_name": "Chương 2 - Bài 2 - Kế thừa & Đa hình.pdf",
+      "http": 200
+    },
+    {
+      "id": 24,
+      "title": "Bài 3: Interface & Abstract Class",
+      "document_name": "Chương 2 - Bài 3 - Interface & Abstract Class.pdf",
+      "http": 200
+    },
+    {
+      "id": 25,
+      "title": "Bài 1: Try-catch & Custom Exception",
+      "document_name": "Chương 3 - Bài 1 - Try-catch & Custom Exception.pdf",
+      "http": 200
+    },
+    {
+      "id": 26,
+      "title": "Bài 2: ArrayList & HashMap",
+      "document_name": "Chương 3 - Bài 2 - ArrayList & HashMap.pdf",
+      "http": 200
+    },
+    {
+      "id": 27,
+      "title": "Bài 3: Dự án: Quản lý sản phẩm",
+      "document_name": "Chương 3 - Bài 3 - Dự án - Quản lý sản phẩm.pdf",
+      "http": 200
+    },
+    {
+      "id": 28,
+      "title": "Bài 1: Cấu trúc tài liệu HTML",
+      "document_name": "Chương 1 - Bài 1 - Cấu trúc tài liệu HTML.pdf",
+      "http": 200
+    },
+    {
+      "id": 29,
+      "title": "Bài 2: Form và bảng biểu",
+      "document_name": "Chương 1 - Bài 2 - Form và bảng biểu.pdf",
+      "http": 200
+    },
+    {
+      "id": 30,
+      "title": "Bài 3: Semantic HTML",
+      "document_name": "Chương 1 - Bài 3 - Semantic HTML.pdf",
+      "http": 200
+    },
+    {
+      "id": 31,
+      "title": "Bài 1: Selector & thuộc tính CSS",
+      "document_name": "Chương 2 - Bài 1 - Selector & thuộc tính CSS.pdf",
+      "http": 200
+    },
+    {
+      "id": 32,
+      "title": "Bài 2: Box Model & Flexbox",
+      "document_name": "Chương 2 - Bài 2 - Box Model & Flexbox.pdf",
+      "http": 200
+    },
+    {
+      "id": 33,
+      "title": "Bài 3: CSS Grid",
+      "document_name": "Chương 2 - Bài 3 - CSS Grid.pdf",
+      "http": 200
+    },
+    {
+      "id": 34,
+      "title": "Bài 1: Media Query",
+      "document_name": "Chương 3 - Bài 1 - Media Query.pdf",
+      "http": 200
+    },
+    {
+      "id": 35,
+      "title": "Bài 2: Mobile First Design",
+      "document_name": "Chương 3 - Bài 2 - Mobile First Design.pdf",
+      "http": 200
+    },
+    {
+      "id": 36,
+      "title": "Bài 3: Dự án: Landing Page Responsive",
+      "document_name": "Chương 3 - Bài 3 - Dự án - Landing Page Responsive.pdf",
+      "http": 200
+    },
+    {
+      "id": 37,
+      "title": "Bài 1: Giới thiệu React & JSX",
+      "document_name": "Chương 1 - Bài 1 - Giới thiệu React & JSX.pdf",
+      "http": 200
+    },
+    {
+      "id": 38,
+      "title": "Bài 2: Component & Props",
+      "document_name": "Chương 1 - Bài 2 - Component & Props.pdf",
+      "http": 200
+    },
+    {
+      "id": 39,
+      "title": "Bài 3: State & useState",
+      "document_name": "Chương 1 - Bài 3 - State & useState.pdf",
+      "http": 200
+    },
+    {
+      "id": 40,
+      "title": "Bài 1: useEffect & vòng đời component",
+      "document_name": "Chương 2 - Bài 1 - useEffect & vòng đời component.pdf",
+      "http": 200
+    },
+    {
+      "id": 41,
+      "title": "Bài 2: useContext & useReducer",
+      "document_name": "Chương 2 - Bài 2 - useContext & useReducer.pdf",
+      "http": 200
+    },
+    {
+      "id": 42,
+      "title": "Bài 3: Custom Hooks",
+      "document_name": "Chương 2 - Bài 3 - Custom Hooks.pdf",
+      "http": 200
+    },
+    {
+      "id": 43,
+      "title": "Bài 1: Kết nối API với Axios",
+      "document_name": "Chương 3 - Bài 1 - Kết nối API với Axios.pdf",
+      "http": 200
+    },
+    {
+      "id": 44,
+      "title": "Bài 2: Routing với React Router",
+      "document_name": "Chương 3 - Bài 2 - Routing với React Router.pdf",
+      "http": 200
+    },
+    {
+      "id": 45,
+      "title": "Bài 3: Dự án: Trang quản lý khoá học",
+      "document_name": "Chương 3 - Bài 3 - Dự án - Trang quản lý khoá học.pdf",
+      "http": 200
+    },
+    {
+      "id": 46,
+      "title": "Bài 1: Khái niệm cơ sở dữ liệu",
+      "document_name": "Chương 1 - Bài 1 - Khái niệm cơ sở dữ liệu.pdf",
+      "http": 200
+    },
+    {
+      "id": 47,
+      "title": "Bài 2: Cài đặt MySQL & Workbench",
+      "document_name": "Chương 1 - Bài 2 - Cài đặt MySQL & Workbench.pdf",
+      "http": 200
+    },
+    {
+      "id": 48,
+      "title": "Bài 3: Câu lệnh SELECT cơ bản",
+      "document_name": "Chương 1 - Bài 3 - Câu lệnh SELECT cơ bản.pdf",
+      "http": 200
+    },
+    {
+      "id": 49,
+      "title": "Bài 1: JOIN nhiều bảng",
+      "document_name": "Chương 2 - Bài 1 - JOIN nhiều bảng.pdf",
+      "http": 200
+    },
+    {
+      "id": 50,
+      "title": "Bài 2: GROUP BY & Aggregate Function",
+      "document_name": "Chương 2 - Bài 2 - GROUP BY & Aggregate Function.pdf",
+      "http": 200
+    },
+    {
+      "id": 51,
+      "title": "Bài 3: Subquery & View",
+      "document_name": "Chương 2 - Bài 3 - Subquery & View.pdf",
+      "http": 200
+    },
+    {
+      "id": 52,
+      "title": "Bài 1: Chuẩn hoá dữ liệu (1NF-3NF)",
+      "document_name": "Chương 3 - Bài 1 - Chuẩn hoá dữ liệu (1NF-3NF).pdf",
+      "http": 200
+    },
+    {
+      "id": 53,
+      "title": "Bài 2: Thiết kế ERD",
+      "document_name": "Chương 3 - Bài 2 - Thiết kế ERD.pdf",
+      "http": 200
+    },
+    {
+      "id": 54,
+      "title": "Bài 3: Dự án: Thiết kế CSDL website học trực tuyến",
+      "document_name": "Chương 3 - Bài 3 - Dự án - Thiết kế CSDL website học trực tuyến.pdf",
+      "http": 200
+    },
+    {
+      "id": 55,
+      "title": "Bài 1: Khái niệm về hệ điều hành",
+      "document_name": "Chương 1 - Bài 1 - Khái niệm về hệ điều hành.pdf",
+      "http": 200
+    },
+    {
+      "id": 56,
+      "title": "Bài 2: Phân loại hệ điều hành",
+      "document_name": "Chương 1 - Bài 2 - Phân loại hệ điều hành.pdf",
+      "http": 200
+    },
+    {
+      "id": 57,
+      "title": "Bài 1: Nhu cầu xử lí đồng thời",
+      "document_name": "Chương 2 - Bài 1 - Nhu cầu xử lí đồng thời.pdf",
+      "http": 200
+    },
+    {
+      "id": 58,
+      "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+      "document_name": "Chương 2 - Bài 2 - Khái niệm tiến trình và mô hình đa tiến trình.pdf",
+      "http": 200
+    },
+    {
+      "id": 59,
+      "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+      "document_name": "Chương 2 - Bài 3 - Khái niệm tiến trình và mô hình tiểu tiến trình.pdf",
+      "http": 200
+    },
+    {
+      "id": 60,
+      "title": "Bài 1: Tổ chức quản lí tiến trình",
+      "document_name": "Chương 3 - Bài 1 - Tổ chức quản lí tiến trình.pdf",
+      "http": 200
+    },
+    {
+      "id": 61,
+      "title": "Bài 2: Lập trình tiến trình",
+      "document_name": "Chương 3 - Bài 2 - Lập trình tiến trình.pdf",
+      "http": 200
+    },
+    {
+      "id": 62,
+      "title": "Bài 1: Liên lạc tiến trình",
+      "document_name": "Chương 4 - Bài 1 - Liên lạc tiến trình.pdf",
+      "http": 200
+    },
+    {
+      "id": 63,
+      "title": "Bài 2: Các cơ chế thông tin liên lạc",
+      "document_name": "Chương 4 - Bài 2 - Các cơ chế thông tin liên lạc.pdf",
+      "http": 200
+    },
+    {
+      "id": 64,
+      "title": "Bài 3: Nhu cầu đồng bộ hóa",
+      "document_name": "Chương 4 - Bài 3 - Nhu cầu đồng bộ hóa.pdf",
+      "http": 200
+    },
+    {
+      "id": 65,
+      "title": "Bài 4: Các giải pháp đồng bộ hóa",
+      "document_name": "Chương 4 - Bài 4 - Các giải pháp đồng bộ hóa.pdf",
+      "http": 200
+    },
+    {
+      "id": 303,
+      "title": "Bài 1: Mô hình TCP/IP và thiết bị mạng",
+      "document_name": "Chương 1 - Bài 1 - Mô hình TCP - IP và thiết bị mạng.pdf",
+      "http": 200
+    },
+    {
+      "id": 304,
+      "title": "Bài 2: Địa chỉ IPv4 và mạng con",
+      "document_name": "Chương 1 - Bài 2 - Địa chỉ IPv4 và mạng con.pdf",
+      "http": 200
+    },
+    {
+      "id": 305,
+      "title": "Bài 1: DNS và phân giải tên miền",
+      "document_name": "Chương 2 - Bài 1 - DNS và phân giải tên miền.pdf",
+      "http": 200
+    },
+    {
+      "id": 306,
+      "title": "Bài 2: HTTP và HTTPS",
+      "document_name": "Chương 2 - Bài 2 - HTTP và HTTPS.pdf",
+      "http": 200
+    },
+    {
+      "id": 347,
+      "title": "Bài 1: Ethernet, địa chỉ MAC và ARP",
+      "document_name": "Chương 3 - Bài 1 - Ethernet, địa chỉ MAC và ARP.pdf",
+      "http": 200
+    },
+    {
+      "id": 348,
+      "title": "Bài 2: VLAN và kết nối Wi-Fi",
+      "document_name": "Chương 3 - Bài 2 - VLAN và kết nối Wi-Fi.pdf",
+      "http": 200
+    },
+    {
+      "id": 349,
+      "title": "Bài 1: DHCP và NAT trong mạng gia đình",
+      "document_name": "Chương 4 - Bài 1 - DHCP và NAT trong mạng gia đình.pdf",
+      "http": 200
+    },
+    {
+      "id": 350,
+      "title": "Bài 2: Định tuyến cơ bản và làm quen IPv6",
+      "document_name": "Chương 4 - Bài 2 - Định tuyến cơ bản và làm quen IPv6.pdf",
+      "http": 200
+    },
+    {
+      "id": 351,
+      "title": "Bài 1: Cổng, socket và vòng đời kết nối TCP",
+      "document_name": "Chương 5 - Bài 1 - Cổng, socket và vòng đời kết nối TCP.pdf",
+      "http": 200
+    },
+    {
+      "id": 352,
+      "title": "Bài 2: Tường lửa và phân vùng truy cập",
+      "document_name": "Chương 5 - Bài 2 - Tường lửa và phân vùng truy cập.pdf",
+      "http": 200
+    },
+    {
+      "id": 353,
+      "title": "Bài 1: Chẩn đoán lỗi mạng theo từng lớp",
+      "document_name": "Chương 6 - Bài 1 - Chẩn đoán lỗi mạng theo từng lớp.pdf",
+      "http": 200
+    },
+    {
+      "id": 354,
+      "title": "Bài 2: Dự án nhỏ: thiết kế mạng cho phòng học",
+      "document_name": "Chương 6 - Bài 2 - Dự án nhỏ - thiết kế mạng cho phòng học.pdf",
+      "http": 200
+    },
+    {
+      "id": 307,
+      "title": "Bài 1: Mảng và danh sách liên kết",
+      "document_name": "Chương 1 - Bài 1 - Mảng và danh sách liên kết.pdf",
+      "http": 200
+    },
+    {
+      "id": 308,
+      "title": "Bài 2: Ngăn xếp và hàng đợi",
+      "document_name": "Chương 1 - Bài 2 - Ngăn xếp và hàng đợi.pdf",
+      "http": 200
+    },
+    {
+      "id": 309,
+      "title": "Bài 1: Tìm kiếm tuyến tính và nhị phân",
+      "document_name": "Chương 2 - Bài 1 - Tìm kiếm tuyến tính và nhị phân.pdf",
+      "http": 200
+    },
+    {
+      "id": 310,
+      "title": "Bài 2: Sắp xếp và độ phức tạp",
+      "document_name": "Chương 2 - Bài 2 - Sắp xếp và độ phức tạp.pdf",
+      "http": 200
+    },
+    {
+      "id": 355,
+      "title": "Bài 1: Big-O, bất biến và kiểm tra thuật toán",
+      "document_name": "Chương 3 - Bài 1 - Big-O, bất biến và kiểm tra thuật toán.pdf",
+      "http": 200
+    },
+    {
+      "id": 356,
+      "title": "Bài 2: Đệ quy và ngăn xếp lời gọi",
+      "document_name": "Chương 3 - Bài 2 - Đệ quy và ngăn xếp lời gọi.pdf",
+      "http": 200
+    },
+    {
+      "id": 357,
+      "title": "Bài 1: Bảng băm, tập hợp và ánh xạ",
+      "document_name": "Chương 4 - Bài 1 - Bảng băm, tập hợp và ánh xạ.pdf",
+      "http": 200
+    },
+    {
+      "id": 358,
+      "title": "Bài 2: Cây nhị phân và cây tìm kiếm nhị phân",
+      "document_name": "Chương 4 - Bài 2 - Cây nhị phân và cây tìm kiếm nhị phân.pdf",
+      "http": 200
+    },
+    {
+      "id": 359,
+      "title": "Bài 1: Heap và hàng đợi ưu tiên",
+      "document_name": "Chương 5 - Bài 1 - Heap và hàng đợi ưu tiên.pdf",
+      "http": 200
+    },
+    {
+      "id": 360,
+      "title": "Bài 2: Đồ thị, BFS và DFS",
+      "document_name": "Chương 5 - Bài 2 - Đồ thị, BFS và DFS.pdf",
+      "http": 200
+    },
+    {
+      "id": 361,
+      "title": "Bài 1: Chia để trị và quy hoạch động nhập môn",
+      "document_name": "Chương 6 - Bài 1 - Chia để trị và quy hoạch động nhập môn.pdf",
+      "http": 200
+    },
+    {
+      "id": 362,
+      "title": "Bài 2: Dự án nhỏ: bộ tra cứu và thống kê dữ liệu",
+      "document_name": "Chương 6 - Bài 2 - Dự án nhỏ - bộ tra cứu và thống kê dữ liệu.pdf",
+      "http": 200
+    },
+    {
+      "id": 311,
+      "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+      "document_name": "Chương 1 - Bài 1 - Mục tiêu và các mức kiểm thử.pdf",
+      "http": 200
+    },
+    {
+      "id": 312,
+      "title": "Bài 2: Thiết kế test case",
+      "document_name": "Chương 1 - Bài 2 - Thiết kế test case.pdf",
+      "http": 200
+    },
+    {
+      "id": 313,
+      "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+      "document_name": "Chương 2 - Bài 1 - Phân vùng tương đương và giá trị biên.pdf",
+      "http": 200
+    },
+    {
+      "id": 314,
+      "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+      "document_name": "Chương 2 - Bài 2 - Báo cáo lỗi và kiểm thử hồi quy.pdf",
+      "http": 200
+    },
+    {
+      "id": 339,
+      "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+      "document_name": "Chương 3 - Bài 1 - SDLC, Agile và chiến lược kiểm thử.pdf",
+      "http": 200
+    },
+    {
+      "id": 340,
+      "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+      "document_name": "Chương 3 - Bài 2 - Review yêu cầu và truy vết kiểm thử.pdf",
+      "http": 200
+    },
+    {
+      "id": 341,
+      "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+      "document_name": "Chương 4 - Bài 1 - Bảng quyết định và tổ hợp điều kiện.pdf",
+      "http": 200
+    },
+    {
+      "id": 342,
+      "title": "Bài 2: Kiểm thử chuyển trạng thái",
+      "document_name": "Chương 4 - Bài 2 - Kiểm thử chuyển trạng thái.pdf",
+      "http": 200
+    },
+    {
+      "id": 343,
+      "title": "Bài 1: Kiểm thử API và phân quyền",
+      "document_name": "Chương 5 - Bài 1 - Kiểm thử API và phân quyền.pdf",
+      "http": 200
+    },
+    {
+      "id": 344,
+      "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+      "document_name": "Chương 5 - Bài 2 - Kiểm thử cơ sở dữ liệu và tính toàn vẹn.pdf",
+      "http": 200
+    },
+    {
+      "id": 345,
+      "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+      "document_name": "Chương 6 - Bài 1 - Hiệu năng, khả dụng và tương thích.pdf",
+      "http": 200
+    },
+    {
+      "id": 346,
+      "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+      "document_name": "Chương 6 - Bài 2 - Dự án nhỏ - kế hoạch kiểm thử và tự động hóa.pdf",
+      "http": 200
+    }
+  ],
+  "documents": [
+    {
+      "id": 1,
+      "title": "Chương 1 — Bài 1: Khái niệm về hệ điều hành",
+      "filename": "Chương 1 — Bài 1 - Khái niệm về hệ điều hành.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 2,
+      "title": "Chương 1 — Bài 2: Phân loại hệ điều hành",
+      "filename": "Chương 1 — Bài 2 - Phân loại hệ điều hành.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 3,
+      "title": "Chương 2 — Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+      "filename": "Chương 2 — Bài 2 - Khái niệm tiến trình và mô hình đa tiến trình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 4,
+      "title": "Chương 2 — Bài 1: Nhu cầu xử lí đồng thời",
+      "filename": "Chương 2 — Bài 1 - Nhu cầu xử lí đồng thời.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 5,
+      "title": "Chương 2 — Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+      "filename": "Chương 2 — Bài 3 - Khái niệm tiến trình và mô hình tiểu tiến trình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 6,
+      "title": "Chương 3 — Bài 1: Tổ chức quản lí tiến trình",
+      "filename": "Chương 3 — Bài 1 - Tổ chức quản lí tiến trình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 7,
+      "title": "Chương 3 — Bài 2: Lập trình tiến trình",
+      "filename": "Chương 3 — Bài 2 - Lập trình tiến trình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 8,
+      "title": "Chương 4 — Bài 1: Liên lạc tiến trình",
+      "filename": "Chương 4 — Bài 1 - Liên lạc tiến trình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 9,
+      "title": "Chương 4 — Bài 2: Các cơ chế thông tin liên lạc",
+      "filename": "Chương 4 — Bài 2 - Các cơ chế thông tin liên lạc.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 10,
+      "title": "Chương 4 — Bài 3: Nhu cầu đồng bộ hóa",
+      "filename": "Chương 4 — Bài 3 - Nhu cầu đồng bộ hóa.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 11,
+      "title": "Chương 4 — Bài 4: Các giải pháp đồng bộ hóa",
+      "filename": "Chương 4 — Bài 4 - Các giải pháp đồng bộ hóa.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 12,
+      "title": "Python Cơ Bản Cho Người Mới Bắt Đầu — Tài liệu tổng hợp",
+      "filename": "Python Cơ Bản Cho Người Mới Bắt Đầu — Tài liệu tổng hợp.txt",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 13,
+      "title": "JavaScript Từ Zero Đến Hero — Tài liệu tổng hợp",
+      "filename": "JavaScript Từ Zero Đến Hero — Tài liệu tổng hợp.txt",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 14,
+      "title": "JavaScript Từ Zero Đến Hero — HTTP và Nền Tảng Web",
+      "filename": "JavaScript Từ Zero Đến Hero — HTTP và Nền Tảng Web.txt",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 28,
+      "title": "Chương 1 — Bài 1: Cấu trúc tài liệu HTML",
+      "filename": "Chương 1 — Bài 1 - Cấu trúc tài liệu HTML.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 29,
+      "title": "Chương 1 — Bài 2: Form và bảng biểu",
+      "filename": "Chương 1 — Bài 2 - Form và bảng biểu.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 30,
+      "title": "Chương 1 — Bài 3: Semantic HTML",
+      "filename": "Chương 1 — Bài 3 - Semantic HTML.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 31,
+      "title": "Chương 2 — Bài 1: Selector và thuộc tính CSS",
+      "filename": "Chương 2 — Bài 1 - Selector và thuộc tính CSS.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 32,
+      "title": "Chương 2 — Bài 2: Box Model và Flexbox",
+      "filename": "Chương 2 — Bài 2 - Box Model và Flexbox.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 33,
+      "title": "Chương 2 — Bài 3: CSS Grid",
+      "filename": "Chương 2 — Bài 3 - CSS Grid.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 34,
+      "title": "Chương 3 — Bài 1: Media Query",
+      "filename": "Chương 3 — Bài 1 - Media Query.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 35,
+      "title": "Chương 3 — Bài 2: Mobile First Design",
+      "filename": "Chương 3 — Bài 2 - Mobile First Design.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 36,
+      "title": "Chương 3 — Bài 3: Dự án Landing Page Responsive",
+      "filename": "Chương 3 — Bài 3 - Dự án Landing Page Responsive.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 37,
+      "title": "Chương 1 — Bài 1: Cài đặt JDK và IntelliJ",
+      "filename": "Chương 1 — Bài 1 - Cài đặt JDK và IntelliJ.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 38,
+      "title": "Chương 1 — Bài 2: Biến, kiểu dữ liệu trong Java",
+      "filename": "Chương 1 — Bài 2 - Biến, kiểu dữ liệu trong Java.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 39,
+      "title": "Chương 1 — Bài 3: Cấu trúc điều khiển",
+      "filename": "Chương 1 — Bài 3 - Cấu trúc điều khiển.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 40,
+      "title": "Chương 2 — Bài 1: Class, Object, Constructor",
+      "filename": "Chương 2 — Bài 1 - Class, Object, Constructor.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 41,
+      "title": "Chương 2 — Bài 2: Kế thừa và Đa hình",
+      "filename": "Chương 2 — Bài 2 - Kế thừa và Đa hình.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 42,
+      "title": "Chương 2 — Bài 3: Interface và Abstract Class",
+      "filename": "Chương 2 — Bài 3 - Interface và Abstract Class.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 43,
+      "title": "Chương 3 — Bài 1: Try-catch và Custom Exception",
+      "filename": "Chương 3 — Bài 1 - Try-catch và Custom Exception.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 44,
+      "title": "Chương 3 — Bài 2: ArrayList và HashMap",
+      "filename": "Chương 3 — Bài 2 - ArrayList và HashMap.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 45,
+      "title": "Chương 3 — Bài 3: Dự án Quản lý sản phẩm",
+      "filename": "Chương 3 — Bài 3 - Dự án Quản lý sản phẩm.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 46,
+      "title": "Chương 1 — Bài 1: Giới thiệu React và JSX",
+      "filename": "Chương 1 — Bài 1 - Giới thiệu React và JSX.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 47,
+      "title": "Chương 1 — Bài 2: Component và Props",
+      "filename": "Chương 1 — Bài 2 - Component và Props.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 48,
+      "title": "Chương 1 — Bài 3: State và useState",
+      "filename": "Chương 1 — Bài 3 - State và useState.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 49,
+      "title": "Chương 2 — Bài 1: useEffect và vòng đời component",
+      "filename": "Chương 2 — Bài 1 - useEffect và vòng đời component.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 50,
+      "title": "Chương 2 — Bài 2: useContext và useReducer",
+      "filename": "Chương 2 — Bài 2 - useContext và useReducer.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 51,
+      "title": "Chương 2 — Bài 3: Custom Hooks",
+      "filename": "Chương 2 — Bài 3 - Custom Hooks.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 52,
+      "title": "Chương 3 — Bài 1: Kết nối API với Axios",
+      "filename": "Chương 3 — Bài 1 - Kết nối API với Axios.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 53,
+      "title": "Chương 3 — Bài 2: Routing với React Router",
+      "filename": "Chương 3 — Bài 2 - Routing với React Router.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 54,
+      "title": "Chương 3 — Bài 3: Dự án Trang quản lý khoá học",
+      "filename": "Chương 3 — Bài 3 - Dự án Trang quản lý khoá học.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 55,
+      "title": "Chương 1 — Bài 1: Khái niệm cơ sở dữ liệu",
+      "filename": "Chương 1 — Bài 1 - Khái niệm cơ sở dữ liệu.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 56,
+      "title": "Chương 1 — Bài 2: Cài đặt MySQL và Workbench",
+      "filename": "Chương 1 — Bài 2 - Cài đặt MySQL và Workbench.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 57,
+      "title": "Chương 1 — Bài 3: Câu lệnh SELECT cơ bản",
+      "filename": "Chương 1 — Bài 3 - Câu lệnh SELECT cơ bản.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 58,
+      "title": "Chương 2 — Bài 1: JOIN nhiều bảng",
+      "filename": "Chương 2 — Bài 1 - JOIN nhiều bảng.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 59,
+      "title": "Chương 2 — Bài 2: GROUP BY và Aggregate Function",
+      "filename": "Chương 2 — Bài 2 - GROUP BY và Aggregate Function.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 60,
+      "title": "Chương 2 — Bài 3: Subquery và View",
+      "filename": "Chương 2 — Bài 3 - Subquery và View.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 61,
+      "title": "Chương 3 — Bài 1: Chuẩn hoá dữ liệu 1NF-3NF",
+      "filename": "Chương 3 — Bài 1 - Chuẩn hoá dữ liệu 1NF-3NF.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 62,
+      "title": "Chương 3 — Bài 2: Thiết kế ERD",
+      "filename": "Chương 3 — Bài 2 - Thiết kế ERD.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 63,
+      "title": "Chương 3 — Bài 3: Dự án Thiết kế CSDL website học trực tuyến",
+      "filename": "Chương 3 — Bài 3 - Dự án Thiết kế CSDL website học trực tuyến.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 64,
+      "title": "Chương 1 — Bài 1: Cài đặt Python & IDE",
+      "filename": "Chương 1 — Bài 1 - Cài đặt Python & IDE.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 65,
+      "title": "Chương 1 — Bài 2: Biến và kiểu dữ liệu",
+      "filename": "Chương 1 — Bài 2 - Biến và kiểu dữ liệu.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 66,
+      "title": "Chương 1 — Bài 3: Toán tử trong Python",
+      "filename": "Chương 1 — Bài 3 - Toán tử trong Python.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 67,
+      "title": "Chương 2 — Bài 1: Câu lệnh if - else",
+      "filename": "Chương 2 — Bài 1 - Câu lệnh if - else.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 68,
+      "title": "Chương 2 — Bài 2: Vòng lặp for, while",
+      "filename": "Chương 2 — Bài 2 - Vòng lặp for, while.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 69,
+      "title": "Chương 2 — Bài 3: Định nghĩa và sử dụng hàm",
+      "filename": "Chương 2 — Bài 3 - Định nghĩa và sử dụng hàm.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 70,
+      "title": "Chương 3 — Bài 1: Class và Object",
+      "filename": "Chương 3 — Bài 1 - Class và Object.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 71,
+      "title": "Chương 3 — Bài 2: Kế thừa (Inheritance)",
+      "filename": "Chương 3 — Bài 2 - Kế thừa (Inheritance).pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 72,
+      "title": "Chương 1 — Bài 1: JavaScript là gì?",
+      "filename": "Chương 1 — Bài 1 - JavaScript là gì.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 73,
+      "title": "Chương 1 — Bài 2: Biến, kiểu dữ liệu & toán tử",
+      "filename": "Chương 1 — Bài 2 - Biến, kiểu dữ liệu & toán tử.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 74,
+      "title": "Chương 1 — Bài 3: Hàm trong JavaScript",
+      "filename": "Chương 1 — Bài 3 - Hàm trong JavaScript.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 75,
+      "title": "Chương 2 — Bài 1: Tổng quan về DOM",
+      "filename": "Chương 2 — Bài 1 - Tổng quan về DOM.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 76,
+      "title": "Chương 2 — Bài 2: Xử lý sự kiện click, submit",
+      "filename": "Chương 2 — Bài 2 - Xử lý sự kiện click, submit.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 77,
+      "title": "Chương 2 — Bài 3: Dự án: To-do List",
+      "filename": "Chương 2 — Bài 3 - Dự án - To-do List.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 78,
+      "title": "Chương 3 — Bài 1: Arrow function & Destructuring",
+      "filename": "Chương 3 — Bài 1 - Arrow function & Destructuring.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 79,
+      "title": "Chương 3 — Bài 2: Promise & Async/Await",
+      "filename": "Chương 3 — Bài 2 - Promise & Async - Await.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 80,
+      "title": "Chương 3 — Bài 3: Dự án nhỏ: Quản lý sinh viên",
+      "filename": "Chương 3 — Bài 3 - Dự án nhỏ - Quản lý sinh viên.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 81,
+      "title": "Chương 3 — Bài 3: Module & Fetch API",
+      "filename": "Chương 3 — Bài 3 - Module & Fetch API.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 82,
+      "title": "Python Cơ Bản Cho Người Mới Bắt Đầu — Học thêm và thực hành tổng hợp",
+      "filename": "Python Cơ Bản Cho Người Mới Bắt Đầu — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 83,
+      "title": "JavaScript Từ Zero Đến Hero — Học thêm và thực hành tổng hợp",
+      "filename": "JavaScript Từ Zero Đến Hero — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 84,
+      "title": "Lập Trình Java Căn Bản — Học thêm và thực hành tổng hợp",
+      "filename": "Lập Trình Java Căn Bản — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 85,
+      "title": "HTML & CSS Nhập Môn — Học thêm và thực hành tổng hợp",
+      "filename": "HTML & CSS Nhập Môn — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 86,
+      "title": "ReactJS Chuyên Sâu — Học thêm và thực hành tổng hợp",
+      "filename": "ReactJS Chuyên Sâu — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 87,
+      "title": "MySQL & Thiết Kế Cơ Sở Dữ Liệu — Học thêm và thực hành tổng hợp",
+      "filename": "MySQL & Thiết Kế Cơ Sở Dữ Liệu — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 88,
+      "title": "Nguyên Lí HDH — Học thêm và thực hành tổng hợp",
+      "filename": "Nguyên Lí HDH — Học thêm và thực hành tổng hợp.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 90,
+      "title": "Chương 1 — Bài 1: Cài đặt Python & IDE — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Cài đặt Python & IDE — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 91,
+      "title": "Chương 1 — Bài 2: Biến và kiểu dữ liệu — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Biến và kiểu dữ liệu — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 92,
+      "title": "Chương 1 — Bài 3: Toán tử trong Python — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - Toán tử trong Python — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 93,
+      "title": "Chương 2 — Bài 1: Câu lệnh if - else — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Câu lệnh if - else — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 94,
+      "title": "Chương 2 — Bài 2: Vòng lặp for, while — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Vòng lặp for, while — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 95,
+      "title": "Chương 2 — Bài 3: Định nghĩa và sử dụng hàm — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Định nghĩa và sử dụng hàm — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 96,
+      "title": "Chương 3 — Bài 1: Class và Object — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Class và Object — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 97,
+      "title": "Chương 3 — Bài 2: Kế thừa (Inheritance) — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Kế thừa (Inheritance) — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 98,
+      "title": "Chương 3 — Bài 3: Dự án nhỏ: Quản lý sinh viên — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Dự án nhỏ - Quản lý sinh viên — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 99,
+      "title": "Chương 1 — Bài 1: JavaScript là gì? — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - JavaScript là gì - — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 100,
+      "title": "Chương 1 — Bài 2: Biến, kiểu dữ liệu & toán tử — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Biến, kiểu dữ liệu & toán tử — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 101,
+      "title": "Chương 1 — Bài 3: Hàm trong JavaScript — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - Hàm trong JavaScript — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 102,
+      "title": "Chương 2 — Bài 1: Tổng quan về DOM — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Tổng quan về DOM — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 103,
+      "title": "Chương 2 — Bài 2: Xử lý sự kiện click, submit — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Xử lý sự kiện click, submit — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 104,
+      "title": "Chương 2 — Bài 3: Dự án: To-do List — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Dự án - To-do List — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 105,
+      "title": "Chương 3 — Bài 1: Arrow function & Destructuring — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Arrow function & Destructuring — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 106,
+      "title": "Chương 3 — Bài 2: Promise & Async/Await — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Promise & Async - Await — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 107,
+      "title": "Chương 3 — Bài 3: Module & Fetch API — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Module & Fetch API — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 108,
+      "title": "Chương 1 — Bài 1: Cài đặt JDK & IntelliJ — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Cài đặt JDK & IntelliJ — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 109,
+      "title": "Chương 1 — Bài 2: Biến, kiểu dữ liệu trong Java — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Biến, kiểu dữ liệu trong Java — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 110,
+      "title": "Chương 1 — Bài 3: Cấu trúc điều khiển — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - Cấu trúc điều khiển — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 111,
+      "title": "Chương 2 — Bài 1: Class, Object, Constructor — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Class, Object, Constructor — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 112,
+      "title": "Chương 2 — Bài 2: Kế thừa & Đa hình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Kế thừa & Đa hình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 113,
+      "title": "Chương 2 — Bài 3: Interface & Abstract Class — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Interface & Abstract Class — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 114,
+      "title": "Chương 3 — Bài 1: Try-catch & Custom Exception — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Try-catch & Custom Exception — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 115,
+      "title": "Chương 3 — Bài 2: ArrayList & HashMap — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - ArrayList & HashMap — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 116,
+      "title": "Chương 3 — Bài 3: Dự án: Quản lý sản phẩm — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Dự án - Quản lý sản phẩm — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 117,
+      "title": "Chương 1 — Bài 1: Cấu trúc tài liệu HTML — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Cấu trúc tài liệu HTML — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 118,
+      "title": "Chương 1 — Bài 2: Form và bảng biểu — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Form và bảng biểu — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 119,
+      "title": "Chương 1 — Bài 3: Semantic HTML — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - Semantic HTML — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 120,
+      "title": "Chương 2 — Bài 1: Selector & thuộc tính CSS — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Selector & thuộc tính CSS — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 121,
+      "title": "Chương 2 — Bài 2: Box Model & Flexbox — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Box Model & Flexbox — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 122,
+      "title": "Chương 2 — Bài 3: CSS Grid — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - CSS Grid — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 123,
+      "title": "Chương 3 — Bài 1: Media Query — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Media Query — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 124,
+      "title": "Chương 3 — Bài 2: Mobile First Design — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Mobile First Design — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 125,
+      "title": "Chương 3 — Bài 3: Dự án: Landing Page Responsive — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Dự án - Landing Page Responsive — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 126,
+      "title": "Chương 1 — Bài 1: Giới thiệu React & JSX — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Giới thiệu React & JSX — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 127,
+      "title": "Chương 1 — Bài 2: Component & Props — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Component & Props — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 128,
+      "title": "Chương 1 — Bài 3: State & useState — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - State & useState — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 129,
+      "title": "Chương 2 — Bài 1: useEffect & vòng đời component — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - useEffect & vòng đời component — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 130,
+      "title": "Chương 2 — Bài 2: useContext & useReducer — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - useContext & useReducer — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 131,
+      "title": "Chương 2 — Bài 3: Custom Hooks — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Custom Hooks — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 132,
+      "title": "Chương 3 — Bài 1: Kết nối API với Axios — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Kết nối API với Axios — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 133,
+      "title": "Chương 3 — Bài 2: Routing với React Router — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Routing với React Router — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 134,
+      "title": "Chương 3 — Bài 3: Dự án: Trang quản lý khoá học — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Dự án - Trang quản lý khoá học — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 135,
+      "title": "Chương 1 — Bài 1: Khái niệm cơ sở dữ liệu — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Khái niệm cơ sở dữ liệu — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 136,
+      "title": "Chương 1 — Bài 2: Cài đặt MySQL & Workbench — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Cài đặt MySQL & Workbench — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 137,
+      "title": "Chương 1 — Bài 3: Câu lệnh SELECT cơ bản — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 3 - Câu lệnh SELECT cơ bản — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 138,
+      "title": "Chương 2 — Bài 1: JOIN nhiều bảng — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - JOIN nhiều bảng — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 139,
+      "title": "Chương 2 — Bài 2: GROUP BY & Aggregate Function — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - GROUP BY & Aggregate Function — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 140,
+      "title": "Chương 2 — Bài 3: Subquery & View — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Subquery & View — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 141,
+      "title": "Chương 3 — Bài 1: Chuẩn hoá dữ liệu (1NF-3NF) — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Chuẩn hoá dữ liệu (1NF-3NF) — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 142,
+      "title": "Chương 3 — Bài 2: Thiết kế ERD — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Thiết kế ERD — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 143,
+      "title": "Chương 3 — Bài 3: Dự án: Thiết kế CSDL website học trực tuyến — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 3 - Dự án - Thiết kế CSDL website học trực tuyến — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 144,
+      "title": "Chương 1 — Bài 1: Khái niệm về hệ điều hành — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Khái niệm về hệ điều hành — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 145,
+      "title": "Chương 1 — Bài 2: Phân loại hệ điều hành — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Phân loại hệ điều hành — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 146,
+      "title": "Chương 2 — Bài 1: Nhu cầu xử lí đồng thời — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Nhu cầu xử lí đồng thời — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 147,
+      "title": "Chương 2 — Bài 2: Khái niệm tiến trình và mô hình đa tiến trình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Khái niệm tiến trình và mô hình đa tiến trình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 148,
+      "title": "Chương 2 — Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 3 - Khái niệm tiến trình và mô hình tiểu tiến trình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 149,
+      "title": "Chương 3 — Bài 1: Tổ chức quản lí tiến trình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Tổ chức quản lí tiến trình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 150,
+      "title": "Chương 3 — Bài 2: Lập trình tiến trình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Lập trình tiến trình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 151,
+      "title": "Chương 4 — Bài 1: Liên lạc tiến trình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 1 - Liên lạc tiến trình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 152,
+      "title": "Chương 4 — Bài 2: Các cơ chế thông tin liên lạc — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 2 - Các cơ chế thông tin liên lạc — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 153,
+      "title": "Chương 4 — Bài 3: Nhu cầu đồng bộ hóa — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 3 - Nhu cầu đồng bộ hóa — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 154,
+      "title": "Chương 4 — Bài 4: Các giải pháp đồng bộ hóa — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 4 - Các giải pháp đồng bộ hóa — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 155,
+      "title": "Chương 1 — Bài 1: Mô hình TCP/IP và thiết bị mạng — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Mô hình TCP - IP và thiết bị mạng — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 156,
+      "title": "Chương 1 — Bài 2: Địa chỉ IPv4 và mạng con — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Địa chỉ IPv4 và mạng con — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 157,
+      "title": "Chương 2 — Bài 1: DNS và phân giải tên miền — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - DNS và phân giải tên miền — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 158,
+      "title": "Chương 2 — Bài 2: HTTP và HTTPS — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - HTTP và HTTPS — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 159,
+      "title": "Chương 3 — Bài 1: Ethernet, địa chỉ MAC và ARP — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Ethernet, địa chỉ MAC và ARP — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 160,
+      "title": "Chương 3 — Bài 2: VLAN và kết nối Wi-Fi — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - VLAN và kết nối Wi-Fi — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 161,
+      "title": "Chương 4 — Bài 1: DHCP và NAT trong mạng gia đình — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 1 - DHCP và NAT trong mạng gia đình — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 162,
+      "title": "Chương 4 — Bài 2: Định tuyến cơ bản và làm quen IPv6 — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 2 - Định tuyến cơ bản và làm quen IPv6 — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 163,
+      "title": "Chương 5 — Bài 1: Cổng, socket và vòng đời kết nối TCP — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 1 - Cổng, socket và vòng đời kết nối TCP — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 164,
+      "title": "Chương 5 — Bài 2: Tường lửa và phân vùng truy cập — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 2 - Tường lửa và phân vùng truy cập — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 165,
+      "title": "Chương 6 — Bài 1: Chẩn đoán lỗi mạng theo từng lớp — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 1 - Chẩn đoán lỗi mạng theo từng lớp — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 166,
+      "title": "Chương 6 — Bài 2: Dự án nhỏ: thiết kế mạng cho phòng học — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 2 - Dự án nhỏ - thiết kế mạng cho phòng học — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 167,
+      "title": "Chương 1 — Bài 1: Mảng và danh sách liên kết — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Mảng và danh sách liên kết — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 168,
+      "title": "Chương 1 — Bài 2: Ngăn xếp và hàng đợi — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Ngăn xếp và hàng đợi — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 169,
+      "title": "Chương 2 — Bài 1: Tìm kiếm tuyến tính và nhị phân — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Tìm kiếm tuyến tính và nhị phân — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 170,
+      "title": "Chương 2 — Bài 2: Sắp xếp và độ phức tạp — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Sắp xếp và độ phức tạp — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 171,
+      "title": "Chương 3 — Bài 1: Big-O, bất biến và kiểm tra thuật toán — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - Big-O, bất biến và kiểm tra thuật toán — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 172,
+      "title": "Chương 3 — Bài 2: Đệ quy và ngăn xếp lời gọi — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Đệ quy và ngăn xếp lời gọi — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 173,
+      "title": "Chương 4 — Bài 1: Bảng băm, tập hợp và ánh xạ — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 1 - Bảng băm, tập hợp và ánh xạ — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 174,
+      "title": "Chương 4 — Bài 2: Cây nhị phân và cây tìm kiếm nhị phân — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 2 - Cây nhị phân và cây tìm kiếm nhị phân — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 175,
+      "title": "Chương 5 — Bài 1: Heap và hàng đợi ưu tiên — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 1 - Heap và hàng đợi ưu tiên — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 176,
+      "title": "Chương 5 — Bài 2: Đồ thị, BFS và DFS — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 2 - Đồ thị, BFS và DFS — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 177,
+      "title": "Chương 6 — Bài 1: Chia để trị và quy hoạch động nhập môn — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 1 - Chia để trị và quy hoạch động nhập môn — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 178,
+      "title": "Chương 6 — Bài 2: Dự án nhỏ: bộ tra cứu và thống kê dữ liệu — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 2 - Dự án nhỏ - bộ tra cứu và thống kê dữ liệu — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 179,
+      "title": "Chương 1 — Bài 1: Mục tiêu và các mức kiểm thử — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 1 - Mục tiêu và các mức kiểm thử — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 180,
+      "title": "Chương 1 — Bài 2: Thiết kế test case — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 1 — Bài 2 - Thiết kế test case — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 181,
+      "title": "Chương 2 — Bài 1: Phân vùng tương đương và giá trị biên — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 1 - Phân vùng tương đương và giá trị biên — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 182,
+      "title": "Chương 2 — Bài 2: Báo cáo lỗi và kiểm thử hồi quy — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 2 — Bài 2 - Báo cáo lỗi và kiểm thử hồi quy — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 183,
+      "title": "Chương 3 — Bài 1: SDLC, Agile và chiến lược kiểm thử — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 1 - SDLC, Agile và chiến lược kiểm thử — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 184,
+      "title": "Chương 3 — Bài 2: Review yêu cầu và truy vết kiểm thử — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 3 — Bài 2 - Review yêu cầu và truy vết kiểm thử — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 185,
+      "title": "Chương 4 — Bài 1: Bảng quyết định và tổ hợp điều kiện — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 1 - Bảng quyết định và tổ hợp điều kiện — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 186,
+      "title": "Chương 4 — Bài 2: Kiểm thử chuyển trạng thái — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 4 — Bài 2 - Kiểm thử chuyển trạng thái — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 187,
+      "title": "Chương 5 — Bài 1: Kiểm thử API và phân quyền — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 1 - Kiểm thử API và phân quyền — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 188,
+      "title": "Chương 5 — Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 5 — Bài 2 - Kiểm thử cơ sở dữ liệu và tính toàn vẹn — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 189,
+      "title": "Chương 6 — Bài 1: Hiệu năng, khả dụng và tương thích — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 1 - Hiệu năng, khả dụng và tương thích — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    },
+    {
+      "id": 190,
+      "title": "Chương 6 — Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa — Thực hành bổ sung 29/10/2026",
+      "filename": "Chương 6 — Bài 2 - Dự án nhỏ - kế hoạch kiểm thử và tự động hóa — Thực hành bổ sung 29 - 10 - 2026.pdf",
+      "http": 200,
+      "file_hash_matches": true
+    }
+  ],
+  "access_checks": {
+    "invalid_signature": 403,
+    "unauthenticated_source": 401
+  }
+}

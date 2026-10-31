@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 import unicodedata
 
 from app.core.database import q_all, q_one, q_scalar
+from app.services.question_evidence import evidence_key, independent_answers
 
 MIN_TOPIC_QUESTIONS = 5
 TOPIC_REVIEW_THRESHOLD = 70
@@ -188,7 +189,8 @@ def topics(db: Session, user_id: int, course_id: int | None = None, after_result
         f"""
         SELECT CASE WHEN ra.classification_version>0 THEN ra.topic_name ELSE q.topic END AS topic,
             CASE WHEN ra.classification_version>0 THEN ra.topic_id ELSE q.topic_id END AS topic_id,
-            q.id AS question_id, ra.is_correct, qz.course_id,
+            q.id AS question_id, ra.is_correct, qz.course_id, ra.question_fingerprint,
+            q.content AS question_content,q.option_a,q.option_b,q.option_c,q.option_d,
             r.id AS result_id, r.submit_time, qz.id AS quiz_id,qz.title AS quiz_title,
             ra.classification_version,
             c.title AS course_title, COALESCE(qz.review_lesson_id, qz.lesson_id) AS lesson_id
@@ -212,30 +214,37 @@ def topics(db: Session, user_id: int, course_id: int | None = None, after_result
 
 def unclassified_answers(db: Session, user_id: int, course_id: int | None = None) -> int:
     cf, cp = _course_filter(course_id)
-    return int(q_scalar(db, f"""
-        SELECT COUNT(DISTINCT q.id) FROM result_answers ra
+    rows = q_all(db, f"""
+        SELECT q.id AS question_id,ra.is_correct,qz.course_id,r.id AS result_id,
+            ra.question_fingerprint,q.content AS question_content,q.option_a,q.option_b,q.option_c,q.option_d,
+            CASE WHEN ra.classification_version>0 THEN ra.topic_name ELSE q.topic END AS topic
+        FROM result_answers ra
         JOIN results r ON r.id=ra.result_id JOIN questions q ON q.id=ra.question_id
         JOIN quizzes qz ON qz.id=r.quiz_id
-        WHERE r.user_id=:uid AND (CASE WHEN ra.classification_version>0 THEN ra.topic_name ELSE q.topic END IS NULL OR TRIM(CASE WHEN ra.classification_version>0 THEN ra.topic_name ELSE q.topic END)='')
+        WHERE r.user_id=:uid
         AND EXISTS (SELECT 1 FROM enrollments e WHERE e.user_id=:uid AND e.course_id=qz.course_id)
         AND r.id=(SELECT MAX(rl.id) FROM results rl WHERE rl.user_id=r.user_id AND rl.quiz_id=r.quiz_id)
         {cf.replace('q.course_id','qz.course_id')}
-    """, uid=user_id, **cp) or 0)
+    """, uid=user_id, **cp)
+    return sum(not normalize_topic(r['topic']) for r in independent_answers(rows))
 
 
 def summarize_topics(rows: list[dict]) -> list[dict]:
     """Content uses latest attempts, independently of the official grading policy."""
     groups = {}
-    for r in rows:
+    for r in independent_answers(rows):
         key = normalize_topic(r['topic'])
         if not key:
             continue
         g = groups.setdefault((r['course_id'], r.get('topic_id') or key), dict(topic=' '.join(r['topic'].split()), topic_id=r.get('topic_id'),
-            course_id=r['course_id'], course_title=r['course_title'], answers={}, lesson_ids=set(), sources={}))
-        g['answers'][r['question_id']] = int(r['is_correct'] or 0)
+            course_id=r['course_id'], course_title=r['course_title'], answers={}, question_ids=set(), lesson_ids=set(), sources={}, identity_reconstructed=False))
+        identity = evidence_key(r)
+        g['answers'][identity] = int(r['is_correct'] or 0)
+        g['question_ids'].add(r['question_id'])
+        g['identity_reconstructed'] |= not bool(r.get('question_fingerprint'))
         if r.get('result_id'):
             source=g['sources'].setdefault(r['result_id'],dict(result_id=r['result_id'],quiz_id=r['quiz_id'],quiz_title=r['quiz_title'],topic_name=r['topic'],submitted_at=str(r['submit_time']),answers={},reconstructed=r.get('classification_version')==1))
-            source['answers'][r['question_id']]=int(r['is_correct'] or 0)
+            source['answers'][identity]=int(r['is_correct'] or 0)
         if r.get('lesson_id'):
             g['lesson_ids'].add(int(r['lesson_id']))
     out = []
@@ -246,7 +255,7 @@ def summarize_topics(rows: list[dict]) -> list[dict]:
         for source in g['sources'].values():
             source_answers=source.pop('answers')
             source.update(answered=len(source_answers),correct=sum(source_answers.values()))
-        g.update(answered=n, correct=correct, avg_score=score, question_ids=sorted(answers), sources=list(g['sources'].values()),
+        g.update(answered=n, correct=correct, avg_score=score, question_ids=sorted(g['question_ids']), question_keys=sorted(answers), sources=list(g['sources'].values()),
                  sufficient_data=n >= MIN_TOPIC_QUESTIONS,
                  status=level_for(score) if n >= MIN_TOPIC_QUESTIONS else 'Insufficient',
                  lesson_ids=sorted(g['lesson_ids']))

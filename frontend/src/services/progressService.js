@@ -2,8 +2,8 @@ import axiosClient from '../api/axiosClient';
 
 export const progressService = {
   /** GET /api/progress — tổng hợp tiến độ tất cả khóa học của user (bulk, 1 request) */
-  getProgress() {
-    return axiosClient.get('/api/progress');
+  getProgress(config = {}) {
+    return axiosClient.get('/api/progress', config);
   },
   // Id các bài đã hoàn thành trong 1 khóa
   getProgressByCourse(courseId) {

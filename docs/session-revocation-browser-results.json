@@ -1,0 +1,22 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 16,
+  "checks": [
+    "student: password change sends current bearer",
+    "student: fresh token saved",
+    "student: remains on profile",
+    "student: password cleared",
+    "student: network failure keeps token for retry",
+    "student: logout sends fresh bearer before storage clear",
+    "student: confirmed logout clears storage",
+    "student: no runtime errors",
+    "teacher: password change sends current bearer",
+    "teacher: fresh token saved",
+    "teacher: remains on profile",
+    "teacher: password cleared",
+    "teacher: network failure keeps token for retry",
+    "teacher: logout sends fresh bearer before storage clear",
+    "teacher: confirmed logout clears storage",
+    "teacher: no runtime errors"
+  ]
+}

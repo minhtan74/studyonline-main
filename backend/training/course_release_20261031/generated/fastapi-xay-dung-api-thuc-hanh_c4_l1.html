@@ -1,0 +1,86 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Xây dựng API thực hành với FastAPI</div><h1>Chương 4 — Bài 1: SQLite, truy vấn tham số và dữ liệu bền vững</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Tạo bảng và lưu nhiệm vụ qua kết nối SQLite theo request.</li><li>Truyền dữ liệu bằng placeholder thay vì ghép chuỗi SQL.</li><li>Kiểm tra dữ liệu còn sau khi mở kết nối mới.</li></ul>
+<p>Thời gian dự kiến: 150 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu học tập</h2>
+<ul><li>Tạo bảng và lưu nhiệm vụ qua kết nối SQLite theo request.</li><li>Truyền dữ liệu bằng placeholder thay vì ghép chuỗi SQL.</li><li>Kiểm tra dữ liệu còn sau khi mở kết nối mới.</li></ul>
+<h2>Kiến thức và cách suy luận</h2>
+<p>Database lưu trạng thái ngoài bộ nhớ của hàm xử lý. SQLite phù hợp cho bài thực hành vì có trong thư viện chuẩn Python và dùng file cục bộ; ta không cần dựng dịch vụ database riêng. Nó vẫn có quy tắc transaction và khóa ghi. Bài thực hành không dùng file của ứng dụng StudyOnline: mọi dữ liệu ví dụ nằm trong TemporaryDirectory và tự dọn sau khi kết thúc.</p>
+<p>Câu SQL có hai phần cần phân biệt: cấu trúc truy vấn do người viết code kiểm soát và giá trị do client cung cấp. <code>WHERE title = ?</code> cùng tuple tham số giữ giá trị ở đúng vị trí dữ liệu. Không dùng f-string ghép title vào câu SQL. Placeholder không dùng thay tên bảng hay tên cột; nếu cần sắp xếp theo lựa chọn client, map lựa chọn đó vào danh sách cột cho phép.</p>
+<p>Mỗi request mở kết nối, đặt row_factory nếu muốn đọc theo tên cột, yield cho handler rồi đóng trong finally. Với FastAPI sync có thể thực thi các bước ở thread khác, ví dụ dùng check_same_thread=False có chủ đích và không chia sẻ connection đó giữa các request. Tùy chọn này không tự bảo đảm an toàn khi nhiều thread cùng ghi; phạm vi sở hữu connection vẫn phải rõ.</p>
+<p>Sau INSERT/UPDATE, commit để lưu thay đổi theo cách quản lý transaction của bài. Đóng connection không phải là thay thế tùy ý cho commit. Khi trả bản ghi, chuyển kiểu integer done về boolean theo model phản hồi. Kiểm thử bằng cách mở một connection mới đọc file: nếu chỉ kiểm tra cùng dict hoặc cùng biến trong handler, ta có thể bỏ sót lỗi không ghi bền vững.</p>
+<h2>Ví dụ chạy độc lập</h2>
+<p>Lưu đoạn mã sau thành <code>example.py</code> trong thư mục thực hành riêng, dùng Python 3.12+ với FastAPI, Pydantic 2 và httpx đã cài. Chạy <code>python example.py</code>. Các câu lệnh <code>assert</code> kiểm tra kết quả; chương trình kết thúc không có traceback khi đạt. TestClient gửi yêu cầu ngay trong tiến trình, không khởi động máy chủ và không gọi Internet. Đây là ví dụ nhỏ để kiểm tra từng quyết định thiết kế; dự án cuối khóa ghép các quyết định thành một ứng dụng.</p>
+<pre><code>from contextlib import closing
+import sqlite3
+import tempfile
+from pathlib import Path
+from typing import Annotated
+from fastapi import Depends, FastAPI
+from fastapi.testclient import TestClient
+from pydantic import BaseModel
+
+class TaskIn(BaseModel):
+    title: str
+
+with tempfile.TemporaryDirectory() as folder:
+    database = str(Path(folder) / &quot;lesson.db&quot;)
+    with closing(sqlite3.connect(database)) as conn, conn:
+        conn.execute(&quot;CREATE TABLE tasks (id INTEGER PRIMARY KEY, title TEXT NOT NULL)&quot;)
+
+    def get_db():
+        conn = sqlite3.connect(database, check_same_thread=False)
+        try:
+            yield conn
+        finally:
+            conn.close()
+
+    app = FastAPI()
+
+    @app.post(&quot;/tasks&quot;, status_code=201)
+    def create_task(payload: TaskIn, conn: Annotated[sqlite3.Connection, Depends(get_db)]):
+        cursor = conn.execute(&quot;INSERT INTO tasks(title) VALUES (?)&quot;, (payload.title,))
+        conn.commit()
+        return {&quot;id&quot;: cursor.lastrowid, &quot;title&quot;: payload.title}
+
+    dangerous_looking = &quot;HTTP&#x27;); DROP TABLE tasks; --&quot;
+    with TestClient(app) as client:
+        response = client.post(&quot;/tasks&quot;, json={&quot;title&quot;: dangerous_looking})
+        assert response.status_code == 201
+    with closing(sqlite3.connect(database)) as verify:
+        rows = verify.execute(&quot;SELECT title FROM tasks&quot;).fetchall()
+        assert rows == [(dangerous_looking,)]</code></pre>
+<h2>Thực hành có hướng dẫn và đầu ra mong đợi</h2>
+<p>Chạy ví dụ và quan sát rằng chuỗi giống SQL nguy hiểm được lưu như title bình thường; bảng tasks vẫn tồn tại. Bài không yêu cầu gửi chuỗi này tới bất kỳ server khác. Đọc lại qua connection mới là bằng chứng nội dung đã commit. Thử title có dấu nháy đơn bình thường như 'Lan’s notes' để hiểu đây cũng là vấn đề tính đúng dữ liệu, không chỉ an ninh.</p>
+<p>Thêm SELECT WHERE id=? để lấy chính bản ghi vừa tạo. Ghi id lấy từ lastrowid và tránh tính bằng COUNT(*)+1. Sau đó giải thích vì sao placeholder bảo vệ phần giá trị nhưng không cho phép client chọn tên bảng tùy ý.</p>
+<h2>Bài tập tự làm</h2>
+<p>Viết GET /tasks có ORDER BY id và phân trang offset/limit từ bài 2. Query phải tham số hóa LIMIT và OFFSET. Test tạo ba nhiệm vụ, lấy trang thứ hai đúng một item; mở lại ứng dụng với cùng đường dẫn file để xác nhận dữ liệu còn. Giới hạn kích thước trang phải có kiểm tra ở API.</p>
+<h2>Hướng giải và tiêu chí đạt</h2>
+<p>Truy vấn SELECT id,title FROM tasks ORDER BY id LIMIT ? OFFSET ? với tuple (limit,offset). Dùng file tạm riêng cho mỗi bài test; hai app có thể cùng đọc file đã commit nhưng không dùng chung connection mở sẵn. Đạt khi kết quả ổn định theo ID, dữ liệu có dấu nháy không làm hỏng truy vấn và test kiểm tra độc lập chuyện lưu bền với chuyện phân trang.</p>
+<h2>Lỗi thường gặp và cách chẩn đoán</h2>
+<p>Một database ':memory:' tạo theo từng connection sẽ là các database khác nhau; đóng connection khởi tạo rồi mở connection mới không giữ bảng như file. Không sửa lỗi thiếu bảng bằng cách đổi sang file dữ liệu thật. Không dùng conn.execute(f'...{title}...'). Nếu gặp database is locked, kiểm tra transaction/connection còn mở; tăng timeout chỉ che triệu chứng nếu tài nguyên không được đóng.</p>
+<h2>Câu hỏi tự kiểm tra có đáp án</h2>
+<ul><li>Cách nào truyền title vào sqlite3 an toàn hơn? Đáp án: Placeholder ? cùng tuple tham số. Giá trị được driver bind thay vì trở thành cú pháp SQL.</li><li>Placeholder ? có dùng thay tên bảng tùy ý không? Đáp án: Không, nó dành cho giá trị. Cấu trúc truy vấn cần được kiểm soát bằng code.</li><li>Kiểm tra nào chứng minh dữ liệu được lưu ngoài biến Python? Đáp án: Mở connection mới và đọc bản ghi đã commit. Đọc qua connection mới kiểm tra lưu trữ bền vững.</li></ul>
+<h2>Minh chứng cần nộp</h2>
+<ul><li>Tệp mã nguồn của ví dụ đã điều chỉnh và dữ liệu kiểm tra hợp lệ/không hợp lệ.</li><li>Một bản ghi ngắn gồm yêu cầu gửi vào, trạng thái HTTP, JSON thực tế và kết quả mong đợi của bài tập.</li><li>Giải thích một quyết định của bài bằng tình huống cụ thể: điều gì xảy ra nếu bỏ kiểm tra đó, ai bị ảnh hưởng và test nào phát hiện được.</li></ul>
+<p>Hãy chạy lại bài trong tiến trình mới để phát hiện việc vô tình phụ thuộc trạng thái từ lần thử trước. Nếu kết quả khác dự kiến, thu nhỏ về một request và một assertion trước khi sửa nhiều chỗ. Khi hỏi trợ giảng, gửi đoạn mã tối thiểu và lỗi đã lược bỏ token hoặc dữ liệu cá nhân.</p>
+<h2>Tài liệu chính thức để đối chiếu</h2>
+<ul><li>https://docs.python.org/3/library/sqlite3.html</li><li>https://fastapi.tiangolo.com/tutorial/sql-databases/</li></ul></body></html>

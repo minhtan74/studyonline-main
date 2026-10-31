@@ -1,0 +1,239 @@
+{
+  "mode": "real_mysql_outer_rollback_no_external_services",
+  "passed": 58,
+  "checks": [
+    {
+      "name": "POST /api/courses expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/chapters expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/lessons expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/lessons/review expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/chapters/review expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/questions expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/auth/login expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/questions?quiz_id=492 expected 403 actual 403 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/enrollments expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/enrollments expected 409 actual 409 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/lessons?id=437 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/progress expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/progress?course_id=1063 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "Completed lesson persisted inside transaction",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/questions?quiz_id=490 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "lesson hides correct answers",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/submit expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "lesson records five answers",
+      "ok": true
+    },
+    {
+      "name": "lesson recommends assessed lesson",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/results?id=378 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/questions?quiz_id=491 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "chapter hides correct answers",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/submit expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "chapter records five answers",
+      "ok": true
+    },
+    {
+      "name": "chapter recommends assessed lesson",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/results?id=379 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/questions?quiz_id=492 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "course hides correct answers",
+      "ok": true
+    },
+    {
+      "name": "POST /api/quizzes/submit expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "course records five answers",
+      "ok": true
+    },
+    {
+      "name": "course recommends assessed lesson",
+      "ok": true
+    },
+    {
+      "name": "GET /api/quizzes/results?id=380 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/recommendations?course_id=1063 expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/auth/change-password expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/auth/me expected 401 actual 401 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/auth/me expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/auth/login expected 401 actual 401 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/auth/logout expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/auth/me expected 401 actual 401 ",
+      "ok": true
+    },
+    {
+      "name": "POST /api/auth/login expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "GET /api/auth/me expected 200 actual 200 ",
+      "ok": true
+    },
+    {
+      "name": "No temporary users persisted",
+      "ok": true
+    },
+    {
+      "name": "No temporary courses persisted",
+      "ok": true
+    }
+  ],
+  "errors": []
+}

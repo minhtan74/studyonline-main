@@ -4,6 +4,9 @@
 Mục 4 theo quyết định mới là liên hệ Admin quản lý, không dùng SMTP. Nội dung và bằng chứng
 bên dưới giữ trạng thái tại thời điểm rà soát trước bản sửa.
 
+**Cập nhật 31/10/2026:** đã sửa Markdown/code và liên kết nguồn trong cả hai khung AI;
+xem [bản sửa và kiểm chứng](ai-display-and-sources.md). Mục 6 về thông tin hỗ trợ/chính sách vẫn cần chủ hệ thống chốt.
+
 Website tải và điều hướng được trong các ca đã kiểm tra, nhưng vẫn có vấn đề nghiệp vụ và
 trải nghiệm dưới đây. Đây là rà soát localhost, không phải xác nhận website không còn lỗi.
 Không sửa mã chức năng trong lượt này.

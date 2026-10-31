@@ -39,4 +39,4 @@ Kết quả xác minh: [verification.json](../backend/training/lesson_docs/compl
 
 Database này có khóa 7 là Nguyên Lí HDH. Nguồn demo Tiếng Anh/Toán trong repo không phản ánh khóa đang có; không gắn PDF bài 55 trở đi từ bộ demo đó bằng ID. Script mới dùng tên khóa để chọn sổ tay và kiểm tra ID/tiêu đề khi chọn nguồn tài liệu chính.
 
-Kết quả bổ sung đã được áp dụng cho database local. Docker dùng database/volume riêng, cần kiểm tra và chạy script trong môi trường tương ứng nếu muốn bổ sung tại đó. Sửa nội dung Markdown không tự cập nhật các file đang được học viên tải.
+Kết quả bổ sung đã được áp dụng cho database local. Database ở máy khác cần kiểm tra và chạy script trong môi trường tương ứng nếu muốn bổ sung tại đó. Sửa nội dung Markdown không tự cập nhật các file đang được học viên tải.

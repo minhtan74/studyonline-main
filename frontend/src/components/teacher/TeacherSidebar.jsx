@@ -1,3 +1,4 @@
+import { useToast } from '../../hooks/useToast';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -20,11 +21,12 @@ function getInitials(fullname) {
 export default function TeacherSidebar({ mobileOpen, onNavigate }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   // Đăng xuất rồi về trang chủ
-  function doTeacherLogout() {
-    logout();
-    navigate('/');
+  async function doTeacherLogout() {
+    if (await logout()) navigate('/');
+    else showToast('Chưa thể thu hồi phiên đăng nhập. Kiểm tra kết nối rồi thử đăng xuất lại.', 'error');
   }
 
   const name = user?.fullname || 'Instructor';
@@ -90,7 +92,7 @@ export default function TeacherSidebar({ mobileOpen, onNavigate }) {
           </div>
         </div>
         <button className="sidebar-logout" onClick={doTeacherLogout}>
-          🚪 Đăng xuất
+          🚪 Đăng xuất mọi thiết bị
         </button>
       </div>
     </aside>

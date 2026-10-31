@@ -34,6 +34,17 @@ async function streamQuiz(payload, signal, onProgress) {
 
 /** PHASE 6 — RAG AI Tutor. */
 export const aiService = {
+  documentSource(id, signal) {
+    return axiosClient.get(`/api/ai/documents/${id}/source`, { signal });
+  },
+  async documentContent(id, signal) {
+    const res = await axiosClient.get(`/api/ai/documents/${id}/content`, { signal, responseType: 'blob', timeout: 30000 });
+    if (!res.ok && res.data instanceof Blob) {
+      try { return { ...res, data: JSON.parse(await res.data.text()) }; }
+      catch { return { ...res, data: { message: 'Không thể tải tài liệu nguồn. Vui lòng thử lại.' } }; }
+    }
+    return res;
+  },
   // Trạng thái AI: LLM / model embedding đang dùng
   status() {
     return axiosClient.get('/api/ai/status');

@@ -8,9 +8,10 @@ import asyncio
 import json
 import logging
 import threading
+from pathlib import Path
 
 from fastapi import APIRouter, Body, Depends, File, Form, Query, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy.orm import Session
 
 from app.ai import model_manager, quiz_generator, tutor
@@ -29,6 +30,45 @@ from app.routers.quizzes import _grading_method, _quiz_settings
 from ._common import assert_owns_course, iv, sv
 
 router = APIRouter(prefix="/api/ai", tags=["ai"])
+
+
+def _source_document(db, user, document_id):
+    doc = q_one(db, "SELECT d.*,c.teacher_id FROM documents d JOIN courses c ON c.id=d.course_id WHERE d.id=:id", id=document_id)
+    if not doc:
+        raise ApiError("Tài liệu nguồn không còn tồn tại.", 404)
+    if user["role"] == "teacher" and doc["teacher_id"] != user["id"]:
+        raise ApiError("Bạn không có quyền mở tài liệu nguồn này.", 403)
+    if user["role"] == "student" and not _is_enrolled(db, user["id"], doc["course_id"]):
+        raise ApiError("Bạn cần đăng ký khóa học để mở tài liệu nguồn.", 403)
+    # Resolve real paths to reject traversal and symlinks outside the document store.
+    try:
+        root = Path(settings.upload_dir, "documents").resolve()
+        path = Path(doc["file_path"] or "").resolve()
+    except (OSError, ValueError, RuntimeError):
+        raise ApiError("Tệp tài liệu nguồn không còn khả dụng.", 404)
+    if not path.is_relative_to(root) or not path.is_file() or path.suffix.lower() not in (".pdf", ".docx", ".txt", ".md"):
+        raise ApiError("Tệp tài liệu nguồn không còn khả dụng.", 404)
+    return doc, path
+
+
+@router.get("/documents/{document_id}/source")
+def document_source(document_id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    doc, path = _source_document(db, user, document_id)
+    response = ok(data={"id": doc["id"], "title": doc["title"], "filename": Path(doc["filename"] or path.name).name,
+                        "file_type": "txt" if path.suffix.lower() == ".md" else path.suffix.lower()[1:],
+                        "pages": doc["pages"], "course_id": doc["course_id"], "lesson_id": doc["lesson_id"]})
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
+
+@router.get("/documents/{document_id}/content")
+def document_content(document_id: int, user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    doc, path = _source_document(db, user, document_id)
+    media_type = {".pdf": "application/pdf", ".txt": "text/plain", ".md": "text/plain",
+                  ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}[path.suffix.lower()]
+    return FileResponse(path, media_type=media_type, filename=Path(doc["filename"] or path.name).name,
+                        content_disposition_type="attachment" if path.suffix.lower() == ".docx" else "inline",
+                        headers={"Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff"})
 
 # Đuôi file tài liệu được hỗ trợ -> loại tài liệu dùng khi trích xuất văn bản (.md xử lý như .txt)
 _EXT_TYPE = {".pdf": "pdf", ".docx": "docx", ".txt": "txt", ".md": "txt"}

@@ -1,0 +1,81 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Xây dựng API thực hành với FastAPI</div><h1>Chương 3 — Bài 2: Vòng đời tài nguyên và lựa chọn sync hoặc async</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Khởi tạo và thu hồi tài nguyên bằng lifespan.</li><li>Đóng tài nguyên theo request trong dependency có yield.</li><li>Chọn def/async def theo đặc tính thư viện I/O đang dùng.</li></ul>
+<p>Thời gian dự kiến: 150 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu học tập</h2>
+<ul><li>Khởi tạo và thu hồi tài nguyên bằng lifespan.</li><li>Đóng tài nguyên theo request trong dependency có yield.</li><li>Chọn def/async def theo đặc tính thư viện I/O đang dùng.</li></ul>
+<h2>Kiến thức và cách suy luận</h2>
+<p>Tài nguyên có các vòng đời khác nhau. Một cấu hình bất biến có thể sống cùng ứng dụng, còn kết nối hoặc transaction có thể chỉ sống trong một request. Lifespan là async context manager: phần trước yield chạy khi ứng dụng khởi động, phần sau yield chạy khi dừng. Dùng nó để chuẩn bị tài nguyên chung; khi viết test, đặt TestClient trong with để các bước khởi động và dọn dẹp được thực hiện.</p>
+<p>Dependency có yield có dạng mở tài nguyên, yield cho handler và finally đóng lại. Finally quan trọng cả khi handler ném exception. Không return trước khi đóng tài nguyên nếu thiết kế cần kiểm soát vòng đời. Thời điểm dọn dependency có các chi tiết theo phiên bản và kiểu response; không dùng một tài nguyên đã đóng cho công việc chạy về sau. Ví dụ trong khóa dùng request/response ngắn và không stream để giữ phạm vi rõ.</p>
+<p><code>async def</code> hữu ích khi dùng thư viện hỗ trợ await cho thao tác chờ. Nó không tự biến sqlite3 hoặc một hàm chặn thành bất đồng bộ. Chặn event loop bằng sleep hay I/O đồng bộ trong async handler có thể làm các request khác phải chờ. Với sqlite3 chuẩn trong khóa, handler và dependency truy vấn dùng def để FastAPI thực thi phần sync theo cơ chế phù hợp. Đây không phải cam kết mọi workload sẽ nhanh hơn; vẫn phải đo trong môi trường cụ thể.</p>
+<p>Đồng thời và song song là hai ý khác nhau. Một chương trình có thể quản lý nhiều việc chờ I/O mà không thực thi tính toán CPU trên nhiều lõi. Nếu endpoint xử lý CPU nặng như dựng video, thêm async không giải quyết bài toán tài nguyên. Cần tách công việc và thiết kế hàng đợi/worker khi thực sự có nhu cầu. Trong khóa ta đo và hiểu vòng đời trước, chưa triển khai hệ thống xử lý nền phân tán.</p>
+<h2>Ví dụ chạy độc lập</h2>
+<p>Lưu đoạn mã sau thành <code>example.py</code> trong thư mục thực hành riêng, dùng Python 3.12+ với FastAPI, Pydantic 2 và httpx đã cài. Chạy <code>python example.py</code>. Các câu lệnh <code>assert</code> kiểm tra kết quả; chương trình kết thúc không có traceback khi đạt. TestClient gửi yêu cầu ngay trong tiến trình, không khởi động máy chủ và không gọi Internet. Đây là ví dụ nhỏ để kiểm tra từng quyết định thiết kế; dự án cuối khóa ghép các quyết định thành một ứng dụng.</p>
+<pre><code>from contextlib import closing
+from contextlib import asynccontextmanager
+from typing import Annotated
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.testclient import TestClient
+
+events = []
+
+@asynccontextmanager
+async def lifespan(app):
+    events.append(&quot;startup&quot;)
+    app.state.ready = True
+    yield
+    events.append(&quot;shutdown&quot;)
+
+def resource():
+    events.append(&quot;open&quot;)
+    try:
+        yield &quot;handle&quot;
+    finally:
+        events.append(&quot;close&quot;)
+
+app = FastAPI(lifespan=lifespan)
+
+@app.get(&quot;/work&quot;)
+def work(handle: Annotated[str, Depends(resource)], fail: bool = False):
+    if fail:
+        raise HTTPException(409, &quot;Simulated conflict&quot;)
+    return {&quot;handle&quot;: handle, &quot;ready&quot;: app.state.ready}
+
+with TestClient(app) as client:
+    assert client.get(&quot;/work&quot;).json()[&quot;ready&quot;] is True
+    assert client.get(&quot;/work?fail=true&quot;).status_code == 409
+assert events == [&quot;startup&quot;, &quot;open&quot;, &quot;close&quot;, &quot;open&quot;, &quot;close&quot;, &quot;shutdown&quot;]</code></pre>
+<h2>Thực hành có hướng dẫn và đầu ra mong đợi</h2>
+<p>Chạy test rồi in events nếu cần quan sát. Mỗi request phải có cặp open/close, kể cả request thất bại; startup và shutdown chỉ xuất hiện cho vòng đời client. Đổi HTTPException thành một giá trị trả về bình thường để thấy cleanup vẫn diễn ra. Viết sơ đồ phân biệt app lifetime và request lifetime, sau đó ghi tài nguyên nào trong dự án Task API thuộc mỗi phạm vi.</p>
+<p>Đọc một đoạn code có <code>async def</code> và lời gọi sqlite3.execute, chỉ ra chỗ còn chặn. Không sửa bằng cách thêm await trước sqlite3 vì thư viện đó không cung cấp awaitable ở API này. Chọn lại handler def hoặc dùng thư viện async đúng cách trong một thiết kế khác.</p>
+<h2>Bài tập tự làm</h2>
+<p>Thêm một dependency có bộ đếm số tài nguyên đang mở. Gửi ba request, trong đó một request phát sinh lỗi; sau tất cả bộ đếm phải bằng 0. Test thêm rằng startup chỉ chạy một lần khi dùng cùng with TestClient. Trình bày vì sao gọi client ngoài with có thể bỏ qua phần lifespan mà bài đang muốn kiểm chứng.</p>
+<h2>Hướng giải và tiêu chí đạt</h2>
+<p>Tăng bộ đếm ngay trước yield, giảm trong finally. Handler lỗi không bỏ qua finally. Dùng assertions sau mỗi request để tránh chỉ thấy kết quả tổng mà không biết request nào làm rò. Đạt khi chuỗi events và số tài nguyên phù hợp với từng phạm vi, và phần giải thích sync/async nhắc loại thư viện chứ không chỉ đếm từ khóa async.</p>
+<h2>Lỗi thường gặp và cách chẩn đoán</h2>
+<p>Không lưu một connection SQLite mở toàn cục rồi dùng tùy ý qua mọi request và thread. Không dùng time.sleep trong async handler để mô phỏng chờ I/O nếu đang đánh giá concurrency. Không mở lại tài nguyên đắt tiền trên mỗi request khi nó được thiết kế sống cùng app. Các quyết định về lifespan phải có test khởi động/dừng; chạy một endpoint thành công chưa chứng minh cleanup đúng.</p>
+<h2>Câu hỏi tự kiểm tra có đáp án</h2>
+<ul><li>with TestClient(app) giúp kiểm tra điều gì? Đáp án: Chạy vòng đời khởi động và dừng của ứng dụng. Context manager thực hiện lifespan khi vào và ra.</li><li>Nơi phù hợp để đóng tài nguyên quanh yield là đâu? Đáp án: Khối finally. Finally vẫn chạy khi có exception.</li><li>async def có tự biến sqlite3.execute thành I/O không chặn không? Đáp án: Không. Phải xét thư viện có hỗ trợ await hay không.</li></ul>
+<h2>Minh chứng cần nộp</h2>
+<ul><li>Tệp mã nguồn của ví dụ đã điều chỉnh và dữ liệu kiểm tra hợp lệ/không hợp lệ.</li><li>Một bản ghi ngắn gồm yêu cầu gửi vào, trạng thái HTTP, JSON thực tế và kết quả mong đợi của bài tập.</li><li>Giải thích một quyết định của bài bằng tình huống cụ thể: điều gì xảy ra nếu bỏ kiểm tra đó, ai bị ảnh hưởng và test nào phát hiện được.</li></ul>
+<p>Hãy chạy lại bài trong tiến trình mới để phát hiện việc vô tình phụ thuộc trạng thái từ lần thử trước. Nếu kết quả khác dự kiến, thu nhỏ về một request và một assertion trước khi sửa nhiều chỗ. Khi hỏi trợ giảng, gửi đoạn mã tối thiểu và lỗi đã lược bỏ token hoặc dữ liệu cá nhân.</p>
+<h2>Tài liệu chính thức để đối chiếu</h2>
+<ul><li>https://fastapi.tiangolo.com/advanced/events/</li><li>https://fastapi.tiangolo.com/tutorial/dependencies/dependencies-with-yield/</li><li>https://fastapi.tiangolo.com/async/</li></ul></body></html>

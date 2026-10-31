@@ -9,7 +9,7 @@ export const authService = {
     return axiosClient.post('/api/auth/register', { fullname, email, password, confirm_password });
   },
   logout() {
-    return axiosClient.post('/api/auth/logout');
+    return axiosClient.post('/api/auth/logout', {}, { timeout: 10000 });
   },
   me() {
     return axiosClient.get('/api/auth/me');

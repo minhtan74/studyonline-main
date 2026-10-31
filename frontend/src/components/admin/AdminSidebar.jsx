@@ -1,3 +1,4 @@
+import { useToast } from '../../hooks/useToast';
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
@@ -11,6 +12,7 @@ import { useAuth } from '../../hooks/useAuth';
 export default function AdminSidebar({ mobileOpen, onNavigate }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const { pathname } = useLocation();
 
   // Đang ở trong khu Quản lý User (/admin/users/...) thì tự mở menu con Teacher / Student
@@ -31,9 +33,9 @@ export default function AdminSidebar({ mobileOpen, onNavigate }) {
     .toUpperCase();
 
   // Đăng xuất rồi về trang chủ
-  function handleLogout() {
-    logout();
-    navigate('/');
+  async function handleLogout() {
+    if (await logout()) navigate('/');
+    else showToast('Chưa thể thu hồi phiên đăng nhập. Kiểm tra kết nối rồi thử đăng xuất lại.', 'error');
   }
 
   return (
@@ -117,7 +119,7 @@ export default function AdminSidebar({ mobileOpen, onNavigate }) {
           </div>
         </div>
         <button className="sidebar-logout" onClick={handleLogout}>
-          🚪 Đăng xuất
+          🚪 Đăng xuất mọi thiết bị
         </button>
       </div>
     </aside>

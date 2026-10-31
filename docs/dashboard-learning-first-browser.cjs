@@ -1,0 +1,88 @@
+// Local UI fixtures only: no real login, database reads or persistent writes.
+const {chromium}=require('F:/DATN/.cache/npm/_npx/e41f203b7505f1fb/node_modules/playwright');
+const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
+const baseUrl=process.env.DASHBOARD_PREVIEW_URL||'http://127.0.0.1:5173';
+const checks=[];const check=(name,value)=>{assert.ok(value,name);checks.push(name);};
+const names={1:'Python cơ bản: xây dựng nền tảng lập trình',2:'Nguyên lí hệ điều hành',3:'Git & GitHub thực hành',4:'HTML & CSS nhập môn',5:'Mạng máy tính: từ địa chỉ đến chẩn đoán kết nối',6:'Xây dựng API với FastAPI',7:'Khóa đang soạn'};
+const catalog=Object.entries(names).map(([id,title])=>({id:Number(id),title,status:Number(id)===7?'draft':'published',teacher_name:'Giảng viên mẫu',price:Number(id)===6?'399000':'0'}));
+const progress=[{course_id:1,total_lessons:12,done_lessons:6},{course_id:2,total_lessons:11,done_lessons:3},{course_id:3,total_lessons:12,done_lessons:0},{course_id:4,total_lessons:12,done_lessons:12},{course_id:5,total_lessons:5,done_lessons:5}].map(c=>({...c,course_title:names[c.course_id]}));
+const unit=(id,course_id,extra={})=>({kind:'lesson',id,course_id,course_title:names[course_id],chapter_id:course_id*10,chapter_name:'Chương 1: Nền tảng',title:`Bài ${id}: Kiến thức cần củng cố`,available:true,answered:10,correct:3,avg_score:30,sufficient_data:true,needs_review:true,latest_result_id:20,sources:[],...extra});
+(async()=>{
+ const browser=await chromium.launch({headless:true,executablePath:'C:/Users/DMIN/AppData/Local/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe'});
+ try{
+  const context=await browser.newContext({viewport:{width:1600,height:1050}});
+  await context.addInitScript(()=>{localStorage.setItem('token','ui-fixture-only-not-a-session');localStorage.setItem('user',JSON.stringify({id:90001,fullname:'Phương',role:'student'}));});
+  let mode='normal',releaseWeekly;const weeklyGate=new Promise(resolve=>{releaseWeekly=resolve;});const writes=[];
+  await context.route('**/*',route=>{const u=new URL(route.request().url());return ['127.0.0.1','localhost'].includes(u.hostname)?route.fallback():route.abort();});
+  await context.route('**/api/**',async route=>{
+   const req=route.request(),url=new URL(req.url());if(!url.pathname.startsWith('/api/'))return route.fallback();
+   if(req.method()!=='GET'){writes.push(url.pathname);return route.fulfill({json:{success:true}});}
+   const weekly=url.pathname==='/api/progress'&&url.searchParams.has('weekly');
+   if(mode==='slow'&&weekly)await weeklyGate;
+   if(mode==='errorAll'||mode==='progressError'&&url.pathname==='/api/progress'&&!url.search)return route.fulfill({status:503,json:{success:false,message:'Chưa tải được dữ liệu thử'}});
+   let data=[];
+   if(url.pathname==='/api/courses')data=catalog;
+   else if(url.pathname==='/api/enrollments')data=mode==='new'?[]:mode==='completed'?['4']:['1','2','3','4'];
+   else if(weekly)data=Array.from({length:7},(_,i)=>({label:`${25+i}/10`,count:mode==='new'||mode==='completed'?0:[0,1,2,0,3,0,1][i]}));
+   else if(url.pathname==='/api/progress'&&url.searchParams.has('recent'))data=mode==='new'||mode==='completed'?[]:Array.from({length:5},(_,i)=>({lesson_id:101+i,lesson_title:['Bài 2: Biến và kiểu dữ liệu','Bài 1: Khái niệm hệ điều hành','Bài 3: Vòng lặp','Bài 4: Hàm','Bài 5: Danh sách'][i],course_title:names[i%2+1],completed_at:'2026-10-31 09:00:00'}));
+   else if(url.pathname==='/api/progress')data={courses:mode==='new'?[]:mode==='completed'?[progress[3]]:progress};
+   else if(url.pathname==='/api/recommendations')data={current:{items:[],based_on:{knowledge:{units:mode==='new'||mode==='completed'?[]:[...Array.from({length:7},(_,i)=>unit(i+1,i<4?1:2)),...Array.from({length:3},(_,i)=>unit(i+21,2,{answered:i+1,correct:0,avg_score:0,sufficient_data:false,needs_review:false}))]},min_topic_questions:5,topic_review_threshold:70}},history:[]};
+   return route.fulfill({json:{success:true,data}});
+  });
+  const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const visit=()=>page.goto(baseUrl+'/student/dashboard',{waitUntil:'domcontentloaded'});
+  await visit();
+  const focus=page.getByRole('region',{name:'Tiếp tục học',exact:true});
+  const summary=page.getByRole('region',{name:'Tóm tắt gợi ý học tập'});
+  const metric=label=>page.locator('.dash-metric').filter({hasText:label}).locator('strong');
+  await focus.locator('.dash-focus-course').waitFor();await summary.locator('.study-compact-row').first().waitFor();
+  check('One clear primary course instead of a long list',await focus.locator('.dash-focus-course').count()===1);
+  check('Default priority is ongoing course with highest progress',(await focus.locator('.dash-focus-course').innerText()).includes(names[1]));
+  check('Primary action opens exact course',await focus.getByRole('link',{name:`Vào học: ${names[1]}`,exact:true}).getAttribute('href')==='/chapters?course_id=1');
+  check('Course picker excludes completed courses',await page.locator('#dashboard-course option').count()===3);
+  await page.locator('#dashboard-course').selectOption('2');
+  check('Learner can choose another course',(await focus.locator('.dash-focus-course').innerText()).includes(names[2]));
+  check('Course action changes with selection',await focus.getByRole('link',{name:`Vào học: ${names[2]}`,exact:true}).getAttribute('href')==='/chapters?course_id=2');
+  await page.locator('#dashboard-course').selectOption('3');
+  check('Unstarted course offers start action',(await focus.getByRole('link',{name:`Vào học: ${names[3]}`,exact:true}).innerText()).includes('Bắt đầu học'));
+  await page.locator('#dashboard-course').selectOption('1');
+  check('Metrics exclude trial course',await metric('Khóa đã đăng ký').innerText()==='4'&&await metric('Bài đã hoàn thành').innerText()==='21/47');
+  check('Learning action appears before recommendations and discovery',await page.evaluate(()=>{const a=document.querySelector('.dash-focus'),b=document.querySelector('.study-recommendation-summary'),c=document.querySelector('.dash-discover');return a.offsetTop<b.offsetTop&&b.offsetTop<c.offsetTop}));
+  check('Dashboard recommendations start at three rows',await summary.locator('.study-compact-row').count()===3);
+  await summary.getByRole('button',{name:'Xem thêm bài nên ôn'}).click();
+  check('Dashboard shows three more rows',await summary.locator('.study-compact-row').count()===6);
+  await summary.getByRole('button',{name:'Thu gọn bài nên ôn'}).click();
+  check('Collapse restores three recommendations',await summary.locator('.study-compact-row').count()===3);
+  check('Insufficient evidence is collapsed',await summary.getByRole('button',{name:/bài chưa đủ dữ liệu/}).getAttribute('aria-expanded')==='false');
+  await summary.getByRole('combobox').selectOption('2');
+  check('Course filter limits recommendations',await summary.locator('.study-compact-topic p').allTextContents().then(rows=>rows.every(row=>row.includes(names[2]))));
+  await summary.getByRole('combobox').selectOption('all');
+  check('Three useful quick actions',await page.getByRole('navigation',{name:'Truy cập nhanh'}).getByRole('link').count()===3);
+  check('Weekly total uses actual data',(await page.locator('.dash-weekly-total').innerText()).includes('7'));
+  check('Recent completed lessons initially collapsed',await page.locator('.dash-recent').getAttribute('open')===null);
+  await page.locator('.dash-recent > summary').click();
+  check('Recent activity is limited to three real lesson links',await page.locator('.dash-activity-list li').count()===3&&(await page.locator('.dash-activity-list a').first().getAttribute('href'))==='/lesson?id=101');
+  await page.locator('.dash-recent > summary').click();
+  check('Discovery keeps published unenrolled courses only',await page.locator('.dash-discover-course').count()===2&&!(await page.locator('.dash-discover').innerText()).includes(names[7]));
+  await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(__dirname,'dashboard-learning-first-desktop.png'),fullPage:true});
+  for(const width of [1024,768,390]){await page.setViewportSize({width,height:900});await page.waitForTimeout(400);check('No overflow at '+width,await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
+  await page.evaluate(()=>window.scrollTo(0,0));await page.screenshot({path:path.join(__dirname,'dashboard-learning-first-mobile.png'),fullPage:true});
+  mode='progressError';await visit();await focus.getByText('Chưa xác định tiến độ. Bạn vẫn có thể mở khóa để học.').waitFor();
+  check('Progress failure does not invent percentages',await focus.getByRole('progressbar').count()===0&&await metric('Bài đã hoàn thành').innerText()==='—');
+  check('Progress failure still allows entering course',await focus.getByRole('link',{name:/Vào học:/}).count()===1);
+  mode='new';await visit();await page.getByRole('heading',{name:'Bắt đầu lộ trình đầu tiên'}).waitFor();
+  check('New learner gets actionable discovery',await focus.getByRole('link',{name:/Khám phá khóa học/}).getAttribute('href')==='/student/courses');
+  mode='completed';await visit();await page.getByRole('heading',{name:'Bạn đã hoàn thành các khóa đã đăng ký'}).waitFor();
+  check('Completed learner gets review path',await focus.getByRole('link',{name:/Xem lại khóa học/}).getAttribute('href')==='/student/my-courses');
+  mode='errorAll';await visit();await focus.getByText('Chưa tải được danh sách khóa học.').waitFor();
+  check('API failure does not pretend learner is new',await page.getByRole('heading',{name:'Bắt đầu lộ trình đầu tiên'}).count()===0);
+  mode='normal';await focus.getByRole('button',{name:'Thử lại'}).click();await focus.locator('.dash-focus-course').waitFor();
+  check('Retry recovers course selector',await page.locator('#dashboard-course option').count()===3);
+  await page.goto(baseUrl+'/student/progress',{waitUntil:'domcontentloaded'});await summary.locator('.study-compact-row').first().waitFor();
+  check('Progress page retains default five recommendations',await summary.locator('.study-compact-row').count()===5);
+  check('Read-only dashboard never writes study data',writes.length===0);
+  check('No runtime errors',errors.length===0);
+  fs.writeFileSync(path.join(__dirname,'dashboard-learning-first-browser-results.json'),JSON.stringify({mode:'mocked_student_ui_no_real_credentials',passed:checks.length,checks,errors},null,2));
+  console.log(JSON.stringify({passed:checks.length,errors}));
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exit(1);});

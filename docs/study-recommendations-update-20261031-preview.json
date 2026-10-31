@@ -1,0 +1,791 @@
+{
+  "applied": false,
+  "min_questions": 5,
+  "review_threshold": 70,
+  "original_question_max_id": 1759,
+  "protected_before": {
+    "users": {
+      "rows": 15,
+      "sha256": "36e4ea2ef7d5a7a4bfc051dc8521faad241797072d6f8f20c1a6f24807488a58"
+    },
+    "enrollments": {
+      "rows": 25,
+      "sha256": "e185494c3f30cb9e0ed3e22bde1182901d90dd3029fc1b7c1d291e544b4d1be4"
+    },
+    "results": {
+      "rows": 113,
+      "sha256": "89e3310989e02637c4a1872d98165b8e36a5ff3adafbf746595038353e73545a"
+    },
+    "result_answers": {
+      "rows": 1443,
+      "sha256": "fb46881b0b33ff4aa48fed0d9ab0bd0d4bbeda43dd77711fc5f30e45dd318e49"
+    },
+    "quiz_attempts": {
+      "rows": 11,
+      "sha256": "a29b213c8b21f3e1109016db4333e4e91704e835c794784cfaa2cd1cffbbf966"
+    },
+    "lesson_progress": {
+      "rows": 152,
+      "sha256": "6e4581cd316371bb287a80168031cb662a432c3212491c40d4872cfef4456f46"
+    },
+    "payments": {
+      "rows": 32,
+      "sha256": "eb59fed603c5f2fee4512c85bb04d0614cb156b67ec770edd6a1a8016f4fa214"
+    },
+    "study_checkpoints": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "knowledge_study_checkpoints": {
+      "rows": 3,
+      "sha256": "3846fdcd344d35eba9c0ad35390d104f5dbef5e48a3e6ffaed2c9d4811796291"
+    },
+    "questions": {
+      "rows": 960,
+      "sha256": "a6db3a55f13f2b64decc26cb970853e9a726da6ead192d16821e5b3800731ef6"
+    }
+  },
+  "lessons": [
+    {
+      "course_id": 894,
+      "lesson_id": 399,
+      "quiz_id": 424,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 400,
+      "quiz_id": 425,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 401,
+      "quiz_id": 427,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 402,
+      "quiz_id": 428,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 403,
+      "quiz_id": 430,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 404,
+      "quiz_id": 431,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 405,
+      "quiz_id": 433,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 406,
+      "quiz_id": 434,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 407,
+      "quiz_id": 436,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 408,
+      "quiz_id": 437,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 409,
+      "quiz_id": 439,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 894,
+      "lesson_id": 410,
+      "quiz_id": 440,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 411,
+      "quiz_id": 443,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 412,
+      "quiz_id": 444,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 413,
+      "quiz_id": 446,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 414,
+      "quiz_id": 447,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 415,
+      "quiz_id": 449,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 416,
+      "quiz_id": 450,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 417,
+      "quiz_id": 452,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 418,
+      "quiz_id": 453,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 419,
+      "quiz_id": 455,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 420,
+      "quiz_id": 456,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 421,
+      "quiz_id": 458,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 895,
+      "lesson_id": 422,
+      "quiz_id": 459,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 423,
+      "quiz_id": 462,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 424,
+      "quiz_id": 463,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 425,
+      "quiz_id": 465,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 426,
+      "quiz_id": 466,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 427,
+      "quiz_id": 468,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 428,
+      "quiz_id": 469,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 429,
+      "quiz_id": 471,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 430,
+      "quiz_id": 472,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 431,
+      "quiz_id": 474,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 432,
+      "quiz_id": 475,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 433,
+      "quiz_id": 477,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    },
+    {
+      "course_id": 896,
+      "lesson_id": 434,
+      "quiz_id": 478,
+      "before": 5,
+      "after": 10,
+      "added": 5
+    }
+  ],
+  "metadata_changes": [
+    {
+      "table": "quizzes",
+      "id": 424,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 399,
+      "before": "Mục tiêu bài học:\n• Giải thích được mục đích lưu phiên bản.\n• Phân biệt working tree, staging area và commit.\n• Tạo repository và commit đầu trong thư mục mới.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Giải thích được mục đích lưu phiên bản.\n• Phân biệt working tree, staging area và commit.\n• Tạo repository và commit đầu trong thư mục mới.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 425,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 400,
+      "before": "Mục tiêu bài học:\n• Phân biệt danh tính commit với xác thực dịch vụ.\n• Chọn phạm vi cấu hình local phù hợp.\n• Chia thay đổi thành commit dễ review.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Phân biệt danh tính commit với xác thực dịch vụ.\n• Chọn phạm vi cấu hình local phù hợp.\n• Chia thay đổi thành commit dễ review.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 427,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 401,
+      "before": "Mục tiêu bài học:\n• Đọc được dòng thêm, xóa trong diff.\n• Chọn đúng so sánh working tree, index và commit.\n• Truy tìm commit liên quan đến một file.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Đọc được dòng thêm, xóa trong diff.\n• Chọn đúng so sánh working tree, index và commit.\n• Truy tìm commit liên quan đến một file.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 428,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 402,
+      "before": "Mục tiêu bài học:\n• Chọn file nguồn cần quản lý và file sinh tự động.\n• Giải thích giới hạn của .gitignore.\n• Thiết kế repository dễ clone và tái tạo.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Chọn file nguồn cần quản lý và file sinh tự động.\n• Giải thích giới hạn của .gitignore.\n• Thiết kế repository dễ clone và tái tạo.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 430,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 403,
+      "before": "Mục tiêu bài học:\n• Tạo và chuyển nhánh theo một yêu cầu.\n• Đọc quan hệ commit khi merge.\n• Kiểm tra sản phẩm sau hợp nhất.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tạo và chuyển nhánh theo một yêu cầu.\n• Đọc quan hệ commit khi merge.\n• Kiểm tra sản phẩm sau hợp nhất.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 431,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 404,
+      "before": "Mục tiêu bài học:\n• Tái tạo xung đột trong repository riêng.\n• Kết hợp hai yêu cầu thay vì chọn bên ngẫu nhiên.\n• Hoàn tất merge và xác nhận không còn marker.\n\nThời gian học và thực hành dự kiến: 110 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tái tạo xung đột trong repository riêng.\n• Kết hợp hai yêu cầu thay vì chọn bên ngẫu nhiên.\n• Hoàn tất merge và xác nhận không còn marker.\n\nThời gian học và thực hành dự kiến: 110 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 433,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 405,
+      "before": "Mục tiêu bài học:\n• Phân biệt repository local với remote.\n• Mô phỏng hai người bằng hai bản clone.\n• Fetch rồi tích hợp có kiểm soát.\n\nThời gian học và thực hành dự kiến: 110 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Phân biệt repository local với remote.\n• Mô phỏng hai người bằng hai bản clone.\n• Fetch rồi tích hợp có kiểm soát.\n\nThời gian học và thực hành dự kiến: 110 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 434,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 406,
+      "before": "Mục tiêu bài học:\n• Hiểu vai trò GitHub trong quy trình cộng tác.\n• Lập phương án xác thực không đưa bí mật vào tài liệu.\n• Mô tả một đề xuất thay đổi có thể review.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Hiểu vai trò GitHub trong quy trình cộng tác.\n• Lập phương án xác thực không đưa bí mật vào tài liệu.\n• Mô tả một đề xuất thay đổi có thể review.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 436,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 407,
+      "before": "Mục tiêu bài học:\n• Lập checklist review dựa trên yêu cầu.\n• Chạy một test tự động đơn giản cho dự án.\n• Ghi nhận giới hạn thay vì khẳng định quá mức.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Lập checklist review dựa trên yêu cầu.\n• Chạy một test tự động đơn giản cho dự án.\n• Ghi nhận giới hạn thay vì khẳng định quá mức.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 437,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 408,
+      "before": "Mục tiêu bài học:\n• Phân biệt sửa lỗi sản phẩm với thay lịch sử.\n• Tạo commit hoàn tác có lý do.\n• Đọc diff và chạy kiểm tra sau hoàn tác.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Phân biệt sửa lỗi sản phẩm với thay lịch sử.\n• Tạo commit hoàn tác có lý do.\n• Đọc diff và chạy kiểm tra sau hoàn tác.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 439,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 409,
+      "before": "Mục tiêu bài học:\n• Gắn tag chú thích cho phiên bản được kiểm tra.\n• Phân biệt archive mã nguồn với repository đầy đủ.\n• Kiểm tra một bản bàn giao ở thư mục mới.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Gắn tag chú thích cho phiên bản được kiểm tra.\n• Phân biệt archive mã nguồn với repository đầy đủ.\n• Kiểm tra một bản bàn giao ở thư mục mới.\n\nThời gian học và thực hành dự kiến: 100 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 440,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 410,
+      "before": "Mục tiêu bài học:\n• Tích hợp các kỹ năng thành một quy trình có bằng chứng.\n• Bàn giao dự án theo rubric và tiêu chí tái tạo.\n• Tự phân tích khoảng trống trước khi kết thúc khóa.\n\nThời gian học và thực hành dự kiến: 140 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tích hợp các kỹ năng thành một quy trình có bằng chứng.\n• Bàn giao dự án theo rubric và tiêu chí tái tạo.\n• Tự phân tích khoảng trống trước khi kết thúc khóa.\n\nThời gian học và thực hành dự kiến: 140 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "courses",
+      "id": 894,
+      "before": "Lộ trình Git và GitHub qua 6 chương, 12 bài: lưu phiên bản, đọc thay đổi, nhánh, merge, remote, review và phát hành. Mỗi bài có thực hành kiểm chứng, bài tập có hướng giải và 5 câu Quiz. Kết thúc bằng một kho tài liệu học tập có lịch sử, quy trình review và bản phát hành có thể tái tạo.",
+      "after": "Lộ trình Git và GitHub qua 6 chương, 12 bài: lưu phiên bản, đọc thay đổi, nhánh, merge, remote, review và phát hành. Mỗi bài có thực hành kiểm chứng, bài tập có hướng giải và 5 câu Quiz. Kết thúc bằng một kho tài liệu học tập có lịch sử, quy trình review và bản phát hành có thể tái tạo. Bộ ôn mỗi bài có 10 câu gồm 5 câu nền tảng và 5 câu vận dụng; đề cuối khóa giữ 60 câu."
+    },
+    {
+      "table": "quizzes",
+      "id": 443,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 411,
+      "before": "Mục tiêu bài học:\n• Tách dữ liệu và hành vi từ một tình huống quản lý sách.\n• Phân biệt lớp, đối tượng và biến tham chiếu đối tượng.\n• Viết một phương thức làm thay đổi trạng thái có thể kiểm tra.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tách dữ liệu và hành vi từ một tình huống quản lý sách.\n• Phân biệt lớp, đối tượng và biến tham chiếu đối tượng.\n• Viết một phương thức làm thay đổi trạng thái có thể kiểm tra.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 444,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 412,
+      "before": "Mục tiêu bài học:\n• Mô tả bất biến số lượng sách bằng điều kiện rõ ràng.\n• Kiểm tra đầu vào trước khi gán trạng thái trong __init__.\n• Phân biệt kiểm tra hợp lệ với ép kiểu tùy tiện.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Mô tả bất biến số lượng sách bằng điều kiện rõ ràng.\n• Kiểm tra đầu vào trước khi gán trạng thái trong __init__.\n• Phân biệt kiểm tra hợp lệ với ép kiểu tùy tiện.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 446,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 413,
+      "before": "Mục tiêu bài học:\n• Dự đoán phạm vi dữ liệu khi tạo nhiều thực thể.\n• Loại bỏ lỗi danh sách mutable bị dùng chung ngoài ý muốn.\n• Chọn biến lớp cho cấu hình chung phù hợp.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Dự đoán phạm vi dữ liệu khi tạo nhiều thực thể.\n• Loại bỏ lỗi danh sách mutable bị dùng chung ngoài ý muốn.\n• Chọn biến lớp cho cấu hình chung phù hợp.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 447,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 414,
+      "before": "Mục tiêu bài học:\n• Thiết kế điểm cập nhật để bảo vệ bất biến.\n• Dùng property cho dữ liệu đọc có phép tính hoặc xác thực.\n• Giải thích giới hạn của quy ước dấu gạch dưới trong Python.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Thiết kế điểm cập nhật để bảo vệ bất biến.\n• Dùng property cho dữ liệu đọc có phép tính hoặc xác thực.\n• Giải thích giới hạn của quy ước dấu gạch dưới trong Python.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 449,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 415,
+      "before": "Mục tiêu bài học:\n• Mô hình hóa Library chứa nhiều Book bằng composition.\n• Phân biệt quản lý tập hợp với hành vi của từng phần tử.\n• Thiết kế thao tác tra cứu mã và từ chối mã trùng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Mô hình hóa Library chứa nhiều Book bằng composition.\n• Phân biệt quản lý tập hợp với hành vi của từng phần tử.\n• Thiết kế thao tác tra cứu mã và từ chối mã trùng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 450,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 416,
+      "before": "Mục tiêu bài học:\n• Dùng dataclass để diễn tả bản ghi nhỏ có hợp đồng rõ.\n• Phân biệt bằng nhau theo giá trị với đồng nhất đối tượng.\n• Sử dụng frozen và default_factory đúng phạm vi.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Dùng dataclass để diễn tả bản ghi nhỏ có hợp đồng rõ.\n• Phân biệt bằng nhau theo giá trị với đồng nhất đối tượng.\n• Sử dụng frozen và default_factory đúng phạm vi.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 452,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 417,
+      "before": "Mục tiêu bài học:\n• Chọn kế thừa khi tồn tại quan hệ một loại của hợp lệ.\n• Ghi đè hành vi và dùng super để phối hợp khởi tạo.\n• Đánh giá lớp con bằng cùng một bộ kiểm tra hợp đồng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Chọn kế thừa khi tồn tại quan hệ một loại của hợp lệ.\n• Ghi đè hành vi và dùng super để phối hợp khởi tạo.\n• Đánh giá lớp con bằng cùng một bộ kiểm tra hợp đồng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 453,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 418,
+      "before": "Mục tiêu bài học:\n• Dùng một giao diện hành vi với các triển khai khác nhau.\n• Phân biệt duck typing với kế thừa bắt buộc.\n• Khai báo hợp đồng repository bằng ABC và abstractmethod.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Dùng một giao diện hành vi với các triển khai khác nhau.\n• Phân biệt duck typing với kế thừa bắt buộc.\n• Khai báo hợp đồng repository bằng ABC và abstractmethod.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 455,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 419,
+      "before": "Mục tiêu bài học:\n• Diễn đạt các lỗi dự kiến bằng ngoại lệ có ý nghĩa.\n• Bắt lỗi ở ranh giới CLI và giữ nguyên bất biến miền.\n• Phân biệt thông báo người dùng với lỗi lập trình cần sửa.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Diễn đạt các lỗi dự kiến bằng ngoại lệ có ý nghĩa.\n• Bắt lỗi ở ranh giới CLI và giữ nguyên bất biến miền.\n• Phân biệt thông báo người dùng với lỗi lập trình cần sửa.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 456,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 420,
+      "before": "Mục tiêu bài học:\n• Viết unittest cho hành vi thành công và từ chối.\n• Tạo dữ liệu độc lập cho từng test bằng setUp.\n• Chứng minh test phát hiện một lỗi chuyển trạng thái.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Viết unittest cho hành vi thành công và từ chối.\n• Tạo dữ liệu độc lập cho từng test bằng setUp.\n• Chứng minh test phát hiện một lỗi chuyển trạng thái.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 458,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 421,
+      "before": "Mục tiêu bài học:\n• Tách định dạng lưu trữ khỏi cấu trúc đối tượng trong bộ nhớ.\n• Xác thực schema và dữ liệu khi tải JSON.\n• Lưu bằng file tạm và hiểu giới hạn một tiến trình.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tách định dạng lưu trữ khỏi cấu trúc đối tượng trong bộ nhớ.\n• Xác thực schema và dữ liệu khi tải JSON.\n• Lưu bằng file tạm và hiểu giới hạn một tiến trình.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 459,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 422,
+      "before": "Mục tiêu bài học:\n• Kết nối miền nghiệp vụ, kho JSON và giao diện argparse.\n• Chạy kiểm tra tự động và kịch bản người dùng qua CLI.\n• Nộp bằng chứng theo rubric và mô tả giới hạn sử dụng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Kết nối miền nghiệp vụ, kho JSON và giao diện argparse.\n• Chạy kiểm tra tự động và kịch bản người dùng qua CLI.\n• Nộp bằng chứng theo rubric và mô tả giới hạn sử dụng.\n\nThời gian học và thực hành dự kiến: 120 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "courses",
+      "id": 895,
+      "before": "Lộ trình 6 tuần, 6 chương và 12 bài thực hành Python OOP: thiết kế lớp, bất biến, composition, dataclass, kế thừa, đa hình, kiểm thử và lưu JSON. Có 60 câu hỏi nền tảng, mã ví dụ chạy được và dự án thư viện CLI kèm rubric, bộ test và hướng dẫn tái hiện. Yêu cầu đã học cú pháp Python cơ bản.",
+      "after": "Lộ trình 6 tuần, 6 chương và 12 bài thực hành Python OOP: thiết kế lớp, bất biến, composition, dataclass, kế thừa, đa hình, kiểm thử và lưu JSON. Có 60 câu hỏi nền tảng, mã ví dụ chạy được và dự án thư viện CLI kèm rubric, bộ test và hướng dẫn tái hiện. Yêu cầu đã học cú pháp Python cơ bản. Bộ ôn mỗi bài có 10 câu gồm 5 câu nền tảng và 5 câu vận dụng; đề cuối khóa giữ 60 câu."
+    },
+    {
+      "table": "quizzes",
+      "id": 462,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 423,
+      "before": "Mục tiêu bài học:\n• Mô tả request/response bằng phương thức, đường dẫn và trạng thái.\n• Tạo endpoint có thể kiểm tra và đọc hợp đồng OpenAPI.\n• Tách việc ứng dụng hoạt động với việc máy chủ đang nghe cổng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Mô tả request/response bằng phương thức, đường dẫn và trạng thái.\n• Tạo endpoint có thể kiểm tra và đọc hợp đồng OpenAPI.\n• Tách việc ứng dụng hoạt động với việc máy chủ đang nghe cổng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 463,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 424,
+      "before": "Mục tiêu bài học:\n• Phân biệt định danh tài nguyên với tùy chọn lọc danh sách.\n• Giới hạn đầu vào và kích thước trang bằng Annotated.\n• Kiểm tra route tĩnh, dữ liệu sai kiểu và các biên số.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Phân biệt định danh tài nguyên với tùy chọn lọc danh sách.\n• Giới hạn đầu vào và kích thước trang bằng Annotated.\n• Kiểm tra route tĩnh, dữ liệu sai kiểu và các biên số.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 465,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 425,
+      "before": "Mục tiêu bài học:\n• Khai báo model tạo nhiệm vụ có ràng buộc cụ thể.\n• Phân biệt dữ liệu sau kiểm tra với JSON thô.\n• Dùng model_dump và model_validate theo API Pydantic 2.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Khai báo model tạo nhiệm vụ có ràng buộc cụ thể.\n• Phân biệt dữ liệu sau kiểm tra với JSON thô.\n• Dùng model_dump và model_validate theo API Pydantic 2.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 466,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 426,
+      "before": "Mục tiêu bài học:\n• Thiết kế mã trạng thái cho tạo, đọc, cập nhật và xóa.\n• Tách model đầu vào và model phản hồi để hạn chế lộ dữ liệu.\n• Phân biệt 404, 409 và lỗi kiểm tra cấu trúc.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Thiết kế mã trạng thái cho tạo, đọc, cập nhật và xóa.\n• Tách model đầu vào và model phản hồi để hạn chế lộ dữ liệu.\n• Phân biệt 404, 409 và lỗi kiểm tra cấu trúc.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 468,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 427,
+      "before": "Mục tiêu bài học:\n• Đưa việc đọc cấu hình/người dùng vào dependency dùng lại được.\n• Giải thích Depends tạo và truyền giá trị cho hàm xử lý.\n• Thay dependency trong kiểm thử mà không sửa mã ứng dụng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Đưa việc đọc cấu hình/người dùng vào dependency dùng lại được.\n• Giải thích Depends tạo và truyền giá trị cho hàm xử lý.\n• Thay dependency trong kiểm thử mà không sửa mã ứng dụng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 469,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 428,
+      "before": "Mục tiêu bài học:\n• Khởi tạo và thu hồi tài nguyên bằng lifespan.\n• Đóng tài nguyên theo request trong dependency có yield.\n• Chọn def/async def theo đặc tính thư viện I/O đang dùng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Khởi tạo và thu hồi tài nguyên bằng lifespan.\n• Đóng tài nguyên theo request trong dependency có yield.\n• Chọn def/async def theo đặc tính thư viện I/O đang dùng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 471,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 429,
+      "before": "Mục tiêu bài học:\n• Tạo bảng và lưu nhiệm vụ qua kết nối SQLite theo request.\n• Truyền dữ liệu bằng placeholder thay vì ghép chuỗi SQL.\n• Kiểm tra dữ liệu còn sau khi mở kết nối mới.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Tạo bảng và lưu nhiệm vụ qua kết nối SQLite theo request.\n• Truyền dữ liệu bằng placeholder thay vì ghép chuỗi SQL.\n• Kiểm tra dữ liệu còn sau khi mở kết nối mới.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 472,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 430,
+      "before": "Mục tiêu bài học:\n• Dùng ràng buộc database cho quy tắc duy nhất.\n• Rollback khi một phần của thao tác nhiều bước thất bại.\n• Chuyển lỗi xung đột đã biết thành 409 và giữ lỗi bất ngờ để chẩn đoán.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Dùng ràng buộc database cho quy tắc duy nhất.\n• Rollback khi một phần của thao tác nhiều bước thất bại.\n• Chuyển lỗi xung đột đã biết thành 409 và giữ lỗi bất ngờ để chẩn đoán.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 474,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 431,
+      "before": "Mục tiêu bài học:\n• Phân biệt bằng chứng danh tính với quyền trên một bản ghi.\n• Kiểm tra Bearer token qua dependency dùng chung.\n• Viết test truy cập chéo tài khoản và phản hồi 401/403.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Phân biệt bằng chứng danh tính với quyền trên một bản ghi.\n• Kiểm tra Bearer token qua dependency dùng chung.\n• Viết test truy cập chéo tài khoản và phản hồi 401/403.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 475,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 432,
+      "before": "Mục tiêu bài học:\n• Thiết kế test theo hành vi quan sát được thay vì cấu trúc hàm.\n• Tách trạng thái giữa các lần kiểm thử bằng app factory.\n• Kiểm tra cả mã trạng thái, dữ liệu và tác động sau lỗi.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Thiết kế test theo hành vi quan sát được thay vì cấu trúc hàm.\n• Tách trạng thái giữa các lần kiểm thử bằng app factory.\n• Kiểm tra cả mã trạng thái, dữ liệu và tác động sau lỗi.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 477,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 433,
+      "before": "Mục tiêu bài học:\n• Đưa giá trị theo môi trường ra khỏi mã nghiệp vụ.\n• Ghi nhật ký đủ chẩn đoán mà tránh lộ token và body riêng tư.\n• Phân biệt cấu hình phát triển với điều kiện đưa dịch vụ ra mạng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Đưa giá trị theo môi trường ra khỏi mã nghiệp vụ.\n• Ghi nhật ký đủ chẩn đoán mà tránh lộ token và body riêng tư.\n• Phân biệt cấu hình phát triển với điều kiện đưa dịch vụ ra mạng.\n\nThời gian học và thực hành dự kiến: 150 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "quizzes",
+      "id": 478,
+      "before": "5 câu ôn tập kèm giải thích. Luyện bằng bài tập thực hành trước khi xem đáp án.",
+      "after": "10 câu ôn tập: 5 câu nền tảng và 5 câu vận dụng mới, có giải thích và phân loại theo bài."
+    },
+    {
+      "table": "lessons",
+      "id": 434,
+      "before": "Mục tiêu bài học:\n• Ghép validation, quyền, database và test thành sản phẩm chạy lại được.\n• Đánh giá theo ma trận yêu cầu và rubric thay vì chỉ xem /docs.\n• Nêu rõ phạm vi demo, minh chứng đạt và công việc mở rộng.\n\nThời gian học và thực hành dự kiến: 240 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 5 câu của bài.",
+      "after": "Mục tiêu bài học:\n• Ghép validation, quyền, database và test thành sản phẩm chạy lại được.\n• Đánh giá theo ma trận yêu cầu và rubric thay vì chỉ xem /docs.\n• Nêu rõ phạm vi demo, minh chứng đạt và công việc mở rộng.\n\nThời gian học và thực hành dự kiến: 240 phút.\n\nĐọc tài liệu PDF đính kèm để học lý thuyết, chạy ví dụ, làm bài tập và đối chiếu hướng giải. Hoàn thành bài thực hành trước khi làm bộ ôn tập 10 câu của bài."
+    },
+    {
+      "table": "courses",
+      "id": 896,
+      "before": "Khóa thực hành 6 chương, 12 bài về HTTP, Pydantic 2, CRUD, dependency, SQLite, quyền truy cập và kiểm thử. Xây dựng Task API chạy cục bộ với tài liệu bài học, ví dụ thực thi, 60 câu kiểm tra và dự án cuối khóa có rubric.",
+      "after": "Khóa thực hành 6 chương, 12 bài về HTTP, Pydantic 2, CRUD, dependency, SQLite, quyền truy cập và kiểm thử. Xây dựng Task API chạy cục bộ với tài liệu bài học, ví dụ thực thi, 60 câu kiểm tra và dự án cuối khóa có rubric. Bộ ôn mỗi bài có 10 câu gồm 5 câu nền tảng và 5 câu vận dụng; đề cuối khóa giữ 60 câu."
+    }
+  ],
+  "added_question_ids": []
+}

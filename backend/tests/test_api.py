@@ -82,8 +82,11 @@ def test_register_and_change_password_and_cleanup(tokens):
     tok = _token(email, "123456")
     uid = client.get("/api/auth/me", headers=_h(tok)).json()["user"]["id"]
 
-    assert client.post("/api/auth/change-password", headers=_h(tok),
-                       json={"old_password": "123456", "new_password": "1234567"}).json()["success"]
+    changed = client.post("/api/auth/change-password", headers=_h(tok),
+                          json={"old_password": "123456", "new_password": "1234567"}).json()
+    assert changed["success"]
+    assert client.get("/api/auth/me", headers=_h(tok)).status_code == 401
+    tok = changed["token"]
     assert client.post("/api/auth/change-password", headers=_h(tok),
                        json={"old_password": "wrong", "new_password": "xxxxxx"}).status_code == 400
 

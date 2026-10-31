@@ -27,7 +27,7 @@ const LEVEL_CLS = ['level-begin', 'level-mid', 'level-adv'];
 function courseMeta(c) {
   const lessons = Number(c.lesson_count) || 0;
   const documents = Number(c.document_count) || 0;
-  const lvlIdx = Math.max(0, LEVEL_DB.indexOf(c.level));
+  const lvlIdx = LEVEL_DB.indexOf(c.level);
   return { lessons, documents, lvlIdx };
 }
 
@@ -37,12 +37,50 @@ function fmtPrice(p) {
   return <span className="price-paid">{Number(p).toLocaleString('vi-VN')}đ</span>;
 }
 
+// A failed request stays unknown; it must not be interpreted as an empty list.
+function useDiscoveryList(request, transform) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [version, setVersion] = useState(0);
+  useEffect(() => {
+    let active = true;
+    setLoading(true); setError(false);
+    (async () => {
+      try {
+        const response = await request();
+        const rows = response?.data?.data;
+        if (!response?.ok || response.data?.success !== true || !Array.isArray(rows)) throw new Error('Unavailable list');
+        if (active) setData(transform(rows));
+      } catch {
+        if (active) { setData(null); setError(true); }
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => { active = false; };
+  }, [request, transform, version]);
+  return { data, setData, loading, error, retry: () => setVersion(value => value + 1) };
+}
+const loadCatalog = () => courseService.getCourses();
+const loadEnrollments = () => enrollmentService.getEnrolledIds();
+const keepRows = rows => rows;
+const normalizeEnrollmentIds = rows => {
+  if (rows.some(id => !Number.isSafeInteger(Number(id)) || Number(id) <= 0)) throw new Error('Invalid enrollment IDs');
+  return new Set(rows.map(Number));
+};
+
 /** Tương đương _legacy/pages/student/courses.html + _legacy/js/student-courses.js */
 export default function Courses() {
   const { showToast } = useToast();
 
-  const [allCourses, setAllCourses] = useState(null); // null = đang tải
-  const [enrolledIds, setEnrolledIds] = useState(new Set());
+  const catalog = useDiscoveryList(loadCatalog, keepRows);
+  const enrollments = useDiscoveryList(loadEnrollments, normalizeEnrollmentIds);
+  const allCourses = catalog.data;
+  const enrolledIds = enrollments.data;
+  const setEnrolledIds = enrollments.setData;
+  const loading = catalog.loading || enrollments.loading;
+  const ready = !loading && !catalog.error && !enrollments.error && allCourses !== null && enrolledIds !== null;
   const [enrollingId, setEnrollingId] = useState(null);
   const enrollmentPending = useRef(false);
 
@@ -56,16 +94,6 @@ export default function Courses() {
   const [payError, setPayError] = useState(null);
   const [paying, setPaying] = useState(false);
 
-  // Khi mở trang: tải danh sách khóa học + id các khóa đã ghi danh (để ẩn các khóa đã đăng ký)
-  useEffect(() => {
-    (async () => {
-      const [coursesRes, enrollRes] = await Promise.allSettled([courseService.getCourses(), enrollmentService.getEnrolledIds()]);
-      setAllCourses(coursesRes?.value?.data?.data || []);
-      const rawIds = enrollRes?.value?.data?.data;
-      setEnrolledIds(new Set(Array.isArray(rawIds) ? rawIds.map(Number) : []));
-    })();
-  }, []);
-
   // Khóa cuộn trang nền khi đang mở hộp thoại
   useEffect(() => {
     document.body.style.overflow = detailCourse || paymentCourse ? 'hidden' : '';
@@ -76,7 +104,7 @@ export default function Courses() {
 
   // Khóa chưa đăng ký: trang Khám phá chỉ hiện các khóa này (khóa đã đăng ký nằm ở "Khóa học của tôi")
   const available = useMemo(
-    () => (allCourses ? allCourses.filter((c) => !enrolledIds.has(Number(c.id))) : []),
+    () => (allCourses && enrolledIds ? allCourses.filter((c) => !enrolledIds.has(Number(c.id))) : []),
     [allCourses, enrolledIds],
   );
 
@@ -113,6 +141,7 @@ export default function Courses() {
 
   // Bấm "Đăng ký": khóa có phí -> mở thanh toán; miễn phí -> ghi danh ngay
   function startEnroll(course) {
+    if (!ready || enrolledIds.has(Number(course.id))) return;
     if (+course.price > 0) {
       openPayment(course);
     } else {
@@ -168,25 +197,25 @@ export default function Courses() {
       {/* Hero */}
       <div className="explore-hero">
         <h1>🌐 Khám phá khóa học</h1>
-        <p>Tìm kiếm và đăng ký hàng trăm khóa học chất lượng cao — học bất cứ lúc nào.</p>
+        <p>Tìm khóa học phù hợp, xem nội dung và đăng ký để bắt đầu học.</p>
         <div className="hero-search">
           <input
-            type="text"
+            type="search"
+            aria-label="Tìm kiếm khóa học"
             id="heroSearch"
             placeholder="Tìm tên khóa học, chủ đề, kỹ năng..."
             autoComplete="off"
             value={searchVal}
             onChange={(e) => setSearchVal(e.target.value)}
           />
-          <button onClick={() => {}}>🔍 Tìm kiếm</button>
+
         </div>
         <div className="stats-row" id="statsRow">
-          {allCourses === null ? (
+          {loading ? (
             <span>⏳ Đang tải...</span>
-          ) : (
+          ) : !ready ? <span>Chưa xác định được số khóa học chưa đăng ký</span> : (
             <>
               <span>📚 {available.length} khóa học chưa đăng ký</span>
-              <span>👨‍🏫 Nhiều giảng viên</span>
               <span>✅ {enrolledIds.size} đã đăng ký</span>
             </>
           )}
@@ -196,15 +225,15 @@ export default function Courses() {
       {/* Sort bar */}
       <div className="sort-bar">
         <div className="count" id="countLabel">
-          {allCourses === null ? (
+          {loading ? (
             'Đang tải...'
-          ) : (
+          ) : !ready ? 'Chưa tải đủ dữ liệu' : (
             <>
               Hiển thị <strong>{filtered.length}</strong> / {available.length} khóa học
             </>
           )}
         </div>
-        <select id="sortSelect" value={currentSort} onChange={(e) => setCurrentSort(e.target.value)}>
+        <select disabled={!ready} aria-label="Sắp xếp khóa học" id="sortSelect" value={currentSort} onChange={(e) => setCurrentSort(e.target.value)}>
           <option value="newest">Mới nhất</option>
           <option value="az">A → Z</option>
           <option value="za">Z → A</option>
@@ -213,9 +242,17 @@ export default function Courses() {
         </select>
       </div>
 
+      {catalog.error && <div className="explore-load-error" role="alert">
+        <div><strong>Chưa tải được danh sách khóa học.</strong><p>Vui lòng kiểm tra kết nối và thử lại.</p></div>
+        <button type="button" className="s-btn s-btn-outline s-btn-sm" onClick={catalog.retry}>Thử lại danh sách khóa học</button>
+      </div>}
+      {enrollments.error && <div className="explore-load-error" role="alert">
+        <div><strong>Chưa tải được trạng thái đăng ký.</strong><p>Cần kiểm tra các khóa bạn đã đăng ký trước khi hiển thị khóa mới.</p></div>
+        <button type="button" className="s-btn s-btn-outline s-btn-sm" onClick={enrollments.retry}>Thử lại trạng thái đăng ký</button>
+      </div>}
       {/* Course Grid */}
       <div className="s-course-grid" id="courseGrid">
-        {allCourses === null && (
+        {loading && (
           <>
             <div className="skeleton-card">
               <div className="sk sk-thumb"></div>
@@ -244,7 +281,7 @@ export default function Courses() {
           </>
         )}
 
-        {allCourses !== null && filtered.length === 0 && (
+        {ready && filtered.length === 0 && (
           // Đã đăng ký hết mọi khóa -> báo riêng, khác với trường hợp lọc không ra kết quả
           <div className="no-result">
             {allCourses.length > 0 && available.length === 0 ? (
@@ -255,28 +292,29 @@ export default function Courses() {
                   Tiếp tục học tại <Link to="/student/my-courses">Khóa học của tôi</Link>.
                 </p>
               </>
-            ) : (
+            ) : allCourses.length === 0 ? <>
+              <div className="icon">📚</div><h3>Chưa có khóa học để khám phá</h3><p>Hãy quay lại khi có khóa học mới.</p>
+            </> : (
               <>
                 <div className="icon">🔎</div>
                 <h3>Không tìm thấy khóa học</h3>
                 <p>Thử từ khóa khác nhé.</p>
+                {searchVal && <button type="button" className="s-btn s-btn-outline s-btn-sm" onClick={() => setSearchVal('')}>Xóa tìm kiếm</button>}
               </>
             )}
           </div>
         )}
 
-        {allCourses !== null &&
+        {ready &&
           filtered.map((c) => {
             const origIdx = allCourses.indexOf(c);
             const { lessons, documents, lvlIdx } = courseMeta(c, origIdx);
             const emoji = EMOJIS[origIdx % EMOJIS.length];
             const color = COLORS[origIdx % COLORS.length];
-            const isNew = origIdx < 3;
 
             return (
               <div key={c.id} className="s-course-card" id={`card-${c.id}`}>
                 <div className="s-course-thumb" style={{ background: `linear-gradient(135deg,${color})` }}>
-                  {isNew && <span className="enroll-badge">🆕 Mới</span>}
                   <span style={{ fontSize: '2.5rem' }}>{emoji}</span>
                 </div>
                 <div className="s-course-body">
@@ -284,10 +322,10 @@ export default function Courses() {
                   <p className="teacher">👨‍🏫 {c.teacher_name || 'Giảng viên StudyOnline'}</p>
                   <div className="s-course-meta">
                     <span>📖 {lessons} bài</span>
-                    <span>📄 {documents} PDF</span>
+                    <span>📄 {documents} tài liệu</span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'auto' }}>
-                    <span className={`level-badge ${LEVEL_CLS[lvlIdx]}`}>{LEVELS[lvlIdx]}</span>
+                    <span className={`level-badge ${LEVEL_CLS[lvlIdx] || ''}`}>{LEVELS[lvlIdx] || 'Chưa cập nhật trình độ'}</span>
                     {fmtPrice(c.price)}
                   </div>
                 </div>
@@ -330,7 +368,7 @@ export default function Courses() {
                 </div>
                 <div className="modal-body">
                   <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap', marginBottom: '.75rem' }}>
-                    <span className={`level-badge ${LEVEL_CLS[lvlIdx]}`}>{LEVELS[lvlIdx]}</span>
+                    <span className={`level-badge ${LEVEL_CLS[lvlIdx] || ''}`}>{LEVELS[lvlIdx] || 'Chưa cập nhật trình độ'}</span>
                   </div>
                   <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '.5rem' }}>{detailCourse.title || 'Khóa học'}</h2>
                   <p style={{ fontSize: '.85rem', color: 'var(--s-text-muted)', marginBottom: '1rem', lineHeight: 1.6 }}>
@@ -343,10 +381,10 @@ export default function Courses() {
                     </div>
                     <div>
                       <strong>{documents}</strong>
-                      <span>Tài liệu PDF</span>
+                      <span>Tài liệu</span>
                     </div>
                     <div>
-                      <strong>{LEVELS[lvlIdx]}</strong>
+                      <strong>{LEVELS[lvlIdx] || 'Chưa cập nhật trình độ'}</strong>
                       <span>Trình độ</span>
                     </div>
                     <div>

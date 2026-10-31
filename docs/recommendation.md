@@ -1,6 +1,6 @@
 # Gợi ý học tập theo nội dung bài kiểm tra
 
-Cập nhật 22/10/2026. Hệ thống dùng quy tắc Python trên dữ liệu đúng/sai từng câu. Không dùng LLM để kết luận năng lực; nhập tay, Word và AI dùng chung quy tắc sau khi giáo viên duyệt câu hỏi.
+Cập nhật 31/10/2026. Hệ thống dùng quy tắc Python trên dữ liệu đúng/sai từng câu. Không dùng LLM để kết luận năng lực; nhập tay, Word và AI dùng chung quy tắc sau khi giáo viên duyệt câu hỏi.
 
 ## Gợi ý theo chương và bài học — ba cấp kiểm tra
 
@@ -12,7 +12,7 @@ Câu hỏi có `knowledge_chapter_id` và `knowledge_lesson_id`. Giảng viên c
 - **Theo chương:** cộng số đúng/tổng số câu thuộc chương, thống kê từng bài đã phân loại; ưu tiên bài cụ thể có đủ căn cứ.
 - **Cuối khóa/đề tổng hợp:** dùng chương/bài của từng câu, không gán toàn bộ đề cho một chương.
 
-Khi nộp bài, `result_answers` lưu mã và tên chương/bài tại lúc nộp (`knowledge_version=2`). Trang kết quả hiển thị bảng kiến thức của riêng lượt đó, giữ nguyên khi giáo viên sửa phân loại sau này. Gợi ý bên dưới và Dashboard/Tiến độ dùng căn cứ hiện tại: lấy **lượt nộp mới nhất cho từng bài qua mọi loại đề**; kết quả luyện bài mới thay thế căn cứ cũ của bài đó, các bài khác giữ căn cứ gần nhất. Câu chỉ gắn chương có nhóm riêng theo chương và cũng lấy lượt mới nhất. Tổng chương có thể kết hợp các bài được kiểm tra ở các thời điểm khác nhau; không phải điểm chính thức của một đề. Một question ID không được đếm nhiều lần.
+Khi nộp bài, `result_answers` lưu mã và tên chương/bài tại lúc nộp (`knowledge_version=2`). Trang kết quả hiển thị bảng kiến thức của riêng lượt đó, giữ nguyên khi giáo viên sửa phân loại sau này. Gợi ý bên dưới và Dashboard/Tiến độ dùng căn cứ hiện tại: lấy **lượt nộp mới nhất cho từng bài qua mọi loại đề**; kết quả luyện bài mới thay thế căn cứ cũ của bài đó, các bài khác giữ căn cứ gần nhất. Câu chỉ gắn chương có nhóm riêng theo chương và cũng lấy lượt mới nhất. Tổng chương có thể kết hợp các bài được kiểm tra ở các thời điểm khác nhau; không phải điểm chính thức của một đề. Một câu dùng lại trong nhiều Quiz được tính một lần theo nội dung và bộ phương án, kể cả khi đảo thứ tự đáp án; ưu tiên kết quả mới nhất.
 
 Cần 5 câu khác nhau; dưới 70% thì cần củng cố. Dưới 5 câu chỉ đề nghị kiểm tra thêm khi có câu sai. Nếu chương đủ căn cứ nhưng các bài còn ít câu, ưu tiên gợi ý chương. Nếu đã có bài yếu đủ căn cứ, bảng vẫn giữ tổng chương nhưng thẻ hành động ưu tiên bài, tránh gợi ý trùng. Có tối đa 3 hành động chương/bài ưu tiên; các phần còn lại xem trong bảng kiến thức. Gợi ý chủ đề cũ được dùng cho phần chưa được bao phủ bởi căn cứ chương/bài.
 
@@ -34,7 +34,7 @@ Tỷ lệ đúng theo chủ đề = số câu đúng / số câu khác nhau có 
 ## Dữ liệu và ngưỡng
 
 - Dùng `results`, `result_answers`, `questions.topic`, thông tin khóa/bài của quiz và `lesson_progress`.
-- Cần ít nhất **5 question ID khác nhau** trong mỗi chủ đề để phân loại. Làm lại một câu nhiều lần không tăng số câu làm căn cứ.
+- Cần ít nhất **5 nội dung câu hỏi khác nhau** trong mỗi chủ đề để phân loại. Làm lại hoặc sao chép cùng câu sang Quiz khác không tăng số câu làm căn cứ. Nhận diện trùng khớp dựa trên nội dung và bốn phương án, giữ phân biệt chữ hoa/thường và khoảng trắng bên trong mã; không tự đoán hai cách diễn đạt khác nhau là cùng câu.
 - Dưới 5 câu: `Insufficient` — Chưa đủ dữ liệu; hiện số câu đúng/tổng số câu, khuyến khích luyện thêm.
 - Từ 5 câu: dưới 50% Yếu; từ 50% đến dưới 70% Trung bình; từ 70% đến dưới 85% Khá; từ 85% Tốt. Dưới 70% ưu tiên ôn tập.
 - Các ngưỡng là quy tắc cấu hình ban đầu (`MIN_TOPIC_QUESTIONS`, `TOPIC_REVIEW_THRESHOLD`), không phải chuẩn năng lực được nghiên cứu xác nhận.
@@ -104,3 +104,18 @@ Build frontend thành công. TestClient với MySQL local xác nhận API danh m
 [Bộ tình huống và hướng dẫn demo](recommendation-validation.md).
 
 Giao diện gợi ý hiện tại cũng gom thành một danh sách chương, bên dưới là các bài nên ôn có căn cứ từ quiz. Không hiển thị thêm thẻ chương/bài rời trùng nhau. Các liên kết luyện tập hiện có và mốc khi bấm ôn trong gợi ý hiện tại được giữ lại; nếu mới xác định được chương, không tự suy đoán bài yếu.
+
+
+## Cập nhật độ tin cậy gợi ý — 31/10/2026
+
+Thẻ tóm tắt trên Tiến độ [tách hai nhóm](study-summary-groups.md): bài Nên ôn tập hiện 5 mục đầu với bộ đếm/xem thêm riêng; bài Chưa đủ dữ liệu thu gọn mặc định. Khi mở nhóm ít dữ liệu, hiển thị số câu đã trả lời so với mức tối thiểu và số câu sai, không hiển thị phần trăm như một kết luận năng lực.
+
+[Dashboard mới](dashboard-redesign.md) cũng dùng chung thẻ tóm tắt này, thay `RecommendationCard compact` cũ để nhãn, bộ lọc và nhóm ít dữ liệu đồng bộ giữa hai trang.
+
+Bộ lọc **Khóa học** có ở thẻ gợi ý trên trang Tiến độ và trang xem tất cả gợi ý. Mặc định là Tất cả khóa học; có thể kết hợp với mức gợi ý và tìm kiếm. Danh sách khóa dùng căn cứ Quiz và dữ liệu khóa đã tham gia, giữ cả khóa chưa có gợi ý. Lựa chọn lưu trong `course_id` trên URL và được giữ khi chuyển giữa hai trang. Số liệu, nhóm chương/bài và trạng thái rỗng cập nhật theo bộ lọc; đổi khóa đưa thẻ tóm tắt về 5 mục đầu. [Kiểm chứng bộ lọc](study-course-filter.md).
+
+Ngưỡng giữ nguyên: ít nhất 5 nội dung khác nhau, dưới 70% cần củng cố. Từ 70% đạt ngưỡng. Dưới 5 câu có câu sai hiển thị **Cần kiểm tra thêm**; đủ căn cứ và dưới ngưỡng hiển thị **Nên ôn tập**. Tóm tắt đếm riêng hai nhóm; nhóm chưa đủ căn cứ có nút luyện/chọn Quiz để bổ sung dữ liệu.
+
+Migration `0024_question_evidence` thêm `result_answers.question_fingerprint`. Lượt nộp mới lưu định danh nội dung tại thời điểm chấm, giúp việc sửa/đảo phương án sau này không đổi nhận diện câu đã lưu. Dữ liệu cũ dùng nội dung hiện có của câu hỏi để nhận diện và có thông báo giới hạn trong phần giải thích. Nếu bản sao cùng câu trong một lượt có kết quả mâu thuẫn, phần gợi ý tính câu đó sai một lần. Điểm chính thức, số câu của lượt đã nộp và câu trả lời gốc được giữ nguyên.
+
+Ba khóa Git/OOP/FastAPI bổ sung 180 câu vận dụng, đưa 36 bộ ôn bài từ 5 lên 10 câu. Mỗi khóa có 120 nội dung câu hỏi khác nhau; đề cuối khóa vẫn 60 câu, bộ ôn chương vẫn 10 câu. Xem [thay đổi trước/sau và kiểm chứng](study-recommendations-update-20261031.md).

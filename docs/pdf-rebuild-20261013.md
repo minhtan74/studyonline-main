@@ -31,4 +31,4 @@ Chạy tại backend:
 .venv/Scripts/python.exe training/lesson_docs/verify_rebuilt.py
 ```
 
-Lệnh đầu kiểm tra và tạo file riêng. Lệnh sau kiểm tra tiêu đề và hash, cập nhật đường dẫn tài liệu bài học cùng các bản ghi tài liệu RAG tương ứng trong database local, lập lại chỉ mục. Các PDF gốc được giữ nguyên, đường dẫn cũ lưu trong nhật ký. Database Docker là môi trường riêng.
+Lệnh đầu kiểm tra và tạo file riêng. Lệnh sau kiểm tra tiêu đề và hash, cập nhật đường dẫn tài liệu bài học cùng các bản ghi tài liệu RAG tương ứng trong database local, lập lại chỉ mục. Các PDF gốc được giữ nguyên, đường dẫn cũ lưu trong nhật ký. Database ở máy khác cần được cập nhật riêng.

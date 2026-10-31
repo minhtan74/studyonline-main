@@ -13,11 +13,13 @@ import CoursesRedirect from './CoursesRedirect.jsx';
 
 // Các trang công khai và trang học tập dùng chung
 import Home from '../pages/Home.jsx';
+import Help from '../pages/Help.jsx';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
 import PasswordRecovery from '../pages/PasswordRecovery.jsx';
 import Chapters from '../pages/Chapters.jsx';
 import Lesson from '../pages/Lesson.jsx';
+import AiSource from '../pages/AiSource.jsx';
 import Quiz from '../pages/Quiz.jsx';
 import QuizShow from '../pages/QuizShow.jsx';
 
@@ -27,6 +29,7 @@ import StudentCourses from '../pages/student/Courses.jsx';
 import StudentMyCourses from '../pages/student/MyCourses.jsx';
 import StudentProfile from '../pages/student/Profile.jsx';
 import StudentProgress from '../pages/student/Progress.jsx';
+import StudentRecommendations from '../pages/student/Recommendations.jsx';
 import StudentQuizResult from '../pages/student/QuizResult.jsx';
 import StudentAiTutor from '../pages/student/AiTutor.jsx';
 import StudentPaymentResult from '../pages/student/PaymentResult.jsx';
@@ -64,6 +67,7 @@ export default function AppRoutes() {
       {/* Khu vực công khai: trang chủ; /login và /register chỉ dành cho người chưa đăng nhập */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/help" element={<Help />} />
         <Route path="/forgot-password" element={<PasswordRecovery />} />
         <Route path="/reset-password" element={<PasswordRecovery reset />} />
         <Route
@@ -97,6 +101,7 @@ export default function AppRoutes() {
         {/* Khu vực cần đăng nhập (mọi vai trò): học bài, làm quiz và các trang của học viên */}
         <Route path="/chapters" element={<Chapters />} />
         <Route path="/lesson" element={<Lesson />} />
+        <Route path="/ai-source" element={<AiSource />} />
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz-show" element={<QuizShow />} />
         <Route path="/student/dashboard" element={<StudentDashboard />} />
@@ -104,6 +109,7 @@ export default function AppRoutes() {
         <Route path="/student/my-courses" element={<StudentMyCourses />} />
         <Route path="/student/profile" element={<StudentProfile />} />
         <Route path="/student/progress" element={<StudentProgress />} />
+        <Route path="/student/recommendations" element={<StudentRecommendations />} />
         <Route path="/student/quiz-result" element={<StudentQuizResult />} />
         <Route path="/student/quiz-history" element={<Navigate to="/quiz" replace />} />
         <Route path="/student/ai-tutor" element={<StudentAiTutor />} />

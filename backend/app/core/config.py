@@ -1,5 +1,7 @@
 """Cấu hình ứng dụng — đọc từ backend/.env (tương đương config/*.php của bản PHP)."""
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlsplit
+
+from pydantic import model_validator
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -7,27 +9,27 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     # Đọc biến môi trường từ file .env; tên biến không phân biệt hoa/thường, biến lạ thì bỏ qua
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore", case_sensitive=False
+        env_file=".env", env_file_encoding="utf-8", extra="ignore", case_sensitive=False, hide_input_in_errors=True
     )
 
     # App: APP_DEBUG=true thì lỗi 500 trả kèm chi tiết (chỉ dùng khi phát triển)
     app_env: str = "local"
-    app_debug: bool = True
+    app_debug: bool = False
     app_url: str = "http://localhost:8080"
 
     # Database: thông tin kết nối MySQL
     db_host: str = "127.0.0.1"
     db_port: int = 3306
     db_name: str = "studyonline_db"
-    db_user: str = "root"
+    db_user: str = "studyonline_app"
     db_pass: str = ""
 
     # JWT: khóa bí mật ký token đăng nhập và thời hạn token
-    jwt_secret: str = "studyonline_super_secret_key_2026"
+    jwt_secret: str = ""
     jwt_expire: int = 604800  # 7 ngày (giây)
 
     # HTTP / upload: domain frontend được phép gọi API, thư mục lưu file, địa chỉ public của API
-    frontend_origin: str = "*"
+    frontend_origin: str = "http://localhost:5173,http://127.0.0.1:5173"
     upload_dir: str = "./uploads"
     public_base_url: str = "http://127.0.0.1:8080"
 
@@ -68,6 +70,28 @@ class Settings(BaseSettings):
     rag_max_context_chars: int = 9000
     rag_max_question_length: int = 2000
 
+    @model_validator(mode="after")
+    def validate_deployment(self):
+        if len(self.jwt_secret.encode('utf-8')) < 32 or self.jwt_secret in ('studyonline_super_secret_key_2026', 'replace_with_your_private_jwt_secret'):
+            raise ValueError("JWT_SECRET phải là khóa riêng ít nhất 32 byte; không dùng giá trị mẫu")
+        origins = self.cors_origins
+        for origin in origins:
+            if origin == "*":
+                continue
+            parsed = urlsplit(origin)
+            if parsed.scheme not in ("http", "https") or not parsed.hostname or parsed.username or parsed.password or parsed.path or parsed.query or parsed.fragment:
+                raise ValueError("FRONTEND_ORIGIN phải gồm các origin http/https, không có đường dẫn, cách nhau bằng dấu phẩy")
+        if not origins:
+            raise ValueError("FRONTEND_ORIGIN không được để trống")
+        if self.app_env.lower() in ("production", "prod"):
+            if self.app_debug:
+                raise ValueError("Production yêu cầu APP_DEBUG=false")
+            if "*" in origins:
+                raise ValueError("Production yêu cầu FRONTEND_ORIGIN cụ thể")
+            if self.db_user.lower() == "root" or not self.db_pass:
+                raise ValueError("Production yêu cầu tài khoản MySQL riêng có mật khẩu")
+        return self
+
     # Chuỗi kết nối SQLAlchemy tới MySQL (mật khẩu được mã hóa URL để không vỡ ký tự đặc biệt)
     @property
     def database_url(self) -> str:
@@ -80,7 +104,7 @@ class Settings(BaseSettings):
     # Danh sách domain được phép gọi API (CORS): "*" = mọi nơi, hoặc nhiều domain cách nhau dấu phẩy
     @property
     def cors_origins(self) -> list[str]:
-        if self.frontend_origin.strip() in ("", "*"):
+        if self.frontend_origin.strip() == "*":
             return ["*"]
         return [o.strip() for o in self.frontend_origin.split(",") if o.strip()]
 

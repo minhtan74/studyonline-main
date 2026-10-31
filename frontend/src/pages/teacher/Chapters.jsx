@@ -267,8 +267,8 @@ export default function TeacherChapters() {
                   lessons.map((l, i) => (
                     <div className="tree-lesson-item" key={l.id}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span style={{ color: 'var(--text-muted)' }}>🎥 Bài {i + 1}:</span>
-                        <strong>{l.title}</strong>
+                        <span style={{ color: 'var(--text-muted)' }}>🎥</span>
+                        <strong>{/^bài\s+\d+(?:\s|[:.\-–—]|$)/i.test(l.title || '') ? l.title : `Bài ${i + 1}: ${l.title}`}</strong>
                       </div>
                       <div style={{ display: 'flex', gap: '0.5rem' }}>
                         <button className="btn btn-outline btn-sm" onClick={() => handleOpenLessonReview(l)}>

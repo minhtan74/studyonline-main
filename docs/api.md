@@ -18,9 +18,9 @@ Base URL (dev): `http://127.0.0.1:8080` · Swagger tự sinh: `/docs`
 
 | Method | Path | Auth | Body / Query | Ghi chú |
 |---|---|---|---|---|
-| POST | `/login` | – | `{email, password}` | → `{token, user}`; chấp nhận mật khẩu plaintext (seed) hoặc bcrypt |
+| POST | `/login` | – | `{email, password}` | → `{token, user}`; chỉ xác minh mật khẩu băm bcrypt; dữ liệu mẫu cũng lưu bcrypt |
 | POST | `/register` | – | `{fullname, email, password, confirm_password}` | luôn tạo vai trò `student` |
-| POST | `/logout` | – | – | không trạng thái, chỉ trả success |
+| POST | `/logout` | Bearer token | – | Thu hồi mọi phiên cũ của tài khoản qua token_version |
 | GET | `/me` | ✔ | – | `{user:{id,fullname,email,role}}` |
 | POST | `/change-password` | ✔ | `{old_password, new_password}` | mật khẩu mới ≥ 6 ký tự |
 
@@ -168,3 +168,13 @@ Không còn API công khai đặt lại mật khẩu bằng token/email. Xem [qu
 đơn VNPay đang chờ khớp bộ lọc. `GET /api/payments/detail?id=...` chỉ dành cho Admin.
 `POST /api/payments/refund-reconcile` nhận `{id}` để truy vấn kết quả hoàn tiền hoặc phục hồi phần cập nhật DB,
 không gửi lại yêu cầu hoàn tiền. Xem [bản sửa mục 1–4](admin-fixes-1-4.md).
+
+## Mở nguồn AI
+
+`GET /api/ai/documents/{id}/source` trả thông tin nguồn; `GET /api/ai/documents/{id}/content`
+trả file có xác thực. Admin, Giảng viên phụ trách khóa hoặc Học viên còn ghi danh mới được mở.
+Không có URL công khai hoặc JWT trong query string. Xem [hiển thị và mở nguồn AI](ai-display-and-sources.md).
+
+### Thu hồi phiên khi đổi mật khẩu và đăng xuất
+
+POST /api/auth/change-password cập nhật mật khẩu băm và tăng token_version trong cùng giao dịch. Trả token mới để phiên hiện tại tiếp tục; mọi token cũ bị từ chối. Client phải lưu token mới trước request tiếp theo. POST /api/auth/logout yêu cầu Bearer token, thu hồi toàn bộ phiên cũ; frontend chỉ xóa localStorage sau thành công hoặc 401 (phiên đã hết hiệu lực). Lỗi kết nối/5xx giữ phiên để thử lại. Link tài liệu/video nội bộ gắn với token_version và không được cache; file đã tải về không thể thu hồi.

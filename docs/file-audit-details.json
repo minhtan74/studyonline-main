@@ -4,10 +4,6 @@
       "files": 1,
       "bytes": 145
     },
-    "docker-compose.yml": {
-      "files": 1,
-      "bytes": 2334
-    },
     "README.md": {
       "files": 1,
       "bytes": 19986
@@ -28,10 +24,6 @@
       "files": 1,
       "bytes": 909
     },
-    "backend/.dockerignore": {
-      "files": 1,
-      "bytes": 118
-    },
     "backend/.env": {
       "files": 1,
       "bytes": 2376
@@ -47,10 +39,6 @@
     "backend/alembic.ini": {
       "files": 1,
       "bytes": 692
-    },
-    "backend/Dockerfile": {
-      "files": 1,
-      "bytes": 612
     },
     "backend/pytest.ini": {
       "files": 1,
@@ -152,10 +140,6 @@
       "files": 1,
       "bytes": 4761
     },
-    "frontend/.dockerignore": {
-      "files": 1,
-      "bytes": 32
-    },
     "frontend/.env": {
       "files": 1,
       "bytes": 84
@@ -168,17 +152,9 @@
       "files": 1,
       "bytes": 133
     },
-    "frontend/Dockerfile": {
-      "files": 1,
-      "bytes": 427
-    },
     "frontend/index.html": {
       "files": 1,
       "bytes": 581
-    },
-    "frontend/nginx.conf": {
-      "files": 1,
-      "bytes": 901
     },
     "frontend/package-lock.json": {
       "files": 1,

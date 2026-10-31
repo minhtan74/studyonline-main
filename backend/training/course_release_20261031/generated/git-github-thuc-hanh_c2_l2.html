@@ -1,0 +1,52 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 2 — Bài 2: Gitignore, cấu trúc file và dữ liệu nhạy cảm</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Chọn file nguồn cần quản lý và file sinh tự động.</li><li>Giải thích giới hạn của .gitignore.</li><li>Thiết kế repository dễ clone và tái tạo.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Bối cảnh của bài</h2>
+<p>Dự án ghi chú bắt đầu có file tạm, kết quả chạy thử và cấu hình cá nhân. Nếu lưu tất cả, một commit nội dung nhỏ có thể bị lẫn hàng trăm file sinh tự động. Sản phẩm bài là <code>.gitignore</code>, một cây thư mục rõ ràng và danh mục file cần bàn giao. Không dùng dữ liệu bí mật thật để thử tính năng bỏ qua; mọi ví dụ đều là chuỗi minh họa.</p>
+<h2>Phân loại trước khi viết quy tắc</h2>
+<p>File nguồn gồm ghi chú do người viết tạo, mã kiểm tra và tài liệu hướng dẫn. File sinh tự động là thứ có thể dựng lại từ nguồn theo quy trình được ghi, chẳng hạn cache hoặc báo cáo tạm. Có những sản phẩm dựng cần phát hành nhưng không nhất thiết lưu trong lịch sử nguồn; quyết định phụ thuộc mục tiêu. Không dùng quy tắc “mọi PDF đều bỏ qua” nếu PDF là tài liệu duy nhất cần giao cho học viên. Với mỗi loại file, ghi nơi lưu, cách tạo lại và ai cần dùng.</p>
+<p><code>.gitignore</code> đưa ra mẫu để Git bỏ qua những file chưa được theo dõi phù hợp với quy tắc. Nó không làm biến mất các phiên bản đã commit. Một file đã được theo dõi rồi mới thêm vào ignore vẫn cần xử lý theo trạng thái và chính sách của dự án; bài này chỉ thực hành với file mới để không vô tình thay lịch sử cần giữ. Nếu bí mật thật từng được đưa vào commit, cần thông báo người phụ trách và thay/thu hồi bí mật theo quy trình; chỉ sửa file hiện tại không khôi phục được tính bí mật đã mất.</p>
+<h2>Thực hành có hướng dẫn</h2>
+<p>Trong repository thực hành, tạo file <code>.gitignore</code> bằng trình soạn thảo với nội dung sau. <code>artifacts/</code> là thư mục báo cáo có thể dựng lại trong khóa này, không phải quy tắc bắt buộc cho mọi dự án.</p>
+<pre><code>__pycache__/
+*.pyc
+.env
+.local/
+artifacts/</code></pre>
+<p>Tạo <code>.env</code> với dòng <code>APP_MODE=learning</code> và tạo <code>.env.example</code> cũng chỉ có cấu hình minh họa. Chạy:</p>
+<pre><code>git status --short
+git check-ignore -v -- .env
+git check-ignore -v -- .env.example
+git add -- .gitignore .env.example
+git diff --cached
+git commit -m &quot;chore: them quy tac file local va mau cau hinh&quot;</code></pre>
+<p>Đầu ra mong đợi: <code>.env</code> khớp mẫu và không xuất hiện trong danh sách untracked thông thường; <code>.env.example</code> không khớp mẫu <code>.env</code>, nên có thể được lưu. <code>git check-ignore</code> có thể trả mã khác 0 khi không có mẫu khớp; điều này là kết quả kiểm tra, không tự chứng minh lệnh bị hỏng.</p>
+<h2>Cấu trúc bàn giao</h2>
+<p>Đề xuất thư mục <code>notes/</code> cho nội dung, <code>tools/</code> cho công cụ nhỏ, <code>tests/</code> cho kiểm tra và <code>reviews/</code> cho hồ sơ thay đổi. README cần chỉ cách chạy từ thư mục gốc. Tránh đường dẫn tuyệt đối như ổ D của một người trong công cụ; ưu tiên đường dẫn tương đối được tính từ vị trí đã ghi rõ. Nếu có tệp mẫu, ghi cách sao chép và những giá trị người học phải tự điền. Mẫu không được chứa token hoạt động.</p>
+<h2>Bài tập độc lập và hướng giải</h2>
+<p>Tạo <code>artifacts/report.txt</code>, <code>notes/week2.md</code> và <code>.local/session.txt</code>. Trước khi add, dự đoán file nào được status liệt kê. Chạy <code>git status --short --untracked-files=all</code> rồi <code>git check-ignore -v</code> cho từng file. Hướng giải: report và session bị bỏ qua do thư mục tương ứng; ghi chú tuần 2 vẫn có thể quản lý. Đạt khi quy tắc nhắm đúng phần sinh tự động và không che nhầm ghi chú nguồn. Thử đổi tên thư mục báo cáo trong đề xuất giấy rồi phân tích cần sửa quy tắc nào, không cần sửa hàng loạt file để đoán.</p>
+<h2>Tình huống phân tích</h2>
+<p>Một đồng đội thêm <code>notes/</code> vào ignore vì nghĩ ghi chú là riêng tư. Sau khi clone, người mới không thấy các ghi chú chưa từng được commit. Nguồn gốc vấn đề là hợp đồng bàn giao chưa rõ, không phải clone làm mất file. Nhóm cần quyết định ghi chú nào là sản phẩm chung rồi viết lại quy tắc phù hợp; kiểm tra trên clone sạch giúp lộ thiếu sót này sớm.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Thêm mật khẩu vào <code>.gitignore</code> sau khi commit có xóa nó khỏi lịch sử không? Không.</li><li>Vì sao <code>.env.example</code> có ích? Nó ghi cấu hình cần thiết bằng giá trị an toàn để người khác tự chuẩn bị môi trường.</li><li>Một file không xuất hiện trong status có luôn nghĩa đã commit chưa? Không; nó có thể bị ignore, cần kiểm tra trạng thái cụ thể.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/gitignore</li><li>https://git-scm.com/docs/git-check-ignore</li><li>https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository</li></ul></body></html>

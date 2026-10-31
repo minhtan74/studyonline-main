@@ -1,0 +1,29 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 22,
+  "checks": [
+    "Lesson quiz: no review conclusion from one wrong answer",
+    "Uncertain group starts collapsed",
+    "Uncertain group has no percentages",
+    "Wrong answers remain accessible",
+    "Current course recommendations fetched lazily",
+    "Chapter quiz: three priority lessons initially",
+    "Chapter not duplicated when lessons identify review targets",
+    "Expand shows all four review targets",
+    "Collapse restores three",
+    "Two correct answers still insufficient",
+    "70 percent excluded from review list",
+    "Current recommendations use shared Dashboard component",
+    "Current recommendations locked to quiz course",
+    "Course selector hidden on result",
+    "Full recommendation link preserves course",
+    "Course quiz: chapter fallback when no mapped lessons",
+    "Chapter action points to exact outline",
+    "Mobile has no horizontal overflow",
+    "Unmapped data has a clear message",
+    "Answer reveal restriction preserved",
+    "No learning data written during review",
+    "No runtime errors"
+  ],
+  "errors": []
+}

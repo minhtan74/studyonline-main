@@ -1,0 +1,56 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 1 — Bài 2: Danh tính, cấu hình và commit có mục đích</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Phân biệt danh tính commit với xác thực dịch vụ.</li><li>Chọn phạm vi cấu hình local phù hợp.</li><li>Chia thay đổi thành commit dễ review.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và bối cảnh</h2>
+<p>Tiếp tục repository <code>study-notes</code> sau bài đầu. Mục tiêu là tạo hai commit riêng: một cải thiện hướng dẫn học, một thêm kế hoạch tuần. Người đọc lịch sử phải hiểu được mục đích từng bước mà không cần liên hệ tác giả. Bài này cũng làm rõ tên và email trong commit không tự cấp quyền truy cập tài khoản GitHub.</p>
+<h2>Danh tính là thông tin lịch sử</h2>
+<p>Tên và email tác giả giúp nhóm nhận diện nguồn của thay đổi. Cấu hình local áp dụng trong repository hiện tại; cấu hình global thường dùng cho nhiều repository của người dùng. Trong môi trường học chung, cấu hình local giúp tránh sửa danh tính cho các dự án khác. Thông tin email có thể hiện trong lịch sử khi repository được chia sẻ, vì vậy bài tập dùng địa chỉ minh họa. Khi dùng GitHub thực, tự lựa chọn email phù hợp và đọc tùy chọn bảo vệ email trong tài khoản.</p>
+<p>Xác thực là quá trình chứng minh quyền truy cập một dịch vụ, có thể dùng luồng đăng nhập, credential helper hoặc SSH. Việc gõ <code>git config user.name</code> chỉ thay metadata cho commit mới, không đăng nhập máy chủ. Hai khái niệm này cần được tách trong bản hướng dẫn của dự án; nếu người học nhầm chúng, họ dễ sửa email nhiều lần trong khi lỗi thực nằm ở quyền remote.</p>
+<h2>Thiết lập và quan sát</h2>
+<p>Chạy ở repository thực hành, không thêm cờ global.</p>
+<pre><code>git config --local user.name &quot;Nguoi Hoc&quot;
+git config --local user.email &quot;learner@example.invalid&quot;
+git config --show-origin --get user.name
+git config --show-origin --get user.email
+git status --short</code></pre>
+<p>Đường dẫn nguồn cấu hình local thường trỏ đến <code>.git/config</code>. Nếu có nhiều nguồn, ghi rõ nguồn đang có hiệu lực thay vì đoán. Bạn không cần chia sẻ toàn bộ cấu hình vì có thể chứa đường dẫn nội bộ hoặc dữ liệu không liên quan.</p>
+<h2>Thực hành hai thay đổi độc lập</h2>
+<p>Tạo thư mục <code>notes</code> bằng editor hoặc PowerShell nếu chưa có. Mở README thêm phần “Cách học”: đọc, dự đoán, chạy lệnh, ghi bằng chứng. Tạo <code>notes/week1.md</code> có ba việc cần hoàn thành. Trước tiên chỉ chọn README.</p>
+<pre><code>git diff -- README.md
+git add -- README.md
+git diff --cached --stat
+git commit -m &quot;docs: them huong dan hoc va ghi bang chung&quot;
+git add -- notes/week1.md
+git diff --cached
+git commit -m &quot;docs: them ke hoach tuan mot&quot;
+git log -2 --format=&quot;%h %an &lt;%ae&gt; %s&quot;</code></pre>
+<p>Đầu ra mong đợi: hai commit khác nhau, tác giả dùng danh tính local, mỗi thông điệp giải thích một mục đích. File kế hoạch không vô tình nằm trong commit hướng dẫn. Tiền tố <code>docs:</code> trong bài là quy ước nhóm lựa chọn; Git không bắt buộc cấu trúc thông điệp này.</p>
+<h2>Chọn kích thước commit</h2>
+<p>Một commit tốt thường có một lý do thay đổi có thể diễn giải ngắn, nhưng không đồng nghĩa chỉ được sửa một file. Nếu thay tên lệnh cần cập nhật cả README và test để nhất quán, hai file có thể thuộc cùng commit. Ngược lại, đổi màu giao diện và chỉnh cách tính điểm thường cần hai phạm vi đánh giá khác nhau. Hãy hỏi người review cần kiểm tra hành vi nào và bằng chứng nào để quyết định cách chia.</p>
+<h2>Bài tập độc lập và tiêu chí</h2>
+<p>Bạn cần sửa lỗi chính tả trong README và thêm một ghi chú mới. Lập kế hoạch hai commit, ghi nội dung dự kiến của mỗi commit trước khi chạy. Sau đó kiểm tra bằng <code>git show --stat HEAD</code> và <code>git show --stat HEAD~1</code>. Hướng giải chấp nhận hai commit riêng nếu hai mục tiêu độc lập; cũng có thể một commit khi ghi chú mới trực tiếp giải thích chỗ sửa và bạn nêu được quan hệ. Không chấm theo số commit đơn thuần; người chấm đối chiếu phạm vi với lý do.</p>
+<h2>Lỗi thường gặp và cách nhận biết</h2>
+<p>Thông điệp “fix everything” che giấu phạm vi; viết lại mô tả cụ thể trong commit tiếp theo nếu cần bổ sung giải thích. Dùng email người khác trên máy học chung gây lịch sử khó truy vết; kiểm tra cấu hình trước buổi học. Đưa token vào URL remote để tiện nhớ có thể làm lộ thông tin khi chụp màn hình; bài thực hành chưa dùng token. Ghi thành công lệnh mà không kiểm tra file staged có thể đưa cả tài liệu nháp vào bản nộp.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Đổi user.email có thay đổi tác giả các commit cũ tự động không? Không; cấu hình áp dụng cho commit tạo sau đó theo thao tác tương ứng.</li><li>Khi nào hai file cùng thuộc một commit? Khi chúng cùng thực hiện một mục đích và cần được đánh giá cùng nhau.</li><li>Cấu hình local có cấp quyền push không? Không; quyền remote phụ thuộc xác thực và phân quyền tại nơi nhận.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/git-config</li><li>https://git-scm.com/docs/git-commit</li><li>https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github</li></ul></body></html>

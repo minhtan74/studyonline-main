@@ -1,5 +1,6 @@
 """/api/lessons — port của app/Controllers/LessonController.php."""
 import os
+from urllib.parse import urlsplit
 
 from fastapi import APIRouter, Body, Depends, Query
 from fastapi.responses import FileResponse
@@ -9,6 +10,7 @@ from app.core.database import execute, get_db, q_all, q_one, q_scalar
 from app.core.dependencies import get_viewer, require_roles
 from app.core.media import protected_path, signed_src, verify
 from app.core.responses import ApiError, ok
+from app.services.material_names import lesson_document_name
 
 from ._common import assert_owns_course, can_access_course, course_id_of, iv, sv
 
@@ -37,15 +39,32 @@ def _lesson_extras(body: dict) -> dict:
 # Gắn thêm link phát/tải (video_src, document_src) cho bài học
 def _with_src(user: dict | None, lesson: dict) -> dict:
     # *_url giữ giá trị gốc (form sửa bài học lưu lại nó); *_src là link để trình duyệt phát/tải.
-    return {**lesson, "video_src": signed_src(user, lesson, "video"),
+    return {**lesson, "document_name": _document_name(lesson) if lesson.get("document_url") else None,
+            "video_src": signed_src(user, lesson, "video"),
             "document_src": signed_src(user, lesson, "document")}
+
+
+def _document_name(lesson: dict) -> str:
+    extension = os.path.splitext(urlsplit(lesson.get("document_url") or "").path)[1] or ".pdf"
+    return lesson_document_name(
+        lesson.get("chapter_name"), lesson.get("title"),
+        lesson.get("chapter_number") or 1, lesson.get("lesson_number") or 1, extension,
+    )
 
 
 # Cột chung khi đọc bài học: kèm id bộ ôn tập của bài (nếu có) và số câu hỏi ôn tập
 _LESSON_SELECT = (
-    "SELECT l.*, rq.id AS review_quiz_id, "
+    "SELECT l.*, ch.chapter_name, "
+    "(SELECT COUNT(*) FROM chapters prev_ch WHERE prev_ch.course_id = ch.course_id "
+    "AND (prev_ch.order_index < ch.order_index OR "
+    "(prev_ch.order_index = ch.order_index AND prev_ch.id <= ch.id))) AS chapter_number, "
+    "(SELECT COUNT(*) FROM lessons prev_l WHERE prev_l.chapter_id = l.chapter_id "
+    "AND (prev_l.order_index < l.order_index OR "
+    "(prev_l.order_index = l.order_index AND prev_l.id <= l.id))) AS lesson_number, "
+    "rq.id AS review_quiz_id, "
     "(SELECT COUNT(*) FROM questions WHERE quiz_id = rq.id) AS review_question_count "
-    "FROM lessons l LEFT JOIN quizzes rq ON rq.review_lesson_id = l.id "
+    "FROM lessons l JOIN chapters ch ON ch.id = l.chapter_id "
+    "LEFT JOIN quizzes rq ON rq.review_lesson_id = l.id "
 )
 
 
@@ -131,13 +150,13 @@ def media(
     sig: str = Query(...),
     db: Session = Depends(get_db),
 ):
-    # Kiểm tra loại file và chữ ký HMAC + hạn dùng của link
-    if kind not in ("video", "document") or not verify(uid, lesson_id, kind, exp, sig):
+    # Bind media links to the current account session version as well.
+    user = q_one(db, "SELECT id, role, is_active, token_version FROM users WHERE id = :id", id=uid)
+    if not user or kind not in ("video", "document") or not verify(uid, lesson_id, kind, exp, sig, user["token_version"]):
         raise ApiError("Link đã hết hạn hoặc không hợp lệ. Vui lòng tải lại trang bài học.", 403)
 
     # User trong link phải còn tồn tại và đang hoạt động (chưa bị khóa)
-    user = q_one(db, "SELECT id, role, is_active FROM users WHERE id = :id", id=uid)
-    lesson = q_one(db, "SELECT * FROM lessons WHERE id = :id", id=lesson_id)
+    lesson = q_one(db, _LESSON_SELECT + "WHERE l.id = :id", id=lesson_id)
     if not user or not user["is_active"] or not lesson:
         raise ApiError("Không có quyền truy cập tệp này.", 403)
     # Kiểm tra lại quyền ở mỗi lần tải: link đã phát ra vẫn mất hiệu lực khi bị hoàn tiền / hủy ghi danh.
@@ -150,9 +169,9 @@ def media(
         raise ApiError("Không tìm thấy tệp.", 404)
     return FileResponse(
         path,
-        filename=os.path.basename(path),
+        filename=_document_name(lesson) if kind == "document" else os.path.basename(path),
         content_disposition_type="inline",
-        headers={"Cache-Control": "private, max-age=3600"},
+        headers={"Cache-Control": "private, no-store"},
     )
 
 

@@ -1,0 +1,22 @@
+{
+  "mode": "mocked_student_ui_no_real_credentials",
+  "passed": 15,
+  "checks": [
+    "Only review and insufficient rows are suggested",
+    "Summary separates both categories",
+    "Review badge uses Nên ôn tập",
+    "Small-sample badge uses Cần kiểm tra thêm",
+    "Review is first",
+    "Review action opens the lesson",
+    "Small-sample action opens exact available practice",
+    "70 percent lesson does not show as weak",
+    "Counter describes all suggestions",
+    "Reason explains the three-question sample",
+    "Reason explains reused-content deduplication",
+    "Mobile has no horizontal overflow",
+    "No Quiz evidence has explicit empty state",
+    "Reading and expanding does not write learning data",
+    "No runtime errors"
+  ],
+  "errors": []
+}

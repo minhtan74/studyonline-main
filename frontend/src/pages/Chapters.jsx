@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { courseService } from '../services/courseService';
 import { chapterService } from '../services/chapterService';
 import { lessonService } from '../services/lessonService';
+import CourseMaterials from '../components/common/CourseMaterials';
 import '../assets/css/chapters.css';
 
 /** Tương đương _legacy/pages/chapters.html (logic inline trong file đó, chapters.js là dead code) */
@@ -98,6 +99,8 @@ export default function Chapters() {
       </div>
 
       <div id="alertBox"></div>
+
+      {course && <CourseMaterials key={courseId} courseId={courseId} />}
 
       <div id="chapterList">
         {chapters === null && (

@@ -1,0 +1,76 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Python hướng đối tượng: từ mô hình đến ứng dụng CLI</div><h1>Chương 6 — Bài 2: Tích hợp dự án thư viện CLI và nghiệm thu</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Kết nối miền nghiệp vụ, kho JSON và giao diện argparse.</li><li>Chạy kiểm tra tự động và kịch bản người dùng qua CLI.</li><li>Nộp bằng chứng theo rubric và mô tả giới hạn sử dụng.</li></ul>
+<p>Thời gian dự kiến: 120 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện học</h2>
+<ul><li>Kết nối miền nghiệp vụ, kho JSON và giao diện argparse.</li><li>Chạy kiểm tra tự động và kịch bản người dùng qua CLI.</li><li>Nộp bằng chứng theo rubric và mô tả giới hạn sử dụng.</li></ul>
+<p>Mỗi bài dành khoảng 100–150 phút gồm đọc, chạy mã, sửa ví dụ và tự luyện. Dùng Python 3.12 trở lên trong một thư mục học riêng; các ví dụ chỉ dùng thư viện chuẩn. Tạo file <code>example.py</code>, chép nguyên khối mã rồi chạy <code>python example.py</code>. Trên Windows có thể dùng <code>py -3.12 example.py</code> khi lệnh <code>python</code> trỏ tới bản khác. Không ghép các lớp cùng tên của nhiều bài vào một file: mỗi ví dụ là một chương trình độc lập.</p>
+<h2>Giải thích và lập luận thiết kế</h2>
+<p>Dự án cuối khóa là một thư viện nhỏ chạy dòng lệnh: thêm đầu sách, xem danh mục, mượn và trả theo mã. Dữ liệu chỉ có mã, tên, tổng và số có sẵn, không lưu thông tin người mượn. Mô hình cố ý hẹp để nghiệm thu được ràng buộc đã học. Không ghép thêm đăng nhập, thanh toán hay mạng khi các bất biến cơ bản chưa được kiểm tra.</p>
+<p>Ranh giới thiết kế gồm Book bảo vệ dữ liệu, Library quản lý tập hợp, JsonRepository chuyển dữ liệu sang file và main đọc đối số. Chuỗi thực thi một lệnh ghi là: parse đối số, tải dữ liệu hợp lệ, thực hiện nghiệp vụ, lưu kết quả, báo thành công. Khi tải dữ liệu sai hoặc nghiệp vụ thất bại, không ghi file. Khi ghi lỗi, CLI phải báo thất bại; trạng thái trong bộ nhớ không phải bằng chứng đã lưu bền.</p>
+<p>Bộ mã đi kèm giáo trình cung cấp library_cli.py, test_library_cli.py và README.md. Tạo một thư mục dự án riêng, chép đúng các file rồi chạy python -m unittest -v trước khi thao tác. Sau đó dùng python library_cli.py --data ./sandbox-library.json add PY01 "Học Python" 2, list, borrow PY01 và return PY01. Mỗi lần chạy là một tiến trình mới nên kết quả list sau borrow chứng minh dữ liệu đã được đọc lại từ file.</p>
+<p>Nghiệm thu cần bằng chứng phù hợp từng yêu cầu: unit test cho bất biến, test JSON cho round-trip và file hỏng, test CLI cho mã thoát và không tạo dữ liệu khi lệnh sai. Không chấm chất lượng bằng số lớp hoặc số dòng mã. Một chương trình nhỏ rõ ràng với test tốt hơn nhiều tầng không có hợp đồng. Dự án giới hạn một người thao tác tại một thời điểm; muốn phục vụ đồng thời phải có thiết kế lưu trữ và quyền truy cập khác, nằm ngoài bản này.</p>
+<h2>Ví dụ hoàn chỉnh để chạy</h2>
+<pre><code>import sys
+if hasattr(sys.stdout, &#x27;reconfigure&#x27;):
+    sys.stdout.reconfigure(encoding=&#x27;utf-8&#x27;)
+
+import argparse
+
+class Counter:
+    def __init__(self):
+        self.value = 0
+
+    def increment(self, amount):
+        if type(amount) is not int or amount &lt;= 0:
+            raise ValueError(&quot;amount phải dương&quot;)
+        self.value += amount
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=&quot;Ví dụ ranh giới CLI&quot;)
+    parser.add_argument(&quot;amount&quot;, type=int)
+    args = parser.parse_args(argv)
+    counter = Counter()
+    try:
+        counter.increment(args.amount)
+    except ValueError:
+        return 2
+    return counter.value
+
+assert main([&quot;3&quot;]) == 3
+assert main([&quot;-1&quot;]) == 2
+print(&quot;CLI boundary: OK&quot;)</code></pre>
+<h2>Kết quả mong đợi và cách kiểm tra</h2>
+<p>Ví dụ độc lập in <code>CLI boundary: OK</code>, minh họa parse và tách miền trước khi đọc mã dự án đầy đủ. Trong library_cli.py đi kèm, main trả 0 khi thành công, 2 khi lỗi đầu vào/nghiệp vụ; phần if __name__ == '__main__' gọi sys.exit. Không dùng số lượng kết quả làm mã thoát trong sản phẩm vì 0 có ý nghĩa thành công theo quy ước dòng lệnh.</p>
+<p>Đọc từng dòng thực thi và dự đoán trạng thái trước khi chạy. Sau lần chạy đầu, đổi dữ liệu theo bài tập rồi đối chiếu cả kết quả lẫn trạng thái đối tượng; một dòng in đúng chưa chứng minh các trường hợp lỗi đã đúng. Các lệnh <code>assert</code> trong ví dụ dùng kiểm tra khi học, không thay thế việc kiểm tra đầu vào của ứng dụng vì Python có thể bỏ assert khi chạy chế độ tối ưu.</p>
+<h2>Bài tập có hướng dẫn và bài tự làm</h2>
+<p>Hướng dẫn nghiệm thu: dùng file tạm mới, thêm PY01 với 2 bản, mượn hai lần, mượn lần ba phải thất bại và file không thay đổi. Trả một lần rồi list phải có 1 bản sẵn. Thử mã trùng, mã không tồn tại, số âm và tên rỗng. Đối chiếu cả dòng báo, mã thoát và nội dung file sau thao tác.</p>
+<p>Tự làm phần mở rộng: thêm lệnh search từ khóa tên sách, không phân biệt hoa thường, trả kết quả theo code. Viết ba test cho có kết quả, không có kết quả và từ khóa có khoảng trắng. Không thay tên mã đã lưu và không làm thay đổi dữ liệu khi chỉ tìm kiếm.</p>
+<h2>Hướng giải và tiêu chí hoàn thành</h2>
+<p>Nộp mã nguồn, README hướng dẫn môi trường/lệnh, log unittest, bảng các kịch bản CLI và một đoạn giải thích quyết định composition. Rubric trong sổ tay chấm 100 điểm với điểm riêng cho đúng nghiệp vụ, thiết kế, dữ liệu, test, khả năng chạy và giải thích. Hoàn thành khi đạt ít nhất 70/100, các yêu cầu không âm/không vượt tổng/không ghi đè file hỏng đều đạt và người khác tái hiện được từ một thư mục mới.</p>
+<p>Tự kiểm tra mở rộng search: áp dụng strip và casefold cho từ khóa theo hợp đồng, lọc trên title, sắp xếp theo code và chỉ trả kết quả đọc. Ghi giới hạn tìm kiếm chuỗi đơn giản, chưa hỗ trợ xếp hạng hay tiếng Việt không dấu. Không tuyên bố triển khai nhỏ đã sẵn sàng nhiều người dùng.</p>
+<h2>Sai sót thường gặp và cách phát hiện</h2>
+<p>Chạy test trên file dữ liệu đang dùng làm thử nghiệm có thể làm thay đổi kết quả học; mọi test file dùng vùng tạm. Chỉ kiểm tra print “thành công” mà không list lại sau tiến trình mới bỏ sót lỗi lưu. Sao chép nguyên mã dự án rồi không giải thích được quyền sở hữu dữ liệu chưa đạt mục tiêu; phần bảo vệ yêu cầu thay đổi một quy tắc nhỏ và cập nhật test tương ứng.</p>
+<h2>Câu hỏi tự kiểm tra và đáp án</h2>
+<ol><li>Lệnh sai có được ghi lại dữ liệu không? Đáp án: Không; dự án chỉ save sau khi thao tác hợp lệ.</li><li>Vì sao list trong tiến trình mới hữu ích? Đáp án: Nó kiểm tra đường đọc dữ liệu đã lưu thay vì chỉ trạng thái bộ nhớ.</li><li>Điều kiện hoàn thành dự án là gì? Đáp án: Đạt rubric và các yêu cầu trọng yếu, kèm bằng chứng tái hiện được.</li></ol>
+<h2>Đọc thêm từ tài liệu chính thức</h2>
+<ul><li>https://docs.python.org/3.12/library/argparse.html</li><li>https://docs.python.org/3.12/library/unittest.html</li></ul>
+<p>Ghi lại phiên bản Python, lệnh đã chạy, dữ liệu thử và một quyết định thiết kế vào nhật ký học tập. Khi nhờ hỗ trợ, gửi ví dụ nhỏ tái hiện được cùng thông báo lỗi đầy đủ; không gửi dữ liệu cá nhân hoặc đường dẫn chứa thông tin bí mật.</p></body></html>

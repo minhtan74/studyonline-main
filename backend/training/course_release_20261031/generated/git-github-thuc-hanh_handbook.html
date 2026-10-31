@@ -1,0 +1,94 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Sổ tay và dự án cuối khóa — Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Giới thiệu và kết quả đầu ra</h2>
+<p>Đây là khóa nền tảng tự học có hướng dẫn, thời lượng dự kiến 30 giờ gồm khoảng 20 giờ đọc và thực hành từng bài, 6 giờ dự án, 4 giờ ôn tập và đánh giá. Thời lượng là ước lượng học tập, không phải số giờ video. Sau khóa, người học bàn giao một repository quản lý tài liệu và quy trình thay đổi; người chấm có thể clone vào thư mục mới và kiểm tra lại bằng lệnh được ghi trong README.</p>
+<h2>Chuẩn bị môi trường</h2>
+<p>Cài Git từ https://git-scm.com/downloads hoặc trình quản lý phần mềm được máy cho phép. Mở PowerShell mới, chạy <code>git --version</code>. Các bài dùng PowerShell để tạo file; trên Linux/macOS có thể tạo cùng file bằng trình soạn thảo và chạy các lệnh Git tương ứng. Bài tập không cần dịch vụ mạng, token hoặc quyền quản trị hệ thống. Tài khoản GitHub chỉ dùng cho phần thực hành web tùy chọn.</p>
+<p>Tạo thư mục mới <code>git-lab-2026</code>; trước mỗi bài đọc dòng “Điều kiện đầu” để biết dùng repository trước hay tạo repository độc lập. Luôn kiểm tra <code>git status</code> và <code>git rev-parse --show-toplevel</code> trước khi thao tác. Cấu hình tên/email trong repository thực hành; địa chỉ <code>learner@example.invalid</code> là địa chỉ minh họa, không dùng để nhận thư.</p>
+<h2>Kế hoạch sáu tuần</h2>
+<ul><li>Tuần 1, khoảng 4 giờ: chương 1; tạo repository, commit đầu, nhật ký học tập và hình vẽ ba vùng dữ liệu.</li><li>Tuần 2, khoảng 4 giờ: chương 2; phân tích diff, tra lịch sử và thiết lập quy tắc loại file sinh tự động.</li><li>Tuần 3, khoảng 5 giờ: chương 3; hai nhánh tính năng, merge sạch và một xung đột được giải thích bằng hai yêu cầu.</li><li>Tuần 4, khoảng 4 giờ: chương 4; remote bare local, hai bản clone mô phỏng hai người, nhật ký fetch/merge và kế hoạch xác thực GitHub.</li><li>Tuần 5, khoảng 5 giờ: chương 5; phiếu đề xuất thay đổi, review, test, sửa lỗi bằng commit bổ sung và hoàn tác bằng revert.</li><li>Tuần 6, khoảng 8 giờ: chương 6, hoàn thiện capstone, đóng gói bản phát hành, làm Quiz cuối khóa và tự đánh giá.</li></ul>
+<p>Có thể học nhanh hơn nhưng vẫn cần nộp đủ bằng chứng, không bỏ bài xung đột chỉ vì câu lệnh khó nhớ. Một buổi học nên gồm đọc khái niệm, dự đoán đầu ra, chạy lệnh rồi giải thích chênh lệch.</p>
+<h2>Cấu trúc mỗi bài và cách luyện</h2>
+<p>Mỗi bài có mục tiêu, giải thích, lệnh chạy trong môi trường riêng, đầu ra mong đợi theo tính chất, bài tập có hướng dẫn, nhiệm vụ độc lập, lỗi thường gặp và câu tự kiểm tra có đáp án. Không học thuộc mã hash vì hash và thời gian commit thay đổi. Ghi tên file, trạng thái, số commit và nội dung diff làm bằng chứng ổn định. Quiz đo hiểu biết với ít nhất 5 câu mỗi bài; đọc đáp án xong cần tự dựng lại tình huống khác để tránh chỉ nhớ lựa chọn.</p>
+<h2>Đánh giá</h2>
+<p>Gợi ý điều kiện hoàn thành khóa: Quiz tổng hợp đạt ít nhất 70% và dự án đạt ít nhất 70/100, đồng thời không phạm lỗi bắt buộc về bí mật hoặc khả năng tái tạo. Điểm dự án do người học/giảng viên đối chiếu rubric và bằng chứng; hệ thống Quiz không tự chấm chất lượng GitHub review hoặc dự án thực hành.</p>
+<ul><li>Lịch sử có ý nghĩa: 15 điểm. Có ít nhất 8 commit nhỏ, thông điệp nêu hành vi, không gộp tất cả vào một commit cuối.</li><li>Nhánh và hợp nhất: 20 điểm. Có hai nhánh tính năng, chứng minh merge và giải thích một xung đột; sản phẩm sau merge đáp ứng cả hai yêu cầu.</li><li>Cộng tác và review: 15 điểm. Có remote local, hai bản clone, phiếu đề xuất thay đổi và một lượt review dựa trên diff.</li><li>Kiểm tra và sửa lỗi: 20 điểm. Có test tự động, ghi kết quả mong đợi, một commit sửa lỗi cùng test và một revert được giải thích.</li><li>Tài liệu bàn giao: 15 điểm. README ghi mục tiêu, yêu cầu, cách chạy, sơ đồ file và giới hạn; CHANGELOG nêu thay đổi bản phát hành.</li><li>Phát hành tái tạo: 15 điểm. Tag chú thích, archive ZIP, clone sạch kiểm tra được đúng phiên bản, ghi kết quả hash hoặc nội dung.</li></ul>
+<p>Không đạt điều kiện bắt buộc nếu đưa token/mật khẩu thật vào lịch sử hoặc giao bản clone sạch không chạy theo README. Cần sửa tình huống và nộp lại bằng chứng; xóa dòng khỏi bản hiện tại không tự xóa bí mật khỏi lịch sử.</p>
+<h2>Dự án xuyên khóa: Study Notes</h2>
+<p>Xây repository gồm <code>README.md</code>, <code>notes/week1.md</code>, <code>notes/week2.md</code>, <code>CHANGELOG.md</code>, <code>.gitignore</code>, <code>tools/check_notes.py</code> và <code>tests/test_notes.py</code>. Công cụ kiểm tra chỉ đọc thư mục notes, yêu cầu mỗi Markdown có tiêu đề và không chứa placeholder <code>TODO_REQUIRED</code>. Có thể viết bằng Python chuẩn để tránh phụ thuộc mạng. Tạo nhánh <code>feature/notes</code> và <code>feature/checker</code>; mô phỏng hai người bằng hai clone của một remote bare local. Thêm <code>reviews/change-01.md</code> mô tả yêu cầu, diff, test, nhận xét và quyết định.</p>
+<p>Hồ sơ nộp gồm repository hoặc Git bundle, ZIP của tag <code>v1.0.0</code>, báo cáo <code>evidence.md</code> ghi lệnh cùng kết quả, phiếu review và bảng tự chấm. Tag chỉ đánh dấu phiên bản; không phải chứng nhận bảo mật. Lưu thư mục <code>.git</code> khi bàn giao repository, còn archive phát hành thường không chứa lịch sử. Dùng GitHub tùy chọn nếu cần trải nghiệm pull request thực; giữ cùng tiêu chí cho bản mô phỏng local.</p>
+<h2>Tài liệu gốc và phạm vi</h2>
+<p>Nội dung diễn giải và bài tập do dự án biên soạn, đối chiếu tài liệu chính thức ngày 31/10/2026. GitHub có thể thay đổi vị trí nút và chính sách; dựa vào mục đích thao tác cùng tài liệu hiện hành thay vì một ảnh giao diện cố định.</p>
+<ul><li>https://git-scm.com/docs/gittutorial</li><li>https://git-scm.com/docs/git</li><li>https://docs.github.com/en/pull-requests/reference/pull-requests</li><li>https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github</li></ul>
+<p>Phạm vi là quy trình nền tảng cho một nhóm nhỏ. Quản trị GitHub tổ chức, chính sách doanh nghiệp, submodule phức tạp và ứng cứu rò rỉ bí mật trên hệ thống thực cần học phần chuyên biệt và người phụ trách tương ứng.</p>
+<h2>Mã nguồn dự án tham khảo</h2>
+<p>Tự làm dự án theo đề bài trước khi đối chiếu mã tham khảo bên dưới.</p>
+<h3>File: README.md</h3>
+<h1>Study Notes</h1>
+<p>Ghi chú học tập có kiểm tra tự động.</p>
+<p>Chạy kiểm tra: python -m unittest discover -s tests -v</p>
+<h3>File: notes/week1.md</h3>
+<h1>Tuần 1</h1>
+<p>Giải thích working tree, index và commit bằng ví dụ của bạn.</p>
+<h3>File: tools/check_notes.py</h3>
+<pre><code>from pathlib import Path
+
+def check_notes(root):
+    problems = []
+    for path in sorted(Path(root).glob(&#x27;*.md&#x27;)):
+        text = path.read_text(encoding=&#x27;utf-8&#x27;)
+        if not text.startswith(&#x27;# &#x27;):
+            problems.append(path.name + &#x27;: missing heading&#x27;)
+        if &#x27;TODO_REQUIRED&#x27; in text:
+            problems.append(path.name + &#x27;: unfinished note&#x27;)
+    return problems
+</code></pre>
+<h3>File: tests/test_notes.py</h3>
+<pre><code>import unittest
+from pathlib import Path
+from tools.check_notes import check_notes
+
+class NotesTest(unittest.TestCase):
+    def test_notes_have_required_content(self):
+        self.assertTrue(list(Path(&#x27;notes&#x27;).glob(&#x27;*.md&#x27;)), &#x27;Need at least one note&#x27;)
+        self.assertEqual(check_notes(&#x27;notes&#x27;), [])
+
+if __name__ == &#x27;__main__&#x27;:
+    unittest.main()
+</code></pre>
+<h3>File: .gitignore</h3>
+<pre><code>__pycache__/
+*.pyc
+.env
+.local/
+artifacts/
+</code></pre>
+<h3>File: CHANGELOG.md</h3>
+<h1>Lịch sử thay đổi</h1>
+<h2>Chưa phát hành</h2>
+<ul><li>Kho ghi chú và bộ kiểm tra nền tảng.</li></ul>
+<h3>File: reviews/change-01.md</h3>
+<h1>Đề xuất thay đổi</h1>
+<h2>Yêu cầu</h2>
+<p>Mô tả hành vi cần thay đổi.</p>
+<h2>Bằng chứng</h2>
+<p>Ghi diff, lệnh test và đầu ra.</p>
+<h2>Review</h2>
+<p>Ghi nhận xét và cách xử lý.</p></body></html>

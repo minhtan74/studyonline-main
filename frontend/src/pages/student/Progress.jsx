@@ -4,8 +4,8 @@ import { progressService } from '../../services/progressService';
 import { analyticsService } from '../../services/analyticsService';
 import WeeklyBarChart from '../../components/common/WeeklyBarChart.jsx';
 import ProgressDoughnut from '../../components/common/ProgressDoughnut.jsx';
-import TopicScoreBar from '../../components/common/TopicScoreBar.jsx';
-import RecommendationCard from '../../components/common/RecommendationCard.jsx';
+import TopicResults from '../../components/common/TopicResults.jsx';
+import StudyRecommendationSummary from '../../components/common/StudyRecommendationSummary.jsx';
 
 // Tên + màu của các mức năng lực
 const LEVEL_LABEL = {
@@ -56,16 +56,6 @@ export default function Progress() {
   const ov = analytics?.overview;
   const level = ov?.level && LEVEL_LABEL[ov.level];
   const topics = analytics?.topics || [];
-  const topicGroups = Array.from(topics.reduce((groups, topic) => {
-    if (!groups.has(topic.course_id)) groups.set(topic.course_id, { id: topic.course_id, title: topic.course_title, topics: [] });
-    groups.get(topic.course_id).topics.push(topic);
-    return groups;
-  }, new Map()).values());
-  const topicRank = (topic) => ['Weak', 'Average'].includes(topic.status) ? 0 : topic.status === 'Insufficient' ? 1 : 2;
-  const insufficientCount = topics.filter((topic) => topic.status === 'Insufficient').length;
-  // Chủ đề mạnh: Khá + Tốt (≥ 70%); cần cải thiện: Yếu + Trung bình (< 70%)
-  const strongCount = topics.filter((t) => t.status === 'Good' || t.status === 'Excellent').length;
-  const weakCount = topics.filter((t) => t.status === 'Weak' || t.status === 'Average').length;
 
   return (
     <main className="s-main">
@@ -114,18 +104,12 @@ export default function Progress() {
         {/* Cột phải: phân tích chi tiết */}
         <div className="pg-content">
           {/* Gợi ý học tập đầu cột phải để học viên thấy ngay việc nên làm tiếp */}
-          <RecommendationCard />
+          <StudyRecommendationSummary courses={courses} />
 
           <div className="s-card">
             <div className="s-card-header" style={{ flexWrap: 'wrap', gap: '.6rem' }}>
               <span className="s-card-title">🧠 Kết quả trả lời theo chủ đề</span>
-              {topics.length > 0 && (
-                <div className="pg-chips">
-                  <span className="s-badge s-badge-green">Đạt ngưỡng: {strongCount}</span>
-                  <span className="s-badge s-badge-warn">Cần củng cố: {weakCount}</span>
-                  <span className="s-badge">Chưa đủ dữ liệu: {insufficientCount}</span>
-                </div>
-              )}
+
             </div>
             <div className="s-card-body">
               {loading && <div className="pg-muted">Đang tải...</div>}
@@ -135,21 +119,7 @@ export default function Progress() {
                 </div>
               )}
               {!loading && topics.length > 0 && (
-                <>
-                  <p className="pg-note" style={{ marginTop: 0, marginBottom: '.85rem' }}>Thống kê theo nhãn chủ đề của câu hỏi, khác với phân nhóm chương/bài ở phần gợi ý ôn phía trên. Tỷ lệ đúng không phải phần trăm hoàn thành bài học.</p>
-                  <div className="pg-topics">
-                    {topicGroups.map((group) => <section className="topic-course" key={group.id} aria-label={group.title}>
-                      <h3 className="topic-course-title">{group.title} <small>{group.topics.length} chủ đề</small></h3>
-                      {[...group.topics].sort((a, b) => topicRank(a) - topicRank(b) || a.avg_score - b.avg_score).map((topic) => (
-                        <TopicScoreBar key={topic.topic_id || topic.topic} topic={topic.topic} avgScore={topic.avg_score} status={topic.status} answered={topic.answered} correct={topic.correct} />
-                      ))}
-                    </section>)}
-                  </div>
-                  <p className="pg-note">
-                    Dùng lượt gần nhất của mỗi bài kiểm tra và bộ ôn tập. Cần ít nhất 5 câu khác nhau theo chủ đề để phân loại;
-                    dưới 70% câu đúng thì cần củng cố. Mục chưa đủ dữ liệu chỉ hiển thị kết quả quan sát, chưa kết luận mức kiến thức. Các ngưỡng là quy tắc ban đầu của hệ thống.
-                  </p>
-                </>
+                <TopicResults topics={topics} />
               )}
             </div>
           </div>

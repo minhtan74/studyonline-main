@@ -1,0 +1,30 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 23,
+  "checks": [
+    "Progress failure keeps enrolled course visible",
+    "Progress failure never invents 0 percent or not-started",
+    "Unknown progress hides progressbar",
+    "Course remains accessible",
+    "Progress retry does not refetch catalog or enrollment",
+    "Progress restored to real values",
+    "String enrollment IDs supported and unenrolled courses excluded",
+    "Filter miss offers reset",
+    "Enrollment error shows warning without false empty state",
+    "Enrollment retry restores only failed resource",
+    "Catalog error offers retry",
+    "Real empty enrollment links to discovery",
+    "missing: no invented percentage",
+    "missing: accurate unknown or empty state",
+    "invalid: no invented percentage",
+    "invalid: accurate unknown or empty state",
+    "zero: no invented percentage",
+    "zero: accurate unknown or empty state",
+    "Malformed payload reported as error",
+    "Network failure reported",
+    "Mobile has no horizontal overflow",
+    "No learning data written",
+    "No runtime errors"
+  ],
+  "errors": []
+}

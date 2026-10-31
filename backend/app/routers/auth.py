@@ -93,10 +93,12 @@ def me(user: dict = Depends(get_current_user)):
     )
 
 
-# POST /api/auth/logout — JWT không lưu phía server nên chỉ trả thông báo; frontend tự xóa token
+# POST /api/auth/logout — invalidate all previously issued tokens for this user.
 @router.post("/logout")
-def logout():
-    return ok("Đăng xuất thành công.")
+def logout(user: dict = Depends(get_current_user), db: Session = Depends(get_db)):
+    execute(db, "UPDATE users SET token_version = token_version + 1 WHERE id = :id AND token_version = :version",
+            id=user['id'], version=user.get('token_version', 0))
+    return ok("Đã đăng xuất trên mọi thiết bị.")
 
 
 # POST /api/auth/change-password — user tự đổi mật khẩu (phải nhập đúng mật khẩu cũ)
@@ -115,15 +117,18 @@ def change_password(
         raise ApiError("Mật khẩu mới phải có ít nhất 6 ký tự.")
 
     # Xác minh mật khẩu cũ trước khi cho đổi
-    row = q_one(db, "SELECT password FROM users WHERE id = :id", id=user["id"])
+    row = q_one(db, "SELECT password, token_version FROM users WHERE id = :id FOR UPDATE", id=user["id"])
+    if row and row['token_version'] != user.get('token_version', 0):
+        db.rollback()
+        raise ApiError("Phiên đăng nhập đã hết hiệu lực. Vui lòng đăng nhập lại.", 401)
     if not row or not verify_password(old_password, row["password"]):
         raise ApiError("Mật khẩu hiện tại không đúng.", 400)
 
-    # Lưu mật khẩu mới đã băm
+    # Change password and revoke old tokens atomically; keep this client on a fresh token.
     execute(
         db,
-        "UPDATE users SET password = :pw WHERE id = :id",
+        "UPDATE users SET password = :pw, token_version = token_version + 1 WHERE id = :id",
         pw=hash_password(new_password),
         id=user["id"],
     )
-    return ok("Đổi mật khẩu thành công!")
+    return ok("Đổi mật khẩu thành công. Các phiên đăng nhập cũ đã được thu hồi.", token=create_token({**user, "token_version": row["token_version"] + 1}))

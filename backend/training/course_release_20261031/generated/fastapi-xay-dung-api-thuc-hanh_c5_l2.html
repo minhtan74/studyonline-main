@@ -1,0 +1,79 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Xây dựng API thực hành với FastAPI</div><h1>Chương 5 — Bài 2: Kiểm thử hợp đồng, quyền và cô lập dữ liệu</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Thiết kế test theo hành vi quan sát được thay vì cấu trúc hàm.</li><li>Tách trạng thái giữa các lần kiểm thử bằng app factory.</li><li>Kiểm tra cả mã trạng thái, dữ liệu và tác động sau lỗi.</li></ul>
+<p>Thời gian dự kiến: 150 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu học tập</h2>
+<ul><li>Thiết kế test theo hành vi quan sát được thay vì cấu trúc hàm.</li><li>Tách trạng thái giữa các lần kiểm thử bằng app factory.</li><li>Kiểm tra cả mã trạng thái, dữ liệu và tác động sau lỗi.</li></ul>
+<h2>Kiến thức và cách suy luận</h2>
+<p>Một test tốt mô tả một lý do hành vi phải đúng. Với API nhiệm vụ, các nhóm quan trọng là đầu vào, hợp đồng JSON, quyền và tính bền vững. Test chỉ kiểm tra 200 có thể bỏ sót trường dữ liệu nhạy cảm hoặc bản ghi bị sửa sai. Ta thường khẳng định status, JSON liên quan và trạng thái tài nguyên sau request, đặc biệt sau một lỗi ghi.</p>
+<p>App factory là hàm tạo ứng dụng với cấu hình và nguồn dữ liệu rõ ràng. Mỗi test có thể nhận một app và database riêng, tránh phụ thuộc thứ tự chạy. Một biến store dùng chung qua mọi bài test dễ làm ID và số item thay đổi. Thay vì viết test chấp nhận bất kỳ trạng thái, hãy kiểm soát điều kiện trước và làm rõ cái gì cần tồn tại.</p>
+<p>TestClient phù hợp kiểm tra request đồng bộ tới app ASGI trong tiến trình. Sử dụng context manager khi muốn chạy lifespan. Đây là kiểm thử tích hợp nhẹ của route và dependency; nó không thay thế đo tải, kiểm thử qua proxy/TLS hoặc đánh giá bảo mật độc lập. Đặt tên test theo hành vi như rejects_foreign_owner thay vì test_function_3.</p>
+<p>Chọn ca biên theo quy tắc, không chỉ nhân bản đường thành công. Với title 1..120 ký tự, cần rỗng, trắng, đúng giới hạn và vượt giới hạn. Với danh tính, cần thiếu, sai, hợp lệ đúng chủ và hợp lệ khác chủ. Với transaction, cần lỗi sau ít nhất một lần ghi. Nếu có thay đổi hợp đồng, test cũ thất bại là tín hiệu cần đánh giá; không sửa assertion chỉ để mọi thứ xanh mà chưa hiểu tác động.</p>
+<h2>Ví dụ chạy độc lập</h2>
+<p>Lưu đoạn mã sau thành <code>example.py</code> trong thư mục thực hành riêng, dùng Python 3.12+ với FastAPI, Pydantic 2 và httpx đã cài. Chạy <code>python example.py</code>. Các câu lệnh <code>assert</code> kiểm tra kết quả; chương trình kết thúc không có traceback khi đạt. TestClient gửi yêu cầu ngay trong tiến trình, không khởi động máy chủ và không gọi Internet. Đây là ví dụ nhỏ để kiểm tra từng quyết định thiết kế; dự án cuối khóa ghép các quyết định thành một ứng dụng.</p>
+<pre><code>from contextlib import closing
+from fastapi import FastAPI, HTTPException
+from fastapi.testclient import TestClient
+from pydantic import BaseModel, Field
+
+class TaskIn(BaseModel):
+    title: str = Field(min_length=1, max_length=120)
+
+def create_app():
+    app = FastAPI()
+    store = {}
+
+    @app.post(&quot;/tasks&quot;, status_code=201)
+    def create_task(payload: TaskIn):
+        if payload.title in store.values():
+            raise HTTPException(409, &quot;Duplicate title&quot;)
+        key = max(store, default=0) + 1
+        store[key] = payload.title
+        return {&quot;id&quot;: key, &quot;title&quot;: payload.title}
+
+    @app.get(&quot;/tasks&quot;)
+    def list_tasks():
+        return {&quot;items&quot;: list(store.values())}
+    return app
+
+for _ in range(2):
+    with TestClient(create_app()) as client:
+        assert client.get(&quot;/tasks&quot;).json() == {&quot;items&quot;: []}
+        assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: &quot;HTTP&quot;}).status_code == 201
+        assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: &quot;HTTP&quot;}).status_code == 409
+        assert client.post(&quot;/tasks&quot;, json={&quot;title&quot;: &quot;&quot;}).status_code == 422
+        assert client.get(&quot;/tasks&quot;).json() == {&quot;items&quot;: [&quot;HTTP&quot;]}</code></pre>
+<h2>Thực hành có hướng dẫn và đầu ra mong đợi</h2>
+<p>Vòng lặp tạo app hai lần để chứng minh lần hai không thấy state lần một. Trong mỗi lần, request trùng và request title rỗng không làm tăng danh sách. Ghi từng assertion cùng lỗi mà nó có thể phát hiện; nếu không giải thích được vì sao assertion tồn tại, cân nhắc thay bằng quan sát có ý nghĩa hơn.</p>
+<p>Đổi code ứng dụng có chủ đích trong bản sao bài: bỏ kiểm tra trùng, rồi chạy test để thấy assertion 409 thất bại. Khôi phục code. Đây là thao tác giúp hiểu test có thật sự bảo vệ quy tắc hay chỉ luôn đúng; không cần đưa lỗi chủ đích vào bản nộp.</p>
+<h2>Bài tập tự làm</h2>
+<p>Chuyển các kiểm tra thành hàm pytest có tên rõ ràng và fixture tạo client mới. Thêm test title dài 120 và 121 ký tự. Với dự án cuối khóa, bổ sung test quyền của Alice/Bob và test restart database file. Viết bảng yêu cầu → test để chỉ ra ít nhất một yêu cầu chưa có kiểm thử tự động và đề xuất cách đánh giá thủ công.</p>
+<h2>Hướng giải và tiêu chí đạt</h2>
+<p>Fixture yield client bên trong with TestClient(create_app()), mỗi test nhận app mới. Test biên kiểm tra 201 cho 120 và 422 cho 121. Test quyền khẳng định cả trạng thái phản hồi và bản ghi vẫn nguyên sau thao tác bị chặn. Đạt khi chạy hai lần liên tiếp không phụ thuộc database cũ, không gọi mạng ngoài và tên test thể hiện hành vi hợp đồng.</p>
+<h2>Lỗi thường gặp và cách chẩn đoán</h2>
+<p>Không dùng sleep để chờ dữ liệu nếu luồng request đã đồng bộ và có phản hồi rõ. Không đọc thuộc tính store riêng để xác nhận mọi hành vi nếu có thể quan sát qua API; như vậy test sẽ vỡ khi đổi tầng lưu trữ dù hợp đồng giữ nguyên. Ngược lại, với transaction cần kiểm tra dữ liệu bền vững thật trong test tích hợp, không chỉ tin response created.</p>
+<h2>Câu hỏi tự kiểm tra có đáp án</h2>
+<ul><li>Test tạo nhiệm vụ nên kiểm tra thêm gì ngoài status 201? Đáp án: Nội dung phản hồi và khả năng đọc lại dữ liệu. Cần quan sát tài nguyên thực sự được tạo theo hợp đồng.</li><li>App factory giúp gì trong test? Đáp án: Tạo ứng dụng có state độc lập và cấu hình kiểm soát được. Cô lập điều kiện trước làm test ít phụ thuộc thứ tự.</li><li>Test request lỗi ghi dữ liệu nên xác nhận gì? Đáp án: Trạng thái dữ liệu không đổi ngoài ý muốn. Phản hồi lỗi chưa tự chứng minh không có tác động phụ.</li></ul>
+<h2>Minh chứng cần nộp</h2>
+<ul><li>Tệp mã nguồn của ví dụ đã điều chỉnh và dữ liệu kiểm tra hợp lệ/không hợp lệ.</li><li>Một bản ghi ngắn gồm yêu cầu gửi vào, trạng thái HTTP, JSON thực tế và kết quả mong đợi của bài tập.</li><li>Giải thích một quyết định của bài bằng tình huống cụ thể: điều gì xảy ra nếu bỏ kiểm tra đó, ai bị ảnh hưởng và test nào phát hiện được.</li></ul>
+<p>Hãy chạy lại bài trong tiến trình mới để phát hiện việc vô tình phụ thuộc trạng thái từ lần thử trước. Nếu kết quả khác dự kiến, thu nhỏ về một request và một assertion trước khi sửa nhiều chỗ. Khi hỏi trợ giảng, gửi đoạn mã tối thiểu và lỗi đã lược bỏ token hoặc dữ liệu cá nhân.</p>
+<h2>Tài liệu chính thức để đối chiếu</h2>
+<ul><li>https://fastapi.tiangolo.com/tutorial/testing/</li><li>https://docs.pytest.org/en/stable/how-to/fixtures.html</li></ul></body></html>

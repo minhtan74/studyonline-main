@@ -108,8 +108,8 @@ Kiểm tra phân loại trên 50 câu kiến thức không thay thế việc đo
 
 Trang AI Tutor và khung AI bài học dùng chung `useAiChat` và `AiChatFeedback`:
 
-- Giới hạn chờ phía trình duyệt là 120 giây, có bộ đếm; sau 15/45 giây thông báo rõ rằng vẫn đang xử lý/chờ lâu.
-- **Dừng chờ** hủy việc chờ ở trình duyệt và bỏ qua phản hồi cũ khi đổi khóa/bài. Tác vụ đã nhận ở máy chủ có thể vẫn hoàn tất và lưu lịch sử; giao diện có giải thích điều này.
+- Giới hạn chờ phía trình duyệt là 120 giây; giao diện chỉ hiện ba dấu chấm nhỏ, không có bộ đếm hay khung thông báo chờ lâu.
+- Khi đổi khóa/bài hoặc rời trang, hủy việc chờ ở trình duyệt và bỏ qua phản hồi cũ. Tác vụ máy chủ có thể vẫn hoàn tất/lưu lịch sử. Không còn nút Dừng chờ trên giao diện.
 - Lỗi mạng/timeout/dịch vụ có vùng thông báo riêng, giữ câu hỏi trên trang để **Thử lại** hoặc **Sửa câu hỏi**. Không tự gửi lại nhiều lần.
 - Khi đã nhận `conversation_id`, thử lại giữ đúng hội thoại và phạm vi bài học. Lượt gửi lại được lưu là một lần gửi mới ở máy chủ; không hứa hủy hoặc gộp tác vụ đã chạy trước đó.
 - Lỗi LLM không có trích xuất dự phòng trả HTTP503, `success=false`, kèm `data` có `conversation_id`, `response_status="error"`, `error_code="ai_unavailable"`, `retryable=true`.
@@ -152,3 +152,9 @@ LLM_MODEL=gemini-3.1-flash-lite
 LLM_API_KEY=
 LLM_BASE_URL=                  # chỉ với openai: API cùng chuẩn, vd. Ollama http://localhost:11434/v1
 ```
+
+## Hiển thị và truy cập nguồn
+
+Câu trả lời mới/lịch sử ở AI Tutor và bài học dùng Markdown an toàn, code có nút sao chép.
+Nguồn mở qua trang có xác thực, kiểm tra quyền theo khóa và đưa PDF đến trang trích dẫn.
+Xem [thiết kế, API và kiểm chứng](ai-display-and-sources.md).

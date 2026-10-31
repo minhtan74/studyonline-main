@@ -1,0 +1,31 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 24,
+  "checks": [
+    "Catalog failure has retry",
+    "Catalog failure does not show empty search result",
+    "Unknown data does not show fake enrollment totals",
+    "Catalog retry preserves successful enrollment request",
+    "Catalog introduction does not claim hundreds of courses",
+    "Cards use document label instead of PDF",
+    "New badge is not invented from list position",
+    "Search input has accessible label",
+    "String enrollment IDs exclude already joined course",
+    "Recovered count shows only available courses",
+    "Enrollment failure hides unknown enrollment cards",
+    "Enrollment failure disables sorting",
+    "Enrollment retry preserves catalog",
+    "Enrollment recovery hides joined courses",
+    "Search miss offers clear action",
+    "Clear search restores courses",
+    "Valid empty catalog distinguished from request failure",
+    "Fully enrolled state preserved",
+    "Malformed successful payload not treated as empty enrollments",
+    "Network failure reports enrollment error",
+    "Both failed resources have separate retries",
+    "Error panels fit mobile",
+    "Reading and retries never submit enrollments or payments",
+    "No runtime errors"
+  ],
+  "errors": []
+}

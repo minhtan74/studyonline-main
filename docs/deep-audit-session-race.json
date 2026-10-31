@@ -1,0 +1,10 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "findings": [
+    {
+      "case": "late_401_from_old_request_after_password_rotation",
+      "fresh_session_cleared": true,
+      "redirected_to_login": true
+    }
+  ]
+}

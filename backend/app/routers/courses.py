@@ -3,10 +3,10 @@ from fastapi import APIRouter, Body, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.core.database import execute, get_db, q_all, q_one
-from app.core.dependencies import get_viewer, require_roles
+from app.core.dependencies import get_current_user, get_viewer, require_roles
 from app.core.responses import ApiError, ok
 
-from ._common import assert_owns_course, iv, sv
+from ._common import assert_owns_course, can_access_course, iv, sv
 
 router = APIRouter(prefix="/api/courses", tags=["courses"])
 
@@ -23,6 +23,24 @@ _SELECT = (
 
 # Trạng thái khóa học: bản nháp / đã xuất bản / lưu trữ
 STATUSES = ("draft", "published", "archived")
+
+
+@router.get("/materials")
+def materials(
+    course_id: int = Query(..., gt=0),
+    user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Course-wide reading, handbooks and project guides for authorized learners."""
+    if not q_one(db, "SELECT id FROM courses WHERE id=:id", id=course_id):
+        raise ApiError("Không tìm thấy khóa học.", 404)
+    if user["role"] == "teacher":
+        assert_owns_course(db, user, course_id)
+    if not can_access_course(db, user, course_id):
+        raise ApiError("Bạn cần đăng ký khóa học để xem tài liệu toàn khóa.", 403)
+    return ok(data=q_all(db,
+        "SELECT id,title,filename,file_type,pages,status FROM documents "
+        "WHERE course_id=:c AND lesson_id IS NULL ORDER BY id DESC", c=course_id))
 
 
 def _visibility(user: dict | None) -> tuple[str, dict]:

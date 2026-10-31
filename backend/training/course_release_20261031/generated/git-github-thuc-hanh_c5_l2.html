@@ -1,0 +1,57 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Git &amp; GitHub: quản lý phiên bản và cộng tác thực hành</div><h1>Chương 5 — Bài 2: Sửa sai bằng commit bổ sung và revert</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Phân biệt sửa lỗi sản phẩm với thay lịch sử.</li><li>Tạo commit hoàn tác có lý do.</li><li>Đọc diff và chạy kiểm tra sau hoàn tác.</li></ul>
+<p>Thời gian dự kiến: 100 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện</h2>
+<p>Bài dùng repository mới <code>revert-lab</code> để quan sát một thay đổi và commit hoàn tác của nó. Không thực hành trên nhánh được người khác dùng. Sản phẩm là ba commit rõ ràng: bản gốc, thay đổi cần hoàn tác, commit revert. Bạn cần giải thích trạng thái nội dung cuối và lý do lịch sử vẫn giữ dấu vết của thay đổi từng xảy ra.</p>
+<h2>Hai câu hỏi trước khi sửa sai</h2>
+<p>Thứ nhất: lỗi nằm ở nội dung cần sửa hay một thay đổi cần được rút lại hoàn toàn? Nếu một hướng dẫn chỉ sai một đường dẫn, commit bổ sung sửa đường dẫn thường là cách dễ review. Nếu cả tính năng đang bị tạm rút, một revert có thể diễn đạt ý định rõ hơn. Thứ hai: lịch sử đã được chia sẻ chưa? Khi nhiều người đã dựa vào commit, một commit mới thể hiện việc hoàn tác giúp người khác theo dõi thay vì giả sử commit cũ chưa từng tồn tại.</p>
+<p>Revert tạo thay đổi ngược với một commit theo ngữ cảnh áp dụng, rồi lưu thành commit mới. Nó không có nghĩa xóa mọi dấu vết hoặc đưa toàn bộ repository về một thời điểm trong mọi tình huống. Nếu các thay đổi sau đó chồng lấn, hoàn tác có thể cần giải quyết xung đột và kiểm tra lại. Vì vậy hãy đọc diff kết quả và chạy test; thông báo thành công của Git không thay thế việc đối chiếu mục tiêu sản phẩm.</p>
+<h2>Thực hành một hoàn tác đơn giản</h2>
+<p>Chạy từ thư mục cha dành riêng cho bài học. Dùng file minh họa không chứa dữ liệu thật.</p>
+<pre><code>mkdir revert-lab
+cd revert-lab
+git init --initial-branch=main
+git config user.name &quot;Nguoi Hoc&quot;
+git config user.email &quot;learner@example.invalid&quot;
+Set-Content -LiteralPath rule.txt -Value &#x27;Quiz can it nhat 5 cau&#x27; -Encoding utf8
+git add -- rule.txt
+git commit -m &quot;docs: ghi quy tac goc&quot;
+Set-Content -LiteralPath rule.txt -Value &#x27;Quiz chi can 1 cau&#x27; -Encoding utf8
+git add -- rule.txt
+git commit -m &quot;docs: thu thay doi quy tac&quot;
+git show --stat HEAD
+git revert --no-edit HEAD
+git log --oneline -3
+Get-Content -LiteralPath rule.txt</code></pre>
+<p>Đầu ra mong đợi: nội dung trở lại quy tắc ít nhất 5 câu, nhưng log có ba commit và commit cuối thể hiện revert. Không dùng ví dụ này để tự thay ngưỡng hệ thống LMS; đây chỉ là file văn bản trong repository bài tập. Mã hash khác nhau ở mỗi máy và không cần sao chép mã từ tài liệu.</p>
+<h2>Sửa lỗi có phạm vi nhỏ</h2>
+<p>Sau ví dụ, thêm một dòng hướng dẫn có lỗi chính tả vào file mới, commit rồi sửa bằng commit bổ sung. So sánh hai cách: commit sửa nêu phần nội dung cần đổi; revert nêu ý định rút lại một thay đổi trước đó. Cả hai đều cần thông điệp và bằng chứng. Không nhất thiết chọn revert cho mọi lỗi, nhất là khi một phần thay đổi vẫn cần giữ.</p>
+<h2>Bài tập hướng dẫn</h2>
+<p>Một commit thêm hai quy tắc: yêu cầu tiêu đề và yêu cầu có link đọc thêm. Sau khi đọc yêu cầu nhóm, chỉ quy tắc link cần sửa thành tùy chọn. Bạn sẽ revert toàn commit hay sửa phần link? Hướng giải thường là commit bổ sung chỉ sửa quy tắc link, vì yêu cầu tiêu đề vẫn hợp lệ. Người học được đề xuất cách khác nếu giải thích đầy đủ trạng thái cuối và tác động, nhưng không được vô tình bỏ cả yêu cầu đúng.</p>
+<h2>Nhiệm vụ độc lập và tiêu chí</h2>
+<p>Viết báo cáo <code>why-revert.md</code> gồm vấn đề, commit liên quan, lý do chọn hoàn tác, kết quả diff và kiểm tra sau cùng. Tạo một hoàn tác có chủ đích trong lab rồi bàn giao log. Đạt khi người khác nhìn lịch sử hiểu việc gì đã xảy ra và file cuối đáp ứng quy tắc ban đầu. Không tự nhận đã “xóa bí mật khỏi lịch sử” bằng revert: commit chứa bí mật cũ vẫn có thể được truy xuất, nên xử lý bí mật phải theo quy trình riêng.</p>
+<h2>Lỗi thường gặp</h2>
+<p>Hoàn tác nhầm HEAD vì đang đứng ở repository khác; kiểm tra đường dẫn và show trước. Tin rằng revert luôn không conflict; ngữ cảnh sửa có thể đã thay đổi. Chỉ xem log mà bỏ nội dung cuối; một revert về cú pháp có thể làm test khác thất bại. Xóa bằng chứng lỗi vì ngại lịch sử nhìn xấu sẽ mất thông tin học và review; trong khóa này, lịch sử rõ ràng có giá trị hơn hình thức đẹp.</p>
+<h2>Tự kiểm tra và đáp án</h2>
+<ol><li>Revert có xóa commit cũ khỏi lịch sử không? Không, nó thêm commit thể hiện thay đổi ngược.</li><li>Có nên revert cả commit khi chỉ một phần cần sửa? Cần đánh giá phạm vi; commit bổ sung có thể giữ đúng phần còn hợp lệ.</li><li>Vì sao cần test sau hoàn tác? Nội dung cuối có thể ảnh hưởng các thay đổi phụ thuộc về sau.</li></ol>
+<h2>Nguồn đọc tiếp</h2>
+<ul><li>https://git-scm.com/docs/git-revert</li><li>https://git-scm.com/docs/git-show</li><li>https://git-scm.com/docs/git-log</li></ul></body></html>

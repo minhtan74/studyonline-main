@@ -1,0 +1,78 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Python hướng đối tượng: từ mô hình đến ứng dụng CLI</div><h1>Chương 2 — Bài 2: Đóng gói bằng thuộc tính và property</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Thiết kế điểm cập nhật để bảo vệ bất biến.</li><li>Dùng property cho dữ liệu đọc có phép tính hoặc xác thực.</li><li>Giải thích giới hạn của quy ước dấu gạch dưới trong Python.</li></ul>
+<p>Thời gian dự kiến: 120 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu và điều kiện học</h2>
+<ul><li>Thiết kế điểm cập nhật để bảo vệ bất biến.</li><li>Dùng property cho dữ liệu đọc có phép tính hoặc xác thực.</li><li>Giải thích giới hạn của quy ước dấu gạch dưới trong Python.</li></ul>
+<p>Mỗi bài dành khoảng 100–150 phút gồm đọc, chạy mã, sửa ví dụ và tự luyện. Dùng Python 3.12 trở lên trong một thư mục học riêng; các ví dụ chỉ dùng thư viện chuẩn. Tạo file <code>example.py</code>, chép nguyên khối mã rồi chạy <code>python example.py</code>. Trên Windows có thể dùng <code>py -3.12 example.py</code> khi lệnh <code>python</code> trỏ tới bản khác. Không ghép các lớp cùng tên của nhiều bài vào một file: mỗi ví dụ là một chương trình độc lập.</p>
+<h2>Giải thích và lập luận thiết kế</h2>
+<p>Đóng gói giúp người sử dụng đối tượng biết những thao tác được hỗ trợ và những chi tiết không nên dựa vào. Với tài khoản điểm học tập, ta muốn cộng số điểm hợp lệ nhưng không cho người gọi tùy ý gán tổng âm. Ta giữ _points và cung cấp add_points cùng một property points chỉ đọc. Quy tắc _name biểu thị chi tiết nội bộ theo quy ước, không tạo vùng bảo mật chống truy cập.</p>
+<p>Property cho phép truy cập theo cú pháp thuộc tính nhưng thực hiện hàm getter hoặc setter. Chọn property khi thao tác giống đọc một giá trị, ví dụ borrowed = total - available. Không giấu một lời gọi mạng chậm hoặc hành động gửi email trong property mà người dùng tưởng là đọc dữ liệu. Phương thức có tên động từ phù hợp hơn khi hành động có hiệu ứng đáng kể.</p>
+<p>Không có setter cho points khiến phép gán thông thường wallet.points = -1 nhận AttributeError. Điều đó giúp bắt lỗi sử dụng API, còn người gọi có chủ ý vẫn có thể truy cập _points. Vì vậy dữ liệu đầu vào từ CLI hoặc file phải được kiểm tra và ứng dụng không được coi dấu gạch dưới là cơ chế phân quyền. Double underscore có name mangling nhằm tránh một số xung đột tên, không biến giá trị thành bí mật.</p>
+<p>Trong ví dụ, add_points kiểm tra trước khi cộng và không làm tròn số thập phân sang số nguyên. Getter trả số nguyên bất biến, tránh lộ một list mutable mà người gọi có thể sửa bỏ qua phương thức. Nếu cần công khai danh sách, có thể trả tuple hoặc bản sao theo hợp đồng rõ. Mục tiêu là giảm số nơi có quyền phá bất biến, nhờ đó các test tập trung vào một API nhỏ và ổn định.</p>
+<h2>Ví dụ hoàn chỉnh để chạy</h2>
+<pre><code>import sys
+if hasattr(sys.stdout, &#x27;reconfigure&#x27;):
+    sys.stdout.reconfigure(encoding=&#x27;utf-8&#x27;)
+
+class StudyPoints:
+    def __init__(self):
+        self._points = 0
+
+    @property
+    def points(self):
+        return self._points
+
+    def add_points(self, amount):
+        if type(amount) is not int or amount &lt;= 0:
+            raise ValueError(&quot;Điểm thêm phải là số nguyên dương&quot;)
+        self._points += amount
+
+account = StudyPoints()
+account.add_points(10)
+assert account.points == 10
+try:
+    account.points = -1
+except AttributeError:
+    pass
+else:
+    raise AssertionError(&quot;Property chỉ đọc phải chặn phép gán&quot;)
+try:
+    account.add_points(-2)
+except ValueError:
+    pass
+assert account.points == 10
+print(account.points)</code></pre>
+<h2>Kết quả mong đợi và cách kiểm tra</h2>
+<p>In <code>10</code>. Phép gán points bị từ chối; lần cộng âm cũng bị từ chối và không thay đổi tổng. Đặt assert sau lời gọi sai để chứng minh trạng thái được giữ nguyên. Một test chỉ kiểm tra có ngoại lệ mà quên xem dữ liệu sau lỗi còn có thể bỏ sót cập nhật một phần.</p>
+<p>Đọc từng dòng thực thi và dự đoán trạng thái trước khi chạy. Sau lần chạy đầu, đổi dữ liệu theo bài tập rồi đối chiếu cả kết quả lẫn trạng thái đối tượng; một dòng in đúng chưa chứng minh các trường hợp lỗi đã đúng. Các lệnh <code>assert</code> trong ví dụ dùng kiểm tra khi học, không thay thế việc kiểm tra đầu vào của ứng dụng vì Python có thể bỏ assert khi chạy chế độ tối ưu.</p>
+<h2>Bài tập có hướng dẫn và bài tự làm</h2>
+<p>Hướng dẫn: thêm property level trả "beginner" khi points dưới 100 và "active" khi từ 100. Tự làm lớp Temperature với celsius được xác thực là số trong miền vật lý của bài: không nhỏ hơn -273.15. Cung cấp fahrenheit chỉ đọc, công thức celsius * 9 / 5 + 32. Nêu rõ cách xử lý bool và chuỗi để hai người giải có cùng hợp đồng.</p>
+<p>Thử ba giá trị ngay quanh ngưỡng điểm 99, 100, 101 và ngưỡng nhiệt độ. Tách các trường hợp lỗi sai kiểu khỏi lỗi vượt miền giá trị trong bảng thử, dù ứng dụng nhỏ có thể thống nhất dùng ValueError cho cả hai.</p>
+<h2>Hướng giải và tiêu chí hoàn thành</h2>
+<p>Getter level chỉ đọc _points, không sửa trạng thái hoặc tự ghi file. Với Temperature, setter kiểm tra kiểu và miền rồi mới gán _celsius; getter fahrenheit tính từ trạng thái đó. Đạt khi 0 Celsius cho 32 Fahrenheit và setter thất bại giữ nhiệt độ cũ. Bài nộp giải thích vì sao <code>_celsius</code> vẫn có thể truy cập trong Python và vì sao API chỉ là thỏa thuận sử dụng, không phải hàng rào xác thực người dùng.</p>
+<h2>Sai sót thường gặp và cách phát hiện</h2>
+<p>Đặt self.points = value ngay trong setter points gây gọi đệ quy vô hạn; trường lưu trữ cần một tên khác. Getter tự tăng điểm làm việc đọc nhiều lần cho kết quả không ổn định. Dùng property để tránh viết phương thức bất kể hành vi khiến API khó đoán; hãy ưu tiên tên cho biết tác dụng và chi phí.</p>
+<h2>Câu hỏi tự kiểm tra và đáp án</h2>
+<ol><li>_points có bảo vệ dữ liệu khỏi mọi người gọi không? Đáp án: Không; nó là quy ước nội bộ.</li><li>Vì sao getter không nên tự cộng điểm? Đáp án: Đọc dữ liệu cần hành vi dễ dự đoán, không gây thay đổi ngầm.</li><li>Setter cần kiểm tra trước hay sau khi gán? Đáp án: Trước khi gán để giữ trạng thái cũ khi dữ liệu sai.</li></ol>
+<h2>Đọc thêm từ tài liệu chính thức</h2>
+<ul><li>https://docs.python.org/3.12/library/functions.html#property</li><li>https://docs.python.org/3.12/tutorial/classes.html#private-variables</li></ul>
+<p>Ghi lại phiên bản Python, lệnh đã chạy, dữ liệu thử và một quyết định thiết kế vào nhật ký học tập. Khi nhờ hỗ trợ, gửi ví dụ nhỏ tái hiện được cùng thông báo lỗi đầy đủ; không gửi dữ liệu cá nhân hoặc đường dẫn chứa thông tin bí mật.</p></body></html>

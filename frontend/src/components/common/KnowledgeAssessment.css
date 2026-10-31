@@ -131,3 +131,9 @@
     max-width: 100%;
   }
 }
+
+.knowledge-assessment h4 { font-size:.9rem; margin:1rem 0 .65rem; }
+.knowledge-scope { font-size:.82rem; color:var(--s-text-muted); line-height:1.7; margin:.5rem 0 .85rem; }
+.knowledge-context { font-size:.72rem; color:var(--s-text-muted); margin-bottom:.45rem; overflow-wrap:anywhere; }
+.knowledge-insufficient { border:1px solid var(--s-border); border-radius:8px; padding:.8rem; margin:1rem 0; }
+.knowledge-insufficient > summary { cursor:pointer; font-size:.85rem; font-weight:600; }

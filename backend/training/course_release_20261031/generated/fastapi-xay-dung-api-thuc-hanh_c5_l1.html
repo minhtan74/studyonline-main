@@ -1,0 +1,77 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Xây dựng API thực hành với FastAPI</div><h1>Chương 5 — Bài 1: Xác thực Bearer và quyền sở hữu tài nguyên</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h2>Mục tiêu bài học</h2>
+<ul><li>Phân biệt bằng chứng danh tính với quyền trên một bản ghi.</li><li>Kiểm tra Bearer token qua dependency dùng chung.</li><li>Viết test truy cập chéo tài khoản và phản hồi 401/403.</li></ul>
+<p>Thời gian dự kiến: 150 phút, gồm đọc và thực hành.</p>
+<h2>Mục tiêu học tập</h2>
+<ul><li>Phân biệt bằng chứng danh tính với quyền trên một bản ghi.</li><li>Kiểm tra Bearer token qua dependency dùng chung.</li><li>Viết test truy cập chéo tài khoản và phản hồi 401/403.</li></ul>
+<h2>Kiến thức và cách suy luận</h2>
+<p>Xác thực trả lời 'đây là ai', phân quyền trả lời 'người đó được làm gì'. Có token hợp lệ không có nghĩa được xem nhiệm vụ của mọi người. Trong dự án, token ánh xạ tới user_id; mỗi nhiệm vụ lưu owner_id. Endpoint tạo lấy owner từ dependency, còn endpoint đọc/sửa/xóa phải kiểm tra bản ghi thuộc người hiện tại.</p>
+<p>Bearer nghĩa là bên giữ token có thể trình token làm bằng chứng. Không đặt token vào URL vì URL dễ xuất hiện trong lịch sử hoặc log. HTTPS cần thiết khi truyền bí mật qua mạng; ví dụ của khóa chỉ chạy cục bộ. <code>HTTPBearer(auto_error=False)</code> giúp dependency tự xử lý rõ trường hợp không có hoặc sai header, tránh dựa vào khác biệt mã mặc định giữa các phiên bản thư viện.</p>
+<p>Bài dùng hai token giả trong bộ nhớ để học luồng kiểm tra quyền và test. Đây không phải dịch vụ cấp token, không phải triển khai OAuth2/JWT hoàn chỉnh. Hệ thống thật cần cách đăng nhập, lưu mật khẩu đã băm, thời hạn, thu hồi, quản lý khóa và kiểm soát vận hành thích hợp. Ta không thêm thư viện bảo mật tùy tiện rồi gọi mọi thứ đã an toàn; hợp đồng demo phải ghi rõ phạm vi.</p>
+<p>Trong hợp đồng của bài, thiếu/sai token trả 401 và WWW-Authenticate: Bearer; user hợp lệ nhưng truy cập nhiệm vụ của người khác trả 403; ID không tồn tại trả 404. Một sản phẩm có thể chọn 404 cho tài nguyên không thuộc quyền để giảm tiết lộ sự tồn tại, nhưng phải nhất quán và có test. Không dùng việc ẩn nút giao diện làm kiểm tra quyền: client có thể gọi HTTP trực tiếp.</p>
+<h2>Ví dụ chạy độc lập</h2>
+<p>Lưu đoạn mã sau thành <code>example.py</code> trong thư mục thực hành riêng, dùng Python 3.12+ với FastAPI, Pydantic 2 và httpx đã cài. Chạy <code>python example.py</code>. Các câu lệnh <code>assert</code> kiểm tra kết quả; chương trình kết thúc không có traceback khi đạt. TestClient gửi yêu cầu ngay trong tiến trình, không khởi động máy chủ và không gọi Internet. Đây là ví dụ nhỏ để kiểm tra từng quyết định thiết kế; dự án cuối khóa ghép các quyết định thành một ứng dụng.</p>
+<pre><code>from contextlib import closing
+from typing import Annotated
+from fastapi import Depends, FastAPI, HTTPException
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.testclient import TestClient
+
+bearer = HTTPBearer(auto_error=False)
+tokens = {&quot;local-alice-demo&quot;: 1, &quot;local-bob-demo&quot;: 2}
+tasks = {10: {&quot;id&quot;: 10, &quot;owner_id&quot;: 1, &quot;title&quot;: &quot;Private exercise&quot;}}
+app = FastAPI()
+
+def current_user(credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)]):
+    if credentials is None or credentials.scheme.lower() != &quot;bearer&quot; or credentials.credentials not in tokens:
+        raise HTTPException(401, &quot;Authentication required&quot;, headers={&quot;WWW-Authenticate&quot;: &quot;Bearer&quot;})
+    return tokens[credentials.credentials]
+
+@app.get(&quot;/tasks/{task_id}&quot;)
+def read_task(task_id: int, user_id: Annotated[int, Depends(current_user)]):
+    task = tasks.get(task_id)
+    if task is None:
+        raise HTTPException(404, &quot;Task not found&quot;)
+    if task[&quot;owner_id&quot;] != user_id:
+        raise HTTPException(403, &quot;Not allowed&quot;)
+    return task
+
+with TestClient(app) as client:
+    assert client.get(&quot;/tasks/10&quot;).status_code == 401
+    assert client.get(&quot;/tasks/10&quot;, headers={&quot;Authorization&quot;: &quot;Bearer unknown&quot;}).status_code == 401
+    assert client.get(&quot;/tasks/10&quot;, headers={&quot;Authorization&quot;: &quot;Bearer local-bob-demo&quot;}).status_code == 403
+    assert client.get(&quot;/tasks/10&quot;, headers={&quot;Authorization&quot;: &quot;Bearer local-alice-demo&quot;}).status_code == 200</code></pre>
+<h2>Thực hành có hướng dẫn và đầu ra mong đợi</h2>
+<p>Lập ma trận token thiếu, token sai, Alice đúng chủ sở hữu, Bob đúng danh tính nhưng sai chủ sở hữu. Gửi cả bốn request trực tiếp bằng TestClient và ghi trạng thái. Giữ nguyên dữ liệu tasks để thấy sự khác nhau do quyền chứ không do nội dung endpoint. Thêm ID không tồn tại với token Alice để có ca 404.</p>
+<p>Thử gửi owner_id=1 trong query khi dùng token Bob. Request vẫn phải 403 vì owner được quyết định bằng bản ghi và dependency, không phải query. Khi ghi bằng chứng, dùng nhãn Alice/Bob thay giá trị token; các token trong bài là giả và chỉ phục vụ máy cục bộ.</p>
+<h2>Bài tập tự làm</h2>
+<p>Thêm POST /tasks lấy owner_id từ current_user và model body chỉ chứa title. Hai người có thể tạo nhiệm vụ riêng; GET danh sách chỉ lấy nhiệm vụ của người hiện tại. Test người khác không đọc, sửa hoặc xóa được bản ghi vừa tạo. Chọn một quy ước 403 hoặc 404 cho truy cập chéo và giải thích quyết định trong README.</p>
+<h2>Hướng giải và tiêu chí đạt</h2>
+<p>Handler tạo gán owner_id=user_id sau khi dependency xác nhận token. Handler danh sách lọc theo owner; handler thao tác một ID kiểm tra quyền ở server trước khi ghi. Đạt khi cả GET, PATCH và DELETE đều có test truy cập chéo, request lỗi không làm thay đổi bản ghi và owner_id trong body không được dùng để giả danh. Ghi phạm vi demo của token cố định thay vì gọi nó là đăng nhập dùng thật.</p>
+<h2>Lỗi thường gặp và cách chẩn đoán</h2>
+<p>Không nhầm decode dữ liệu token với xác minh token. Không lưu token thật vào repo, ảnh chụp hoặc log. Không tạo dependency trả user từ query parameter rồi đặt tên là current_user để tưởng đã xác thực. Khi một route mới được thêm, review ma trận quyền; việc route khác có Depends không tự bảo vệ route mới.</p>
+<h2>Câu hỏi tự kiểm tra có đáp án</h2>
+<ul><li>Xác thực và phân quyền khác nhau thế nào? Đáp án: Xác thực xác định danh tính, phân quyền quyết định thao tác được phép. Danh tính hợp lệ vẫn có giới hạn quyền.</li><li>Token nên truyền ở đâu trong ví dụ? Đáp án: Header Authorization: Bearer .... Header giúp theo hợp đồng Bearer và tránh token trong URL.</li><li>Bob có token hợp lệ nhưng mở nhiệm vụ Alice theo hợp đồng bài nhận gì? Đáp án: 403. Danh tính hợp lệ nhưng không có quyền trên tài nguyên.</li></ul>
+<h2>Minh chứng cần nộp</h2>
+<ul><li>Tệp mã nguồn của ví dụ đã điều chỉnh và dữ liệu kiểm tra hợp lệ/không hợp lệ.</li><li>Một bản ghi ngắn gồm yêu cầu gửi vào, trạng thái HTTP, JSON thực tế và kết quả mong đợi của bài tập.</li><li>Giải thích một quyết định của bài bằng tình huống cụ thể: điều gì xảy ra nếu bỏ kiểm tra đó, ai bị ảnh hưởng và test nào phát hiện được.</li></ul>
+<p>Hãy chạy lại bài trong tiến trình mới để phát hiện việc vô tình phụ thuộc trạng thái từ lần thử trước. Nếu kết quả khác dự kiến, thu nhỏ về một request và một assertion trước khi sửa nhiều chỗ. Khi hỏi trợ giảng, gửi đoạn mã tối thiểu và lỗi đã lược bỏ token hoặc dữ liệu cá nhân.</p>
+<h2>Tài liệu chính thức để đối chiếu</h2>
+<ul><li>https://fastapi.tiangolo.com/tutorial/security/</li><li>https://fastapi.tiangolo.com/reference/security/</li></ul></body></html>

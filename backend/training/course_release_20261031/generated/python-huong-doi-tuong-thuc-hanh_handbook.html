@@ -1,0 +1,319 @@
+<!doctype html><html lang="vi"><meta charset="utf-8"><style>
+@page { size: A4; margin: 18mm 16mm; }
+* { box-sizing: border-box; }
+body { font-family: 'Segoe UI', 'Noto Sans', Arial, sans-serif; color: #0f172a; font-size: 11pt; line-height: 1.55; }
+.tag { font-size: 8.5pt; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #2563eb; }
+h1 { font-size: 20pt; margin: 4pt 0 2pt; line-height: 1.25; }
+.sub { color: #64748b; margin: 0 0 12pt; font-size: 10pt; }
+h2 { font-size: 13pt; margin: 16pt 0 5pt; padding-bottom: 3pt; border-bottom: 1.5px solid #e2e8f0; color: #1e3a8a; page-break-after: avoid; }
+p { margin: 5pt 0; }
+ul, ol { margin: 4pt 0 6pt; padding-left: 20pt; }
+li { margin: 2pt 0; }
+code { font-family: Consolas, 'Courier New', monospace; font-size: 9.5pt; background: #eef2ff; padding: 0 3pt; border-radius: 3px; }
+pre { background: #0f172a; color: #e2e8f0; padding: 9pt 11pt; border-radius: 7px; font-size: 9pt; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-wrap; page-break-inside: avoid; }
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+.box { border-radius: 8px; padding: 6pt 12pt 8pt; margin: 8pt 0; page-break-inside: avoid; }
+.obj { background: #eff6ff; border-left: 4px solid #2563eb; }
+.sum { background: #f0fdf4; border-left: 4px solid #16a34a; }
+.ex { background: #fffbeb; border-left: 4px solid #d97706; }
+.box h2 { border: none; margin: 4pt 0 2pt; padding: 0; color: inherit; }
+h1{font-size:21pt}h3{font-size:11.5pt;color:#1e3a8a;margin:13pt 0 4pt;break-after:avoid}pre{font-size:8.5pt;line-height:1.5;break-inside:auto;page-break-inside:auto}pre code{font-size:8.5pt}table{width:100%;border-collapse:collapse;font-size:9pt}td,th{padding:5pt;border:1px solid #cbd5e1;text-align:left}a{color:#1d4ed8;overflow-wrap:anywhere}p,li{orphans:3;widows:3}</style><body><div class="tag">Python hướng đối tượng: từ mô hình đến ứng dụng CLI</div><h1>Sổ tay và dự án cuối khóa — Python hướng đối tượng: từ mô hình đến ứng dụng CLI</h1><p class="sub">Tài liệu học tập StudyOnline · Biên soạn 31/10/2026</p><h1>Sổ tay khóa học: Python hướng đối tượng thực hành</h1>
+<h2>Phạm vi và đầu ra</h2>
+<p>Khóa học 6 tuần dành cho người đã biết biến, điều kiện, vòng lặp, hàm, list/dict và đọc thông báo lỗi Python. Thời lượng dự kiến 36 giờ gồm 24 giờ cho 12 bài và khoảng 12 giờ ôn, quiz, dự án. Tốc độ thực tế tùy nền tảng; người chưa tự viết được hàm lọc danh sách nên ôn Python cơ bản trước. Đây là chương trình tự học có bài tập và kiểm tra, không gắn với chứng nhận nghề nghiệp hoặc tín chỉ của một tổ chức đào tạo.</p>
+<p>Sau khóa học, người học có thể diễn đạt bất biến dữ liệu; tạo lớp với API nhỏ; giải thích tham chiếu và quyền sở hữu mutable; phân biệt composition với kế thừa; dùng dataclass, property, ABC phù hợp; thiết kế lỗi nghiệp vụ; viết unittest; lưu/tải dữ liệu JSON có xác thực; và hoàn thành một CLI mà người khác chạy lại được. Học viên phải giải thích được quyết định của mình, không chỉ chạy bản lời giải.</p>
+<h2>Chuẩn bị môi trường</h2>
+<ul><li>Cài Python 3.12 trở lên, kiểm tra <code>python --version</code>; Windows có thể dùng <code>py -3.12 --version</code>.</li><li>Tạo thư mục học riêng, dùng trình soạn thảo hỗ trợ UTF-8. Không cần MySQL, tài khoản đám mây hay thư viện ngoài.</li><li>Tùy chọn tạo môi trường ảo bằng <code>python -m venv .venv</code>; các ví dụ sử dụng thư viện chuẩn nên không có gói bắt buộc phải tải.</li><li>Mỗi bài dùng một file example.py riêng. Ghi phiên bản và lệnh trong nhật ký; test file luôn dùng thư mục tạm.</li><li>Có thể làm hoàn toàn offline sau khi tải giáo trình và bộ mã; các liên kết cuối bài phục vụ tra cứu thêm.</li></ul>
+<h2>Lộ trình 6 tuần</h2>
+<ol><li>Tuần 1: lớp, đối tượng, tham chiếu; constructor và bất biến. Sản phẩm là Book bảo vệ số lượng, bảng dữ liệu biên và sơ đồ tham chiếu.</li><li>Tuần 2: dữ liệu lớp/thực thể, mutable dùng chung, property. Sản phẩm là hai kho độc lập và API đọc trạng thái không vô tình sửa dữ liệu.</li><li>Tuần 3: composition, dịch vụ danh mục, dataclass. Sản phẩm là Library chứa Book cùng một kiểu biên nhận giá trị có kiểm tra.</li><li>Tuần 4: kế thừa, hợp đồng thay thế, duck typing và ABC. Sản phẩm là các policy/repository khác nhau qua cùng bộ kiểm tra hợp đồng.</li><li>Tuần 5: ngoại lệ, unittest và kiểm tra biên. Sản phẩm là bộ test bao phủ thành công, lỗi và trạng thái sau lỗi; chứng minh test bắt được một lỗi cố ý trên bản sao.</li><li>Tuần 6: JSON, CLI và dự án. Sản phẩm là thư viện chạy được, file dữ liệu mẫu, README, log test và bảng nghiệm thu.</li></ol>
+<p>Mỗi tuần đọc hai bài, dự đoán trước khi chạy ví dụ, tự làm bài tập trước khi xem hướng giải, ghi một lỗi đã sửa và làm quiz. Nếu quiz thấp hơn 70%, quay lại các câu sai và ví dụ liên quan rồi thử bài vận dụng khác; thuộc đáp án không thay cho việc hiểu hành vi.</p>
+<h2>Cách dùng bài kiểm tra</h2>
+<p>Mỗi bài có 5 câu trắc nghiệm độc lập để kiểm tra thuật ngữ và suy luận ngắn, các chương ghép phần luyện của hai bài. Các câu có giải thích sau khi nộp; hãy ghi lý do chọn trước khi xem đáp án. Điểm quiz phản ánh phần câu hỏi đã làm, không tự chứng nhận kỹ năng lập trình. Khi hệ thống có đủ 5 câu khác nhau cho một phần, tỷ lệ dưới 70% được dùng làm tín hiệu nên ôn; với ít câu, cần thêm căn cứ.</p>
+<p>Đánh giá hoàn thành khóa học đề xuất: quiz đạt từ 70% và dự án đạt từ 70/100, đồng thời mọi yêu cầu trọng yếu đều đạt. Điểm dự án do giảng viên hoặc người review xem bằng chứng; hệ thống hiện không tự chấm mã nguồn theo rubric này. Nếu tự học, dùng checklist và nhờ người khác tái hiện chương trình trước khi tự đánh dấu hoàn thành. Không dùng tổng điểm để che một lỗi làm mất dữ liệu hoặc số lượng âm.</p>
+<h2>Đề bài dự án cuối khóa</h2>
+<p>Xây dựng thư viện CLI một người dùng, dữ liệu nhỏ. Mỗi đầu sách có code duy nhất, title không rỗng, total là số nguyên không âm, available từ 0 tới total. Hỗ trợ add/list/borrow/return; từ chối mã trùng, mã không có, hết sách, trả dư, dữ liệu sai và file JSON hỏng. Lệnh sai giữ nguyên file hiện có. Không lưu tên độc giả, tài khoản hay dữ liệu thật. Thao tác cùng lúc từ nhiều tiến trình nằm ngoài hợp đồng này.</p>
+<p>Tách Book, Library, JsonRepository và main; có thể đổi tên nếu trách nhiệm vẫn rõ. Ghi schema_version, xác thực dữ liệu lúc tải, ghi file tạm cùng thư mục rồi replace. Không coi kỹ thuật ghi này là giao dịch đa người dùng. README phải nói cách sao lưu file khi thử lỗi, giới hạn 1 MB của bản tham khảo và giới hạn thao tác tuần tự.</p>
+<h2>Rubric 100 điểm và bằng chứng</h2>
+<ul><li>Đúng nghiệp vụ và bất biến: 30 điểm. Có ca thành công, hết sách, trả dư, mã trùng; trạng thái sau lỗi đúng. Yêu cầu trọng yếu: không âm, không vượt tổng, không ghi mất file hỏng.</li><li>Thiết kế hướng đối tượng: 15 điểm. Trách nhiệm lớp rõ, composition hợp lý, tránh mutable toàn cục; giải thích được một lựa chọn không dùng kế thừa.</li><li>Lưu/tải dữ liệu: 15 điểm. JSON UTF-8, version rõ, kiểm tra trường/kiểu/miền/mã trùng, round-trip đúng; lỗi tải không tạo thành công giả.</li><li>Kiểm thử: 20 điểm. Unit test độc lập, có test biên và test giữ nguyên file sau lệnh sai; có log test và một ví dụ chứng minh test phát hiện lỗi.</li><li>Khả năng sử dụng và tái hiện: 10 điểm. README đủ môi trường/lệnh, thông báo rõ, mã thoát đúng, người khác chạy được từ thư mục mới.</li><li>Giải thích và mở rộng: 10 điểm. Trình bày giới hạn, thêm search chỉ đọc có test và trả lời thay đổi yêu cầu nhỏ mà không phá test cũ.</li></ul>
+<p>Hồ sơ nộp gồm mã nguồn, test, README, dữ liệu mẫu không nhạy cảm, log test, bảng 8–12 ca CLI và một trang giải thích quyết định thiết kế. Nếu không đạt một yêu cầu trọng yếu, sửa và chạy nghiệm thu lại trước khi đánh dấu đạt, dù tổng điểm tạm thời trên 70.</p>
+<h2>Bộ mã tham khảo và lệnh tái hiện</h2>
+<p>Lưu các file đi kèm vào cùng một thư mục mới. Chạy từ thư mục đó:</p>
+<pre><code>python -m unittest -v
+python library_cli.py --data sandbox-library.json add PY01 &quot;Học Python&quot; 2
+python library_cli.py --data sandbox-library.json list
+python library_cli.py --data sandbox-library.json borrow PY01
+python library_cli.py --data sandbox-library.json list
+python library_cli.py --data sandbox-library.json return PY01</code></pre>
+<p>Kết quả list sau lần mượn là <code>PY01 | Học Python | 1/2</code>, sau trả là <code>2/2</code>. Thử mã không có phải trả mã thoát 2; dùng file tạm để thử JSON hỏng. Bản tham khảo có thể dùng để đối chiếu sau khi tự làm, không thay bài bảo vệ và kiểm tra vận dụng.</p>
+<h2>Tài liệu chính thức và cách tra cứu</h2>
+<ul><li>Python classes: https://docs.python.org/3.12/tutorial/classes.html</li><li>Dataclasses: https://docs.python.org/3.12/library/dataclasses.html</li><li>ABC: https://docs.python.org/3.12/library/abc.html</li><li>Errors: https://docs.python.org/3.12/tutorial/errors.html</li><li>Unittest: https://docs.python.org/3.12/library/unittest.html</li><li>JSON: https://docs.python.org/3.12/library/json.html</li><li>Argparse: https://docs.python.org/3.12/library/argparse.html</li></ul>
+<p>Giáo trình và bài tập được biên soạn riêng cho lộ trình này; các liên kết giúp đối chiếu API chuẩn. Khi dùng phiên bản Python khác, đọc tài liệu tương ứng và ghi lại khác biệt thực tế trong nhật ký. Phạm vi nền tảng của khóa không bao gồm web framework, cơ sở dữ liệu nhiều người dùng, triển khai dịch vụ hay chứng nhận bảo mật ứng dụng.</p>
+<h2>Mã nguồn dự án tham khảo</h2>
+<p>Tự làm dự án theo đề bài trước khi đối chiếu mã tham khảo bên dưới.</p>
+<h3>File: library_cli.py</h3>
+<pre><code>&quot;&quot;&quot;One-user library CLI for the Python OOP course; Python 3.12+, stdlib only.&quot;&quot;&quot;
+from dataclasses import dataclass
+import argparse
+import json
+from pathlib import Path
+import sys
+
+if hasattr(sys.stdout, &quot;reconfigure&quot;):
+    sys.stdout.reconfigure(encoding=&quot;utf-8&quot;)
+    sys.stderr.reconfigure(encoding=&quot;utf-8&quot;)
+
+
+class LibraryError(ValueError):
+    pass
+
+
+@dataclass
+class Book:
+    code: str
+    title: str
+    total: int
+    available: int
+
+    def __post_init__(self):
+        for value, label in ((self.code, &quot;Mã&quot;), (self.title, &quot;Tên&quot;)):
+            if not isinstance(value, str) or not value.strip():
+                raise LibraryError(f&quot;{label} sách không được rỗng&quot;)
+        self.code = self.code.strip()
+        self.title = self.title.strip()
+        if type(self.total) is not int or self.total &lt; 0:
+            raise LibraryError(&quot;Tổng phải là số nguyên không âm&quot;)
+        if type(self.available) is not int or not 0 &lt;= self.available &lt;= self.total:
+            raise LibraryError(&quot;Số có sẵn phải nằm trong khoảng từ 0 tới tổng&quot;)
+
+    def borrow(self):
+        if self.available == 0:
+            raise LibraryError(&quot;Đã hết bản có thể mượn&quot;)
+        self.available -= 1
+
+    def return_copy(self):
+        if self.available == self.total:
+            raise LibraryError(&quot;Không có bản đang được mượn để trả&quot;)
+        self.available += 1
+
+    def to_record(self):
+        return {&quot;code&quot;: self.code, &quot;title&quot;: self.title,
+                &quot;total&quot;: self.total, &quot;available&quot;: self.available}
+
+
+class Library:
+    def __init__(self, books=()):
+        self._books = {}
+        for book in books:
+            self.add(book)
+
+    def add(self, book):
+        if book.code in self._books:
+            raise LibraryError(&quot;Mã sách đã tồn tại&quot;)
+        self._books[book.code] = book
+
+    def get(self, code):
+        try:
+            return self._books[code]
+        except KeyError as exc:
+            raise LibraryError(&quot;Không tìm thấy mã sách&quot;) from exc
+
+    def borrow(self, code):
+        self.get(code).borrow()
+
+    def return_book(self, code):
+        self.get(code).return_copy()
+
+    def records(self):
+        return [self._books[code].to_record() for code in sorted(self._books)]
+
+
+class JsonRepository:
+    MAX_BYTES = 1_000_000
+
+    def __init__(self, path):
+        self.path = Path(path)
+
+    def load(self):
+        if not self.path.exists():
+            return Library()
+        try:
+            if self.path.stat().st_size &gt; self.MAX_BYTES:
+                raise LibraryError(&quot;File vượt giới hạn 1 MB của bài thực hành&quot;)
+            payload = json.loads(self.path.read_text(encoding=&quot;utf-8&quot;))
+        except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+            raise LibraryError(&quot;Không đọc được JSON; giữ nguyên file để kiểm tra&quot;) from exc
+        if not isinstance(payload, dict) or set(payload) != {&quot;schema_version&quot;, &quot;books&quot;}:
+            raise LibraryError(&quot;Cấu trúc gốc không hợp lệ&quot;)
+        if type(payload[&quot;schema_version&quot;]) is not int or payload[&quot;schema_version&quot;] != 1:
+            raise LibraryError(&quot;Phiên bản dữ liệu không được hỗ trợ&quot;)
+        if not isinstance(payload[&quot;books&quot;], list):
+            raise LibraryError(&quot;books phải là danh sách&quot;)
+        books = []
+        for row in payload[&quot;books&quot;]:
+            if not isinstance(row, dict) or set(row) != {&quot;code&quot;, &quot;title&quot;, &quot;total&quot;, &quot;available&quot;}:
+                raise LibraryError(&quot;Trường của bản ghi sách không hợp lệ&quot;)
+            books.append(Book(**row))
+        return Library(books)
+
+    def save(self, library):
+        payload = {&quot;schema_version&quot;: 1, &quot;books&quot;: library.records()}
+        encoded = json.dumps(payload, ensure_ascii=False, indent=2).encode(&quot;utf-8&quot;)
+        if len(encoded) &gt; self.MAX_BYTES:
+            raise LibraryError(&quot;Dữ liệu vượt giới hạn 1 MB của bài thực hành&quot;)
+        temporary = self.path.with_name(self.path.name + &quot;.tmp&quot;)
+        try:
+            temporary.write_bytes(encoded)
+            temporary.replace(self.path)
+        except OSError as exc:
+            raise LibraryError(&quot;Không ghi được dữ liệu; kiểm tra đường dẫn và quyền ghi&quot;) from exc
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=&quot;Thư viện CLI — bài thực hành OOP&quot;)
+    parser.add_argument(&quot;--data&quot;, default=&quot;library.json&quot;, help=&quot;File dữ liệu của một người dùng&quot;)
+    commands = parser.add_subparsers(dest=&quot;command&quot;, required=True)
+    add = commands.add_parser(&quot;add&quot;, help=&quot;Thêm đầu sách mới&quot;)
+    add.add_argument(&quot;code&quot;)
+    add.add_argument(&quot;title&quot;)
+    add.add_argument(&quot;total&quot;, type=int)
+    commands.add_parser(&quot;list&quot;, help=&quot;Xem danh mục&quot;)
+    for name in (&quot;borrow&quot;, &quot;return&quot;):
+        command = commands.add_parser(name)
+        command.add_argument(&quot;code&quot;)
+    args = parser.parse_args(argv)
+    repository = JsonRepository(args.data)
+    try:
+        library = repository.load()
+        if args.command == &quot;list&quot;:
+            for row in library.records():
+                print(f&quot;{row[&#x27;code&#x27;]} | {row[&#x27;title&#x27;]} | {row[&#x27;available&#x27;]}/{row[&#x27;total&#x27;]}&quot;)
+            return 0
+        if args.command == &quot;add&quot;:
+            library.add(Book(args.code, args.title, args.total, args.total))
+        elif args.command == &quot;borrow&quot;:
+            library.borrow(args.code)
+        else:
+            library.return_book(args.code)
+        repository.save(library)
+    except LibraryError as exc:
+        print(f&quot;Lỗi: {exc}&quot;, file=sys.stderr)
+        return 2
+    print(&quot;Đã lưu thay đổi&quot;)
+    return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    sys.exit(main())
+</code></pre>
+<h3>File: test_library_cli.py</h3>
+<pre><code>import contextlib
+import io
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from library_cli import Book, Library, LibraryError, JsonRepository, main
+
+
+class LibraryTests(unittest.TestCase):
+    def test_borrow_and_return_boundaries(self):
+        book = Book(&quot;PY01&quot;, &quot;Học Python&quot;, 1, 1)
+        book.borrow()
+        with self.assertRaises(LibraryError):
+            book.borrow()
+        self.assertEqual(book.available, 0)
+        book.return_copy()
+        with self.assertRaises(LibraryError):
+            book.return_copy()
+        self.assertEqual(book.available, 1)
+
+    def test_constructor_validation(self):
+        for total in (-1, True, &quot;2&quot;):
+            with self.subTest(total=total), self.assertRaises(LibraryError):
+                Book(&quot;PY01&quot;, &quot;Python&quot;, total, 0)
+        for available in (-1, 3, True):
+            with self.subTest(available=available), self.assertRaises(LibraryError):
+                Book(&quot;PY01&quot;, &quot;Python&quot;, 2, available)
+
+    def test_blank_code_and_title(self):
+        for code, title in ((&quot; &quot;, &quot;Python&quot;), (&quot;PY01&quot;, &quot; &quot;), (None, &quot;Python&quot;)):
+            with self.subTest(code=code, title=title), self.assertRaises(LibraryError):
+                Book(code, title, 1, 1)
+
+    def test_duplicate_and_missing_code(self):
+        library = Library([Book(&quot;PY01&quot;, &quot;Python&quot;, 1, 1)])
+        with self.assertRaises(LibraryError):
+            library.add(Book(&quot;PY01&quot;, &quot;Khác&quot;, 9, 9))
+        with self.assertRaises(LibraryError):
+            library.borrow(&quot;NO&quot;)
+        self.assertEqual(library.get(&quot;PY01&quot;).total, 1)
+
+    def test_record_export_is_not_mutable_alias(self):
+        library = Library([Book(&quot;PY01&quot;, &quot;Python&quot;, 2, 2)])
+        rows = library.records()
+        rows[0][&quot;available&quot;] = 0
+        self.assertEqual(library.get(&quot;PY01&quot;).available, 2)
+
+    def test_json_round_trip_and_sorting(self):
+        with tempfile.TemporaryDirectory() as folder:
+            repository = JsonRepository(Path(folder) / &quot;library.json&quot;)
+            self.assertEqual(repository.load().records(), [])
+            library = Library([Book(&quot;B&quot;, &quot;Java&quot;, 2, 1), Book(&quot;A&quot;, &quot;Python&quot;, 1, 1)])
+            repository.save(library)
+            self.assertEqual(repository.load().records(), library.records())
+            self.assertEqual(repository.load().records()[0][&quot;code&quot;], &quot;A&quot;)
+
+    def test_bad_json_not_overwritten(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / &quot;library.json&quot;
+            path.write_bytes(b&quot;{broken&quot;)
+            with self.assertRaises(LibraryError):
+                JsonRepository(path).load()
+            self.assertEqual(path.read_bytes(), b&quot;{broken&quot;)
+
+    def test_schema_and_duplicate_rows_rejected(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / &quot;library.json&quot;
+            row = {&quot;code&quot;: &quot;PY01&quot;, &quot;title&quot;: &quot;Python&quot;, &quot;total&quot;: 1, &quot;available&quot;: 1}
+            for payload in ({&quot;schema_version&quot;: True, &quot;books&quot;: []},
+                            {&quot;schema_version&quot;: 2, &quot;books&quot;: []},
+                            {&quot;schema_version&quot;: 1, &quot;books&quot;: [row, row]},
+                            {&quot;schema_version&quot;: 1, &quot;books&quot;: [{&quot;code&quot;: &quot;PY01&quot;}]}):
+                path.write_text(json.dumps(payload), encoding=&quot;utf-8&quot;)
+                with self.subTest(payload=payload), self.assertRaises(LibraryError):
+                    JsonRepository(path).load()
+
+    def test_cli_persists_and_does_not_save_failed_borrow(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / &quot;library.json&quot;
+            common = [&quot;--data&quot;, str(path)]
+            with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(main(common + [&quot;add&quot;, &quot;PY01&quot;, &quot;Học Python&quot;, &quot;1&quot;]), 0)
+                self.assertEqual(main(common + [&quot;borrow&quot;, &quot;PY01&quot;]), 0)
+                before = path.read_bytes()
+                self.assertEqual(main(common + [&quot;borrow&quot;, &quot;PY01&quot;]), 2)
+                self.assertEqual(path.read_bytes(), before)
+                self.assertEqual(main(common + [&quot;return&quot;, &quot;PY01&quot;]), 0)
+                self.assertEqual(main(common + [&quot;list&quot;]), 0)
+            self.assertEqual(JsonRepository(path).load().get(&quot;PY01&quot;).available, 1)
+
+    def test_cli_invalid_add_does_not_create_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / &quot;library.json&quot;
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(main([&quot;--data&quot;, str(path), &quot;add&quot;, &quot;PY01&quot;, &quot;Python&quot;, &quot;-1&quot;]), 2)
+            self.assertFalse(path.exists())
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</code></pre>
+<h3>File: README.md</h3>
+<h1>Thư viện CLI — dự án Python OOP</h1>
+<p>Python 3.12+, chỉ thư viện chuẩn. Chạy <code>python -m unittest -v</code> trước khi dùng.</p>
+<pre><code>python library_cli.py --data sandbox-library.json add PY01 &quot;Học Python&quot; 2
+python library_cli.py --data sandbox-library.json list
+python library_cli.py --data sandbox-library.json borrow PY01
+python library_cli.py --data sandbox-library.json return PY01</code></pre>
+<p>Dữ liệu UTF-8 ở file do --data chỉ định, mặc định library.json. Lệnh sai trả mã thoát 2 và không lưu dữ liệu. Đường dẫn thư mục cha phải tồn tại và ghi được. Dùng file thử riêng; sao lưu trước khi sửa JSON bằng tay.</p>
+<p>Giới hạn: một người chạy tuần tự một lệnh tại một thời điểm, file không quá 1 MB, không quản lý độc giả, không có xác thực hay giao dịch nhiều tiến trình. File tạm rồi replace không thay khóa đồng thời. Đây là dự án nền tảng để học mô hình và kiểm thử.</p>
+<p>Hãy tự bổ sung lệnh search chỉ đọc và test theo đề bài. Rubric trong sổ tay khóa học chấm nghiệp vụ, thiết kế, lưu trữ, test và khả năng tái hiện.</p></body></html>

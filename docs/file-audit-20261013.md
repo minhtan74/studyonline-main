@@ -18,7 +18,7 @@ Chỉ kiểm tra, không xóa hoặc di chuyển file. Phạm vi: cây thư mụ
 | `1789547296_301cd1842885.pdf` | Cùng bài Python ở trên | `1789547498_c276bec77285.pdf` |
 | `1789547466_f1df8a42cc08.pdf` | Khái niệm cơ sở dữ liệu, bản một trang | `1789530044_3fc86e099f4c.pdf` |
 
-Tổng dung lượng khoảng **0,28 MiB**. Hai bản được giữ có tham chiếu trong dữ liệu khôi phục. Kết luận áp dụng cho database local được kiểm tra; chưa kiểm tra database Docker hoặc môi trường khác.
+Tổng dung lượng khoảng **0,28 MiB**. Hai bản được giữ có tham chiếu trong dữ liệu khôi phục. Kết luận áp dụng cho database local được kiểm tra; chưa kiểm tra database ở môi trường khác.
 
 ## Có thể tái tạo, dọn khi cần
 
@@ -41,8 +41,8 @@ Tổng dung lượng khoảng **0,28 MiB**. Hai bản được giữ có tham ch
 - `backend/training/lesson_docs/pdf/` (5,35 MiB): bộ PDF demo được `seed_lesson_docs.py` sử dụng và README hướng dẫn. Không thừa chỉ vì website hiện dùng bộ mới.
 - `backend/training/lesson_docs/completed/`: tài liệu bổ sung và nhật ký trước/sau; script tạo lại vẫn dùng một số file trong nhóm này.
 - `course7_english.md`, `course8_discrete_math.md`, `seed_extra_courses.py`: dữ liệu demo Tiếng Anh/Toán được tài liệu hướng dẫn sử dụng, dù database local hiện có môn HĐH.
-- Migration Alembic, các file SQL, tests, Postman, nguồn Markdown, dữ liệu huấn luyện và kết quả đánh giá: phục vụ khởi tạo, kiểm thử, tái tạo hoặc đối chiếu. `migration_add_payments.sql` được Docker Compose dùng trực tiếp.
-- `.env`, `.env.example`, `.gitkeep`, file cấu hình Git/Docker: có mục đích rõ ràng, không phải file dư.
+- Migration Alembic, các file SQL, tests, Postman, nguồn Markdown, dữ liệu huấn luyện và kết quả đánh giá: phục vụ khởi tạo, kiểm thử, tái tạo hoặc đối chiếu. `migration_add_payments.sql` dùng khi khởi tạo database theo hướng dẫn trong README.
+- `.env`, `.env.example`, `.gitkeep`, file cấu hình Git: có mục đích rõ ràng, không phải file dư.
 
 ## Bản sao PDF và giới hạn
 
