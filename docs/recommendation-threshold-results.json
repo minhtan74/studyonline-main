@@ -1,0 +1,191 @@
+{
+  "passed_combinations": 5151,
+  "rounding_checks": 9,
+  "sample_columns": [
+    "total",
+    "correct",
+    "percent",
+    "topic_level",
+    "recommendation"
+  ],
+  "samples": [
+    [
+      0,
+      0,
+      null,
+      "Insufficient",
+      "Chưa có dữ liệu"
+    ],
+    [
+      1,
+      0,
+      0.0,
+      "Insufficient",
+      "Cần kiểm tra thêm"
+    ],
+    [
+      4,
+      0,
+      0.0,
+      "Insufficient",
+      "Cần kiểm tra thêm"
+    ],
+    [
+      4,
+      4,
+      100.0,
+      "Insufficient",
+      "Chưa đủ dữ liệu, chưa có câu sai"
+    ],
+    [
+      5,
+      0,
+      0.0,
+      "Weak",
+      "Nên ôn tập"
+    ],
+    [
+      5,
+      3,
+      60.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      5,
+      4,
+      80.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      10,
+      6,
+      60.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      10,
+      7,
+      70.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      100,
+      49,
+      49.0,
+      "Weak",
+      "Nên ôn tập"
+    ],
+    [
+      100,
+      50,
+      50.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      100,
+      69,
+      69.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      100,
+      70,
+      70.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      100,
+      84,
+      84.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      100,
+      85,
+      85.0,
+      "Excellent",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      100,
+      100,
+      100.0,
+      "Excellent",
+      "Đạt ngưỡng ôn tập"
+    ]
+  ],
+  "rounding_samples": [
+    [
+      2000,
+      998,
+      49.9,
+      "Weak",
+      "Nên ôn tập"
+    ],
+    [
+      2000,
+      999,
+      50.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      2000,
+      1000,
+      50.0,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      2000,
+      1398,
+      69.9,
+      "Average",
+      "Nên ôn tập"
+    ],
+    [
+      2000,
+      1399,
+      70.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      2000,
+      1400,
+      70.0,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      2000,
+      1698,
+      84.9,
+      "Good",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      2000,
+      1699,
+      85.0,
+      "Excellent",
+      "Đạt ngưỡng ôn tập"
+    ],
+    [
+      2000,
+      1700,
+      85.0,
+      "Excellent",
+      "Đạt ngưỡng ôn tập"
+    ]
+  ],
+  "no_database_access": true
+}

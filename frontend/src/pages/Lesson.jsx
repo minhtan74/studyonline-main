@@ -15,6 +15,10 @@ export default function Lesson() {
   const navigate = useNavigate();
   // Id bài học lấy từ URL: /lesson?id=X
   const lessonId = searchParams.get('id');
+  // Hỗ trợ Deep-linking: nhắm đúng trang tài liệu PDF (?page=X) hoặc mốc video (?t=X)
+  const pageParam = Number(searchParams.get('page')) || null;
+  const timeParam = Number(searchParams.get('t')) || null;
+  const topicParam = searchParams.get('topic') || null;
 
   // Dữ liệu bài học, chương, khóa, mục lục và tiến độ
   const [loading, setLoading] = useState(true);
@@ -130,9 +134,15 @@ export default function Lesson() {
       if (cancelled) return;
 
       document.title = `${lessonData.title} — StudyOnline`;
-      // Mở tab có nội dung dùng được: ưu tiên video, video chưa có file thật mà có tài liệu thì mở tài liệu
-      const videoOk = isUsableMediaUrl(lessonData.video_src || lessonData.video_url);
-      setPlayerTab(videoOk || !lessonData.document_url ? 'video' : 'doc');
+      // Deep-linking: nếu có ?page=X -> mở tab tài liệu; nếu có ?t=X -> mở tab video
+      if (pageParam && lessonData.document_url) {
+        setPlayerTab('doc');
+      } else if (timeParam && lessonData.video_url) {
+        setPlayerTab('video');
+      } else {
+        const videoOk = isUsableMediaUrl(lessonData.video_src || lessonData.video_url);
+        setPlayerTab(videoOk || !lessonData.document_url ? 'video' : 'doc');
+      }
       setLesson(lessonData);
       setChapter(currentChapter);
       setCourse(courseData);
@@ -283,6 +293,57 @@ export default function Lesson() {
             </div>
           )}
 
+          {/* Banner thông báo Deep-linking khi học viên bấm từ gợi ý ôn tập */}
+          {(pageParam || timeParam || topicParam) && (
+            <div
+              className="l-deep-link-notice"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '0.75rem',
+                padding: '0.65rem 1rem',
+                marginBottom: '0.85rem',
+                background: 'linear-gradient(135deg, #eff6ff, #f0fdf4)',
+                border: '1px solid #bfdbfe',
+                borderRadius: '10px',
+                fontSize: '0.85rem',
+                color: '#1e3a8a',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '1.2rem' }}>🎯</span>
+                <span>
+                  <strong>Đang mở đúng phần kiến thức bạn cần ôn tập:</strong>{' '}
+                  {topicParam && <span style={{ fontWeight: 600 }}>«{topicParam}» </span>}
+                  {pageParam && <span className="s-badge s-badge-blue" style={{ marginLeft: 4 }}>Trang {pageParam} (PDF)</span>}
+                  {timeParam && (
+                    <span className="s-badge s-badge-green" style={{ marginLeft: 4 }}>
+                      Mốc {Math.floor(timeParam / 60)}:{String(timeParam % 60).padStart(2, '0')} (Video)
+                    </span>
+                  )}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => navigate(`/lesson?id=${lesson.id}`, { replace: true })}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#64748b',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  padding: '0.2rem 0.5rem',
+                  borderRadius: '4px',
+                }}
+                title="Bỏ nhắm mục tiêu này"
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
           {/* Video / Tài liệu / Placeholder */}
           <div
             className="l-video-container"
@@ -291,7 +352,7 @@ export default function Lesson() {
             {playerTab === 'doc' && lesson.document_url ? (
               docSrc ? (
                 <iframe
-                  src={`${docSrc}#view=FitH`}
+                  src={pageParam ? `${docSrc}#page=${pageParam}&view=FitH` : `${docSrc}#view=FitH`}
                   title={`Tài liệu — ${lesson.title}`}
                   style={{ width: '100%', height: '100%', border: 'none', background: '#fff', display: 'block' }}
                 />
@@ -310,22 +371,31 @@ export default function Lesson() {
               </div>
             ) : lesson.video_url ? (
               isYoutubeUrl(lesson.video_url) ? (
-                /* ── YouTube: dùng iframe với URL embed đã chuẩn hoá ── */
+                /* ── YouTube: dùng iframe với URL embed đã chuẩn hoá (kèm mốc giây nếu có) ── */
                 <iframe
                   id="lessonVideo"
-                  src={getEmbedUrl(lesson.video_url)}
+                  src={
+                    timeParam
+                      ? `${getEmbedUrl(lesson.video_url)}${getEmbedUrl(lesson.video_url).includes('?') ? '&' : '?'}start=${timeParam}`
+                      : getEmbedUrl(lesson.video_url)
+                  }
                   title={lesson.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
                   style={{ width: '100%', height: '100%', border: 'none', borderRadius: '12px' }}
                 />
               ) : (
-                /* ── Video local / CDN: dùng thẻ <video> HTML5 ── */
+                /* ── Video local / CDN: dùng thẻ <video> HTML5 (tự tua tới giây nếu có ?t=) ── */
                 <video
                   id="lessonVideo"
                   ref={videoRef}
                   controls
                   src={videoSrc}
+                  onLoadedMetadata={() => {
+                    if (timeParam && videoRef.current) {
+                      videoRef.current.currentTime = timeParam;
+                    }
+                  }}
                   onTimeUpdate={handleTimeUpdate}
                   onEnded={handleEnded}
                 >

@@ -3,6 +3,7 @@ import KnowledgePicker from '../../components/teacher/KnowledgePicker.jsx';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { quizService } from '../../services/quizService';
 import Modal from '../../components/common/Modal.jsx';
 import DifficultyBar from '../../components/common/DifficultyBar.jsx';
@@ -40,6 +41,7 @@ const DIFFICULTY_LABELS = { easy: 'Dễ', medium: 'Trung bình', hard: 'Khó' };
 export default function TeacherQuizQuestions() {
   const { quizId } = useParams();
   const { showToast } = useToast();
+  const confirm = useConfirm();
 
   const [quiz, setQuiz] = useState(null);
   const [questions, setQuestions] = useState(null); // null = loading
@@ -144,7 +146,10 @@ export default function TeacherQuizQuestions() {
 
   // Xóa câu hỏi (backend từ chối nếu đã có học viên trả lời)
   async function handleDelete(id) {
-    if (!window.confirm('Xóa câu hỏi này? (Câu hỏi đã có học viên trả lời sẽ không xóa được.)')) return;
+    const ok = await confirm('Xóa câu hỏi này? (Câu hỏi đã có học viên trả lời sẽ không xóa được.)', {
+      title: 'Xóa câu hỏi', confirmLabel: 'Xóa', tone: 'danger',
+    });
+    if (!ok) return;
     const res = await quizService.deleteQuestion(id);
     if (res?.ok) {
       showToast('Đã xóa!', 'success');

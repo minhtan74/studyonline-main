@@ -23,6 +23,9 @@
 }
 
 /* CSS Bar Chart styling */
+.teacher-profile-link { text-decoration: none; flex-shrink: 0; }
+.teacher-profile-link:focus-visible { outline: 3px solid var(--primary); outline-offset: 4px; }
+
 .bar-chart {
   display: flex;
   align-items: flex-end;

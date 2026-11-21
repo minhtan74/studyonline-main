@@ -119,7 +119,7 @@ export default function AdminSidebar({ mobileOpen, onNavigate }) {
           </div>
         </div>
         <button className="sidebar-logout" onClick={handleLogout}>
-          🚪 Đăng xuất mọi thiết bị
+          🚪 Đăng xuất
         </button>
       </div>
     </aside>

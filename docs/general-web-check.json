@@ -6,7 +6,7 @@
       "path": "/api/auth/me",
       "status": 200,
       "expected": 200,
-      "ms": 19,
+      "ms": 24,
       "ok": true
     },
     {
@@ -14,7 +14,7 @@
       "path": "/api/courses",
       "status": 200,
       "expected": 200,
-      "ms": 36,
+      "ms": 64,
       "ok": true
     },
     {
@@ -22,7 +22,7 @@
       "path": "/api/enrollments?ids_only=1",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 7,
       "ok": true
     },
     {
@@ -30,7 +30,7 @@
       "path": "/api/progress",
       "status": 200,
       "expected": 200,
-      "ms": 14,
+      "ms": 17,
       "ok": true
     },
     {
@@ -38,7 +38,7 @@
       "path": "/api/progress?weekly=1",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 8,
       "ok": true
     },
     {
@@ -46,7 +46,7 @@
       "path": "/api/progress?recent=1",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 7,
       "ok": true
     },
     {
@@ -54,7 +54,7 @@
       "path": "/api/quizzes",
       "status": 200,
       "expected": 200,
-      "ms": 67,
+      "ms": 56,
       "ok": true
     },
     {
@@ -62,7 +62,7 @@
       "path": "/api/quizzes/results",
       "status": 200,
       "expected": 200,
-      "ms": 8,
+      "ms": 6,
       "ok": true
     },
     {
@@ -70,7 +70,7 @@
       "path": "/api/analytics/overview",
       "status": 200,
       "expected": 200,
-      "ms": 11,
+      "ms": 12,
       "ok": true
     },
     {
@@ -78,7 +78,7 @@
       "path": "/api/analytics/topics",
       "status": 200,
       "expected": 200,
-      "ms": 27,
+      "ms": 38,
       "ok": true
     },
     {
@@ -86,7 +86,7 @@
       "path": "/api/recommendations",
       "status": 200,
       "expected": 200,
-      "ms": 125,
+      "ms": 145,
       "ok": true
     },
     {
@@ -94,7 +94,7 @@
       "path": "/api/recommendations/progress",
       "status": 200,
       "expected": 200,
-      "ms": 12,
+      "ms": 10,
       "ok": true
     },
     {
@@ -110,7 +110,7 @@
       "path": "/api/ai/conversations",
       "status": 200,
       "expected": 200,
-      "ms": 9,
+      "ms": 10,
       "ok": true
     },
     {
@@ -118,7 +118,7 @@
       "path": "/api/ai/status",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 3,
       "ok": true
     },
     {
@@ -126,7 +126,7 @@
       "path": "/api/users",
       "status": 403,
       "expected": 403,
-      "ms": 3,
+      "ms": 4,
       "ok": true
     },
     {
@@ -142,7 +142,7 @@
       "path": "/api/chapters?course_id=1",
       "status": 200,
       "expected": 200,
-      "ms": 7,
+      "ms": 4,
       "ok": true
     },
     {
@@ -150,7 +150,7 @@
       "path": "/api/courses/materials?course_id=1",
       "status": 200,
       "expected": 200,
-      "ms": 9,
+      "ms": 7,
       "ok": true
     },
     {
@@ -166,7 +166,7 @@
       "path": "/api/lessons?id=1",
       "status": 200,
       "expected": 200,
-      "ms": 8,
+      "ms": 7,
       "ok": true
     },
     {
@@ -174,11 +174,131 @@
       "path": "/api/quizzes/results?id=302",
       "status": 200,
       "expected": 200,
-      "ms": 16,
+      "ms": 14,
       "ok": true
     },
     {
       "role": "teacher",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "ms": 2,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/courses",
+      "status": 200,
+      "expected": 200,
+      "ms": 10,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/enrollments?ids_only=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress?weekly=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/progress?recent=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 4,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/quizzes",
+      "status": 200,
+      "expected": 200,
+      "ms": 69,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/quizzes/results",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/analytics/overview",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/analytics/topics",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/recommendations",
+      "status": 200,
+      "expected": 200,
+      "ms": 20,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/recommendations/progress",
+      "status": 200,
+      "expected": 200,
+      "ms": 7,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/payments",
+      "status": 200,
+      "expected": 200,
+      "ms": 6,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/ai/conversations",
+      "status": 200,
+      "expected": 200,
+      "ms": 5,
+      "ok": true
+    },
+    {
+      "role": "teacher",
+      "path": "/api/ai/status",
+      "status": 200,
+      "expected": 200,
+      "ms": 3,
+      "ok": true
+    },
+    {
+      "role": "admin",
       "path": "/api/auth/me",
       "status": 200,
       "expected": 200,
@@ -186,23 +306,23 @@
       "ok": true
     },
     {
-      "role": "teacher",
+      "role": "admin",
       "path": "/api/courses",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 8,
       "ok": true
     },
     {
-      "role": "teacher",
+      "role": "admin",
       "path": "/api/enrollments?ids_only=1",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 5,
       "ok": true
     },
     {
-      "role": "teacher",
+      "role": "admin",
       "path": "/api/progress",
       "status": 200,
       "expected": 200,
@@ -210,211 +330,91 @@
       "ok": true
     },
     {
-      "role": "teacher",
+      "role": "admin",
       "path": "/api/progress?weekly=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 4,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/progress?recent=1",
+      "status": 200,
+      "expected": 200,
+      "ms": 4,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/quizzes",
+      "status": 200,
+      "expected": 200,
+      "ms": 83,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/quizzes/results",
       "status": 200,
       "expected": 200,
       "ms": 5,
       "ok": true
     },
     {
-      "role": "teacher",
-      "path": "/api/progress?recent=1",
+      "role": "admin",
+      "path": "/api/analytics/overview",
+      "status": 200,
+      "expected": 200,
+      "ms": 8,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/analytics/topics",
       "status": 200,
       "expected": 200,
       "ms": 7,
       "ok": true
     },
     {
-      "role": "teacher",
-      "path": "/api/quizzes",
+      "role": "admin",
+      "path": "/api/recommendations",
       "status": 200,
       "expected": 200,
-      "ms": 82,
+      "ms": 17,
       "ok": true
     },
     {
-      "role": "teacher",
-      "path": "/api/quizzes/results",
+      "role": "admin",
+      "path": "/api/recommendations/progress",
       "status": 200,
       "expected": 200,
-      "ms": 6,
+      "ms": 7,
       "ok": true
     },
     {
-      "role": "teacher",
-      "path": "/api/analytics/overview",
+      "role": "admin",
+      "path": "/api/payments",
+      "status": 200,
+      "expected": 200,
+      "ms": 10,
+      "ok": true
+    },
+    {
+      "role": "admin",
+      "path": "/api/ai/conversations",
       "status": 200,
       "expected": 200,
       "ms": 9,
       "ok": true
     },
     {
-      "role": "teacher",
-      "path": "/api/analytics/topics",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "teacher",
-      "path": "/api/recommendations",
-      "status": 200,
-      "expected": 200,
-      "ms": 16,
-      "ok": true
-    },
-    {
-      "role": "teacher",
-      "path": "/api/recommendations/progress",
-      "status": 200,
-      "expected": 200,
-      "ms": 7,
-      "ok": true
-    },
-    {
-      "role": "teacher",
-      "path": "/api/payments",
-      "status": 200,
-      "expected": 200,
-      "ms": 8,
-      "ok": true
-    },
-    {
-      "role": "teacher",
-      "path": "/api/ai/conversations",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "teacher",
-      "path": "/api/ai/status",
-      "status": 200,
-      "expected": 200,
-      "ms": 4,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/auth/me",
-      "status": 200,
-      "expected": 200,
-      "ms": 4,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/courses",
-      "status": 200,
-      "expected": 200,
-      "ms": 8,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/enrollments?ids_only=1",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/progress",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/progress?weekly=1",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/progress?recent=1",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/quizzes",
-      "status": 200,
-      "expected": 200,
-      "ms": 94,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/quizzes/results",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/analytics/overview",
-      "status": 200,
-      "expected": 200,
-      "ms": 6,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/analytics/topics",
-      "status": 200,
-      "expected": 200,
-      "ms": 5,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/recommendations",
-      "status": 200,
-      "expected": 200,
-      "ms": 13,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/recommendations/progress",
-      "status": 200,
-      "expected": 200,
-      "ms": 5,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/payments",
-      "status": 200,
-      "expected": 200,
-      "ms": 8,
-      "ok": true
-    },
-    {
-      "role": "admin",
-      "path": "/api/ai/conversations",
-      "status": 200,
-      "expected": 200,
-      "ms": 5,
-      "ok": true
-    },
-    {
       "role": "admin",
       "path": "/api/ai/status",
       "status": 200,
       "expected": 200,
-      "ms": 2,
+      "ms": 6,
       "ok": true
     },
     {
@@ -422,7 +422,7 @@
       "path": "/api/users",
       "status": 200,
       "expected": 200,
-      "ms": 7,
+      "ms": 6,
       "ok": true
     },
     {
@@ -430,7 +430,7 @@
       "path": "/api/reports/summary",
       "status": 200,
       "expected": 200,
-      "ms": 22,
+      "ms": 27,
       "ok": true
     },
     {
@@ -438,7 +438,7 @@
       "path": "/api/reports/learning",
       "status": 200,
       "expected": 200,
-      "ms": 112,
+      "ms": 135,
       "ok": true
     },
     {
@@ -446,7 +446,7 @@
       "path": "/api/payments/manage",
       "status": 200,
       "expected": 200,
-      "ms": 32,
+      "ms": 33,
       "ok": true
     },
     {
@@ -454,7 +454,7 @@
       "path": "/api/health",
       "status": 200,
       "expected": 200,
-      "ms": 2,
+      "ms": 3,
       "ok": true
     },
     {
@@ -462,7 +462,7 @@
       "path": "/api/courses",
       "status": 200,
       "expected": 200,
-      "ms": 23,
+      "ms": 13,
       "ok": true
     },
     {
@@ -470,7 +470,7 @@
       "path": "/api/auth/me",
       "status": 401,
       "expected": 401,
-      "ms": 2,
+      "ms": 4,
       "ok": true
     },
     {
@@ -478,7 +478,7 @@
       "path": "/api/quizzes/results",
       "status": 401,
       "expected": 401,
-      "ms": 2,
+      "ms": 3,
       "ok": true
     }
   ],

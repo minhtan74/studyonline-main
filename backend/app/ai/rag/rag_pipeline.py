@@ -90,7 +90,7 @@ def _search_query(question: str, history: list[dict] | None, use_llm: bool) -> s
         anchor = clarification.anchor_question(history) if follow_up else None
         prompt = (f"CHỦ ĐỀ ĐÃ XÁC ĐỊNH: {anchor}\n\n" if anchor else "")
         prompt += (f"HỘI THOẠI:\n{convo}\n\n" if prev_user else "") + f"CÂU HỎI CUỐI: {question}"
-        out = model_manager.generate(_REWRITE_SYSTEM, prompt, max_tokens=120)
+        out = model_manager.generate(_REWRITE_SYSTEM, prompt, max_tokens=120, timeout=12)
         out = out.strip().strip('"').strip()
         if not out or out.startswith("[Lỗi gọi LLM") or len(out) > 400:
             return f"{anchor} {question}" if anchor else question
@@ -178,7 +178,8 @@ def answer(
             + (f"CÂU HỎI ĐÃ BỔ SUNG NGỮ CẢNH HỘI THOẠI: {query}\n\n" if query != question else "")
             + "Hãy trả lời câu hỏi chỉ dựa trên NGỮ CẢNH ở trên."
         )
-        text = model_manager.generate(_SYSTEM, user_prompt)
+        # Tutor output ngắn (<=700 token): siết chờ 20s, Gemini treo thì rơi về trích xuất offline thay vì chờ 60s
+        text = model_manager.generate(_SYSTEM, user_prompt, timeout=20)
 
         if text.strip().startswith(CLARIFICATION_PREFIX):
             prompt = text.strip()[len(CLARIFICATION_PREFIX):].strip() or clarification.PROMPTS["topic"]

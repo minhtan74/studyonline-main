@@ -1,0 +1,13 @@
+{
+  "entry_scripts": [
+    {
+      "file": "/assets/index-AUZZfFln.js",
+      "bytes": 254711,
+      "gzip_bytes": 83283
+    }
+  ],
+  "initial_js_bytes": 254711,
+  "initial_js_gzip_bytes": 83283,
+  "largest_js_chunk_bytes": 262939,
+  "initial_js_reduction_percent": 77.0
+}

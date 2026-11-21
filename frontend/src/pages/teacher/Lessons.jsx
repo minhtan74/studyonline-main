@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { courseService } from '../../services/courseService';
 import { chapterService } from '../../services/chapterService';
 import { lessonService } from '../../services/lessonService';
@@ -18,6 +19,7 @@ const emptyForm = { title: '', description: '', video_url: '', document_url: '',
 export default function TeacherLessons() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
 
   const [teacherCourses, setTeacherCourses] = useState([]);
   const [selectedCourseId, setSelectedCourseId] = useState('');
@@ -173,7 +175,10 @@ export default function TeacherLessons() {
 
   // Xóa bài học (có xác nhận)
   async function handleDelete(id) {
-    if (!window.confirm('Xóa bài giảng này? Tiến độ học của học viên với bài này cũng sẽ bị xóa vĩnh viễn.')) return;
+    const ok = await confirm('Xóa bài giảng này? Tiến độ học của học viên với bài này cũng sẽ bị xóa vĩnh viễn.', {
+      title: 'Xóa bài giảng', confirmLabel: 'Xóa', tone: 'danger',
+    });
+    if (!ok) return;
     const res = await lessonService.deleteLesson(id);
     if (res?.ok) {
       showToast('Đã xóa bài học!', 'success');
@@ -332,7 +337,7 @@ export default function TeacherLessons() {
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <div
           className="card modal-panel"
-          style={{ width: '100%', maxWidth: 480, margin: '1.5rem', animation: 'modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
+          style={{ width: '100%', maxWidth: 560, margin: '1.5rem', animation: 'modalFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1)' }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="card-header">
@@ -364,81 +369,86 @@ export default function TeacherLessons() {
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                 />
               </div>
-              <div className="form-group">
-                <label className="form-label">Video URL</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="https://youtube.com/embed/... hoặc tên file video"
-                  value={form.video_url}
-                  onChange={(e) => setForm({ ...form, video_url: e.target.value })}
-                />
-                {/* Upload từ máy */}
-                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <label
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                      padding: '0.3rem 0.75rem', borderRadius: 6, cursor: 'pointer',
-                      background: 'var(--surface-2,#1e293b)', border: '1px solid var(--border,#334155)',
-                      fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap',
-                      opacity: uploadState.video.uploading ? 0.5 : 1,
-                      pointerEvents: uploadState.video.uploading ? 'none' : 'auto',
-                    }}
-                  >
-                    🎬 Chọn video từ máy
+              {/* Video + Tài liệu PDF gộp 1 hàng 2 cột; nút chọn file nằm cùng hàng ô URL (đỡ tốn chiều cao) */}
+              <div className="grid grid-2">
+                <div className="form-group">
+                  <label className="form-label">Video</label>
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
                     <input
-                      type="file"
-                      accept="video/mp4,video/webm,video/ogg,video/quicktime,.mkv"
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleFileUpload(e, 'video')}
+                      type="text"
+                      className="form-control"
+                      placeholder="URL hoặc chọn file"
+                      value={form.video_url}
+                      onChange={(e) => setForm({ ...form, video_url: e.target.value })}
+                      style={{ flex: 1, minWidth: 0 }}
                     />
-                  </label>
+                    <label
+                      title="Chọn video từ máy"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        width: 42, flexShrink: 0, borderRadius: 'var(--radius)', cursor: 'pointer',
+                        background: 'var(--surface-2,#1e293b)', border: '1.5px solid var(--border,#334155)',
+                        fontSize: '1rem',
+                        opacity: uploadState.video.uploading ? 0.5 : 1,
+                        pointerEvents: uploadState.video.uploading ? 'none' : 'auto',
+                      }}
+                    >
+                      🎬
+                      <input
+                        type="file"
+                        accept="video/mp4,video/webm,video/ogg,video/quicktime,.mkv"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileUpload(e, 'video')}
+                      />
+                    </label>
+                  </div>
                   {uploadState.video.uploading && (
-                    <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${uploadState.video.pct}%`, background: 'var(--primary)', transition: 'width 0.2s' }} />
+                    <div style={{ marginTop: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${uploadState.video.pct}%`, background: 'var(--primary)', transition: 'width 0.2s' }} />
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.video.pct}%</span>
                     </div>
-                  )}
-                  {uploadState.video.uploading && (
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.video.pct}%</span>
                   )}
                 </div>
-              </div>
-              <div className="form-group">
-                <label className="form-label">Tài liệu PDF URL</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="https://docs.google.com/... hoặc link tải tài liệu"
-                  value={form.document_url}
-                  onChange={(e) => setForm({ ...form, document_url: e.target.value })}
-                />
-                {/* Upload từ máy */}
-                <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <label
-                    style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.4rem',
-                      padding: '0.3rem 0.75rem', borderRadius: 6, cursor: 'pointer',
-                      background: 'var(--surface-2,#1e293b)', border: '1px solid var(--border,#334155)',
-                      fontSize: '0.8rem', color: 'var(--text-muted)', whiteSpace: 'nowrap',
-                      opacity: uploadState.document.uploading ? 0.5 : 1,
-                      pointerEvents: uploadState.document.uploading ? 'none' : 'auto',
-                    }}
-                  >
-                    📄 Chọn PDF từ máy
+                <div className="form-group">
+                  <label className="form-label">Tài liệu PDF</label>
+                  <div style={{ display: 'flex', gap: '0.4rem' }}>
                     <input
-                      type="file"
-                      accept="application/pdf,.pdf"
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleFileUpload(e, 'document')}
+                      type="text"
+                      className="form-control"
+                      placeholder="URL hoặc chọn file"
+                      value={form.document_url}
+                      onChange={(e) => setForm({ ...form, document_url: e.target.value })}
+                      style={{ flex: 1, minWidth: 0 }}
                     />
-                  </label>
+                    <label
+                      title="Chọn PDF từ máy"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                        width: 42, flexShrink: 0, borderRadius: 'var(--radius)', cursor: 'pointer',
+                        background: 'var(--surface-2,#1e293b)', border: '1.5px solid var(--border,#334155)',
+                        fontSize: '1rem',
+                        opacity: uploadState.document.uploading ? 0.5 : 1,
+                        pointerEvents: uploadState.document.uploading ? 'none' : 'auto',
+                      }}
+                    >
+                      📄
+                      <input
+                        type="file"
+                        accept="application/pdf,.pdf"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileUpload(e, 'document')}
+                      />
+                    </label>
+                  </div>
                   {uploadState.document.uploading && (
-                    <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${uploadState.document.pct}%`, background: 'var(--accent)', transition: 'width 0.2s' }} />
+                    <div style={{ marginTop: '0.35rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <div style={{ flex: 1, height: 6, background: 'var(--border,#334155)', borderRadius: 99, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${uploadState.document.pct}%`, background: 'var(--accent)', transition: 'width 0.2s' }} />
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.document.pct}%</span>
                     </div>
-                  )}
-                  {uploadState.document.uploading && (
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', flexShrink: 0 }}>{uploadState.document.pct}%</span>
                   )}
                 </div>
               </div>
@@ -464,7 +474,7 @@ export default function TeacherLessons() {
                   />
                 </div>
               </div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', cursor: 'pointer' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', cursor: 'pointer', marginBottom: '0.5rem' }}>
                 <input
                   type="checkbox"
                   checked={form.is_free}
@@ -472,7 +482,7 @@ export default function TeacherLessons() {
                 />
                 Cho xem thử miễn phí (người chưa ghi danh cũng xem được bài này)
               </label>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '0.5rem' }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={() => setModalOpen(false)}>
                   Hủy
                 </button>

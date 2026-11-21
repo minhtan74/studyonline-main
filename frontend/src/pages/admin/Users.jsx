@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { userService } from '../../services/userService';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import Modal from '../../components/common/Modal.jsx';
 
 /** Tương đương renderUsersTable() row avatar: từ cuối cùng, 2 ký tự đầu, in hoa. */
@@ -41,6 +42,7 @@ const emptyForm = { id: '', fullname: '', email: '', password: '', role: 'studen
  */
 export default function AdminUsers({ roleFilter }) {
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const [allUsers, setAllUsers] = useState(null); // null = đang tải
   const [search, setSearch] = useState('');
   const [roleSelect, setRoleSelect] = useState('all');
@@ -134,7 +136,12 @@ export default function AdminUsers({ roleFilter }) {
     const msg = locking
       ? `Khóa tài khoản "${u.fullname}"? Người này sẽ bị đăng xuất và không thể đăng nhập lại.`
       : `Mở khóa tài khoản "${u.fullname}"?`;
-    if (!window.confirm(msg)) return;
+    const ok = await confirm(msg, {
+      title: locking ? 'Khóa tài khoản' : 'Mở khóa tài khoản',
+      confirmLabel: locking ? 'Khóa tài khoản' : 'Mở khóa',
+      tone: locking ? 'danger' : 'default',
+    });
+    if (!ok) return;
     try {
       const res = await userService.setUserStatus(u.id, !locking);
       if (res?.ok && res.data?.success) {
@@ -150,7 +157,10 @@ export default function AdminUsers({ roleFilter }) {
 
   // Xóa tài khoản; backend từ chối nếu tài khoản đã có dữ liệu
   async function handleDelete(id) {
-    if (!window.confirm('Xóa vĩnh viễn thành viên này? (Chỉ xóa được tài khoản chưa có dữ liệu học tập / khóa học / thanh toán)')) return;
+    const ok = await confirm('Xóa vĩnh viễn thành viên này? (Chỉ xóa được tài khoản chưa có dữ liệu học tập / khóa học / thanh toán)', {
+      title: 'Xóa thành viên', confirmLabel: 'Xóa', tone: 'danger',
+    });
+    if (!ok) return;
     try {
       const res = await userService.deleteUser(id);
       if (res?.ok && res.data?.success) {

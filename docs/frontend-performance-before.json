@@ -1,0 +1,11 @@
+{
+  "entry_scripts": [
+    {
+      "file": "/assets/index-wgopEFVo.js",
+      "bytes": 1108600,
+      "gzip_bytes": 327151
+    }
+  ],
+  "initial_js_bytes": 1108600,
+  "initial_js_gzip_bytes": 327151
+}

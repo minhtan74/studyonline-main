@@ -1,0 +1,25 @@
+{
+  "mode": "mocked_api_no_real_credentials",
+  "passed": 18,
+  "checks": [
+    "lesson: no knowledge suggestions",
+    "lesson: no hidden recommendation section",
+    "lesson: score remains visible",
+    "lesson: answer details remain visible",
+    "chapter: no knowledge suggestions",
+    "chapter: no hidden recommendation section",
+    "chapter: score remains visible",
+    "chapter: answer details remain visible",
+    "course: no knowledge suggestions",
+    "course: no hidden recommendation section",
+    "course: score remains visible",
+    "course: answer details remain visible",
+    "Quiz result never requests recommendations",
+    "Answer reveal restrictions retained",
+    "History reload still hides suggestions",
+    "Result fits mobile",
+    "No result writes",
+    "No runtime errors"
+  ],
+  "errors": []
+}

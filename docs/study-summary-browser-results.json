@@ -1,0 +1,31 @@
+{
+  "mode": "mocked_api_no_real_credentials_or_database_writes",
+  "passed": 24,
+  "checks": [
+    "Empty evidence has explicit empty message",
+    "Enrolled courses remain selectable without evidence",
+    "Only two established review rows shown",
+    "Insufficient group starts collapsed",
+    "Small sample expands without percent conclusion",
+    "Why explains 70 percent threshold",
+    "Why collapses",
+    "Course filter removes other course rows",
+    "Full list link preserves selected course",
+    "Enrolled course with no suggestions displays empty state",
+    "Unknown course is handled without crash",
+    "Summary initially limited to five",
+    "Show more reveals all eight",
+    "Collapse returns to five",
+    "Chapter-only evidence directs to full suggestions",
+    "API error shown with retry",
+    "Retry recovers",
+    "Network failure shown",
+    "Course filter disabled while loading",
+    "Mobile has no horizontal overflow",
+    "Study still navigates when checkpoint fails",
+    "Checkpoint uses exact evidence scope",
+    "No unrelated writes",
+    "No browser runtime errors"
+  ],
+  "errors": []
+}

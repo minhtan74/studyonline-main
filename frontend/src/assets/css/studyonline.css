@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-
 /* ==========================================================================
    DESIGN SYSTEM VARIABLES (Premium SaaS style)
    ========================================================================== */
@@ -567,12 +565,20 @@ tr:hover td {
 /* Fix: các modal CRUD (course/chapter/lesson/quiz/user) dùng .card làm khung
    nhưng .card có overflow:hidden và không giới hạn chiều cao — trên màn hình
    thấp (mobile ngang, hoặc form nhiều field) nội dung bị cắt mất, không cuộn
-   được. Thêm class phụ (không đổi .card gốc, chỉ cộng thêm) để modal tự cuộn. */
+   được. Thêm class phụ (không đổi .card gốc, chỉ cộng thêm) để modal tự cuộn.
+   max-height trừ đi đúng phần margin trên+dưới (1.5rem x 2) mà các trang đang
+   đặt inline, để modal luôn vừa khít trong khung nhìn, không tràn ra ngoài. */
 .modal-panel {
-  max-height: none;
-  overflow-y: visible;
+  max-height: calc(100dvh - 3rem);
+  overflow-y: auto;
   box-shadow: var(--shadow-xl);
 }
+/* Nén gọn khoảng cách bên trong modal (không đổi .card-header/.card-body/.form-group
+   gốc vì các trang khác như Overview/Reports/Profile cũng dùng những class này cho
+   card thường) — để form vừa khít trong khung nhìn, hạn chế phải cuộn. */
+.modal-panel > .card-header { padding: 1rem 1.25rem; }
+.modal-panel .card-body { padding: 1.25rem 1.5rem; }
+.modal-panel .form-group { margin-bottom: 0.85rem; }
 
 /* Topbar */
 .topbar {

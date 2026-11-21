@@ -1,0 +1,2727 @@
+{
+  "student_id": 7,
+  "mode": "local_mysql_testclient_user_dependency_override_all_writes_rolled_back",
+  "passed_scenarios": 69,
+  "learning_data_unchanged": true,
+  "quiz_settings_unchanged": true,
+  "scenarios": [
+    {
+      "case": "score_target_0_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 0,
+      "total": 40,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 0,
+          "answered": 12,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 0,
+          "answered": 8,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 0,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_49_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 19,
+      "total": 40,
+      "percent": 48,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 0,
+          "answered": 12,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_50_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 20,
+      "total": 40,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 0,
+          "answered": 12,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_69_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 27,
+      "total": 40,
+      "percent": 68,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 6,
+          "answered": 12,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 2,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_70_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 28,
+      "total": 40,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 7,
+          "answered": 12,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_84_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 33,
+      "total": 40,
+      "percent": 83,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 0,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 12,
+          "answered": 12,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_85_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 34,
+      "total": 40,
+      "percent": 85,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 1,
+          "answered": 7,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 0,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 0,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 12,
+          "answered": 12,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_100_percent",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 40,
+      "total": 40,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Lập trình và tiến trình",
+          "correct": 12,
+          "answered": 12,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 8,
+          "answered": 8,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+          "correct": 7,
+          "answered": 7,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Tiểu trình và tiến trình",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Tổ chức quản lí tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Lập trình tiến trình",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 3,
+          "answered": 3,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Các cơ chế thông tin liên lạc",
+          "correct": 2,
+          "answered": 2,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Nhu cầu xử lí đồng thời",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Liên lạc tiến trình",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 3: Nhu cầu đồng bộ hóa",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 4: Các giải pháp đồng bộ hóa",
+          "correct": 1,
+          "answered": 1,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "retake_quiz",
+        "practice_topic",
+        "practice_topic",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "attempt_lifecycle",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "expiry_and_limit",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "checks": [
+        "last_slot_can_resume",
+        "expired_submission_rejected",
+        "exhausted_attempts_rejected"
+      ]
+    },
+    {
+      "case": "score_target_0_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 0,
+      "total": 20,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 0,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 0,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_49_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 9,
+      "total": 20,
+      "percent": 45,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 9,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 6,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_50_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 10,
+      "total": 20,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 10,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_69_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 13,
+      "total": 20,
+      "percent": 65,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 13,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_70_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 14,
+      "total": 20,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 14,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_84_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 16,
+      "total": 20,
+      "percent": 80,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 16,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 8,
+          "answered": 10,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_85_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 17,
+      "total": 20,
+      "percent": 85,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 3,
+          "answered": 4,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 17,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 9,
+          "answered": 10,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_100_percent",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "score": 20,
+      "total": 20,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 20,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 4,
+          "answered": 4,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "attempt_lifecycle",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "expiry_and_limit",
+      "quiz_id": 303,
+      "quiz_title": "Ôn tập: Chương 1: Tổng quan",
+      "passed": true,
+      "checks": [
+        "last_slot_can_resume",
+        "expired_submission_rejected",
+        "exhausted_attempts_rejected"
+      ]
+    },
+    {
+      "case": "score_target_0_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 0,
+      "total": 20,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 0,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 0,
+          "answered": 20,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_49_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 9,
+      "total": 20,
+      "percent": 45,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 9,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 9,
+          "answered": 20,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_50_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 10,
+      "total": 20,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 10,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 10,
+          "answered": 20,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_69_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 13,
+      "total": 20,
+      "percent": 65,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 13,
+          "answered": 20,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 13,
+          "answered": 20,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_70_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 14,
+      "total": 20,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 14,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 14,
+          "answered": 20,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_84_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 16,
+      "total": 20,
+      "percent": 80,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 16,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 16,
+          "answered": 20,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_85_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 17,
+      "total": 20,
+      "percent": 85,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 17,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 17,
+          "answered": 20,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "score_target_100_percent",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "score": 20,
+      "total": 20,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 20,
+          "answered": 20,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Khái niệm về hệ điều hành",
+          "correct": 20,
+          "answered": 20,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "attempt_lifecycle",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "expiry_and_limit",
+      "quiz_id": 289,
+      "quiz_title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "passed": true,
+      "checks": [
+        "last_slot_can_resume",
+        "expired_submission_rejected",
+        "exhausted_attempts_rejected"
+      ]
+    },
+    {
+      "case": "grading_highest",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "grading_method": "highest",
+      "first_percent": 0,
+      "second_percent": 100,
+      "official_percent": 100
+    },
+    {
+      "case": "grading_latest",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "grading_method": "latest",
+      "first_percent": 0,
+      "second_percent": 100,
+      "official_percent": 100
+    },
+    {
+      "case": "grading_first",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "grading_method": "first",
+      "first_percent": 0,
+      "second_percent": 100,
+      "official_percent": 0
+    },
+    {
+      "case": "grading_average",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "grading_method": "average",
+      "first_percent": 0,
+      "second_percent": 100,
+      "official_percent": 50
+    },
+    {
+      "case": "permissions",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "checks": [
+        "unenrolled_open_rejected",
+        "unenrolled_submit_rejected",
+        "token_wrong_quiz_rejected"
+      ]
+    },
+    {
+      "case": "blank_answers",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 0,
+      "total": 40,
+      "payload_handled_as": "incorrect_or_unanswered"
+    },
+    {
+      "case": "non_dict_answers",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 0,
+      "total": 40,
+      "payload_handled_as": "incorrect_or_unanswered"
+    },
+    {
+      "case": "unknown_question_and_invalid_option",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": true,
+      "score": 0,
+      "total": 40,
+      "payload_handled_as": "incorrect_or_unanswered"
+    },
+    {
+      "case": "above_review_threshold_but_below_passing_score",
+      "quiz_id": 293,
+      "quiz_title": "Kiểm tra cuối khóa - Nguyên Lí HDH",
+      "passed": false,
+      "percent": 75,
+      "passing_score": 80,
+      "retake_suggested": true
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 421,
+      "quiz_title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "passed": true,
+      "score": 0,
+      "total": 30,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 0,
+          "answered": 30,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 0,
+          "answered": 30,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 421,
+      "quiz_title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "passed": true,
+      "score": 15,
+      "total": 30,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 15,
+          "answered": 30,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 15,
+          "answered": 30,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 421,
+      "quiz_title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "passed": true,
+      "score": 21,
+      "total": 30,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 21,
+          "answered": 30,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 21,
+          "answered": 30,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 421,
+      "quiz_title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "passed": true,
+      "score": 30,
+      "total": 30,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Tổng quan",
+          "correct": 30,
+          "answered": 30,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Phân loại hệ điều hành",
+          "correct": 30,
+          "answered": 30,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 421,
+      "quiz_title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 316,
+      "quiz_title": "Kiểm tra: Kiểm thử phần mềm nhập môn",
+      "passed": true,
+      "score": 0,
+      "total": 20,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Nền tảng kiểm thử",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Thiết kế test case",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 316,
+      "quiz_title": "Kiểm tra: Kiểm thử phần mềm nhập môn",
+      "passed": true,
+      "score": 10,
+      "total": 20,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Nền tảng kiểm thử",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Thiết kế test case",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "retake_quiz",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 316,
+      "quiz_title": "Kiểm tra: Kiểm thử phần mềm nhập môn",
+      "passed": true,
+      "score": 14,
+      "total": 20,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+          "correct": 4,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+          "correct": 4,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Nền tảng kiểm thử",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Thiết kế test case",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 316,
+      "quiz_title": "Kiểm tra: Kiểm thử phần mềm nhập môn",
+      "passed": true,
+      "score": 20,
+      "total": 20,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 1: Nền tảng kiểm thử",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Thiết kế test case",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "next_lesson",
+        "advice"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 316,
+      "quiz_title": "Kiểm tra: Kiểm thử phần mềm nhập môn",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 329,
+      "quiz_title": "Ôn tập chương: Kiểm thử trong vòng đời phát triển",
+      "passed": true,
+      "score": 0,
+      "total": 10,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 329,
+      "quiz_title": "Ôn tập chương: Kiểm thử trong vòng đời phát triển",
+      "passed": true,
+      "score": 5,
+      "total": 10,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+          "correct": 5,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 329,
+      "quiz_title": "Ôn tập chương: Kiểm thử trong vòng đời phát triển",
+      "passed": true,
+      "score": 7,
+      "total": 10,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+          "correct": 2,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 329,
+      "quiz_title": "Ôn tập chương: Kiểm thử trong vòng đời phát triển",
+      "passed": true,
+      "score": 10,
+      "total": 10,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "next_lesson",
+        "advice"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 329,
+      "quiz_title": "Ôn tập chương: Kiểm thử trong vòng đời phát triển",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 330,
+      "quiz_title": "Ôn tập chương: Thiết kế kiểm thử theo hành vi",
+      "passed": true,
+      "score": 0,
+      "total": 10,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử chuyển trạng thái",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 330,
+      "quiz_title": "Ôn tập chương: Thiết kế kiểm thử theo hành vi",
+      "passed": true,
+      "score": 5,
+      "total": 10,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử chuyển trạng thái",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+          "correct": 5,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 330,
+      "quiz_title": "Ôn tập chương: Thiết kế kiểm thử theo hành vi",
+      "passed": true,
+      "score": 7,
+      "total": 10,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử chuyển trạng thái",
+          "correct": 2,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 330,
+      "quiz_title": "Ôn tập chương: Thiết kế kiểm thử theo hành vi",
+      "passed": true,
+      "score": 10,
+      "total": 10,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử chuyển trạng thái",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "next_lesson",
+        "advice"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 330,
+      "quiz_title": "Ôn tập chương: Thiết kế kiểm thử theo hành vi",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 331,
+      "quiz_title": "Ôn tập chương: Kiểm thử dữ liệu và dịch vụ",
+      "passed": true,
+      "score": 0,
+      "total": 10,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Kiểm thử API và phân quyền",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 331,
+      "quiz_title": "Ôn tập chương: Kiểm thử dữ liệu và dịch vụ",
+      "passed": true,
+      "score": 5,
+      "total": 10,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+          "correct": 5,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Kiểm thử API và phân quyền",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 331,
+      "quiz_title": "Ôn tập chương: Kiểm thử dữ liệu và dịch vụ",
+      "passed": true,
+      "score": 7,
+      "total": 10,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+          "correct": 2,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Kiểm thử API và phân quyền",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 331,
+      "quiz_title": "Ôn tập chương: Kiểm thử dữ liệu và dịch vụ",
+      "passed": true,
+      "score": 10,
+      "total": 10,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Kiểm thử API và phân quyền",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "next_lesson",
+        "advice"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 331,
+      "quiz_title": "Ôn tập chương: Kiểm thử dữ liệu và dịch vụ",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_0_percent",
+      "quiz_id": 332,
+      "quiz_title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "passed": true,
+      "score": 0,
+      "total": 10,
+      "percent": 0,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+          "correct": 0,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_50_percent",
+      "quiz_id": 332,
+      "quiz_title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "passed": true,
+      "score": 5,
+      "total": 10,
+      "percent": 50,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+          "correct": 0,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+          "correct": 5,
+          "answered": 10,
+          "review": true
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_70_percent",
+      "quiz_id": 332,
+      "quiz_title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "passed": true,
+      "score": 7,
+      "total": 10,
+      "percent": 70,
+      "result_units": [
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+          "correct": 2,
+          "answered": 5,
+          "review": true
+        },
+        {
+          "kind": "chapter",
+          "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+          "correct": 7,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "review_knowledge",
+        "next_lesson"
+      ]
+    },
+    {
+      "case": "additional_quiz_score_100_percent",
+      "quiz_id": 332,
+      "quiz_title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "passed": true,
+      "score": 10,
+      "total": 10,
+      "percent": 100,
+      "result_units": [
+        {
+          "kind": "chapter",
+          "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+          "correct": 10,
+          "answered": 10,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        },
+        {
+          "kind": "lesson",
+          "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+          "correct": 5,
+          "answered": 5,
+          "review": false
+        }
+      ],
+      "suggestions": [
+        "next_lesson",
+        "advice"
+      ]
+    },
+    {
+      "case": "additional_quiz_lifecycle",
+      "quiz_id": 332,
+      "quiz_title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "passed": true,
+      "checks": [
+        "resume_requires_existing_attempt",
+        "stable_resume_and_shuffle",
+        "missing_invalid_tampered_token_rejected",
+        "duplicate_rejected",
+        "history_and_detail",
+        "missing_result_404"
+      ]
+    }
+  ]
+}

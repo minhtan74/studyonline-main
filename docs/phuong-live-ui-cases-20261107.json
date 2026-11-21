@@ -1,0 +1,445 @@
+{
+  "saved_results": [
+    {
+      "quiz_id": 292,
+      "result_id": 544,
+      "title": "Ôn tập: Chương 1: Làm Quen Với Python",
+      "score": 7,
+      "total": 10,
+      "percent": 70
+    },
+    {
+      "quiz_id": 289,
+      "result_id": 545,
+      "title": "Ôn tập bài: Bài 1: Khái niệm về hệ điều hành",
+      "score": 14,
+      "total": 20,
+      "percent": 70
+    },
+    {
+      "quiz_id": 421,
+      "result_id": 546,
+      "title": "Ôn tập bài: Bài 2: Phân loại hệ điều hành",
+      "score": 0,
+      "total": 30,
+      "percent": 0
+    },
+    {
+      "quiz_id": 332,
+      "result_id": 547,
+      "title": "Ôn tập chương: Chất lượng và thực hành tổng hợp",
+      "score": 10,
+      "total": 10,
+      "percent": 100
+    },
+    {
+      "quiz_id": 2,
+      "result_id": 548,
+      "title": "Kiểm tra JavaScript nền tảng",
+      "score": 10,
+      "total": 20,
+      "percent": 50
+    },
+    {
+      "quiz_id": 4,
+      "result_id": 549,
+      "title": "Kiểm tra HTML & CSS",
+      "score": 15,
+      "total": 15,
+      "percent": 100
+    }
+  ],
+  "total_results": 16,
+  "current_units": [
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 2: Phân loại hệ điều hành",
+      "correct": 0,
+      "answered": 30,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 7,
+      "kind": "chapter",
+      "title": "Chương 3: Lập trình và tiến trình",
+      "correct": 0,
+      "answered": 12,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 2: Kỹ thuật kiểm thử và xử lý lỗi",
+      "correct": 0,
+      "answered": 10,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 7,
+      "kind": "chapter",
+      "title": "Chương 4: Truyền thông và đồng bộ tiến trình",
+      "correct": 0,
+      "answered": 7,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: Phân vùng tương đương và giá trị biên",
+      "correct": 0,
+      "answered": 5,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Báo cáo lỗi và kiểm thử hồi quy",
+      "correct": 0,
+      "answered": 5,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Review yêu cầu và truy vết kiểm thử",
+      "correct": 0,
+      "answered": 5,
+      "avg_score": 0.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 7,
+      "kind": "chapter",
+      "title": "Chương 1: Tổng quan",
+      "correct": 14,
+      "answered": 56,
+      "avg_score": 25.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 3: Kiểm thử trong vòng đời phát triển",
+      "correct": 3,
+      "answered": 10,
+      "avg_score": 30.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Kiểm thử chuyển trạng thái",
+      "correct": 2,
+      "answered": 5,
+      "avg_score": 40.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Thiết kế test case",
+      "correct": 3,
+      "answered": 5,
+      "avg_score": 60.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: SDLC, Agile và chiến lược kiểm thử",
+      "correct": 3,
+      "answered": 5,
+      "avg_score": 60.0,
+      "sufficient_data": true,
+      "needs_review": true
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 1: Tổ chức quản lí tiến trình",
+      "correct": 0,
+      "answered": 4,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 2: Lập trình tiến trình",
+      "correct": 0,
+      "answered": 4,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 2: Các cơ chế thông tin liên lạc",
+      "correct": 0,
+      "answered": 2,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 1: Liên lạc tiến trình",
+      "correct": 0,
+      "answered": 1,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 3: Nhu cầu đồng bộ hóa",
+      "correct": 0,
+      "answered": 1,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 4: Các giải pháp đồng bộ hóa",
+      "correct": 0,
+      "answered": 1,
+      "avg_score": 0.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 1: Khái niệm về hệ điều hành",
+      "correct": 14,
+      "answered": 20,
+      "avg_score": 70.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 1,
+      "kind": "chapter",
+      "title": "Chương 1: Làm Quen Với Python",
+      "correct": 7,
+      "answered": 10,
+      "avg_score": 70.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 4: Thiết kế kiểm thử theo hành vi",
+      "correct": 7,
+      "answered": 10,
+      "avg_score": 70.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 1: Nền tảng kiểm thử",
+      "correct": 8,
+      "answered": 10,
+      "avg_score": 80.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 5: Kiểm thử dữ liệu và dịch vụ",
+      "correct": 10,
+      "answered": 10,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "chapter",
+      "title": "Chương 6: Chất lượng và thực hành tổng hợp",
+      "correct": 10,
+      "answered": 10,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "chapter",
+      "title": "Chương 2: Tiểu trình và tiến trình",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: Mục tiêu và các mức kiểm thử",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: Bảng quyết định và tổ hợp điều kiện",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: Kiểm thử API và phân quyền",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Kiểm thử cơ sở dữ liệu và tính toàn vẹn",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 1: Hiệu năng, khả dụng và tương thích",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 515,
+      "kind": "lesson",
+      "title": "Bài 2: Dự án nhỏ: kế hoạch kiểm thử và tự động hóa",
+      "correct": 5,
+      "answered": 5,
+      "avg_score": 100.0,
+      "sufficient_data": true,
+      "needs_review": false
+    },
+    {
+      "course_id": 1,
+      "kind": "lesson",
+      "title": "Bài 2: Biến và kiểu dữ liệu",
+      "correct": 3,
+      "answered": 3,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 4,
+      "kind": "chapter",
+      "title": "Chương 1: HTML Cơ Bản",
+      "correct": 3,
+      "answered": 3,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 4,
+      "kind": "chapter",
+      "title": "Chương 2: CSS Cơ Bản",
+      "correct": 3,
+      "answered": 3,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 4,
+      "kind": "chapter",
+      "title": "Chương 3: Responsive Design",
+      "correct": 3,
+      "answered": 3,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 2: Khái niệm tiến trình và mô hình đa tiến trình",
+      "correct": 2,
+      "answered": 2,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 3: Khái niệm tiến trình và mô hình tiểu tiến trình",
+      "correct": 2,
+      "answered": 2,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 1,
+      "kind": "lesson",
+      "title": "Bài 3: Toán tử trong Python",
+      "correct": 1,
+      "answered": 1,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    },
+    {
+      "course_id": 7,
+      "kind": "lesson",
+      "title": "Bài 1: Nhu cầu xử lí đồng thời",
+      "correct": 1,
+      "answered": 1,
+      "avg_score": 100.0,
+      "sufficient_data": false,
+      "needs_review": false
+    }
+  ]
+}

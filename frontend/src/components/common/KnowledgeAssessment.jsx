@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import StudyKnowledgeTopics from './StudyKnowledgeTopics';
 import './KnowledgeAssessment.css';
-import { formatStudyDate } from '../../utils/studyDate';
 
 export default function KnowledgeAssessment({ data, title = 'Kết quả theo chương và bài học', showReview = false, answers = [], current = false, reviewOnly = false, onStudy, practiceItems = [] }) {
   const [limit, setLimit] = useState(3);
@@ -11,9 +11,10 @@ export default function KnowledgeAssessment({ data, title = 'Kết quả theo ch
   const chapters = units.filter((u) => u.kind === 'chapter');
   const multipleCourses = new Set(chapters.map((ch) => ch.course_id)).size > 1;
   const uncertain = units.filter(unit => !unit.sufficient_data);
-  const needsAttention = unit => unit.needs_review || (!unit.sufficient_data && unit.correct < unit.answered);
+  const hasWeakTopic = unit => (unit.review_topics || []).some(topic => topic.needs_review);
+  const needsAttention = unit => unit.needs_review || hasWeakTopic(unit) || (!unit.sufficient_data && unit.correct < unit.answered);
   const ordered = list => [...list].sort((a,b) => Number(a.avg_score) - Number(b.avg_score) || Number(b.answered) - Number(a.answered));
-  const reviewLessons = units.filter(unit => unit.kind === 'lesson' && unit.sufficient_data && unit.needs_review);
+  const reviewLessons = units.filter(unit => unit.kind === 'lesson' && unit.sufficient_data && (unit.needs_review || hasWeakTopic(unit)));
   const reviewTargets = ordered([...reviewLessons, ...chapters.filter(chapter => chapter.sufficient_data && chapter.needs_review && !reviewLessons.some(lesson => lesson.course_id === chapter.course_id && lesson.chapter_id === chapter.id))]);
   function unitSummary(unit, actionable = true) {
     const practice = practiceItems.find((item) => item.knowledge_evidence?.course_id === unit.course_id && item.knowledge_evidence?.kind === unit.kind && item.knowledge_evidence?.id === unit.id && item.practice_url);
@@ -23,7 +24,7 @@ export default function KnowledgeAssessment({ data, title = 'Kết quả theo ch
       <strong className="knowledge-unit-name">{unit.title}{unit.available === false ? ' (nội dung đã gỡ)' : ''}</strong>
       <span className="knowledge-unit-result">
         <span>Đúng {unit.correct}/{unit.answered} câu{unit.sufficient_data ? ` · ${unit.avg_score}%` : ` · Cần ít nhất ${data.min_questions || 5} câu khác nhau`}</span>
-        <strong className={`knowledge-status ${!unit.sufficient_data ? 'knowledge-status-insufficient' : unit.needs_review ? 'knowledge-status-review' : 'knowledge-status-good'}`}>{!unit.sufficient_data ? 'Chưa đủ dữ liệu' : unit.needs_review ? 'Nên ôn tập' : 'Đạt ngưỡng'}</strong>
+        <strong className={`knowledge-status ${!unit.sufficient_data ? 'knowledge-status-insufficient' : unit.needs_review || hasWeakTopic(unit) ? 'knowledge-status-review' : 'knowledge-status-good'}`}>{!unit.sufficient_data ? 'Chưa đủ dữ liệu' : unit.needs_review ? 'Nên ôn tập' : hasWeakTopic(unit) ? 'Có chủ đề cần ôn' : 'Đạt ngưỡng'}</strong>
       </span>
       {actionable && needsAttention(unit) && <div className="knowledge-unit-actions">
         {unit.available !== false && <Link className="s-btn s-btn-primary s-btn-sm" onClick={onStudy ? (event) => onStudy(event, { knowledge_evidence: unit }, unit.kind === 'lesson' ? `/lesson?id=${unit.id}` : `/chapters?course_id=${unit.course_id}&chapter_id=${unit.id}`) : undefined} to={unit.kind === 'lesson' ? `/lesson?id=${unit.id}` : `/chapters?course_id=${unit.course_id}&chapter_id=${unit.id}`}>
@@ -36,10 +37,10 @@ export default function KnowledgeAssessment({ data, title = 'Kết quả theo ch
         </details>}
       </div>}
       </div>
-      {current && needsAttention(unit) && <details className="knowledge-evidence">
-        <summary style={{ cursor: 'pointer' }}>Vì sao cần ôn?</summary>
-        <p>{unit.sufficient_data ? 'Đủ số câu làm căn cứ và tỷ lệ đúng dưới ngưỡng ôn tập.' : 'Có câu sai nhưng chưa đủ số câu để kết luận yếu.'}</p>
-        <ul>{(unit.sources || []).map((source) => <li key={source.result_id}><Link to={`/student/quiz-result?result_id=${source.result_id}`}>{source.quiz_title}</Link> · {formatStudyDate(source.submitted_at)} · đúng {source.correct}/{source.answered} câu.</li>)}</ul>
+      {showReview && needsAttention(unit) && <details className="knowledge-evidence" open={!current}>
+        <summary style={{ cursor: 'pointer' }}>Phần kiến thức cần ôn trong {unit.kind === 'lesson' ? 'bài học' : 'chương'}</summary>
+        <p>{!unit.sufficient_data ? 'Có câu sai nhưng chưa đủ số câu để kết luận yếu.' : unit.needs_review ? `Tỷ lệ đúng ${unit.avg_score}% dưới ngưỡng ôn tập ${data.review_threshold || 70}%.` : 'Điểm tổng của bài đạt ngưỡng, nhưng có chủ đề riêng đủ căn cứ cần ôn tập.'}</p>
+        <StudyKnowledgeTopics evidence={unit} />
       </details>}
     </>;
   }
@@ -85,7 +86,6 @@ export default function KnowledgeAssessment({ data, title = 'Kết quả theo ch
       <tbody>{chapters.flatMap((ch) => [row(ch), ...units.filter((u) => u.kind === 'lesson' && u.course_id === ch.course_id && u.chapter_id === ch.id).map(row)])}</tbody>
     </table></div></details>}
     {data.unmapped_answers > 0 && <p style={{ fontSize: '.8rem' }}>{data.unmapped_answers} câu trả lời chưa xác định chương. Các câu này vẫn tính điểm tổng; giảng viên cần bổ sung phân loại để gợi ý cụ thể.</p>}
-    {units.some((u) => u.reconstructed) && <p style={{ fontSize: '.78rem', color: 'var(--s-text-muted)' }}>Một phần phân loại dữ liệu cũ được khôi phục từ phạm vi đề và tên bài, chưa phải phân loại được lưu tại lúc nộp.</p>}
     <p style={{ fontSize: '.78rem', color: 'var(--s-text-muted)' }}>Cần ít nhất {data.min_questions || 5} câu khác nhau để phân loại; dưới {data.review_threshold || 70}% thì ưu tiên ôn. Đây là ngưỡng hỗ trợ học tập ban đầu.</p>
   </section>;
 }

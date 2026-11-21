@@ -10,8 +10,6 @@ export default function StudyRecommendationSummary({ courses = [], fixedCourseId
   const { data, loading, error, reload } = useStudyRecommendations();
   const { busy, openStudy } = useStudyAction();
   const [limit, setLimit] = useState(pageSize);
-  const [checkLimit, setCheckLimit] = useState(pageSize);
-  const [checksOpen, setChecksOpen] = useState(false);
   const [expanded, setExpanded] = useState(null);
   const [params, setParams] = useSearchParams();
   const course = fixedCourseId ? String(fixedCourseId) : /^[1-9]\d*$/.test(params.get('course_id') || '') ? params.get('course_id') : 'all';
@@ -22,9 +20,9 @@ export default function StudyRecommendationSummary({ courses = [], fixedCourseId
     const rank = row => row.evidence.sufficient_data === false ? 3 : priorityRank(row.priority);
     return rank(a) - rank(b) || Number(a.evidence.avg_score) - Number(b.evidence.avg_score) || Number(b.evidence.answered) - Number(a.evidence.answered);
   }), [filtered]);
-  const reviewRows = rows.filter(row => row.evidence.sufficient_data !== false);
-  const checkRows = rows.filter(row => row.evidence.sufficient_data === false);
-  useEffect(() => { setLimit(pageSize); setCheckLimit(pageSize); setChecksOpen(false); setExpanded(null); }, [data, course, pageSize]);
+  const reviewRows = rows;
+  useEffect(() => { setLimit(pageSize); setExpanded(null); }, [data, course, pageSize]);
+  const listProps = { expanded, onExpand: setExpanded, minimumQuestions: data?.minimumQuestions, reviewThreshold: data?.reviewThreshold, busy, onStudy: openStudy };
   return <section className="s-card study-recommendation-summary" aria-label="Tóm tắt gợi ý học tập">
     <div className="s-card-header study-summary-header">
       <h2 className="s-card-title">🎯 Gợi ý học tập cho bạn</h2>
@@ -36,27 +34,14 @@ export default function StudyRecommendationSummary({ courses = [], fixedCourseId
         : rows.length ? <>
           <p className="study-muted">{studyCountLabel(rows)}{course === 'all' ? ' từ tất cả khóa đã tham gia.' : ' trong khóa học đã chọn.'}</p>
           {reviewRows.length ? <section aria-label="Bài nên ôn tập">
-            <StudyRecommendationCompactList rows={reviewRows.slice(0, limit)} expanded={expanded} onExpand={setExpanded} minimumQuestions={data.minimumQuestions} reviewThreshold={data.reviewThreshold} busy={busy} onStudy={openStudy} />
+            <StudyRecommendationCompactList rows={reviewRows.slice(0, limit)} {...listProps} />
             <div className="study-summary-footer">
               <span className="study-muted" role="status">Đang hiển thị {Math.min(limit, reviewRows.length)}/{reviewRows.length} bài nên ôn</span>
               <div>{limit < reviewRows.length && <button type="button" className="s-btn s-btn-ghost s-btn-sm" onClick={() => setLimit(previous => previous + pageSize)}>Xem thêm bài nên ôn</button>}
                 {limit > pageSize && <button type="button" className="s-btn s-btn-ghost s-btn-sm" onClick={() => { setLimit(pageSize); setExpanded(null); }}>Thu gọn bài nên ôn</button>}</div>
             </div>
           </section> : <p className="study-muted">Chưa có bài đủ căn cứ để đề xuất ôn tập{course !== 'all' ? ' trong khóa học này' : ''}.</p>}
-          {checkRows.length > 0 && <section className="study-insufficient-group" aria-label="Bài chưa đủ dữ liệu">
-            <h3><button type="button" className="study-insufficient-toggle" aria-expanded={checksOpen} aria-controls="study-insufficient-content" onClick={() => { setChecksOpen(value => !value); setCheckLimit(pageSize); setExpanded(null); }}>
-              <span>{checkRows.length} bài chưa đủ dữ liệu</span><span>{checksOpen ? 'Thu gọn ▴' : 'Xem ▾'}</span>
-            </button></h3>
-            {checksOpen && <div id="study-insufficient-content">
-              <p className="study-muted">Các bài này có câu trả lời chưa đúng nhưng chưa đủ {data.minimumQuestions} câu khác nhau để phân loại. Hãy luyện thêm để bổ sung căn cứ.</p>
-              <StudyRecommendationCompactList rows={checkRows.slice(0, checkLimit)} expanded={expanded} onExpand={setExpanded} minimumQuestions={data.minimumQuestions} reviewThreshold={data.reviewThreshold} busy={busy} onStudy={openStudy} />
-              <div className="study-summary-footer">
-                <span className="study-muted" role="status">Đang hiển thị {Math.min(checkLimit, checkRows.length)}/{checkRows.length} bài chưa đủ dữ liệu</span>
-                {checkLimit < checkRows.length && <button type="button" className="s-btn s-btn-ghost s-btn-sm" onClick={() => setCheckLimit(value => value + pageSize)}>Xem thêm bài chưa đủ dữ liệu</button>}
-              </div>
-            </div>}
-          </section>}
-        </> : <p className="study-muted">{filtered.chapterNotes.length ? 'Có nội dung cần ôn ở cấp chương; xem tất cả để biết chi tiết.' : course !== 'all' ? 'Khóa học này chưa có bài học cần ôn từ kết quả Quiz hiện tại.' : !data.hasQuizEvidence ? 'Chưa có dữ liệu Quiz để gợi ý nội dung cần ôn.' : 'Chưa ghi nhận bài học cần ôn từ kết quả Quiz hiện tại.'}</p>}
+        </> : <p className="study-muted">{filtered?.chapterNotes.length ? 'Có nội dung cần ôn ở cấp chương; xem tất cả để biết chi tiết.' : course !== 'all' ? 'Khóa học này chưa có bài học cần ôn từ kết quả Quiz hiện tại.' : !data?.hasQuizEvidence ? 'Chưa có dữ liệu Quiz để gợi ý nội dung cần ôn.' : 'Chưa ghi nhận bài học cần ôn từ kết quả Quiz hiện tại.'}</p>}
     </div>
   </section>;
 }

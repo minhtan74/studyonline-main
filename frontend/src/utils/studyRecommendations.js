@@ -1,7 +1,6 @@
 // View adapter only: consume the backend's deduplicated latest knowledge units.
 export const STUDY_PRIORITIES = [
   { key: 'all', label: 'Tất cả' }, { key: 'review', label: 'Nên ôn tập' },
-  { key: 'check', label: 'Chưa đủ dữ liệu' },
 ];
 export const STUDY_PRIORITY_LABELS = { review: 'Nên ôn tập', check: 'Chưa đủ dữ liệu' };
 export const priorityRank = key => ({ review: 0, check: 1 }[key] ?? 2);
@@ -12,8 +11,7 @@ export function studyCounts(rows) {
 }
 
 export function studyCountLabel(rows) {
-  const counts = studyCounts(rows);
-  return `${counts.review} bài nên ôn · ${counts.check} bài chưa đủ dữ liệu`;
+  return `${studyCounts(rows).review} bài nên ôn`;
 }
 
 export function studyPracticeAction(row) {
@@ -22,8 +20,8 @@ export function studyPracticeAction(row) {
     ariaLabel: `${specific ? 'Luyện Quiz' : 'Chọn Quiz để luyện'}: ${row.title}` };
 }
 const positiveId = value => Number.isSafeInteger(Number(value)) && Number(value) > 0 ? Number(value) : null;
-const attention = unit => unit.available !== false && Number(unit.answered) > 0 &&
-  (unit.needs_review === true || (unit.sufficient_data === false && Number(unit.correct) < Number(unit.answered)));
+// Chỉ hiển thị bài ĐỦ dữ liệu và cần ôn; đã bỏ hẳn nhóm "chưa đủ dữ liệu"
+const attention = unit => unit.available !== false && Number(unit.answered) > 0 && unit.needs_review === true;
 export const normalizeStudySearch = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').toLowerCase().trim();
 
 export function orderStudyRows(rows) {

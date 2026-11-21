@@ -2,6 +2,14 @@
   container: knowledge / inline-size;
 }
 
+.knowledge-assessment .study-review-guidance {
+  padding: .75rem 1rem;
+  margin-top: .65rem;
+  background: var(--s-surface-2, #f0f5ff);
+  border-left: 3px solid var(--s-primary, #355cf1);
+  border-radius: 8px;
+}
+
 .knowledge-chapter {
   border: 1px solid var(--s-border);
   border-radius: 8px;

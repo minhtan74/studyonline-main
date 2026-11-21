@@ -87,7 +87,7 @@ export default function Home() {
             mọi lúc mọi nơi 🚀
           </h1>
           <p className="text-lg opacity-85 mb-8 max-w-xl mx-auto">
-            StudyOnline cung cấp hàng trăm khóa học chất lượng cao từ các giảng viên hàng đầu, giúp bạn nâng cao kỹ
+            StudyOnline cung cấp các khóa học chất lượng cao từ những giảng viên tận tâm, giúp bạn nâng cao kỹ
             năng và phát triển sự nghiệp.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
@@ -103,30 +103,6 @@ export default function Home() {
             >
               Xem khóa học
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* STATS — Dải số liệu nổi bật */}
-      <section className="bg-white border-b border-slate-200 py-12">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-extrabold text-blue-600">500+</div>
-              <div className="text-slate-500 text-sm mt-1">Khóa học</div>
-            </div>
-            <div>
-              <div className="text-4xl font-extrabold text-blue-600">10k+</div>
-              <div className="text-slate-500 text-sm mt-1">Học viên</div>
-            </div>
-            <div>
-              <div className="text-4xl font-extrabold text-blue-600">200+</div>
-              <div className="text-slate-500 text-sm mt-1">Giảng viên</div>
-            </div>
-            <div>
-              <div className="text-4xl font-extrabold text-blue-600">98%</div>
-              <div className="text-slate-500 text-sm mt-1">Hài lòng</div>
-            </div>
           </div>
         </div>
       </section>
@@ -226,7 +202,7 @@ export default function Home() {
       <section className="bg-gradient-to-r from-blue-600 to-violet-600 text-white text-center py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-extrabold mb-4">Sẵn sàng bắt đầu hành trình học tập?</h2>
-          <p className="opacity-85 mb-8 text-lg">Đăng ký ngay hôm nay và trải nghiệm hơn 500 khóa học miễn phí.</p>
+          <p className="opacity-85 mb-8 text-lg">Đăng ký ngay hôm nay và bắt đầu học miễn phí.</p>
           <Link
             to="/register"
             className="inline-block px-10 py-4 bg-white text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-base"

@@ -1,3 +1,4 @@
+import RouteContent from '../components/common/RouteContent.jsx';
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import StudentSidebar from '../components/layout/StudentSidebar.jsx';
@@ -58,7 +59,7 @@ export default function StudentLayout() {
 
       <div className="s-wrapper">
         <StudentHeader onToggleSidebar={toggleSidebar} />
-        <Outlet />
+        <RouteContent><Outlet /></RouteContent>
       </div>
     </>
   );

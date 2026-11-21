@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import StudyKnowledgeTopics from './StudyKnowledgeTopics';
 import StudyRecommendationRows from './StudyRecommendationRows';
 
 export default function StudyRecommendationChapters({ group, minimumQuestions, reviewThreshold, busy, onStudy }) {
@@ -24,6 +25,7 @@ export default function StudyRecommendationChapters({ group, minimumQuestions, r
       {chapter.notes.map(note => <div className="study-chapter-note" key={note.key}>
         <p>Gợi ý ở cấp chương; chưa xác định được bài học cụ thể cần ưu tiên. Chương không được tính thành một bài học trong thống kê.</p>
         <p>Quiz: đúng {note.evidence.correct}/{note.evidence.answered} câu{note.evidence.sufficient_data ? ` · ${note.evidence.avg_score}%` : ''}{!note.evidence.sufficient_data ? ' · Chưa đủ dữ liệu để phân loại' : ''}</p>
+        <StudyKnowledgeTopics evidence={note.evidence} />
         <Link className="s-btn s-btn-ghost s-btn-sm" to={note.url} onClick={event => onStudy(event, note)}>Xem chương</Link>
         {!note.evidence.sufficient_data && <Link to="/quiz" className="study-practice-link">Luyện thêm Quiz</Link>}
       </div>)}

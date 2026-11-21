@@ -1,3 +1,7 @@
+.study-review-guidance { margin-top:12px; padding:14px 16px; border-left:3px solid #355cf1; border-radius:8px; background:#f0f5ff; color:#243b61; line-height:1.65; overflow-wrap:anywhere; }
+.study-review-guidance ul { padding-left:20px; margin:8px 0; }
+.study-review-guidance li + li { margin-top:6px; }
+.study-review-guidance-note { font-size:.8rem; color:#52627b; }
 .study-page-header { display:flex; flex-direction:column; align-items:flex-start; gap:16px; margin-bottom:24px; }
 .study-page-header .s-page-subtitle { max-width:780px; line-height:1.6; margin-bottom:0; }
 .study-page-header > .s-btn { flex-shrink:0; }
@@ -138,4 +142,56 @@
   .study-priority { grid-row:3; justify-self:start; align-self:center; }
   .study-suggestion-actions { grid-column:1/-1; grid-row:4; flex-direction:row; }
   .study-suggestion-actions .study-action-btn { flex:1; }
+}
+
+/* Lời giải AI cho TỪNG gợi ý (lớp hybrid trên rule-based) — hiện trong khối "Vì sao" */
+.study-ai-reason {
+  background: linear-gradient(135deg, rgba(37, 99, 235, .08), rgba(37, 99, 235, .02));
+  border: 1px solid rgba(37, 99, 235, .18);
+  border-radius: 10px;
+  padding: .7rem .8rem;
+  margin: 0 0 .7rem;
+  font-size: .86rem;
+  line-height: 1.55;
+}
+.study-ai-reason p { margin: 0; }
+.study-ai-reason-tag {
+  margin-right: .4rem;
+  font-size: 1rem;
+  line-height: 1;
+  vertical-align: -1px;
+}
+.study-ai-reason-src {
+  margin-top: .55rem !important;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .4rem .5rem;
+  font-size: .74rem;
+  color: var(--s-text-muted, #64748b);
+}
+/* Nút nhảy đúng trang tài liệu: dạng pill bấm được */
+.study-ai-reason-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: .25rem;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--s-primary, #2563eb);
+  background: rgba(37, 99, 235, .1);
+  border: 1px solid rgba(37, 99, 235, .25);
+  padding: .16rem .55rem;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+.study-ai-reason-jump:hover {
+  background: var(--s-primary, #2563eb);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.study-ai-reason-jump:focus-visible {
+  outline: 2px solid var(--s-primary, #2563eb);
+  outline-offset: 2px;
 }

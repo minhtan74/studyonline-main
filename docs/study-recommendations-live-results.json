@@ -1,0 +1,38 @@
+{
+  "mode": "read_only_local_mysql_api_dependency_user_override",
+  "students": 10,
+  "successful_api_checks": 35,
+  "unauthorized_course_checks": 10,
+  "phuong": {
+    "quiz_results": 5,
+    "knowledge_units": 15,
+    "suggestion_types": [
+      "review_knowledge",
+      "review_knowledge",
+      "review_knowledge",
+      "retake_quiz",
+      "practice_topic",
+      "practice_topic",
+      "next_lesson"
+    ]
+  },
+  "database_counts_before": {
+    "results": 5,
+    "result_answers": 117,
+    "quiz_attempts": 5,
+    "recommendations": 1,
+    "study_checkpoints": 0,
+    "knowledge_study_checkpoints": 0,
+    "learning_analytics": 4
+  },
+  "database_counts_after": {
+    "results": 5,
+    "result_answers": 117,
+    "quiz_attempts": 5,
+    "recommendations": 1,
+    "study_checkpoints": 0,
+    "knowledge_study_checkpoints": 0,
+    "learning_analytics": 4
+  },
+  "no_data_changed": true
+}

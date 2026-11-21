@@ -42,6 +42,136 @@ def test_small_sample_is_uncertain_and_not_weak_even_zero_correct():
     assert result['needs_review']
 
 
+def test_chapter_quiz_preserves_lesson_and_topic_specific_review():
+    weak = evidence(1,100,2)
+    good = evidence(1,101,6,start=20)
+    for row in weak + good:
+        row['assessment_scope'] = 'chapter'
+        row['topic_name'] = 'Quản lý tài nguyên' if row['lesson_id'] == 100 else 'Phân loại hệ điều hành'
+        row['classification_version'] = 2
+    units = kn.summarize(weak + good, latest=False)
+    lesson = unit(units,'lesson',100)
+    assert lesson['needs_review']
+    assert lesson['review_topics'][0]['title'] == 'Quản lý tài nguyên'
+    assert lesson['review_topics'][0]['answered'] == 6
+    assert lesson['review_guidance']['points']
+    assert not unit(units,'lesson',101)['needs_review']
+    assert unit(units,'lesson',101)['review_topics'] == []
+
+
+def test_chapter_only_evidence_does_not_guess_a_lesson():
+    rows = evidence(1,None,0)
+    for row in rows:
+        row['assessment_scope'] = 'chapter'
+        row['topic_name'] = 'Quản lý tài nguyên'
+    units = kn.summarize(rows, latest=False)
+    assert len(units) == 1 and units[0]['kind'] == 'chapter'
+    assert units[0]['review_topics'][0]['needs_review']
+    assert 'review_guidance' not in units[0]
+
+
+def test_specific_topics_use_saved_classification_and_separate_small_samples():
+    rows = evidence(1,100,2) + evidence(1,100,0,count=2,start=20) + evidence(1,100,6,start=30)
+    for row in rows:
+        row['topic_name'] = 'Vòng lặp' if row['question_id'] < 20 else 'Điều kiện dừng' if row['question_id'] < 30 else 'Hàm'
+        row['classification_version'] = 2
+    topics = unit(kn.summarize(rows),'lesson',100)['review_topics']
+    assert [t['title'] for t in topics] == ['Vòng lặp', 'Điều kiện dừng']
+    assert topics[0]['needs_review'] and topics[0]['answered'] == 6
+    assert not topics[1]['sufficient_data'] and not topics[1]['needs_review']
+    assert unit(kn.summarize(rows * 2),'lesson',100)['review_topics'] == topics
+
+
+def test_specific_topics_replace_old_evidence_and_do_not_guess_missing_names():
+    old = evidence(1,100,0)
+    for row in old:
+        row['topic_name'] = 'Vòng lặp'
+    assert unit(kn.summarize(old),'lesson',100)['review_topics'][0]['needs_review']
+    newer = evidence(2,100,0,start=20)
+    assert unit(kn.summarize(old + newer),'lesson',100)['review_topics'] == []
+
+
+def test_specific_topic_at_threshold_does_not_trigger_review():
+    rows = evidence(1,100,7,count=10)
+    for row in rows:
+        row['topic_name'] = 'Vòng lặp'
+    assert unit(kn.summarize(rows),'lesson',100)['review_topics'] == []
+
+
+def test_os_lesson_review_notes_do_not_invent_topic_scores():
+    rows = evidence(1,100,2)
+    for row in rows:
+        row['lesson_name'] = 'Bài 1: Khái niệm về hệ điều hành'
+    lesson = unit(kn.summarize(rows),'lesson',100)
+    assert lesson['review_topics'] == []
+    assert lesson['review_guidance']['scope'] == 'lesson'
+    assert len(lesson['review_guidance']['points']) == 1
+    assert lesson['unclassified_wrong_answers'] == 4
+    assert lesson['wrong_topics'] == []
+    assert 'review_guidance' not in unit(kn.summarize(rows),'chapter',10)
+    assert unit(kn.summarize(evidence(1,100,2)),'lesson',100)['review_guidance']['source'] == 'wrong_answer_topics'
+
+
+def test_wrong_answer_guidance_excludes_correct_topics_and_catalog_content():
+    rows = evidence(1,100,2,count=5) + evidence(1,100,5,count=5,start=20)
+    for row in rows:
+        row['topic_name'] = 'Vòng lặp' if row['question_id'] < 20 else 'Rẽ nhánh'
+    lesson = unit(kn.summarize(rows),'lesson',100)
+    assert [(t['title'], t['wrong']) for t in lesson['wrong_topics']] == [('Vòng lặp',3)]
+    assert lesson['unclassified_wrong_answers'] == 0
+    assert all('Rẽ nhánh' not in p for p in lesson['review_guidance']['points'])
+
+
+def test_wrong_topics_at_70_percent_are_reviewable_without_weak_label():
+    rows = evidence(1,100,7,count=10)
+    for row in rows:
+        row['topic_name'] = 'Vòng lặp'
+    lesson = unit(kn.summarize(rows),'lesson',100)
+    assert not lesson['needs_review']
+    assert lesson['review_topics'] == []
+    assert lesson['wrong_topics'][0]['wrong'] == 3
+    assert not lesson['wrong_topics'][0]['needs_review']
+
+
+def test_wrong_topics_clear_after_latest_all_correct_attempt():
+    old, new = evidence(1,100,0), evidence(2,100,6)
+    for row in old + new:
+        row['topic_name'] = 'Vòng lặp'
+    lesson = unit(kn.summarize(old+new),'lesson',100)
+    assert lesson['wrong_topics'] == []
+    assert 'review_guidance' not in lesson
+
+
+def test_small_sample_wrong_guidance_stays_insufficient_and_deduplicated():
+    rows = evidence(1,100,0,count=2)
+    for row in rows:
+        row['topic_name'] = 'Vòng lặp'
+    lesson = unit(kn.summarize(rows+rows),'lesson',100)
+    assert lesson['wrong_topics'][0]['wrong'] == 2
+    assert not lesson['wrong_topics'][0]['sufficient_data']
+    assert not lesson['wrong_topics'][0]['needs_review']
+
+
+def test_review_guidance_matches_course_and_uses_description_for_new_lessons():
+    from app.services.review_guidance import lesson_review_guidance
+    guide = lesson_review_guidance('Biến và kiểu dữ liệu', 'Python Cơ Bản Cho Người Mới Bắt Đầu')
+    assert guide['source'].endswith('course1_python.md')
+    assert len(guide['points']) >= 3
+    fallback = lesson_review_guidance('Biến và kiểu dữ liệu', 'Khóa khác', '<p>Kiểu số và chuỗi.</p>')
+    assert fallback['source'] == 'lesson_description'
+    assert fallback['points'] == ['Kiểu số và chuỗi.']
+
+
+def test_all_catalog_review_guides_have_nonempty_points_and_provenance():
+    from app.services.review_guidance import _catalog
+    catalog = _catalog()
+    assert len(catalog) >= 137
+    for key, guide in catalog.items():
+        assert '::' in key and guide['source']
+        assert 1 <= len(guide['points']) <= 5
+        assert all(isinstance(point, str) and point.strip() for point in guide['points'])
+
+
 def test_reclassified_same_question_is_not_counted_in_both_lessons():
     rows=evidence(1,100,0)+evidence(2,101,6)
     units=kn.summarize(rows)

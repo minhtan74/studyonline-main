@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { quizService } from '../../services/quizService';
 import RichText from '../../components/common/RichText.jsx';
+import KnowledgeAssessment from '../../components/common/KnowledgeAssessment.jsx';
 
 const OPTION_KEYS = ['A', 'B', 'C', 'D'];
 
@@ -164,6 +165,9 @@ export default function QuizResult() {
       </aside>
 
       <div className="qr-content">
+      {quiz.chapter_id && data.knowledge && <div className="s-card s-card-body">
+        <KnowledgeAssessment data={data.knowledge} title="Bạn nên ôn bài nào, phần kiến thức nào?" showReview answers={details || []} />
+      </div>}
       {/* Đề giới hạn lượt làm: chưa phải lượt cuối thì chỉ báo đúng/sai, đáp án đúng để dành tới lượt cuối */}
       {revealed === false && (
         <div className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>

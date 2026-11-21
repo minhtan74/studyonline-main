@@ -1,0 +1,31 @@
+const {chromium}=require('F:/DATN/.cache/npm/_npx/e41f203b7505f1fb/node_modules/playwright');
+const assert=require('node:assert/strict'); const fs=require('node:fs');
+const checks=[];const check=(name,ok)=>{assert.ok(ok,name);checks.push(name)};
+const unit=(kind,id,n,c,extra={})=>({kind,id,title:`${kind==='lesson'?'Bài':'Chương'} ${id}: Kiến thức mẫu`,course_id:1,course_title:'Khóa mẫu',chapter_id:1,chapter_name:'Chương 1: Nền tảng',answered:n,correct:c,avg_score:100*c/n,sufficient_data:n>=5,needs_review:n>=5&&100*c/n<70,available:true,question_ids:[101],...extra});
+(async()=>{const browser=await chromium.launch({headless:true,executablePath:'C:/Users/DMIN/AppData/Local/ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-win64/chrome-headless-shell.exe'});try{
+ const context=await browser.newContext({viewport:{width:1440,height:1000}});
+ await context.addInitScript(()=>{localStorage.setItem('token','ui-fixture-only-not-a-session');localStorage.setItem('user',JSON.stringify({id:90001,fullname:'Học viên mẫu',role:'student'}))});
+ let units=[],recCalls=0;const writes=[],errors=[];
+ await context.route('**/*',r=>['127.0.0.1','localhost'].includes(new URL(r.request().url()).hostname)?r.fallback():r.abort());
+ await context.route('**/api/**',r=>{const u=new URL(r.request().url());if(!u.pathname.startsWith('/api/'))return r.fallback();if(r.request().method()!=='GET')writes.push(u.pathname);
+ if(u.pathname==='/api/quizzes/results')return r.fulfill({json:{success:true,result_id:91,own_result:true,quiz:{id:3,title:'Quiz mẫu',course_id:1,course_title:'Khóa mẫu',passing_score:70},score:2,total:5,percent:40,passed:false,answers_revealed:false,attempts_left:1,knowledge:{units,min_questions:5,review_threshold:70,unmapped_answers:0},details:[{question_id:101,content:'Câu hỏi mẫu',option_a:'Một',option_b:'Hai',chosen:'A',is_right:false}]}});
+ if(u.pathname==='/api/recommendations'){recCalls++;return r.fulfill({json:{success:true,data:{current:{items:[],based_on:{knowledge:{units:[unit('lesson',1,5,2),unit('lesson',99,5,0,{course_id:2,course_title:'Khóa khác'})]}}}}}})}
+ return r.fulfill({json:{success:true,data:[]}});
+ });
+ const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+
+ const visit=async()=>{await page.goto('http://127.0.0.1:5174/student/quiz-result?result_id=91');await page.locator('.q-score-panel').waitFor()};
+ for(const scope of ['lesson','chapter','course']){
+  units=scope==='chapter'?[unit('chapter',1,5,0)]:[unit('chapter',1,5,0),unit('lesson',1,5,0)];await visit();
+  check(scope+': no knowledge suggestions',await page.locator('.knowledge-assessment,.study-recommendation-summary').count()===0);
+  check(scope+': no hidden recommendation section',await page.getByText('Xem gợi ý hiện tại từ tất cả quiz trong khóa',{exact:true}).count()===0);
+  check(scope+': score remains visible',await page.locator('.q-score-circle-inner').isVisible());
+  check(scope+': answer details remain visible',await page.getByText('Câu hỏi mẫu',{exact:true}).isVisible());
+ }
+ check('Quiz result never requests recommendations',recCalls===0);
+ check('Answer reveal restrictions retained',await page.getByText(/Đáp án đúng sẽ được hiển thị sau lượt làm cuối cùng/).isVisible());
+ await page.reload();await page.locator('.q-score-panel').waitFor();check('History reload still hides suggestions',await page.locator('.knowledge-assessment,.study-recommendation-summary').count()===0);
+ await page.setViewportSize({width:390,height:844});await page.waitForTimeout(400);check('Result fits mobile',await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ check('No result writes',writes.length===0);check('No runtime errors',errors.length===0);
+ fs.writeFileSync('docs/quiz-result-no-suggestions-browser-results.json',JSON.stringify({mode:'mocked_api_no_real_credentials',passed:checks.length,checks,errors},null,2));console.log(JSON.stringify({passed:checks.length,errors}));
+ }finally{await browser.close()}})().catch(e=>{console.error(e);process.exit(1)});

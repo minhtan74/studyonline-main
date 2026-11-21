@@ -2,7 +2,7 @@
 -- SEED DATA cho STUDYONLINE_DB
 -- Chủ đề: Nền tảng học lập trình trực tuyến
 -- Cách dùng: Chạy SAU KHI đã chạy studyonline_db.sql
---            và migration_add_payments.sql
+--            (đã bao gồm bảng payments)
 -- =========================================================
 
 USE studyonline_db;

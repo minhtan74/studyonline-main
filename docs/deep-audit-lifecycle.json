@@ -91,7 +91,7 @@
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/questions?quiz_id=492 expected 403 actual 403 ",
+      "name": "GET /api/quizzes/questions?quiz_id=497 expected 403 actual 403 ",
       "ok": true
     },
     {
@@ -103,7 +103,7 @@
       "ok": true
     },
     {
-      "name": "GET /api/lessons?id=437 expected 200 actual 200 ",
+      "name": "GET /api/lessons?id=438 expected 200 actual 200 ",
       "ok": true
     },
     {
@@ -111,7 +111,7 @@
       "ok": true
     },
     {
-      "name": "GET /api/progress?course_id=1063 expected 200 actual 200 ",
+      "name": "GET /api/progress?course_id=1116 expected 200 actual 200 ",
       "ok": true
     },
     {
@@ -119,7 +119,7 @@
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/questions?quiz_id=490 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/questions?quiz_id=495 expected 200 actual 200 ",
       "ok": true
     },
     {
@@ -139,11 +139,11 @@
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/results?id=378 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/results?id=382 expected 200 actual 200 ",
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/questions?quiz_id=491 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/questions?quiz_id=496 expected 200 actual 200 ",
       "ok": true
     },
     {
@@ -163,11 +163,11 @@
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/results?id=379 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/results?id=383 expected 200 actual 200 ",
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/questions?quiz_id=492 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/questions?quiz_id=497 expected 200 actual 200 ",
       "ok": true
     },
     {
@@ -187,11 +187,11 @@
       "ok": true
     },
     {
-      "name": "GET /api/quizzes/results?id=380 expected 200 actual 200 ",
+      "name": "GET /api/quizzes/results?id=384 expected 200 actual 200 ",
       "ok": true
     },
     {
-      "name": "GET /api/recommendations?course_id=1063 expected 200 actual 200 ",
+      "name": "GET /api/recommendations?course_id=1116 expected 200 actual 200 ",
       "ok": true
     },
     {

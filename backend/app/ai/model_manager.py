@@ -107,16 +107,17 @@ def info() -> dict:
     return {"provider": p, "model": model}
 
 
-# Hàm chung để sinh văn bản: chuyển tới đúng nhà cung cấp; lỗi thì trả chuỗi "[Lỗi gọi LLM: ...]" thay vì làm sập API
-def generate(system: str, user: str, *, max_tokens: int = 700) -> str:
+# Hàm chung để sinh văn bản: chuyển tới đúng nhà cung cấp; lỗi thì trả chuỗi "[Lỗi gọi LLM: ...]" thay vì làm sập API.
+# timeout=None -> dùng mặc định của provider; truyền số để siết thời gian chờ cho tác vụ output ngắn (Tutor, Gợi ý).
+def generate(system: str, user: str, *, max_tokens: int = 700, timeout: float | None = None) -> str:
     p = active_provider()
     try:
         if p == "gemini":
-            return _gemini(system, user, max_tokens)
+            return _gemini(system, user, max_tokens, timeout)
         if p == "openai":
-            return _openai(system, user, max_tokens)
+            return _openai(system, user, max_tokens, timeout)
         if p == "claude":
-            return _claude(system, user, max_tokens)
+            return _claude(system, user, max_tokens, timeout)
     except Exception as e:  # noqa: BLE001 -> luôn có đường lui
         # Chỉ trả loại lỗi + mã HTTP, không trả nguyên thông báo (có thể chứa URL, khoá, dữ liệu nhạy cảm)
         status = getattr(getattr(e, "response", None), "status_code", None)
@@ -130,7 +131,7 @@ def generate(system: str, user: str, *, max_tokens: int = 700) -> str:
 
 
 # Gọi Google Gemini qua REST (generateContent); temperature thấp 0.2 để câu trả lời bám ngữ cảnh
-def _gemini(system: str, user: str, max_tokens: int) -> str:
+def _gemini(system: str, user: str, max_tokens: int, timeout: float | None = None) -> str:
     model = settings.llm_model.strip() or _GEMINI_DEFAULT
     # Khoá gửi qua header, KHÔNG đặt trong URL: URL xuất hiện trong thông báo lỗi / log và từng lộ khoá ra câu trả lời
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
@@ -139,13 +140,13 @@ def _gemini(system: str, user: str, max_tokens: int) -> str:
         "contents": [{"role": "user", "parts": [{"text": user}]}],
         "generationConfig": {"temperature": 0.2, "maxOutputTokens": max_tokens},
     }
-    r = _post_with_retry(url, json=payload, timeout=60, headers={"x-goog-api-key": settings.llm_api_key.strip()})
+    r = _post_with_retry(url, json=payload, timeout=timeout or 60, headers={"x-goog-api-key": settings.llm_api_key.strip()})
     data = r.json()
     return data["candidates"][0]["content"]["parts"][0]["text"].strip()
 
 
 # Gọi Chat Completions chuẩn OpenAI qua REST: mặc định OpenAI, hoặc dịch vụ tương thích theo LLM_BASE_URL
-def _openai(system: str, user: str, max_tokens: int) -> str:
+def _openai(system: str, user: str, max_tokens: int, timeout: float | None = None) -> str:
     model = settings.llm_model.strip() or _OPENAI_DEFAULT
     base_url = settings.llm_base_url.strip().rstrip("/") or "https://api.openai.com/v1"
     key = settings.llm_api_key.strip()
@@ -162,17 +163,17 @@ def _openai(system: str, user: str, max_tokens: int) -> str:
             ],
         },
         # Model chạy trên máy (Ollama, CPU) trả lời chậm hơn API đám mây nhiều -> chờ lâu hơn
-        timeout=180 if settings.llm_base_url.strip() else 60,
+        timeout=timeout or (180 if settings.llm_base_url.strip() else 60),
     )
     return r.json()["choices"][0]["message"]["content"].strip()
 
 
 # Gọi Claude qua SDK chính thức anthropic
-def _claude(system: str, user: str, max_tokens: int) -> str:
+def _claude(system: str, user: str, max_tokens: int, timeout: float | None = None) -> str:
     import anthropic  # nạp lười — chỉ cần khi thực sự dùng Claude
 
     model = settings.llm_model.strip() or _CLAUDE_DEFAULT
-    client = anthropic.Anthropic(api_key=settings.llm_api_key.strip())
+    client = anthropic.Anthropic(api_key=settings.llm_api_key.strip(), **({"timeout": timeout} if timeout else {}))
     resp = client.messages.create(
         model=model,
         max_tokens=max_tokens,

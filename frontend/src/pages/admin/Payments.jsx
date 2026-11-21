@@ -4,6 +4,7 @@ import { paymentService } from '../../services/paymentService';
 import { courseService } from '../../services/courseService';
 import Modal from '../../components/common/Modal.jsx';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 
 // Định dạng tiền và ngày giờ
 function fmtMoney(n) {
@@ -51,6 +52,7 @@ const emptyFilters = { course_id: '', date_from: '', date_to: '' };
 /** Trang Quản lý giao dịch (admin): toàn bộ giao dịch, lọc / tìm kiếm / phân trang, xem chi tiết đơn. */
 export default function AdminPayments() {
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const [rows, setRows] = useState(null); // null = đang tải
   const [error, setError] = useState(null);
   const [pagination, setPagination] = useState({ page: 1, total: 0, total_pages: 1 });
@@ -134,7 +136,10 @@ export default function AdminPayments() {
 
   // Đối soát tất cả đơn đang chờ với VNPay
   async function handleReconcileAll() {
-    if (!window.confirm(`Đối soát ${counts.pending || 0} đơn đang chờ khớp bộ lọc tìm kiếm, khóa học và ngày hiện tại?`)) return;
+    const ok = await confirm(`Đối soát ${counts.pending || 0} đơn đang chờ khớp bộ lọc tìm kiếm, khóa học và ngày hiện tại?`, {
+      title: 'Đối soát hàng loạt', confirmLabel: 'Đối soát',
+    });
+    if (!ok) return;
     setSyncingAll(true);
     try {
       const res = await paymentService.reconcileAll({ ...filters, q: query });
@@ -189,7 +194,10 @@ export default function AdminPayments() {
     }
     const via = 'qua VNPay';
     const revokeText = revokeAccess ? ' và THU HỒI quyền học của học viên' : '';
-    if (!window.confirm(`Hoàn ${fmtMoney(detail.amount)} ${via} cho ${detail.user_name}${revokeText}? Thao tác không thể hoàn tác.`)) return;
+    const ok = await confirm(`Hoàn ${fmtMoney(detail.amount)} ${via} cho ${detail.user_name}${revokeText}? Thao tác không thể hoàn tác.`, {
+      title: 'Xác nhận hoàn tiền', confirmLabel: 'Hoàn tiền', tone: 'danger',
+    });
+    if (!ok) return;
     setRefunding(true);
     setSyncResult(null);
     try {

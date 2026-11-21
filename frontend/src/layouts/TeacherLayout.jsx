@@ -1,3 +1,4 @@
+import RouteContent from '../components/common/RouteContent.jsx';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import '../assets/css/teacher.css';
@@ -30,7 +31,7 @@ export default function TeacherLayout() {
       <div className="main-wrapper">
         <TeacherTopbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
         <main className="main-content">
-          <Outlet />
+          <RouteContent><Outlet /></RouteContent>
         </main>
       </div>
     </>

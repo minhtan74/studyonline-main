@@ -30,6 +30,7 @@ export function useStudyRecommendations(includeProgress = false) {
     })();
     return () => { active = false; controller.abort(); };
   }, [includeProgress, version]);
+  // Lời giải AI giờ tự sinh & cache ở GET (server) -> không còn nút "Cập nhật"; chỉ cần tải lại danh sách
   return { ...state, reload: () => setVersion(n => n + 1) };
 }
 

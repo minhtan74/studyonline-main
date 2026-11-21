@@ -1,3 +1,4 @@
+import RouteContent from '../components/common/RouteContent.jsx';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import AdminSidebar from '../components/admin/AdminSidebar.jsx';
@@ -27,7 +28,7 @@ export default function AdminLayout() {
       <div className="main-wrapper">
         <AdminTopbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
         <main className="main-content">
-          <Outlet />
+          <RouteContent><Outlet /></RouteContent>
         </main>
       </div>
     </>

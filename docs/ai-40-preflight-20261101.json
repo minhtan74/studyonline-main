@@ -1,0 +1,24 @@
+{
+  "mode": "mocked_llm_no_external_network",
+  "input_requested": 40,
+  "effective_requested": 20,
+  "returned": 20,
+  "mixed_40_error": "Tổng số câu tối đa là 30.",
+  "llm_calls": [
+    {
+      "max_tokens": 8192,
+      "verification": false
+    },
+    {
+      "max_tokens": 8192,
+      "verification": true
+    }
+  ],
+  "verification": {
+    "unverified": 0,
+    "verified": 20,
+    "flagged": 0,
+    "ungrounded": 0,
+    "difficulty_flagged": 0
+  }
+}

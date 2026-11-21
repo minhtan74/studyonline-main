@@ -1,0 +1,113 @@
+{
+  "mode": "live_frontend_live_backend_live_mysql_no_mocking",
+  "session": "local_5_minute_signed_session_not_password_login",
+  "passed": 22,
+  "checks": [
+    "Live authenticated progress page opens",
+    "Phuong is the active user",
+    "0/30 lesson appears from live API",
+    "70 percent lesson not marked review",
+    "Live topic explanation opens",
+    "Detailed knowledge appears for distributed systems",
+    "Detailed parallel-system guidance appears",
+    "Specific guidance remains visible",
+    "Small sample group opens",
+    "No percent conclusion for small samples",
+    "Study link targets real lesson",
+    "Course filter updates URL",
+    "Testing course recommendations visible",
+    "Passing project lesson excluded",
+    "HTML course has no false review",
+    "Course survives reload",
+    "Live mobile layout fits",
+    "Full recommendation page loads live",
+    "Full list has OS lesson",
+    "All live API responses successful",
+    "No API writes during inspection",
+    "No browser runtime errors"
+  ],
+  "responses": [
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/overview",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/overview",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/topics",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/topics",
+      "status": 200
+    },
+    {
+      "path": "/api/recommendations",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/overview",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/overview",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/topics",
+      "status": 200
+    },
+    {
+      "path": "/api/analytics/topics",
+      "status": 200
+    },
+    {
+      "path": "/api/recommendations",
+      "status": 200
+    },
+    {
+      "path": "/api/progress",
+      "status": 200
+    },
+    {
+      "path": "/api/recommendations",
+      "status": 200
+    }
+  ],
+  "writes": [],
+  "errors": []
+}

@@ -1,0 +1,1358 @@
+{
+  "python cơ bản cho người mới bắt đầu::biến và kiểu dữ liệu": {
+    "points": [
+      "Biến trong Python",
+      "Các kiểu dữ liệu cơ bản",
+      "Chuyển đổi kiểu"
+    ],
+    "example": "Hỏi thực tế: “Sao print(\"2\" + 3) báo lỗi?” Trong Python, chuỗi và số nguyên không cộng trực tiếp. Muốn cộng số thì đổi chuỗi sang số; muốn ghép chữ thì đổi số sang chuỗi. input() luôn trả chuỗi, kể cả khi người dùng gõ 20.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::toán tử trong python": {
+    "points": [
+      "Toán tử số học",
+      "Toán tử so sánh",
+      "Toán tử logic",
+      "Toán tử gán rút gọn và độ ưu tiên"
+    ],
+    "example": "Tình huống: nhập điểm hoặc tính tiền bị sai vì nhầm phép gán, so sánh và thứ tự tính. = gán giá trị; == kiểm tra bằng nhau; / chia thực, // lấy thương làm tròn xuống và % lấy phần dư. Với số âm, không coi // là cắt phần thập phân về 0.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::câu lệnh if - else": {
+    "points": [
+      "Câu lệnh if",
+      "if - else và elif",
+      "Điều kiện phức hợp và if lồng nhau",
+      "Biểu thức điều kiện một dòng"
+    ],
+    "example": "Hỏi thực tế: “Em bị IndentationError: dòng print sau if viết thế nào?” Dòng thuộc khối if phải thụt vào. Dùng nhất quán bốn dấu cách, không trộn tab và khoảng trắng. Dấu hai chấm kết thúc dòng điều kiện.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::vòng lặp for, while": {
+    "points": [
+      "Vòng lặp for",
+      "Vòng lặp while",
+      "break và continue",
+      "Vòng lặp lồng nhau"
+    ],
+    "example": "Hỏi thực tế: “In 1 đến 5 thì sao range lại ghi 6?” range(a, b) lấy a nhưng không lấy b. for duyệt các phần tử của một iterable; while lặp khi điều kiện còn đúng, cần bảo đảm có thay đổi dẫn tới kết thúc.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::định nghĩa và sử dụng hàm": {
+    "points": [
+      "Định nghĩa hàm",
+      "Tham số và đối số",
+      "Trả về nhiều giá trị",
+      "Phạm vi biến"
+    ],
+    "example": "Hỏi thực tế: “return và print có giống nhau không?” print hiển thị; return kết thúc hàm và chuyển kết quả cho nơi gọi. return là từ khóa, không phải tên một hàm. Hàm không return giá trị sẽ trả None.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::class và object": {
+    "points": [
+      "Lớp và đối tượng",
+      "Phương thức khởi tạo và self",
+      "Thuộc tính lớp và phương thức đặc biệt"
+    ],
+    "example": "Tình huống: nhiều học viên cùng tên nhưng cần quản lý riêng. Class mô tả cấu trúc và hành vi; object là một đối tượng cụ thể. Thuộc tính thay đổi theo từng học viên phải đặt trên instance, tránh một danh sách dùng chung ngoài ý muốn.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::kế thừa (inheritance)": {
+    "points": [
+      "Kế thừa là gì",
+      "Hàm super()",
+      "Ghi đè phương thức",
+      "Kiểm tra quan hệ kế thừa"
+    ],
+    "example": "Tình huống: học viên thường và học viên học bổng có chung thông tin nhưng cách tính học phí khác. Kế thừa phù hợp quan hệ “là một”; thành phần được chứa bên trong nên cân nhắc composition.",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::dự án nhỏ: quản lý sinh viên": {
+    "points": [
+      "Yêu cầu bài toán",
+      "Thiết kế",
+      "Cài đặt mẫu",
+      "Gợi ý mở rộng"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course1_python.md"
+  },
+  "python cơ bản cho người mới bắt đầu::cài đặt python & ide": {
+    "points": [
+      "Python và môi trường làm việc",
+      "Chương trình đầu tiên",
+      "Đọc lỗi và gỡ lỗi",
+      "Đáp án và tiêu chí tự kiểm tra"
+    ],
+    "example": "Tình huống: “Em đã cài Python nhưng VS Code báo không tìm thấy thư viện hoặc không chạy đúng file.” Kiểm tra terminal đang đứng ở thư mục nào, tên file đã lưu và trình thông dịch được chọn. Môi trường ảo tách thư viện của dự án khỏi Python hệ thống; cài gói và chạy chương trình bằng cùng một interpreter.",
+    "source": "training/lesson_docs/content/course1_setup.md"
+  },
+  "javascript từ zero đến hero::javascript là gì?": {
+    "points": [
+      "JavaScript là gì",
+      "Cách chạy JavaScript",
+      "Chương trình đầu tiên"
+    ],
+    "example": "Tình huống: “Em mở file JS mà không có gì hiện ra.” Mã JavaScript cần môi trường thực thi. Node không có document của trình duyệt; trình duyệt chạy script trong trang và hiển thị console ở công cụ phát triển.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::biến, kiểu dữ liệu & toán tử": {
+    "points": [
+      "Khai báo biến",
+      "Kiểu dữ liệu",
+      "Toán tử",
+      "Giá trị đúng sai (truthy, falsy)"
+    ],
+    "example": "Hỏi thực tế: “const rồi sao vẫn push được?” const giữ binding không được gán lại, không đóng băng đối tượng. let cho phép gán lại; ưu tiên const khi không cần gán lại biến.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::hàm trong javascript": {
+    "points": [
+      "Khai báo hàm",
+      "Function expression và arrow function",
+      "Tham số mặc định và rest",
+      "Hàm là giá trị"
+    ],
+    "example": "Tình huống: chương trình in đúng nhưng biến nhận kết quả lại undefined. Hàm phải return giá trị muốn truyền cho nơi gọi; console.log chỉ ghi ra console.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::tổng quan về dom": {
+    "points": [
+      "DOM là gì",
+      "Chọn phần tử",
+      "Thay đổi nội dung và kiểu",
+      "Tạo và xoá phần tử"
+    ],
+    "example": "Hỏi thực tế: “getElementById('btn') ra null nên nút không hoạt động.” Kiểm tra phần tử có đúng id không, có được render không và script có chạy trước khi HTML được phân tích không. Không kết luận một nguyên nhân khi chưa có HTML và vị trí script.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::xử lý sự kiện click, submit": {
+    "points": [
+      "Sự kiện và trình xử lý",
+      "Đối tượng event",
+      "Một số sự kiện thường dùng",
+      "Lan truyền sự kiện"
+    ],
+    "example": "Tình huống: bấm nút trong form làm tải lại trang. Nút mặc định trong form có thể submit; với hành động riêng dùng type=\"button\", với gửi form xử lý sự kiện submit và preventDefault khi ứng dụng tự gửi request.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::dự án: to-do list": {
+    "points": [
+      "Yêu cầu",
+      "Cấu trúc HTML",
+      "Cài đặt mẫu",
+      "Gợi ý mở rộng"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::arrow function & destructuring": {
+    "points": [
+      "Arrow function",
+      "Destructuring",
+      "Spread và rest",
+      "Template string"
+    ],
+    "example": "Tình huống: arrow function có dấu ngoặc nhọn nhưng không return nên cho undefined. Arrow viết một biểu thức có thể trả ngầm; trả object cần bọc bằng ngoặc tròn.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::promise & async/await": {
+    "points": [
+      "Bất đồng bộ",
+      "Promise",
+      "async và await",
+      "Chạy song song"
+    ],
+    "example": "Hỏi thực tế: “promsie là gì, then catch để làm gì?” Promise biểu diễn kết quả bất đồng bộ: pending, fulfilled hoặc rejected. then xử lý kết quả, catch xử lý lỗi; async trả Promise, await chờ bên trong hàm async.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "javascript từ zero đến hero::module & fetch api": {
+    "points": [
+      "Module",
+      "Fetch API",
+      "Gửi dữ liệu",
+      "Xử lý lỗi và trạng thái"
+    ],
+    "example": "Tình huống: fetch trả 404 nhưng catch không chạy. fetch không tự coi HTTP 4xx/5xx là Promise rejection; phải kiểm tra response.ok. JSON lỗi cũng cần được xử lý.",
+    "source": "training/lesson_docs/content/course2_javascript.md"
+  },
+  "lập trình java căn bản::cài đặt jdk & intellij": {
+    "points": [
+      "JDK, JRE và JVM",
+      "Cài đặt môi trường",
+      "Chương trình Java đầu tiên"
+    ],
+    "example": "Tình huống: IDE chạy được nhưng terminal báo không tìm thấy javac. JDK có công cụ biên dịch; kiểm tra java -version, javac -version và JDK cấu hình trong dự án. Tên file phải khớp lớp public theo cách tổ chức thông thường.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::biến, kiểu dữ liệu trong java": {
+    "points": [
+      "Kiểu dữ liệu nguyên thuỷ",
+      "Biến và hằng số",
+      "Ép kiểu",
+      "Kiểu tham chiếu và String"
+    ],
+    "example": "Tình huống: đọc một số rồi đọc tên nhưng tên thành chuỗi rỗng. Khi dùng Scanner, nextInt để lại dấu xuống dòng; cách dễ kiểm soát là đọc nguyên dòng rồi chuyển đổi và kiểm tra lỗi.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::cấu trúc điều khiển": {
+    "points": [
+      "Câu lệnh rẽ nhánh",
+      "switch-case",
+      "Vòng lặp",
+      "break, continue và mảng"
+    ],
+    "example": "Tình huống: vòng lặp vượt giới hạn mảng. Với mảng n phần tử, chỉ số từ 0 tới n-1; điều kiện thường là i < values.length.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::class, object, constructor": {
+    "points": [
+      "Lớp và đối tượng",
+      "Constructor",
+      "Tính đóng gói",
+      "Thành phần static"
+    ],
+    "example": "Tình huống: một sản phẩm được tạo với tên rỗng hoặc giá âm. Constructor và phương thức cập nhật nên bảo vệ bất biến, không chỉ giao diện nhập liệu.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::kế thừa & đa hình": {
+    "points": [
+      "Kế thừa",
+      "Phân biệt overloading và overriding",
+      "Đa hình",
+      "Từ khoá final"
+    ],
+    "example": "Tình huống: nhiều loại sản phẩm có cách tính phí khác nhau. Lời gọi phương thức được chọn theo loại đối tượng thực khi có ghi đè.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::interface & abstract class": {
+    "points": [
+      "Lớp trừu tượng",
+      "Interface",
+      "Phân biệt interface và abstract class",
+      "Lợi ích"
+    ],
+    "example": "Tình huống: cần thay nơi lưu dữ liệu nhưng giữ nguyên nghiệp vụ. Interface mô tả hợp đồng; abstract class có thể chia sẻ trạng thái và phần triển khai khi phù hợp.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::try-catch & custom exception": {
+    "points": [
+      "Ngoại lệ là gì",
+      "try-catch-finally",
+      "throw và throws",
+      "Ngoại lệ tự định nghĩa"
+    ],
+    "example": "Tình huống: lỗi bị bỏ qua bằng catch rỗng khiến chương trình vẫn báo lưu thành công. Chỉ bắt lỗi tại nơi có thể xử lý, bổ sung ngữ cảnh và giữ nguyên nguyên nhân khi chuyển tiếp.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::arraylist & hashmap": {
+    "points": [
+      "Collection Framework",
+      "ArrayList",
+      "HashMap",
+      "Chọn cấu trúc phù hợp"
+    ],
+    "example": "Tình huống: hai sản phẩm cùng mã làm dữ liệu cũ bị ghi đè. Map.put có thể thay giá trị hiện có; muốn từ chối trùng cần kiểm tra hoặc dùng thao tác phù hợp.",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "lập trình java căn bản::dự án: quản lý sản phẩm": {
+    "points": [
+      "Yêu cầu",
+      "Thiết kế",
+      "Cài đặt mẫu",
+      "Gợi ý mở rộng"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course3_java.md"
+  },
+  "html & css nhập môn::cấu trúc tài liệu html": {
+    "points": [
+      "HTML là gì",
+      "Cấu trúc tài liệu HTML",
+      "Thẻ và thuộc tính",
+      "Các thẻ thường dùng"
+    ],
+    "example": "Tình huống: tiếng Việt lỗi hoặc trang co sai trên điện thoại. Dùng tài liệu HTML có charset UTF-8, lang phù hợp và viewport; lưu file đúng encoding.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::form và bảng biểu": {
+    "points": [
+      "Bảng biểu",
+      "Form nhập liệu",
+      "Thẻ label và các thành phần khác",
+      "GET và POST"
+    ],
+    "example": "Tình huống: input không có nhãn hoặc người dùng không biết lỗi ở đâu. Kết nối label với id; type phù hợp hỗ trợ nhập liệu nhưng server vẫn phải kiểm tra dữ liệu.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::semantic html": {
+    "points": [
+      "Semantic HTML là gì",
+      "Các thẻ ngữ nghĩa phổ biến",
+      "Thẻ div và span",
+      "Một số thẻ ngữ nghĩa khác"
+    ],
+    "example": "Tình huống: div có onclick nhưng không dùng được bằng bàn phím. Dùng button cho hành động và a có href cho điều hướng; không thay tất cả bằng div vì thuận CSS.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::selector & thuộc tính css": {
+    "points": [
+      "CSS là gì",
+      "Selector",
+      "Độ ưu tiên",
+      "Thuộc tính thường dùng"
+    ],
+    "example": "Tình huống: CSS “không ăn” vì selector không khớp hoặc bị quy tắc khác ghi đè. Kiểm tra Styles/Computed, nguồn stylesheet tải được và tính kế thừa trước khi thêm !important.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::box model & flexbox": {
+    "points": [
+      "Box Model",
+      "Thuộc tính box-sizing",
+      "Flexbox",
+      "Các thuộc tính của Flexbox"
+    ],
+    "example": "Tình huống: phần tử width 100% vẫn tràn vì thêm padding và border. Dùng box-sizing phù hợp và kiểm tra kích thước thực.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::css grid": {
+    "points": [
+      "CSS Grid là gì",
+      "Khai báo cột và hàng",
+      "Đặt phần tử vào vùng",
+      "Phân biệt Grid và Flexbox"
+    ],
+    "example": "Tình huống: muốn card tự đổi số cột khi thay đổi vùng chứa. Grid tạo bố cục hai chiều; số cột cần dựa vào bề rộng tối thiểu của nội dung.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::media query": {
+    "points": [
+      "Responsive Design là gì",
+      "Media Query",
+      "Điểm ngắt",
+      "Đơn vị linh hoạt"
+    ],
+    "example": "Tình huống: breakpoint được chọn theo tên thiết bị nhưng nội dung vẫn tràn giữa hai kích thước. Chọn điểm đổi bố cục khi nội dung cần, kiểm tra cả kích thước ở giữa.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::mobile first design": {
+    "points": [
+      "Mobile First là gì",
+      "Cách viết",
+      "Nguyên tắc thiết kế cho điện thoại",
+      "So sánh hai hướng"
+    ],
+    "example": "Tình huống: màn hình nhỏ có quá nhiều nút và sidebar che nội dung. Thiết kế cấu trúc đơn cột dễ đọc trước, sau đó mở rộng. Menu phải mở/đóng được bằng bàn phím, có trạng thái và trả focus hợp lý khi đóng.",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "html & css nhập môn::dự án: landing page responsive": {
+    "points": [
+      "Landing page là gì",
+      "Bố cục các phần",
+      "Khung HTML mẫu",
+      "Quy trình thực hiện"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course4_html_css.md"
+  },
+  "reactjs chuyên sâu::giới thiệu react & jsx": {
+    "points": [
+      "React là gì",
+      "Virtual DOM",
+      "JSX",
+      "Quy tắc viết JSX"
+    ],
+    "example": "Tình huống: viết HTML vào JSX gây lỗi. JSX gần HTML nhưng có quy tắc JavaScript: dùng className, đóng thẻ và bọc các phần tử cùng cấp. Biểu thức đặt trong dấu ngoặc nhọn; không đặt câu lệnh if trực tiếp vào vị trí biểu thức.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::component & props": {
+    "points": [
+      "Component",
+      "Props",
+      "Prop children",
+      "Render danh sách"
+    ],
+    "example": "Tình huống: sửa props rồi giao diện không đúng hoặc làm dữ liệu cha thay đổi. Props là đầu vào; cập nhật dữ liệu ở nơi sở hữu state và truyền callback xuống.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::state & usestate": {
+    "points": [
+      "State",
+      "Hook useState",
+      "Cập nhật state đúng cách",
+      "Xử lý sự kiện và form"
+    ],
+    "example": "Tình huống: gọi setCount nhiều lần nhưng tăng không như dự đoán. Khi state mới phụ thuộc state trước, dùng updater. Không sửa trực tiếp mảng/object rồi truyền lại cùng tham chiếu.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::useeffect & vòng đời component": {
+    "points": [
+      "Side effect",
+      "Mảng phụ thuộc",
+      "Hàm cleanup",
+      "Vòng đời component"
+    ],
+    "example": "Tình huống: đổi khóa nhanh làm response cũ ghi đè response mới. Effect đồng bộ với hệ thống bên ngoài, cần cleanup và dependency đúng; không dùng effect để thay thế mọi phép tính.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::usecontext & usereducer": {
+    "points": [
+      "Prop drilling và Context",
+      "useReducer",
+      "Khi nào dùng",
+      "Lưu ý hiệu năng"
+    ],
+    "example": "Tình huống: nhiều trang cần user hiện tại hoặc giỏ thao tác. Context truyền giá trị, reducer mô tả cách chuyển trạng thái; không thay thế mọi state cục bộ bằng context toàn ứng dụng.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::custom hooks": {
+    "points": [
+      "Custom Hook là gì",
+      "Ví dụ useLocalStorage",
+      "Ví dụ useFetch",
+      "Quy tắc của Hooks"
+    ],
+    "example": "Tình huống: ba trang lặp logic loading/error và hủy request. Custom Hook tái sử dụng logic stateful, không tự làm các component dùng chung cùng một state nếu không thiết kế như vậy.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::kết nối api với axios": {
+    "points": [
+      "Axios là gì",
+      "Gọi API trong component",
+      "Axios instance và interceptor",
+      "Gửi dữ liệu"
+    ],
+    "example": "Tình huống: server trả 401, 403 và 500 nhưng UI đều hiện danh sách rỗng. Phân biệt lỗi xác thực, quyền, dữ liệu đầu vào và lỗi hệ thống; không hiển thị token hoặc stack trace cho người học.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::routing với react router": {
+    "points": [
+      "React Router là gì",
+      "useParams và useNavigate",
+      "Route được bảo vệ",
+      "Route lồng nhau"
+    ],
+    "example": "Tình huống: copy URL trang kết quả sang tab mới nhưng thiếu dữ liệu. Navigation state chỉ là tiện ích trong phiên điều hướng; nội dung cần mở lại phải có id trong URL và tải lại được từ API có xác thực.",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "reactjs chuyên sâu::dự án: trang quản lý khoá học": {
+    "points": [
+      "Yêu cầu",
+      "Tổ chức thư mục",
+      "Luồng chính",
+      "Gợi ý mở rộng"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course5_react.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::khái niệm cơ sở dữ liệu": {
+    "points": [
+      "Cơ sở dữ liệu là gì",
+      "CSDL quan hệ (Relational Database)",
+      "Khóa chính và khóa ngoại",
+      "Các loại quan hệ giữa bảng",
+      "SQL và phân loại câu lệnh"
+    ],
+    "example": "Hỏi thực tế: “Hai học sinh có cùng id được không?” Nếu id là khóa chính trong cùng bảng thì không: khóa chính định danh hàng, phải duy nhất và không NULL. Hai bảng khác nhau có thể có cùng giá trị số nhưng đó không tự là cùng thực thể.",
+    "source": "training/lesson_docs/content/course6_database_intro.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::cài đặt mysql & workbench": {
+    "points": [
+      "Các thành phần",
+      "Các bước cài đặt",
+      "Tạo database và bảng đầu tiên",
+      "Kiểu dữ liệu thường dùng"
+    ],
+    "example": "Tình huống: Workbench mở được nhưng kết nối thất bại. Workbench là client; MySQL server phải chạy, đúng host/port, tài khoản và quyền. Phân biệt sai mật khẩu, server không chạy, firewall và database chưa tồn tại bằng thông báo lỗi.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::câu lệnh select cơ bản": {
+    "points": [
+      "Câu lệnh SELECT",
+      "Lọc dữ liệu với WHERE",
+      "Các toán tử trong WHERE",
+      "Sắp xếp và giới hạn kết quả"
+    ],
+    "example": "Tình huống: nhập tên O'Reilly làm hỏng SQL. Chuỗi có dấu nháy cần được truyền qua tham số của driver, không ghép chuỗi SQL bằng phép cộng hoặc f-string. Cú pháp placeholder tùy driver; không chép nhầm giữa các thư viện.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::join nhiều bảng": {
+    "points": [
+      "JOIN là gì",
+      "Phân biệt INNER JOIN và LEFT JOIN",
+      "Kết nối nhiều bảng",
+      "Mẹo khi dùng JOIN"
+    ],
+    "example": "Hỏi thực tế: “Tìm học viên chưa ghi danh khóa nào bằng LEFT JOIN?” Bắt đầu từ học viên, giữ tất cả học viên rồi lọc phía ghi danh không khớp. Đừng đổi thành tìm khóa chưa có học viên: đó là bài toán ngược.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::group by & aggregate function": {
+    "points": [
+      "Hàm tổng hợp",
+      "Hàm COUNT",
+      "GROUP BY",
+      "Phân biệt WHERE và HAVING"
+    ],
+    "example": "Tình huống: đếm học viên theo khóa nhưng khóa rỗng vẫn có số 1. Sau LEFT JOIN, COUNT(*) đếm cả hàng bên trái chưa khớp; COUNT(e.id) chỉ đếm id phía ghi danh không NULL.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::subquery & view": {
+    "points": [
+      "Truy vấn con",
+      "Truy vấn con với IN và EXISTS",
+      "View",
+      "Chọn cách viết phù hợp"
+    ],
+    "example": "Tình huống: cần tìm học viên không có ghi danh mà không muốn nhân dòng. NOT EXISTS thể hiện trực tiếp điều kiện không tồn tại.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::chuẩn hoá dữ liệu (1nf-3nf)": {
+    "points": [
+      "Chuẩn hoá là gì",
+      "Dạng chuẩn 1NF",
+      "Dạng chuẩn 2NF",
+      "Dạng chuẩn 3NF",
+      "Lưu ý"
+    ],
+    "example": "Tình huống: lưu nhiều tên khóa trong một ô khiến sửa/tìm rất khó. Tách thực thể và quan hệ theo phụ thuộc dữ liệu: học viên, khóa, ghi danh. Khóa ghép của ghi danh hoặc unique(student_id, course_id) ngăn đăng ký trùng theo quy tắc nghiệp vụ.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::thiết kế erd": {
+    "points": [
+      "Sơ đồ ERD",
+      "Các kiểu liên kết",
+      "Chuyển ERD sang bảng",
+      "Quy trình thiết kế"
+    ],
+    "example": "Tình huống: chưa rõ quan hệ học viên–khóa là 1-N hay N-N. Một học viên học nhiều khóa, một khóa có nhiều học viên nên cần bảng ghi danh ở giữa. Ghi cả tính bắt buộc/tùy chọn và quy tắc xóa.",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "mysql & thiết kế cơ sở dữ liệu::dự án: thiết kế csdl website học trực tuyến": {
+    "points": [
+      "Yêu cầu hệ thống",
+      "Các bảng chính",
+      "Các liên kết",
+      "Truy vấn thống kê mẫu"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course6_mysql.md"
+  },
+  "tiếng anh giao tiếp cơ bản::bảng chữ cái và phát âm cơ bản": {
+    "points": [
+      "Bảng chữ cái tiếng Anh",
+      "Nguyên âm và phụ âm",
+      "Đánh vần tên và email"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::chào hỏi và giới thiệu bản thân": {
+    "points": [
+      "Chào hỏi",
+      "Giới thiệu bản thân",
+      "Hỏi thông tin người khác"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::số đếm, ngày tháng và thời gian": {
+    "points": [
+      "Số đếm và số thứ tự",
+      "Thứ, ngày, tháng, năm",
+      "Nói giờ"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::động từ to be và đại từ nhân xưng": {
+    "points": [
+      "Đại từ nhân xưng",
+      "Chia động từ to be ở hiện tại",
+      "Phủ định và nghi vấn"
+    ],
+    "example": "Ví dụ: I am a student., My sister is a nurse., They are my classmates.",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::thì hiện tại đơn": {
+    "points": [
+      "Cách dùng",
+      "Chia động từ",
+      "Phủ định và nghi vấn"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::thì hiện tại tiếp diễn": {
+    "points": [
+      "Cách dùng",
+      "Cấu trúc và quy tắc thêm -ing",
+      "So sánh với hiện tại đơn"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::hỏi đường và phương tiện đi lại": {
+    "points": [
+      "Hỏi đường",
+      "Giới từ chỉ vị trí",
+      "Phương tiện đi lại"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::mua sắm và gọi món": {
+    "points": [
+      "Mua sắm",
+      "Gọi món ở nhà hàng",
+      "Would like"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "tiếng anh giao tiếp cơ bản::sở thích và kế hoạch": {
+    "points": [
+      "Nói về sở thích",
+      "Kế hoạch với be going to",
+      "Phân biệt với will"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course7_english.md"
+  },
+  "toán rời rạc cho lập trình viên::mệnh đề và các phép toán logic": {
+    "points": [
+      "Mệnh đề",
+      "Các phép toán logic",
+      "Bảng chân trị và tương đương logic"
+    ],
+    "example": "Ví dụ áp dụng De Morgan khi viết code: điều kiện !(a > 0 && b > 0) tương đương a <= 0 || b <= 0.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::vị từ, lượng từ và phương pháp chứng minh": {
+    "points": [
+      "Vị từ và lượng từ",
+      "Phủ định mệnh đề có lượng từ",
+      "Các phương pháp chứng minh"
+    ],
+    "example": "Ví dụ trên tập số nguyên: ∀x (x² ≥ 0) là đúng; ∃x (x² = 2) là sai vì không có số nguyên nào bình phương bằng 2.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::tập hợp và các phép toán tập hợp": {
+    "points": [
+      "Tập hợp và tập con",
+      "Các phép toán tập hợp",
+      "Tập lũy thừa và tích Descartes"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::quy tắc cộng và quy tắc nhân": {
+    "points": [
+      "Quy tắc cộng",
+      "Quy tắc nhân",
+      "Nguyên lý bù trừ"
+    ],
+    "example": "Ví dụ: mật khẩu gồm 2 chữ cái (26 chữ) rồi 3 chữ số, cho phép lặp, có 26 · 26 · 10 · 10 · 10 = 676 000 khả năng. Một chuỗi bit dài n có 2^n giá trị, nên kiểu dữ liệu 8 bit biểu diễn được 2^8 = 256 giá trị.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::hoán vị, chỉnh hợp và tổ hợp": {
+    "points": [
+      "Hoán vị",
+      "Chỉnh hợp",
+      "Tổ hợp"
+    ],
+    "example": "Ví dụ: chọn lớp trưởng, lớp phó, thủ quỹ từ 5 bạn (mỗi vị trí khác nhau, thứ tự có ý nghĩa) có A(5, 3) = 5 · 4 · 3 = 60 cách.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::quy nạp toán học và hệ thức truy hồi": {
+    "points": [
+      "Quy nạp toán học",
+      "Hệ thức truy hồi",
+      "Liên hệ với hàm đệ quy"
+    ],
+    "example": "Ví dụ: chứng minh 1 + 2 + … + n = n(n + 1)/2. Cơ sở: n = 1 thì vế trái bằng 1, vế phải bằng 1·2/2 = 1. Quy nạp: giả sử đúng với k, khi đó 1 + … + k + (k + 1) = k(k + 1)/2 + (k + 1) = (k + 1)(k + 2)/2, đúng với k + 1.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::đồ thị và cách biểu diễn": {
+    "points": [
+      "Khái niệm đồ thị",
+      "Định lý bắt tay",
+      "Biểu diễn đồ thị"
+    ],
+    "example": "Ví dụ: đồ thị 5 đỉnh có bậc 3, 3, 2, 2, 2 thì tổng bậc 12 nên có 6 cạnh. Không tồn tại đồ thị có bậc 3, 3, 3, 2, 2 vì có 3 đỉnh bậc lẻ.",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::duyệt đồ thị và đường đi ngắn nhất": {
+    "points": [
+      "Duyệt theo chiều rộng (BFS)",
+      "Duyệt theo chiều sâu (DFS)",
+      "Thuật toán Dijkstra"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "toán rời rạc cho lập trình viên::cây và cây khung nhỏ nhất": {
+    "points": [
+      "Cây và tính chất",
+      "Cây khung",
+      "Thuật toán Kruskal và Prim"
+    ],
+    "example": "",
+    "source": "training/lesson_docs/content/course8_discrete_math.md"
+  },
+  "nguyên lí hdh::khái niệm về hệ điều hành": {
+    "points": [
+      "Hỏi thực tế: “Máy mở nhiều app thì lag, liên quan gì hệ điều hành?” Ứng dụng cần CPU, bộ nhớ và thiết bị I/O. Hệ điều hành quản lý và phân phối các tài nguyên đó; nhiều công việc có thể cạnh tranh tài nguyên hoặc chờ I/O. Chỉ từ chữ “lag” chưa thể kết luận thiếu RAM hay ứng dụng nào lỗi."
+    ],
+    "example": "Hỏi thực tế: “Máy mở nhiều app thì lag, liên quan gì hệ điều hành?” Ứng dụng cần CPU, bộ nhớ và thiết bị I/O. Hệ điều hành quản lý và phân phối các tài nguyên đó; nhiều công việc có thể cạnh tranh tài nguyên hoặc chờ I/O. Chỉ từ chữ “lag” chưa thể kết luận thiếu RAM hay ứng dụng nào lỗi.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::phân loại hệ điều hành": {
+    "points": [
+      "Tình huống: nhầm đa nhiệm, nhiều người dùng và thời gian thực là cùng một loại. Các tiêu chí phân loại có thể giao nhau: một hệ thống có thể đa nhiệm và hỗ trợ nhiều người dùng. Hệ thời gian thực quan tâm đáp ứng ràng buộc thời hạn, không chỉ “chạy nhanh”."
+    ],
+    "example": "Tình huống: nhầm đa nhiệm, nhiều người dùng và thời gian thực là cùng một loại. Các tiêu chí phân loại có thể giao nhau: một hệ thống có thể đa nhiệm và hỗ trợ nhiều người dùng. Hệ thời gian thực quan tâm đáp ứng ràng buộc thời hạn, không chỉ “chạy nhanh”.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::nhu cầu xử lí đồng thời": {
+    "points": [
+      "Tình huống: tải file trong khi nghe nhạc. Đồng thời là quản lý nhiều công việc có thời gian sống chồng nhau; song song là thực thi thực sự cùng lúc ở mức tài nguyên xử lý. Một lõi có thể xen kẽ công việc để tạo tính đáp ứng."
+    ],
+    "example": "Tình huống: tải file trong khi nghe nhạc. Đồng thời là quản lý nhiều công việc có thời gian sống chồng nhau; song song là thực thi thực sự cùng lúc ở mức tài nguyên xử lý. Một lõi có thể xen kẽ công việc để tạo tính đáp ứng.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::khái niệm tiến trình và mô hình đa tiến trình": {
+    "points": [
+      "Hỏi thực tế: “Chương trình khác tiến trình thế nào?” Chương trình là mã và dữ liệu ở dạng thụ động; tiến trình là một lần thực thi có trạng thái, ngữ cảnh CPU và tài nguyên. Mở cùng ứng dụng hai lần có thể tạo nhiều tiến trình; chi tiết còn tùy thiết kế ứng dụng.",
+      "Ví dụ: quán cà phê có nhiều phiếu gọi món; mỗi phiếu là một công việc đang được xử lý, còn công thức là chỉ dẫn. Ví dụ chỉ giúp hình dung, không đồng nhất nhân viên với mọi thành phần của hệ điều hành."
+    ],
+    "example": "Hỏi thực tế: “Chương trình khác tiến trình thế nào?” Chương trình là mã và dữ liệu ở dạng thụ động; tiến trình là một lần thực thi có trạng thái, ngữ cảnh CPU và tài nguyên. Mở cùng ứng dụng hai lần có thể tạo nhiều tiến trình; chi tiết còn tùy thiết kế ứng dụng.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::khái niệm tiến trình và mô hình tiểu tiến trình": {
+    "points": [
+      "Tình huống: thêm thread nhưng không nhanh hơn. Các thread trong một tiến trình chia sẻ một số tài nguyên và không gian địa chỉ, nhưng mỗi thread có luồng điều khiển, ngữ cảnh và stack riêng. Công việc phải có phần có thể thực hiện đồng thời và không bị nút thắt khác lấn át."
+    ],
+    "example": "Tình huống: thêm thread nhưng không nhanh hơn. Các thread trong một tiến trình chia sẻ một số tài nguyên và không gian địa chỉ, nhưng mỗi thread có luồng điều khiển, ngữ cảnh và stack riêng. Công việc phải có phần có thể thực hiện đồng thời và không bị nút thắt khác lấn át.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::tổ chức quản lí tiến trình": {
+    "points": [
+      "Tình huống: một tác vụ ngắn phải đợi sau tác vụ dài. Mô phỏng FCFS với thời lượng 6, 2, 1 cùng đến lúc 0: thứ tự đó cho thời gian chờ 0, 6, 8; trung bình 14/3. Thay chính sách có thể cải thiện một chỉ số nhưng ảnh hưởng công bằng hoặc chi phí chuyển ngữ cảnh."
+    ],
+    "example": "Tình huống: một tác vụ ngắn phải đợi sau tác vụ dài. Mô phỏng FCFS với thời lượng 6, 2, 1 cùng đến lúc 0: thứ tự đó cho thời gian chờ 0, 6, 8; trung bình 14/3. Thay chính sách có thể cải thiện một chỉ số nhưng ảnh hưởng công bằng hoặc chi phí chuyển ngữ cảnh.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::lập trình tiến trình": {
+    "points": [
+      "Tình huống: chương trình cha kết thúc khi công việc con chưa xong hoặc không thu kết quả. Phải xác định cách tạo, chờ, trao đổi trạng thái thoát và giải phóng tài nguyên của tiến trình. API cụ thể phụ thuộc hệ điều hành và ngôn ngữ."
+    ],
+    "example": "Tình huống: chương trình cha kết thúc khi công việc con chưa xong hoặc không thu kết quả. Phải xác định cách tạo, chờ, trao đổi trạng thái thoát và giải phóng tài nguyên của tiến trình. API cụ thể phụ thuộc hệ điều hành và ngôn ngữ.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::liên lạc tiến trình": {
+    "points": [
+      "Tình huống: hai chương trình cần trao đổi kết quả. Chọn cơ chế dựa vào lượng dữ liệu, yêu cầu độ trễ, phạm vi máy và đồng bộ: pipe, hàng đợi thông điệp, socket hoặc vùng nhớ chia sẻ có thể phù hợp các bài khác nhau."
+    ],
+    "example": "Tình huống: hai chương trình cần trao đổi kết quả. Chọn cơ chế dựa vào lượng dữ liệu, yêu cầu độ trễ, phạm vi máy và đồng bộ: pipe, hàng đợi thông điệp, socket hoặc vùng nhớ chia sẻ có thể phù hợp các bài khác nhau.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::các cơ chế thông tin liên lạc": {
+    "points": [
+      "Tình huống: gửi một tín hiệu không đồng nghĩa đã chuyển toàn bộ một bản ghi dữ liệu. Cơ chế thông báo sự kiện khác với giao thức truyền dữ liệu có cấu trúc; cần hiểu giới hạn và thứ tự xử lý của API cụ thể."
+    ],
+    "example": "Tình huống: gửi một tín hiệu không đồng nghĩa đã chuyển toàn bộ một bản ghi dữ liệu. Cơ chế thông báo sự kiện khác với giao thức truyền dữ liệu có cấu trúc; cần hiểu giới hạn và thứ tự xử lý của API cụ thể.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::nhu cầu đồng bộ hóa": {
+    "points": [
+      "Tình huống: hai thread cùng tăng số lượt đăng ký. Phép đọc–cộng–ghi gồm nhiều bước; nếu cùng đọc 10 rồi đều ghi 11 thì mất một cập nhật. Đây là mô hình minh họa race condition, không phải bảo đảm mọi runtime đều xen kẽ đúng như vậy."
+    ],
+    "example": "Tình huống: hai thread cùng tăng số lượt đăng ký. Phép đọc–cộng–ghi gồm nhiều bước; nếu cùng đọc 10 rồi đều ghi 11 thì mất một cập nhật. Đây là mô hình minh họa race condition, không phải bảo đảm mọi runtime đều xen kẽ đúng như vậy.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "nguyên lí hdh::các giải pháp đồng bộ hóa": {
+    "points": [
+      "Tình huống: dùng lock nhưng vẫn treo vì thứ tự lấy nhiều khóa không nhất quán. Quy định cùng một thứ tự lấy khóa và giải phóng ở mọi đường thoát. Semaphore đếm tài nguyên; mutex bảo vệ vùng truy cập theo hợp đồng API, không dùng hai khái niệm như đồng nghĩa tuyệt đối."
+    ],
+    "example": "Tình huống: dùng lock nhưng vẫn treo vì thứ tự lấy nhiều khóa không nhất quán. Quy định cùng một thứ tự lấy khóa và giải phóng ở mọi đường thoát. Semaphore đếm tài nguyên; mutex bảo vệ vùng truy cập theo hợp đồng API, không dùng hai khái niệm như đồng nghĩa tuyệt đối.",
+    "source": "training/lesson_docs/edition_20261029/os.md"
+  },
+  "mạng máy tính cơ bản::mô hình tcp/ip và thiết bị mạng": {
+    "points": [
+      "Tình huống: mở web lỗi nhưng chưa rõ mạng hay server. Tách đường đi ứng dụng → truyền tải → IP → liên kết. Switch thường chuyển frame trong mạng LAN; router chuyển gói giữa các mạng theo bảng định tuyến. Thiết bị thật có thể tích hợp nhiều vai trò."
+    ],
+    "example": "Tình huống: mở web lỗi nhưng chưa rõ mạng hay server. Tách đường đi ứng dụng → truyền tải → IP → liên kết. Switch thường chuyển frame trong mạng LAN; router chuyển gói giữa các mạng theo bảng định tuyến. Thiết bị thật có thể tích hợp nhiều vai trò.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::địa chỉ ipv4 và mạng con": {
+    "points": [
+      "Tình huống: hai máy cùng Wi-Fi nhưng không cùng mạng logic như dự đoán. Địa chỉ IP phải xét cùng prefix/mask và gateway; chỉ nhìn ba nhóm số đầu là không đủ trong mọi subnet."
+    ],
+    "example": "Tình huống: hai máy cùng Wi-Fi nhưng không cùng mạng logic như dự đoán. Địa chỉ IP phải xét cùng prefix/mask và gateway; chỉ nhìn ba nhóm số đầu là không đủ trong mọi subnet.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::dns và phân giải tên miền": {
+    "points": [
+      "Tình huống: vào được một dịch vụ bằng IP nhưng không bằng tên. Có thể DNS sai, nhưng HTTPS theo IP còn có vấn đề chứng chỉ/virtual host nên không kết luận chỉ từ một thao tác trình duyệt."
+    ],
+    "example": "Tình huống: vào được một dịch vụ bằng IP nhưng không bằng tên. Có thể DNS sai, nhưng HTTPS theo IP còn có vấn đề chứng chỉ/virtual host nên không kết luận chỉ từ một thao tác trình duyệt.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::http và https": {
+    "points": [
+      "Tình huống: nhận 401, 403, 404 hoặc 500. Đây là phản hồi tầng ứng dụng, khác mất kết nối. HTTPS bảo vệ kênh bằng TLS và xác thực danh tính theo chứng chỉ; không chứng minh ứng dụng không có lỗi phân quyền."
+    ],
+    "example": "Tình huống: nhận 401, 403, 404 hoặc 500. Đây là phản hồi tầng ứng dụng, khác mất kết nối. HTTPS bảo vệ kênh bằng TLS và xác thực danh tính theo chứng chỉ; không chứng minh ứng dụng không có lỗi phân quyền.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::ethernet, địa chỉ mac và arp": {
+    "points": [
+      "Tình huống: nhầm MAC với địa chỉ dùng định tuyến toàn Internet. Frame mang địa chỉ lớp liên kết; IP phục vụ định tuyến. ARP trong IPv4 giúp tìm địa chỉ liên kết cho next hop trong miền liên kết tương ứng."
+    ],
+    "example": "Tình huống: nhầm MAC với địa chỉ dùng định tuyến toàn Internet. Frame mang địa chỉ lớp liên kết; IP phục vụ định tuyến. ARP trong IPv4 giúp tìm địa chỉ liên kết cho next hop trong miền liên kết tương ứng.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::vlan và kết nối wi-fi": {
+    "points": [
+      "Tình huống: Wi-Fi có sóng không đồng nghĩa đã có Internet. Cần xét liên kết, cấp IP, gateway, DNS và chính sách truy cập. VLAN chia miền quảng bá logic; giao tiếp giữa VLAN cần định tuyến và chính sách phù hợp."
+    ],
+    "example": "Tình huống: Wi-Fi có sóng không đồng nghĩa đã có Internet. Cần xét liên kết, cấp IP, gateway, DNS và chính sách truy cập. VLAN chia miền quảng bá logic; giao tiếp giữa VLAN cần định tuyến và chính sách phù hợp.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::dhcp và nat trong mạng gia đình": {
+    "points": [
+      "Tình huống: máy có địa chỉ nhưng không đúng dải cấu hình. DHCP cấp thông số theo lease; cấu hình tĩnh sai hoặc trùng IP có thể gây lỗi. NAT dịch địa chỉ/port theo trạng thái triển khai, không thay thế kiểm soát truy cập toàn diện."
+    ],
+    "example": "Tình huống: máy có địa chỉ nhưng không đúng dải cấu hình. DHCP cấp thông số theo lease; cấu hình tĩnh sai hoặc trùng IP có thể gây lỗi. NAT dịch địa chỉ/port theo trạng thái triển khai, không thay thế kiểm soát truy cập toàn diện.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::định tuyến cơ bản và làm quen ipv6": {
+    "points": [
+      "Tình huống: gói đi được trong LAN nhưng không tới mạng khác. Xem route đích, route mặc định và đường về; không chỉ nhìn gateway của máy gửi. Router chọn route theo prefix phù hợp trong mô hình cơ bản."
+    ],
+    "example": "Tình huống: gói đi được trong LAN nhưng không tới mạng khác. Xem route đích, route mặc định và đường về; không chỉ nhìn gateway của máy gửi. Router chọn route theo prefix phù hợp trong mô hình cơ bản.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::cổng, socket và vòng đời kết nối tcp": {
+    "points": [
+      "Tình huống: server chạy nhưng client báo connection refused. Kiểm tra tiến trình có listen đúng địa chỉ và port không; bind loopback khác với bind cho truy cập từ mạng. Timeout và refused không phải cùng một lỗi."
+    ],
+    "example": "Tình huống: server chạy nhưng client báo connection refused. Kiểm tra tiến trình có listen đúng địa chỉ và port không; bind loopback khác với bind cho truy cập từ mạng. Timeout và refused không phải cùng một lỗi.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::tường lửa và phân vùng truy cập": {
+    "points": [
+      "Tình huống: muốn chỉ học viên truy cập web, không truy cập database. Xác định nguồn, đích, port và chiều kết nối; cho phép đúng luồng cần dùng. Backend truy cập DB theo quyền riêng, không mở DB cho mọi client."
+    ],
+    "example": "Tình huống: muốn chỉ học viên truy cập web, không truy cập database. Xác định nguồn, đích, port và chiều kết nối; cho phép đúng luồng cần dùng. Backend truy cập DB theo quyền riêng, không mở DB cho mọi client.",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::chẩn đoán lỗi mạng theo từng lớp": {
+    "points": [
+      "Quy trình thực hành: ghi triệu chứng → kiểm tra liên kết → địa chỉ/gateway → phân giải tên → cổng dịch vụ → HTTP/ứng dụng. Mỗi bước ghi lệnh, thời điểm và đầu ra, không chỉ ảnh “đã kết nối”."
+    ],
+    "example": "",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "mạng máy tính cơ bản::dự án nhỏ: thiết kế mạng cho phòng học": {
+    "points": [
+      "Bài thực hành: sơ đồ phòng 20 máy, vùng giảng viên, khách và thiết bị quản trị; kế hoạch địa chỉ, Wi-Fi, dịch vụ và phân vùng. Ghi rõ đây là thiết kế lab, chưa phải chứng nhận triển khai."
+    ],
+    "example": "",
+    "source": "training/lesson_docs/edition_20261029/network.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::mảng và danh sách liên kết": {
+    "points": [
+      "Tình huống: chọn cấu trúc chỉ vì nghe “thêm/xóa nhanh”. Truy cập theo chỉ số ở mảng khác việc đi theo liên kết. Danh sách liên kết có thể thay đổi liên kết nhanh khi đã biết nút/vị trí phù hợp, nhưng tìm vị trí vẫn có chi phí; bộ nhớ và locality cũng quan trọng."
+    ],
+    "example": "Tình huống: chọn cấu trúc chỉ vì nghe “thêm/xóa nhanh”. Truy cập theo chỉ số ở mảng khác việc đi theo liên kết. Danh sách liên kết có thể thay đổi liên kết nhanh khi đã biết nút/vị trí phù hợp, nhưng tìm vị trí vẫn có chi phí; bộ nhớ và locality cũng quan trọng.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::ngăn xếp và hàng đợi": {
+    "points": [
+      "Tình huống: hàng xử lý yêu cầu phải giữ thứ tự đến. Queue là FIFO, stack là LIFO; chọn theo hành vi cần bảo đảm."
+    ],
+    "example": "Tình huống: hàng xử lý yêu cầu phải giữ thứ tự đến. Queue là FIFO, stack là LIFO; chọn theo hành vi cần bảo đảm.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::tìm kiếm tuyến tính và nhị phân": {
+    "points": [
+      "Tình huống: tìm nhị phân trả sai vì dữ liệu chưa sắp xếp. Binary search cần thứ tự và bất biến rõ ràng; với dữ liệu trùng, phải quy định cần bất kỳ vị trí hay vị trí đầu tiên."
+    ],
+    "example": "Tình huống: tìm nhị phân trả sai vì dữ liệu chưa sắp xếp. Binary search cần thứ tự và bất biến rõ ràng; với dữ liệu trùng, phải quy định cần bất kỳ vị trí hay vị trí đầu tiên.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::sắp xếp và độ phức tạp": {
+    "points": [
+      "Tình huống: muốn sắp xếp sản phẩm theo giá rồi tên. Xác định khóa và việc có được sửa dữ liệu đầu vào hay không."
+    ],
+    "example": "Tình huống: muốn sắp xếp sản phẩm theo giá rồi tên. Xác định khóa và việc có được sửa dữ liệu đầu vào hay không.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::big-o, bất biến và kiểm tra thuật toán": {
+    "points": [
+      "Tình huống: hai vòng lặp không phải lúc nào cũng O(n²). Hai vòng nối tiếp mỗi vòng n bước cho O(n); vòng lồng mỗi vòng n bước thường cho O(n²) theo mô hình công việc mỗi bước hằng số."
+    ],
+    "example": "Tình huống: hai vòng lặp không phải lúc nào cũng O(n²). Hai vòng nối tiếp mỗi vòng n bước cho O(n); vòng lồng mỗi vòng n bước thường cho O(n²) theo mô hình công việc mỗi bước hằng số.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::đệ quy và ngăn xếp lời gọi": {
+    "points": [
+      "Tình huống: thiếu điều kiện dừng hoặc bài toán không nhỏ đi. Mỗi bước đệ quy cần tiến tới base case và có hợp đồng rõ."
+    ],
+    "example": "Tình huống: thiếu điều kiện dừng hoặc bài toán không nhỏ đi. Mỗi bước đệ quy cần tiến tới base case và có hợp đồng rõ.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::bảng băm, tập hợp và ánh xạ": {
+    "points": [
+      "Tình huống: đếm từ bằng cách quét danh sách cho từng từ tốn công lặp. Map lưu khóa→giá trị; set kiểm tra thành viên, không biểu diễn số lần xuất hiện."
+    ],
+    "example": "Tình huống: đếm từ bằng cách quét danh sách cho từng từ tốn công lặp. Map lưu khóa→giá trị; set kiểm tra thành viên, không biểu diễn số lần xuất hiện.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::cây nhị phân và cây tìm kiếm nhị phân": {
+    "points": [
+      "Tình huống: nhầm mọi cây nhị phân đều là BST hoặc đều tìm kiếm O(log n). BST có quy tắc thứ tự theo khóa; cây lệch có chiều cao O(n). Quy tắc xử lý khóa trùng cần được nêu rõ."
+    ],
+    "example": "Tình huống: nhầm mọi cây nhị phân đều là BST hoặc đều tìm kiếm O(log n). BST có quy tắc thứ tự theo khóa; cây lệch có chiều cao O(n). Quy tắc xử lý khóa trùng cần được nêu rõ.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::heap và hàng đợi ưu tiên": {
+    "points": [
+      "Tình huống: cần xử lý việc có mức ưu tiên nhỏ nhất trước. Min-heap cho phần tử nhỏ nhất ở gốc, không giữ toàn bộ mảng đã sắp xếp."
+    ],
+    "example": "Tình huống: cần xử lý việc có mức ưu tiên nhỏ nhất trước. Min-heap cho phần tử nhỏ nhất ở gốc, không giữ toàn bộ mảng đã sắp xếp.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::đồ thị, bfs và dfs": {
+    "points": [
+      "Tình huống: đồ thị có chu kỳ khiến duyệt lặp mãi. Đánh dấu visited đúng thời điểm; BFS tìm số cạnh ngắn nhất trên đồ thị không trọng số, không thay thế thuật toán đường đi trọng số tùy ý."
+    ],
+    "example": "Tình huống: đồ thị có chu kỳ khiến duyệt lặp mãi. Đánh dấu visited đúng thời điểm; BFS tìm số cạnh ngắn nhất trên đồ thị không trọng số, không thay thế thuật toán đường đi trọng số tùy ý.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::chia để trị và quy hoạch động nhập môn": {
+    "points": [
+      "Tình huống: tính lại cùng bài toán con rất nhiều lần. Quy hoạch động lưu kết quả khi bài toán có cấu trúc phù hợp; trước tiên phải xác định trạng thái, chuyển trạng thái và điều kiện đầu.",
+      "Bài toán: lên n bậc, mỗi lần 1 hoặc 2 bậc; quy ước n=0 có một cách rỗng. Tự luyện: liệt kê bằng tay n=3. Hướng giải: (1,1,1), (1,2), (2,1); thứ tự bước là một phần của cách."
+    ],
+    "example": "Tình huống: tính lại cùng bài toán con rất nhiều lần. Quy hoạch động lưu kết quả khi bài toán có cấu trúc phù hợp; trước tiên phải xác định trạng thái, chuyển trạng thái và điều kiện đầu.",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "cấu trúc dữ liệu và giải thuật cơ bản::dự án nhỏ: bộ tra cứu và thống kê dữ liệu": {
+    "points": [
+      "Bài thực hành: nạp danh sách sách/học viên lab, tìm theo mã, lọc tên và thống kê từ. Nêu trường duy nhất, quy tắc chuẩn hóa và xử lý trùng; chọn list/map/index phù hợp với thao tác thường dùng."
+    ],
+    "example": "",
+    "source": "training/lesson_docs/edition_20261029/algorithms.md"
+  },
+  "kiểm thử phần mềm nhập môn::mục tiêu và các mức kiểm thử": {
+    "points": [
+      "Tình huống: unit test xanh nhưng người dùng không đăng nhập được. Unit, tích hợp và đầu cuối kiểm tra những ranh giới khác nhau; một mức không tự thay thế các mức còn lại. Chọn mức theo rủi ro và chi phí phản hồi."
+    ],
+    "example": "Tình huống: unit test xanh nhưng người dùng không đăng nhập được. Unit, tích hợp và đầu cuối kiểm tra những ranh giới khác nhau; một mức không tự thay thế các mức còn lại. Chọn mức theo rủi ro và chi phí phản hồi.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::thiết kế test case": {
+    "points": [
+      "Tình huống: test case chỉ ghi “đăng nhập thành công”. Cần điều kiện đầu, dữ liệu, bước hành động, kết quả quan sát được và cách dọn. Kết quả mong đợi phải đủ cụ thể để hai người chấm giống nhau."
+    ],
+    "example": "Tình huống: test case chỉ ghi “đăng nhập thành công”. Cần điều kiện đầu, dữ liệu, bước hành động, kết quả quan sát được và cách dọn. Kết quả mong đợi phải đủ cụ thể để hai người chấm giống nhau.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::phân vùng tương đương và giá trị biên": {
+    "points": [
+      "Tình huống: điểm hợp lệ 0..10 nhưng chỉ thử 5. Chọn miền hợp lệ, dưới miền, trên miền và dữ liệu không phải số; thử sát biên theo kiểu dữ liệu được hỗ trợ."
+    ],
+    "example": "Tình huống: điểm hợp lệ 0..10 nhưng chỉ thử 5. Chọn miền hợp lệ, dưới miền, trên miền và dữ liệu không phải số; thử sát biên theo kiểu dữ liệu được hỗ trợ.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::báo cáo lỗi và kiểm thử hồi quy": {
+    "points": [
+      "Tình huống: lỗi “thỉnh thoảng” không có môi trường tái hiện. Báo cáo cần bước tối thiểu, dữ liệu giả lập, mong đợi/thực tế, phiên bản và bằng chứng đã loại thông tin nhạy cảm."
+    ],
+    "example": "",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::sdlc, agile và chiến lược kiểm thử": {
+    "points": [
+      "Tình huống: nhận tính năng quá muộn mới nghĩ dữ liệu kiểm thử. Xem yêu cầu sớm, làm rõ tiêu chí chấp nhận và khả năng quan sát; phân phối kiểm thử suốt quá trình thay đổi."
+    ],
+    "example": "Tình huống: nhận tính năng quá muộn mới nghĩ dữ liệu kiểm thử. Xem yêu cầu sớm, làm rõ tiêu chí chấp nhận và khả năng quan sát; phân phối kiểm thử suốt quá trình thay đổi.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::review yêu cầu và truy vết kiểm thử": {
+    "points": [
+      "Tình huống: yêu cầu “quiz hoàn thành” chưa rõ là đã mở, đã nộp hay đạt. Làm rõ trạng thái và quy tắc điểm trước khi tạo test. Truy vết nối yêu cầu → ca → kết quả → lỗi, không chỉ đếm dòng trong bảng."
+    ],
+    "example": "Tình huống: yêu cầu “quiz hoàn thành” chưa rõ là đã mở, đã nộp hay đạt. Làm rõ trạng thái và quy tắc điểm trước khi tạo test. Truy vết nối yêu cầu → ca → kết quả → lỗi, không chỉ đếm dòng trong bảng.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::bảng quyết định và tổ hợp điều kiện": {
+    "points": [
+      "Tình huống: học viên muốn mua khóa phụ thuộc đăng nhập, trạng thái mở bán, giá và ghi danh hiện tại. Liệt kê điều kiện và kết quả cho tổ hợp quan trọng, phát hiện quy tắc mâu thuẫn hoặc chưa định nghĩa."
+    ],
+    "example": "Tình huống: học viên muốn mua khóa phụ thuộc đăng nhập, trạng thái mở bán, giá và ghi danh hiện tại. Liệt kê điều kiện và kết quả cho tổ hợp quan trọng, phát hiện quy tắc mâu thuẫn hoặc chưa định nghĩa.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::kiểm thử chuyển trạng thái": {
+    "points": [
+      "Tình huống: nộp cùng token hai lần tạo hai kết quả. Mô hình lượt làm gồm mở, đang làm, nộp, hết giờ; mô hình đơn hàng có pending/completed/failed/refunded theo nghiệp vụ. Kiểm tra cả chuyển hợp lệ và bị cấm."
+    ],
+    "example": "Tình huống: nộp cùng token hai lần tạo hai kết quả. Mô hình lượt làm gồm mở, đang làm, nộp, hết giờ; mô hình đơn hàng có pending/completed/failed/refunded theo nghiệp vụ. Kiểm tra cả chuyển hợp lệ và bị cấm.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::kiểm thử api và phân quyền": {
+    "points": [
+      "Tình huống: UI ẩn nút nhưng API vẫn cho người khác sửa khóa. Kiểm tra theo vai trò và theo tài nguyên thuộc ai, không chỉ đăng nhập/chưa đăng nhập."
+    ],
+    "example": "Tình huống: UI ẩn nút nhưng API vẫn cho người khác sửa khóa. Kiểm tra theo vai trò và theo tài nguyên thuộc ai, không chỉ đăng nhập/chưa đăng nhập.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::kiểm thử cơ sở dữ liệu và tính toàn vẹn": {
+    "points": [
+      "Tình huống: API báo thất bại nhưng vẫn ghi một nửa giao dịch. Kiểm tra tính nguyên tử, khóa ngoại, unique và dữ liệu sau đường lỗi. Một số thử nghiệm cần transaction hoặc bản sao database lab."
+    ],
+    "example": "Tình huống: API báo thất bại nhưng vẫn ghi một nửa giao dịch. Kiểm tra tính nguyên tử, khóa ngoại, unique và dữ liệu sau đường lỗi. Một số thử nghiệm cần transaction hoặc bản sao database lab.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::hiệu năng, khả dụng và tương thích": {
+    "points": [
+      "Tình huống: “trang nhanh” không có số đo. Xác định môi trường, tải, thời gian đầu/cuối và phân vị; p95 không phải chậm nhất. Kiểm tra khả dụng gồm bàn phím, thông báo lỗi và màn hình hẹp."
+    ],
+    "example": "Tình huống: “trang nhanh” không có số đo. Xác định môi trường, tải, thời gian đầu/cuối và phân vị; p95 không phải chậm nhất. Kiểm tra khả dụng gồm bàn phím, thông báo lỗi và màn hình hẹp.",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "kiểm thử phần mềm nhập môn::dự án nhỏ: kế hoạch kiểm thử và tự động hóa": {
+    "points": [
+      "Bài thực hành: chọn ghi danh hoặc nộp quiz trong lab, tạo 12 ca có quyền/biên/trạng thái, ba test tự động có assertion và báo cáo kết quả. Tách dữ liệu chuẩn bị, hành động, xác minh và cleanup.",
+      "Đoạn trên chạy sau định nghĩa valid_score của bài biên; không phải test kết nối vào hệ thống thật."
+    ],
+    "example": "",
+    "source": "training/lesson_docs/edition_20261029/testing.md"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::repository, commit và ba vùng dữ liệu": {
+    "points": [
+      "Giải thích được mục đích lưu phiên bản.",
+      "Phân biệt working tree, staging area và commit.",
+      "Tạo repository và commit đầu trong thư mục mới."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::danh tính, cấu hình và commit có mục đích": {
+    "points": [
+      "Phân biệt danh tính commit với xác thực dịch vụ.",
+      "Chọn phạm vi cấu hình local phù hợp.",
+      "Chia thay đổi thành commit dễ review."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::diff, lịch sử và truy vết một thay đổi": {
+    "points": [
+      "Đọc được dòng thêm, xóa trong diff.",
+      "Chọn đúng so sánh working tree, index và commit.",
+      "Truy tìm commit liên quan đến một file."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::gitignore, cấu trúc file và dữ liệu nhạy cảm": {
+    "points": [
+      "Chọn file nguồn cần quản lý và file sinh tự động.",
+      "Giải thích giới hạn của .gitignore.",
+      "Thiết kế repository dễ clone và tái tạo."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::thiết kế nhánh tính năng và hợp nhất có kiểm tra": {
+    "points": [
+      "Tạo và chuyển nhánh theo một yêu cầu.",
+      "Đọc quan hệ commit khi merge.",
+      "Kiểm tra sản phẩm sau hợp nhất."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::giải quyết xung đột theo yêu cầu nội dung": {
+    "points": [
+      "Tái tạo xung đột trong repository riêng.",
+      "Kết hợp hai yêu cầu thay vì chọn bên ngẫu nhiên.",
+      "Hoàn tất merge và xác nhận không còn marker."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::clone, fetch và trao đổi qua remote local": {
+    "points": [
+      "Phân biệt repository local với remote.",
+      "Mô phỏng hai người bằng hai bản clone.",
+      "Fetch rồi tích hợp có kiểm soát."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::github, quyền truy cập và hồ sơ thay đổi": {
+    "points": [
+      "Hiểu vai trò GitHub trong quy trình cộng tác.",
+      "Lập phương án xác thực không đưa bí mật vào tài liệu.",
+      "Mô tả một đề xuất thay đổi có thể review."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::review, kiểm tra tự động và bằng chứng": {
+    "points": [
+      "Lập checklist review dựa trên yêu cầu.",
+      "Chạy một test tự động đơn giản cho dự án.",
+      "Ghi nhận giới hạn thay vì khẳng định quá mức."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::sửa sai bằng commit bổ sung và revert": {
+    "points": [
+      "Phân biệt sửa lỗi sản phẩm với thay lịch sử.",
+      "Tạo commit hoàn tác có lý do.",
+      "Đọc diff và chạy kiểm tra sau hoàn tác."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::tag, ghi chú phát hành và bàn giao tái tạo": {
+    "points": [
+      "Gắn tag chú thích cho phiên bản được kiểm tra.",
+      "Phân biệt archive mã nguồn với repository đầy đủ.",
+      "Kiểm tra một bản bàn giao ở thư mục mới."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "git & github: quản lý phiên bản và cộng tác thực hành::dự án study notes và đánh giá hoàn thành": {
+    "points": [
+      "Tích hợp các kỹ năng thành một quy trình có bằng chứng.",
+      "Bàn giao dự án theo rubric và tiêu chí tái tạo.",
+      "Tự phân tích khoảng trống trước khi kết thúc khóa."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::từ yêu cầu nghiệp vụ đến lớp và đối tượng": {
+    "points": [
+      "Tách dữ liệu và hành vi từ một tình huống quản lý sách.",
+      "Phân biệt lớp, đối tượng và biến tham chiếu đối tượng.",
+      "Viết một phương thức làm thay đổi trạng thái có thể kiểm tra."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::khởi tạo đối tượng hợp lệ và bảo vệ bất biến": {
+    "points": [
+      "Mô tả bất biến số lượng sách bằng điều kiện rõ ràng.",
+      "Kiểm tra đầu vào trước khi gán trạng thái trong __init__.",
+      "Phân biệt kiểm tra hợp lệ với ép kiểu tùy tiện."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::thuộc tính thực thể, thuộc tính lớp và dữ liệu dùng chung": {
+    "points": [
+      "Dự đoán phạm vi dữ liệu khi tạo nhiều thực thể.",
+      "Loại bỏ lỗi danh sách mutable bị dùng chung ngoài ý muốn.",
+      "Chọn biến lớp cho cấu hình chung phù hợp."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::đóng gói bằng thuộc tính và property": {
+    "points": [
+      "Thiết kế điểm cập nhật để bảo vệ bất biến.",
+      "Dùng property cho dữ liệu đọc có phép tính hoặc xác thực.",
+      "Giải thích giới hạn của quy ước dấu gạch dưới trong Python."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::composition và phân chia trách nhiệm dịch vụ": {
+    "points": [
+      "Mô hình hóa Library chứa nhiều Book bằng composition.",
+      "Phân biệt quản lý tập hợp với hành vi của từng phần tử.",
+      "Thiết kế thao tác tra cứu mã và từ chối mã trùng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::dataclass, đối tượng giá trị và biểu diễn dữ liệu": {
+    "points": [
+      "Dùng dataclass để diễn tả bản ghi nhỏ có hợp đồng rõ.",
+      "Phân biệt bằng nhau theo giá trị với đồng nhất đối tượng.",
+      "Sử dụng frozen và default_factory đúng phạm vi."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::kế thừa, ghi đè và hợp đồng thay thế": {
+    "points": [
+      "Chọn kế thừa khi tồn tại quan hệ một loại của hợp lệ.",
+      "Ghi đè hành vi và dùng super để phối hợp khởi tạo.",
+      "Đánh giá lớp con bằng cùng một bộ kiểm tra hợp đồng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::đa hình, duck typing và lớp trừu tượng": {
+    "points": [
+      "Dùng một giao diện hành vi với các triển khai khác nhau.",
+      "Phân biệt duck typing với kế thừa bắt buộc.",
+      "Khai báo hợp đồng repository bằng ABC và abstractmethod."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::ngoại lệ nghiệp vụ và ranh giới xử lý lỗi": {
+    "points": [
+      "Diễn đạt các lỗi dự kiến bằng ngoại lệ có ý nghĩa.",
+      "Bắt lỗi ở ranh giới CLI và giữ nguyên bất biến miền.",
+      "Phân biệt thông báo người dùng với lỗi lập trình cần sửa."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::kiểm thử đơn vị và thiết kế tình huống biên": {
+    "points": [
+      "Viết unittest cho hành vi thành công và từ chối.",
+      "Tạo dữ liệu độc lập cho từng test bằng setUp.",
+      "Chứng minh test phát hiện một lỗi chuyển trạng thái."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::lưu json có phiên bản và tải lại dữ liệu hợp lệ": {
+    "points": [
+      "Tách định dạng lưu trữ khỏi cấu trúc đối tượng trong bộ nhớ.",
+      "Xác thực schema và dữ liệu khi tải JSON.",
+      "Lưu bằng file tạm và hiểu giới hạn một tiến trình."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "python hướng đối tượng: từ mô hình đến ứng dụng cli::tích hợp dự án thư viện cli và nghiệm thu": {
+    "points": [
+      "Kết nối miền nghiệp vụ, kho JSON và giao diện argparse.",
+      "Chạy kiểm tra tự động và kịch bản người dùng qua CLI.",
+      "Nộp bằng chứng theo rubric và mô tả giới hạn sử dụng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::http, hợp đồng api và ứng dụng đầu tiên": {
+    "points": [
+      "Mô tả request/response bằng phương thức, đường dẫn và trạng thái.",
+      "Tạo endpoint có thể kiểm tra và đọc hợp đồng OpenAPI.",
+      "Tách việc ứng dụng hoạt động với việc máy chủ đang nghe cổng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::tham số đường dẫn, truy vấn và phân trang": {
+    "points": [
+      "Phân biệt định danh tài nguyên với tùy chọn lọc danh sách.",
+      "Giới hạn đầu vào và kích thước trang bằng Annotated.",
+      "Kiểm tra route tĩnh, dữ liệu sai kiểu và các biên số."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::dữ liệu đầu vào với pydantic 2": {
+    "points": [
+      "Khai báo model tạo nhiệm vụ có ràng buộc cụ thể.",
+      "Phân biệt dữ liệu sau kiểm tra với JSON thô.",
+      "Dùng model_dump và model_validate theo API Pydantic 2."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::crud, mô hình phản hồi và lỗi nghiệp vụ": {
+    "points": [
+      "Thiết kế mã trạng thái cho tạo, đọc, cập nhật và xóa.",
+      "Tách model đầu vào và model phản hồi để hạn chế lộ dữ liệu.",
+      "Phân biệt 404, 409 và lỗi kiểm tra cấu trúc."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::dependency injection và tách trách nhiệm": {
+    "points": [
+      "Đưa việc đọc cấu hình/người dùng vào dependency dùng lại được.",
+      "Giải thích Depends tạo và truyền giá trị cho hàm xử lý.",
+      "Thay dependency trong kiểm thử mà không sửa mã ứng dụng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::vòng đời tài nguyên và lựa chọn sync hoặc async": {
+    "points": [
+      "Khởi tạo và thu hồi tài nguyên bằng lifespan.",
+      "Đóng tài nguyên theo request trong dependency có yield.",
+      "Chọn def/async def theo đặc tính thư viện I/O đang dùng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::sqlite, truy vấn tham số và dữ liệu bền vững": {
+    "points": [
+      "Tạo bảng và lưu nhiệm vụ qua kết nối SQLite theo request.",
+      "Truyền dữ liệu bằng placeholder thay vì ghép chuỗi SQL.",
+      "Kiểm tra dữ liệu còn sau khi mở kết nối mới."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::giao dịch, ràng buộc và xử lý xung đột": {
+    "points": [
+      "Dùng ràng buộc database cho quy tắc duy nhất.",
+      "Rollback khi một phần của thao tác nhiều bước thất bại.",
+      "Chuyển lỗi xung đột đã biết thành 409 và giữ lỗi bất ngờ để chẩn đoán."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::xác thực bearer và quyền sở hữu tài nguyên": {
+    "points": [
+      "Phân biệt bằng chứng danh tính với quyền trên một bản ghi.",
+      "Kiểm tra Bearer token qua dependency dùng chung.",
+      "Viết test truy cập chéo tài khoản và phản hồi 401/403."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::kiểm thử hợp đồng, quyền và cô lập dữ liệu": {
+    "points": [
+      "Thiết kế test theo hành vi quan sát được thay vì cấu trúc hàm.",
+      "Tách trạng thái giữa các lần kiểm thử bằng app factory.",
+      "Kiểm tra cả mã trạng thái, dữ liệu và tác động sau lỗi."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::cấu hình, nhật ký và chuẩn bị chạy cục bộ": {
+    "points": [
+      "Đưa giá trị theo môi trường ra khỏi mã nghiệp vụ.",
+      "Ghi nhật ký đủ chẩn đoán mà tránh lộ token và body riêng tư.",
+      "Phân biệt cấu hình phát triển với điều kiện đưa dịch vụ ra mạng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  },
+  "xây dựng api thực hành với fastapi::dự án tổng hợp task api và nghiệm thu": {
+    "points": [
+      "Ghép validation, quyền, database và test thành sản phẩm chạy lại được.",
+      "Đánh giá theo ma trận yêu cầu và rubric thay vì chỉ xem /docs.",
+      "Nêu rõ phạm vi demo, minh chứng đạt và công việc mở rộng."
+    ],
+    "example": "",
+    "source": "training/course_release_20261031/generated/manifest.json"
+  }
+}

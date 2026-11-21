@@ -26,12 +26,12 @@ def db():
             'CREATE TABLE study_checkpoints (id INTEGER PRIMARY KEY, user_id INT, topic_id INT, baseline TEXT, baseline_result_id INT, started_at TEXT)',
             'CREATE TABLE knowledge_study_checkpoints (id INTEGER PRIMARY KEY, user_id INT, course_id INT, unit_kind TEXT, unit_id INT, baseline TEXT, baseline_result_id INT, started_at TEXT)',
             'CREATE TABLE chapters (id INT, course_id INT, order_index INT)',
-            'CREATE TABLE lessons (id INT, title TEXT, chapter_id INT, order_index INT)',
+            'CREATE TABLE lessons (id INT, title TEXT, chapter_id INT, order_index INT, description TEXT)',
             'CREATE TABLE lesson_progress (id INT, lesson_id INT, user_id INT, is_completed INT, watched_sec INT)',
             "INSERT INTO courses VALUES (1,'HĐH')",
             'INSERT INTO enrollments VALUES (1,1,1)',
             'INSERT INTO chapters VALUES (1,1,1)',
-            "INSERT INTO lessons VALUES (1,'Đồng bộ hóa',1,1)",
+            "INSERT INTO lessons (id,title,chapter_id,order_index) VALUES (1,'Đồng bộ hóa',1,1)",
             "INSERT INTO quizzes VALUES (1,'Kiểm tra HĐH',1,1,NULL,NULL,'latest',3,NULL)",
         ]:
             session.execute(text(ddl))
@@ -228,7 +228,7 @@ def test_teacher_cannot_edit_another_courses_topic(db):
 def test_topic_mapping_rejects_other_course_lesson(db):
     topic=resolve_topic(db,1,name='Đồng bộ hóa')
     db.execute(text('INSERT INTO chapters VALUES (2,2,1)'))
-    db.execute(text("INSERT INTO lessons VALUES (2,'Bài môn khác',2,1)"))
+    db.execute(text("INSERT INTO lessons (id,title,chapter_id,order_index) VALUES (2,'Bài môn khác',2,1)"))
     with pytest.raises(ApiError):
         topic_routes.update({'id':topic['id'],'name':topic['name'],'lesson_id':2},user={'id':1,'role':'admin'},db=db)
 

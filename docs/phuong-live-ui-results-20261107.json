@@ -1,0 +1,17 @@
+{
+  "mode": "real_saved_database_responses_replayed_in_actual_frontend_no_browser_writes",
+  "checks": [
+    "0/30 OS lesson is recommended",
+    "70 percent OS lesson is absent from review rows",
+    "Explanation uses actual topic evidence",
+    "Small sample group is visible",
+    "Small sample group does not conclude with percent",
+    "Testing course is filtered",
+    "100 percent lessons absent from review list",
+    "HTML all-correct small samples do not create false review",
+    "Mobile fits viewport",
+    "No runtime errors"
+  ],
+  "passed": 10,
+  "errors": []
+}

@@ -20,10 +20,10 @@ _ENROLL_AGG = """
         {extra}
         c.thumbnail, c.price,
         (SELECT COUNT(*) FROM lessons l JOIN chapters ch ON l.chapter_id = ch.id
-         WHERE ch.course_id = c.id) AS total_lessons,
+         WHERE ch.course_id = c.id AND l.status = 'published') AS total_lessons,
         (SELECT COUNT(*) FROM lesson_progress lp JOIN lessons l ON lp.lesson_id = l.id
          JOIN chapters ch ON l.chapter_id = ch.id
-         WHERE ch.course_id = c.id AND lp.user_id = e.user_id AND lp.is_completed = 1)
+         WHERE ch.course_id = c.id AND lp.user_id = e.user_id AND lp.is_completed = 1 AND l.status = 'published')
             AS completed_lessons,
         (SELECT ROUND(AVG(g.pct)) FROM ({graded}) g
          WHERE g.course_id = c.id AND g.user_id = e.user_id) AS avg_quiz_score

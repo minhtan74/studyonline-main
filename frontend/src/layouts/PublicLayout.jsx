@@ -1,3 +1,4 @@
+import RouteContent from '../components/common/RouteContent.jsx';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar.jsx';
 import Footer from '../components/layout/Footer.jsx';
@@ -8,7 +9,7 @@ export default function PublicLayout() {
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
       <Navbar />
       <div className="flex-grow flex flex-col">
-        <Outlet />
+        <RouteContent><Outlet /></RouteContent>
       </div>
       <Footer />
     </div>

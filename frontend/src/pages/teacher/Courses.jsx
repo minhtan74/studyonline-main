@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { courseService } from '../../services/courseService';
 import { enrollmentService } from '../../services/enrollmentService';
 import Modal from '../../components/common/Modal.jsx';
@@ -17,6 +18,7 @@ const STATUS_LABELS = { published: 'Đã xuất bản', draft: 'Bản nháp', ar
 export default function TeacherCourses() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
@@ -127,13 +129,11 @@ export default function TeacherCourses() {
 
   // Xóa khóa học (backend từ chối nếu đã có học viên / giao dịch)
   async function handleDelete(id) {
-    if (
-      !window.confirm(
-        'Xóa vĩnh viễn khóa học này cùng toàn bộ chương và bài học?\n' +
-          '(Khóa đã có học viên hoặc giao dịch sẽ không xóa được — hãy chuyển sang "Lưu trữ".)',
-      )
-    )
-      return;
+    const ok = await confirm(
+      'Xóa vĩnh viễn khóa học này cùng toàn bộ chương và bài học? (Khóa đã có học viên hoặc giao dịch sẽ không xóa được — hãy chuyển sang "Lưu trữ".)',
+      { title: 'Xóa khóa học', confirmLabel: 'Xóa', tone: 'danger' },
+    );
+    if (!ok) return;
     const res = await courseService.deleteCourse(id);
     if (res?.ok) {
       showToast('Xóa khóa học thành công!', 'success');

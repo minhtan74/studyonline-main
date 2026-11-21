@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { formatStudyDate } from '../../utils/studyDate';
+import StudyKnowledgeTopics from './StudyKnowledgeTopics';
 
-const labels = { high: 'Ưu tiên cao', medium: 'Ưu tiên trung bình', low: 'Ưu tiên thấp' };
+const labels = { review: 'Nên ôn tập', check: 'Chưa đủ dữ liệu' };
 export default function StudyRecommendationRows({ rows, minimumQuestions = 5, reviewThreshold = 70, busy, onStudy }) {
   return <div className="study-suggestion-rows">
     {rows.map(row => <article className="study-suggestion-row" key={row.key} aria-label={row.title}>
@@ -14,13 +14,7 @@ export default function StudyRecommendationRows({ rows, minimumQuestions = 5, re
       <div className="study-suggestion-reason">
         {!row.evidence.sufficient_data ? <><strong>Chưa đủ dữ liệu</strong><p>Có câu trả lời chưa đúng, nhưng mới ghi nhận {row.evidence.answered} câu khác nhau. Cần ít nhất {minimumQuestions} câu để phân loại; hãy luyện thêm Quiz.</p></>
           : <p>Tỷ lệ đúng {row.evidence.avg_score}% dưới ngưỡng ôn tập {reviewThreshold}%. Nên củng cố nội dung bài học này.</p>}
-        {!!row.evidence.sources?.length && <details>
-          <summary>Kết quả Quiz làm căn cứ ({row.evidence.sources.length})</summary>
-          <ul>{row.evidence.sources.map((source, index) => <li key={`${source.result_id}-${index}`}>
-            <Link to={`/student/quiz-result?result_id=${source.result_id}`}>{source.quiz_title}</Link>
-            <span> · đúng {source.correct}/{source.answered} câu · {formatStudyDate(source.submitted_at)}</span>
-          </li>)}</ul>
-        </details>}
+        <StudyKnowledgeTopics evidence={row.evidence} />
       </div>
       <span className={`study-priority study-priority-${row.priority}`}>{labels[row.priority]}</span>
       <div className="study-suggestion-actions">

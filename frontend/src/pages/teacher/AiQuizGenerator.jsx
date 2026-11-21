@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { aiService } from '../../services/aiService';
 import { chapterService } from '../../services/chapterService';
 import { courseService } from '../../services/courseService';
@@ -85,6 +86,7 @@ const normText = (t) => (t || '').trim().toLowerCase().replace(/\s+/g, ' ');
 export default function AiQuizGenerator({ embedded = false, onSaved }) {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   // Phạm vi chọn sẵn khi mở từ trang câu hỏi ôn tập (?chapter_id= / ?lesson_id=) — chỉ áp dụng lần tải đầu
@@ -470,20 +472,19 @@ export default function AiQuizGenerator({ embedded = false, onSaved }) {
     // Còn câu AI giải ra đáp án khác -> hỏi lại trước khi lưu
     if (
       flaggedCount > 0 &&
-      !window.confirm(
-        `Còn ${flaggedCount} câu AI tự giải ra đáp án KHÁC đáp án đang đánh (đánh dấu ⚠️).
-` +
-          'Nên kiểm tra lại trước khi lưu. Bấm OK để vẫn lưu.',
-      )
+      !(await confirm(
+        `Còn ${flaggedCount} câu AI tự giải ra đáp án KHÁC đáp án đang đánh (đánh dấu ⚠️). Nên kiểm tra lại trước khi lưu.`,
+        { title: 'Có câu chưa khớp đáp án', confirmLabel: 'Vẫn lưu' },
+      ))
     )
       return;
     // Đề còn thiếu so với phân bổ đã đặt -> hỏi lại trước khi lưu
     if (
       missingTotal > 0 &&
-      !window.confirm(
-        `Bản nháp còn thiếu ${missingTotal} câu so với phân bổ độ khó đã đặt.\n` +
-          'Bấm "Sinh bù" để AI sinh thêm, hoặc OK để vẫn lưu với số câu hiện có.',
-      )
+      !(await confirm(
+        `Bản nháp còn thiếu ${missingTotal} câu so với phân bổ độ khó đã đặt. Bấm "Sinh bù" để AI sinh thêm, hoặc Vẫn lưu để giữ số câu hiện có.`,
+        { title: 'Bản nháp chưa đủ số câu', confirmLabel: 'Vẫn lưu' },
+      ))
     )
       return;
     setSaving(true);

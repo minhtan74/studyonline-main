@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useConfirm } from '../hooks/useConfirm';
 import { quizService } from '../services/quizService';
 import { formatClock, gradingShort } from '../utils/quizGrading';
 import QuizHistoryPanel from '../components/quiz/QuizHistoryPanel.jsx';
@@ -68,6 +69,7 @@ export default function Quiz() {
   // Quiz đang mở lịch sử làm bài (mở sẵn nếu URL có ?history=<id>, vd từ trang kết quả)
   const [historyId, setHistoryId] = useState(Number(searchParams.get('history')) || null);
   const { user } = useAuth();
+  const confirm = useConfirm();
   // Admin / giảng viên thấy thêm nút quản lý (sửa, xóa quiz)
   const isManager = user?.role === 'admin' || user?.role === 'teacher';
 
@@ -106,7 +108,7 @@ export default function Quiz() {
 
   // Xóa quiz (có xác nhận); backend từ chối nếu quiz đã có người làm
   async function handleDelete(id) {
-    if (!window.confirm('Xóa quiz này?')) return;
+    if (!(await confirm('Xóa quiz này?', { title: 'Xóa quiz', confirmLabel: 'Xóa', tone: 'danger' }))) return;
     const r = await quizService.deleteQuiz(id);
     if (r?.ok) loadQuizzes();
     else window.alert(r?.data?.message || 'Không thể xóa quiz.');

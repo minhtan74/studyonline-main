@@ -2,6 +2,21 @@ import TopicPicker from './TopicPicker.jsx';
 import KnowledgePicker from './KnowledgePicker.jsx';
 import { DIFFICULTY_LEVELS } from '../common/DifficultyBar.jsx';
 import RichText, { hasRichTokens } from '../common/RichText.jsx';
+import { useLayoutEffect, useRef } from 'react';
+import '../../assets/css/draft-question.css';
+
+function GrowingTextarea({ value, ...props }) {
+  const ref = useRef(null);
+  useLayoutEffect(() => {
+    const element = ref.current;
+    const resize = () => { element.style.height = 'auto'; element.style.height = `${element.scrollHeight + 2}px`; };
+    resize();
+    const observer = new ResizeObserver(() => { if (element.clientWidth !== observer.lastWidth) { observer.lastWidth = element.clientWidth; resize(); } });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [value]);
+  return <textarea {...props} value={value} ref={ref} />;
+}
 
 // Ký hiệu 4 phương án
 const LETTERS = ['A', 'B', 'C', 'D'];
@@ -19,7 +34,7 @@ export default function DraftQuestionCard({ q, index, meta, courseId, lockedChap
 
   return (
     <fieldset disabled={disabled} style={{ border: 0, padding: 0, margin: 0, minWidth: 0 }}>
-      <div className="tq-question-card" style={{ marginBottom: '1rem' }}>
+      <div className="tq-question-card draft-question-card">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div className="tq-question-num" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
             Câu {index + 1}
@@ -37,7 +52,7 @@ export default function DraftQuestionCard({ q, index, meta, courseId, lockedChap
               ))}
             </select>
           </div>
-          <button className="btn btn-ghost btn-sm" style={{ color: 'var(--danger,#DC2626)' }} onClick={onRemove}>✕ Xóa</button>
+          <button type="button" className="btn btn-ghost btn-sm" style={{ color: 'var(--danger,#DC2626)' }} onClick={onRemove}>✕ Xóa</button>
         </div>
         {q.difficulty_review?.matches_requested === false && (
           <div style={{ marginTop: '.35rem', fontSize: '.78rem', color: 'var(--danger,#DC2626)' }}>
@@ -47,24 +62,28 @@ export default function DraftQuestionCard({ q, index, meta, courseId, lockedChap
           </div>
         )}
         {/* Các mục tiêu bài học câu hỏi này liên quan (1 hoặc vài; AI gắn khi tài liệu có phần "Mục tiêu bài học") */}
-        <div style={{ marginTop: '.5rem' }}>
+        <details className="draft-question-classification">
+          <summary>Phân loại chương, bài và chủ đề</summary>
+          <div>
           <KnowledgePicker courseId={courseId} chapterId={q.knowledge_chapter_id} lessonId={q.knowledge_lesson_id}
             lockedChapterId={lockedChapterId} lockedLessonId={lockedLessonId}
             onChange={(scope) => Object.entries(scope).forEach(([field, value]) => onPatch(field, value))} />
           <TopicPicker courseId={courseId} topicId={q.topic_id} topicName={q.topic || ''}
             onSelect={(id, name) => { onPatch('topic_id', id); onPatch('topic', name); }} />
-        </div>
+          </div>
+        </details>
         {q.objectives?.length > 0 && (
           <div style={{ marginTop: '.35rem', fontSize: '.78rem', color: 'var(--primary,#2563EB)' }}>
             🎯 Mục tiêu: {q.objectives.join(' · ')}
           </div>
         )}
-        <textarea
-          className="form-control"
-          rows={2}
+        <label className="draft-field-label" htmlFor={`draft-question-${index}`}>Nội dung câu hỏi</label>
+        <GrowingTextarea
+          id={`draft-question-${index}`}
+          className="form-control draft-question-text"
+          rows={3}
           value={q.question}
           onChange={(e) => onPatch('question', e.target.value)}
-          style={{ margin: '.5rem 0', resize: 'vertical' }}
         />
         {/* Có ảnh / công thức: hiện bản xem trước như học viên sẽ thấy */}
         {[q.question, ...Object.values(q.options || {})].some(hasRichTokens) && (
@@ -87,39 +106,41 @@ export default function DraftQuestionCard({ q, index, meta, courseId, lockedChap
             </div>
           </div>
         )}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: '.5rem' }}>
+        <div className="draft-options-heading"><strong>Các phương án trả lời</strong><span>Chọn ô tròn để đặt đáp án đúng</span></div>
+        <div className="draft-options-grid">
           {LETTERS.map((L) => (
-            <label
+            <div
               key={L}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '.5rem',
-                padding: '.4rem .5rem', borderRadius: 8,
-                border: `1px solid ${q.correct_answer === L ? 'var(--success,#059669)' : 'var(--border,#e2e8f0)'}`,
-                background: q.correct_answer === L ? 'rgba(5,150,105,.08)' : 'transparent',
-              }}
+              className={`draft-option${q.correct_answer === L ? ' draft-option-correct' : ''}`}
             >
+              <div className="draft-option-heading"><label className="draft-option-choice">
               {/* Phương án trống (đề Word chỉ có 2–3 phương án) thì không chọn làm đáp án được */}
               <input
                 type="radio"
                 name={`correct-${index}`}
+                aria-label={`Chọn ${L} làm đáp án đúng cho câu ${index + 1}`}
                 checked={q.correct_answer === L}
                 disabled={!q.options[L]}
                 onChange={() => onPatch('correct_answer', L)}
               />
-              <strong>{L}.</strong>
-              <input
-                className="form-control"
-                style={{ border: 'none', padding: 0, background: 'transparent' }}
+              <strong>Phương án {L}</strong></label>{q.correct_answer === L && <span className="draft-correct-label">✓ Đáp án đúng</span>}</div>
+              <GrowingTextarea
+                className="form-control draft-option-text"
+                rows={2}
+                aria-label={`Nội dung phương án ${L} câu ${index + 1}`}
                 placeholder={L === 'A' || L === 'B' ? '' : '(để trống nếu không dùng)'}
                 value={q.options[L] || ''}
                 onChange={(e) => onPatchOption(L, e.target.value)}
               />
-            </label>
+            </div>
           ))}
         </div>
-        <input
-          className="form-control"
-          style={{ marginTop: '.5rem', fontSize: '.85rem' }}
+        <p className="draft-answer-summary">Đáp án đang chọn: <strong>{q.correct_answer}</strong></p>
+        <label className="draft-field-label" htmlFor={`draft-explanation-${index}`}>Giải thích đáp án</label>
+        <GrowingTextarea
+          id={`draft-explanation-${index}`}
+          className="form-control draft-explanation"
+          rows={2}
           placeholder="Giải thích (tùy chọn)"
           value={q.explanation || ''}
           onChange={(e) => onPatch('explanation', e.target.value)}

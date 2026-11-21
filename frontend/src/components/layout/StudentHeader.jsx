@@ -22,8 +22,8 @@ export default function StudentHeader({ onToggleSidebar }) {
         ☰
       </button>
       <div className="s-header-actions">
-        {/* Bấm avatar mở trang hồ sơ (mục "Hồ sơ cá nhân" đã có ở thanh bên trái) */}
-        <Link className="s-avatar-wrap" id="avatarWrap" to="/student/profile" title="Hồ sơ cá nhân" style={{ textDecoration: 'none' }}>
+        {/* Bấm avatar mở trang hồ sơ cá nhân. */}
+        <Link className="s-avatar-wrap" id="avatarWrap" to="/student/profile" aria-label="Mở hồ sơ cá nhân" title="Hồ sơ cá nhân" style={{ textDecoration: 'none' }}>
           <div className="s-avatar" id="headerAvatar">
             {initials}
           </div>

@@ -97,7 +97,6 @@ export default function Progress() {
                 <dd>{loading ? '—' : Math.max(0, totalLessons - doneLessons)}</dd>
               </div>
             </dl>
-            <p className="pg-note">Điểm quiz: mỗi bài kiểm tra lấy 1 điểm theo cách tính của quiz; không tính bộ ôn tập. Mức điểm tổng quan có thể khác kết quả từng phần kiến thức trong gợi ý ôn tập.</p>
           </div>
         </aside>
 

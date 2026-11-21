@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { aiService } from '../../services/aiService';
 import { enrollmentService } from '../../services/enrollmentService';
 import { useAiChat } from '../../hooks/useAiChat';
+import { useConfirm } from '../../hooks/useConfirm';
 import AiChatFeedback, { AiReplyLabel } from '../../components/ai/AiChatFeedback.jsx';
 import AiMessageContent, { AiSources } from '../../components/ai/AiMessageContent.jsx';
 
 /** PHASE 6 — AI Tutor (RAG): hỏi đáp dựa trên tài liệu khóa học, có trích dẫn nguồn. */
 export default function AiTutor() {
+  const confirm = useConfirm();
   const [courses, setCourses] = useState([]);
   const [courseId, setCourseId] = useState('');
   const [conversations, setConversations] = useState([]);
@@ -94,7 +96,8 @@ export default function AiTutor() {
   // Xóa 1 cuộc trò chuyện (stopPropagation để không đồng thời mở nó ra)
   async function removeConversation(id, ev) {
     ev.stopPropagation();
-    if (!window.confirm('Xóa cuộc trò chuyện này?')) return;
+    const ok = await confirm('Xóa cuộc trò chuyện này?', { title: 'Xóa cuộc trò chuyện', confirmLabel: 'Xóa', tone: 'danger' });
+    if (!ok) return;
     await aiService.deleteConversation(id);
     setConversations((c) => c.filter((x) => x.id !== id));
     if (activeConv === id) newConversation();

@@ -25,7 +25,6 @@ export default function Recommendations() {
     { icon: '📖', label: 'Bài được gợi ý', value: filtered?.rows.length ?? 0, color: 'blue' },
     { icon: '📚', label: 'Khóa học được đề xuất', value: groups.length, color: 'purple' },
     { icon: '🎯', label: 'Bài nên ôn', value: filtered?.rows.filter(row => row.priority === 'review').length ?? 0, color: 'red' },
-    { icon: '🧩', label: 'Chưa đủ dữ liệu', value: filtered?.rows.filter(row => row.priority === 'check').length ?? 0, color: 'amber' },
   ];
   function toggle(id) { setExpanded(previous => { const next = new Set(previous); if (next.has(id)) next.delete(id); else next.add(id); return next; }); }
   return <main className="s-main study-recommendations-page">

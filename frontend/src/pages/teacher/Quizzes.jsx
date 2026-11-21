@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { courseService } from '../../services/courseService';
 import { quizService } from '../../services/quizService';
 import Modal from '../../components/common/Modal.jsx';
@@ -71,6 +72,7 @@ function QuizSettingsFields({ form, setForm }) {
 export default function TeacherQuizzes() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const navigate = useNavigate();
 
   const [teacherCourses, setTeacherCourses] = useState([]);
@@ -186,16 +188,17 @@ export default function TeacherQuizzes() {
 
   // Xóa quiz (backend từ chối nếu đã có học viên làm bài)
   async function handleDelete(id) {
-    if (
-      !window.confirm(
-        'Xóa đề thi này cùng tất cả câu hỏi?\n(Quiz đã có học viên làm bài sẽ không xóa được, để giữ điểm và dữ liệu phân tích.)',
-      )
-    )
-      return;
+    const ok = await confirm(
+      'Xóa đề thi này cùng tất cả câu hỏi? (Quiz đã có học viên làm bài sẽ không xóa được, để giữ điểm và dữ liệu phân tích.)',
+      { title: 'Xóa đề thi', confirmLabel: 'Xóa', tone: 'danger' },
+    );
+    if (!ok) return;
     const res = await quizService.deleteQuiz(id);
-    if (res?.ok) {
+    if (res?.ok && res.data?.success) {
+      // Keep the list mounted so removing one row does not collapse the page
+      // into its loading state and reset the current scroll position.
+      setQuizzes(previous => previous?.filter(quiz => Number(quiz.id) !== Number(id)) ?? previous);
       showToast('Đã xóa Quiz thành công!', 'success');
-      loadQuizzes();
     } else {
       showToast(res?.data?.message || 'Không thể xóa.', 'error');
     }

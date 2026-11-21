@@ -16,8 +16,11 @@ export default function Modal({ open, onClose, children, overlayClassName }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
+      {/* items-start (không items-center): căn giữa dọc trên khung flex có overflow-y:auto
+          là lỗi CSS kinh điển — khi nội dung cao hơn khung nhìn, phần bị đẩy lên trên không
+          cuộn tới được. Căn từ trên xuống thì luôn cuộn được hết nội dung, mọi kích thước màn hình. */}
       <div
-        className="flex min-h-full items-start md:items-center justify-center"
+        className="flex min-h-full items-start justify-center"
         onClick={(e) => {
           if (e.target === e.currentTarget) onClose();
         }}

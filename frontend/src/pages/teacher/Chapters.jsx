@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { courseService } from '../../services/courseService';
 import { chapterService } from '../../services/chapterService';
 import { lessonService } from '../../services/lessonService';
@@ -21,6 +22,7 @@ const emptyForm = { chapter_name: '', order_index: 0 };
 export default function TeacherChapters() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -138,7 +140,10 @@ export default function TeacherChapters() {
 
   // Xóa chương (các bài học bên trong bị xóa theo)
   async function handleDelete(id) {
-    if (!window.confirm('Xóa chương này sẽ xóa toàn bộ bài học bên trong. Bạn chắc chắn?')) return;
+    const ok = await confirm('Xóa chương này sẽ xóa toàn bộ bài học bên trong. Bạn chắc chắn?', {
+      title: 'Xóa chương', confirmLabel: 'Xóa', tone: 'danger',
+    });
+    if (!ok) return;
     const res = await chapterService.deleteChapter(id);
     if (res?.ok) {
       showToast('Đã xóa chương học!', 'success');

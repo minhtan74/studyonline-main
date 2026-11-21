@@ -1,3 +1,4 @@
+import { lazy } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 // Layout khung trang theo từng khu vực (công khai / học viên / admin / giảng viên)
@@ -13,44 +14,44 @@ import CoursesRedirect from './CoursesRedirect.jsx';
 
 // Các trang công khai và trang học tập dùng chung
 import Home from '../pages/Home.jsx';
-import Help from '../pages/Help.jsx';
-import Login from '../pages/Login.jsx';
-import Register from '../pages/Register.jsx';
-import PasswordRecovery from '../pages/PasswordRecovery.jsx';
-import Chapters from '../pages/Chapters.jsx';
-import Lesson from '../pages/Lesson.jsx';
-import AiSource from '../pages/AiSource.jsx';
-import Quiz from '../pages/Quiz.jsx';
-import QuizShow from '../pages/QuizShow.jsx';
+const Help = lazy(() => import('../pages/Help.jsx'));
+const Login = lazy(() => import('../pages/Login.jsx'));
+const Register = lazy(() => import('../pages/Register.jsx'));
+const PasswordRecovery = lazy(() => import('../pages/PasswordRecovery.jsx'));
+const Chapters = lazy(() => import('../pages/Chapters.jsx'));
+const Lesson = lazy(() => import('../pages/Lesson.jsx'));
+const AiSource = lazy(() => import('../pages/AiSource.jsx'));
+const Quiz = lazy(() => import('../pages/Quiz.jsx'));
+const QuizShow = lazy(() => import('../pages/QuizShow.jsx'));
+const RecommendationPreview = lazy(() => import('../pages/RecommendationPreview.jsx'));
 
 // Trang của học viên
-import StudentDashboard from '../pages/student/Dashboard.jsx';
-import StudentCourses from '../pages/student/Courses.jsx';
-import StudentMyCourses from '../pages/student/MyCourses.jsx';
-import StudentProfile from '../pages/student/Profile.jsx';
-import StudentProgress from '../pages/student/Progress.jsx';
-import StudentRecommendations from '../pages/student/Recommendations.jsx';
-import StudentQuizResult from '../pages/student/QuizResult.jsx';
-import StudentAiTutor from '../pages/student/AiTutor.jsx';
-import StudentPaymentResult from '../pages/student/PaymentResult.jsx';
+const StudentDashboard = lazy(() => import('../pages/student/Dashboard.jsx'));
+const StudentCourses = lazy(() => import('../pages/student/Courses.jsx'));
+const StudentMyCourses = lazy(() => import('../pages/student/MyCourses.jsx'));
+const StudentProfile = lazy(() => import('../pages/student/Profile.jsx'));
+const StudentProgress = lazy(() => import('../pages/student/Progress.jsx'));
+const StudentRecommendations = lazy(() => import('../pages/student/Recommendations.jsx'));
+const StudentQuizResult = lazy(() => import('../pages/student/QuizResult.jsx'));
+const StudentAiTutor = lazy(() => import('../pages/student/AiTutor.jsx'));
+const StudentPaymentResult = lazy(() => import('../pages/student/PaymentResult.jsx'));
 
 // Trang của admin
-import AdminOverview from '../pages/admin/Overview.jsx';
-import AdminUsers from '../pages/admin/Users.jsx';
-import AdminCourses from '../pages/admin/Courses.jsx';
-import AdminReports from '../pages/admin/Reports.jsx';
-import AdminPayments from '../pages/admin/Payments.jsx';
+const AdminOverview = lazy(() => import('../pages/admin/Overview.jsx'));
+const AdminUsers = lazy(() => import('../pages/admin/Users.jsx'));
+const AdminCourses = lazy(() => import('../pages/admin/Courses.jsx'));
+const AdminReports = lazy(() => import('../pages/admin/Reports.jsx'));
+const AdminPayments = lazy(() => import('../pages/admin/Payments.jsx'));
 
 // Trang của giảng viên
-import TeacherOverview from '../pages/teacher/Overview.jsx';
-import TeacherCourses from '../pages/teacher/Courses.jsx';
-import TeacherChapters from '../pages/teacher/Chapters.jsx';
-import TeacherLessons from '../pages/teacher/Lessons.jsx';
-import TeacherQuizzes from '../pages/teacher/Quizzes.jsx';
-import TeacherQuizQuestions from '../pages/teacher/QuizQuestions.jsx';
-import TeacherReports from '../pages/teacher/Reports.jsx';
-import TeacherProfile from '../pages/teacher/Profile.jsx';
-import TeacherDocuments from '../pages/teacher/Documents.jsx';
+const TeacherOverview = lazy(() => import('../pages/teacher/Overview.jsx'));
+const TeacherCourses = lazy(() => import('../pages/teacher/Courses.jsx'));
+const TeacherChapters = lazy(() => import('../pages/teacher/Chapters.jsx'));
+const TeacherLessons = lazy(() => import('../pages/teacher/Lessons.jsx'));
+const TeacherQuizzes = lazy(() => import('../pages/teacher/Quizzes.jsx'));
+const TeacherQuizQuestions = lazy(() => import('../pages/teacher/QuizQuestions.jsx'));
+const TeacherProfile = lazy(() => import('../pages/teacher/Profile.jsx'));
+const TeacherDocuments = lazy(() => import('../pages/teacher/Documents.jsx'));
 
 // Bảng định tuyến: đường dẫn URL -> trang tương ứng
 // Đường dẫn cũ /teacher/ai-quiz?... -> tab AI của trang Quiz, giữ nguyên các tham số chọn sẵn khóa / chương / bài
@@ -61,9 +62,16 @@ function AiQuizRedirect() {
   return <Navigate to={`/teacher/quizzes?${params.toString()}`} replace />;
 }
 
+// Keep old teacher report/statistics links working without a second page.
+function TeacherDashboardRedirect() {
+  const {search, hash} = useLocation();
+  return <Navigate to={{pathname:'/teacher',search,hash}} replace />;
+}
+
 export default function AppRoutes() {
   return (
     <Routes>
+      {import.meta.env.DEV && <Route path="/preview/ai-recommendations" element={<RecommendationPreview />} />}
       {/* Khu vực công khai: trang chủ; /login và /register chỉ dành cho người chưa đăng nhập */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
@@ -158,10 +166,10 @@ export default function AppRoutes() {
         <Route path="lessons" element={<TeacherLessons />} />
         <Route path="quizzes" element={<TeacherQuizzes />} />
         <Route path="quizzes/:quizId/questions" element={<TeacherQuizQuestions />} />
-        <Route path="reports" element={<TeacherReports />} />
-        {/* Trang Học viên và Thống kê cũ đã gộp vào Báo cáo */}
-        <Route path="students" element={<Navigate to="/teacher/reports" replace />} />
-        <Route path="stats" element={<Navigate to="/teacher/reports" replace />} />
+        <Route path="reports" element={<TeacherDashboardRedirect />} />
+        {/* Báo cáo, Học viên và Thống kê cũ đã gộp vào Dashboard */}
+        <Route path="students" element={<TeacherDashboardRedirect />} />
+        <Route path="stats" element={<TeacherDashboardRedirect />} />
         <Route path="profile" element={<TeacherProfile />} />
         <Route path="documents" element={<TeacherDocuments />} />
         <Route path="topics" element={<Navigate to="/teacher/quizzes" replace />} />

@@ -1,8 +1,38 @@
 # Gợi ý học tập theo nội dung bài kiểm tra
 
+## Kiến thức chi tiết trong chủ đề — 07/11/2026
+
+`wrong_details` bổ sung phần kiến thức cụ thể và hướng dẫn ôn cho các câu có phân loại đã đối chiếu. Phạm vi ban đầu: 10 câu trong bài Phân loại HĐH, thuộc Hệ thống phân tán/Hệ thống song song. Danh mục `question_review_details.json` lưu phân loại biên soạn riêng theo nội dung câu, không lấy nguyên giải thích đáp án hoặc tự đoán từ từ khóa. Khóa khớp gồm khóa học, tên chủ đề đã lưu và fingerprint nội dung/phương án; không sử dụng ID câu đơn lẻ làm căn cứ. Câu mới hoặc sửa nội dung không khớp sẽ giữ gợi ý cấp chủ đề, cần phân loại bổ sung. Chưa có giao diện giáo viên soạn phân loại chi tiết; phần này được quản lý bằng danh mục mã nguồn.
+
+Mỗi phần chi tiết tính số câu đúng/sai và ngưỡng riêng; chỉ hiện khi có câu sai. Dưới 5 câu ghi cần kiểm tra thêm, không kết luận yếu từ tỷ lệ sai của chủ đề cha. Nội dung đúng hết bị loại; lượt mới cập nhật theo quy tắc căn cứ chương/bài hiện tại. Không đổi điểm, đáp án, phân loại chủ đề gốc hoặc dữ liệu bài làm. Với kết quả cũ thiếu fingerprint, nếu đối chiếu được nội dung hiện tại sẽ ghi rõ giới hạn khôi phục. Đây là phân loại biên soạn, không phải suy luận của mô hình AI.
+
+## Hướng dẫn từ câu trả lời sai — 07/11/2026
+
+Phần “Bạn nên xem lại” hiện hiển thị `wrong_topics`: các chủ đề được lưu tại lúc nộp có câu trả lời sai trong tập căn cứ chương/bài đang dùng. Mỗi mục ghi số câu sai/tổng số câu khác nhau. Chủ đề đúng hết bị loại; chủ đề đạt từ 70% nhưng còn câu sai vẫn có thể xem lại mà không bị gắn nhãn cần củng cố. Dưới 5 câu vẫn ghi chưa đủ dữ liệu. Câu sai chưa có chủ đề được đếm riêng, không tự suy đoán nội dung từ tên bài hoặc từ khóa.
+
+Không còn dùng danh mục tài liệu của cả bài để tạo hướng dẫn cá nhân này. Danh mục và helper cũ vẫn còn trong mã nguồn nhưng không được gọi từ luồng tổng hợp kiến thức. `review_guidance` cho bài được tạo từ chính các chủ đề có câu sai; `review_topics` và ngưỡng chọn bài/chương giữ nguyên. Giao diện hiển thị danh sách chủ đề sai trực tiếp, không lặp lại ví dụ chung của tài liệu. Các mô tả về danh mục bên dưới là lịch sử triển khai trước thay đổi này.
+
+## Chi tiết kiến thức trong bài được gợi ý
+
+### Mở rộng hướng dẫn ôn cho toàn bộ bài học
+
+Khối “Bạn nên xem lại” hiện dùng danh mục `backend/app/services/lesson_review_catalog.json`, sinh lại bằng `python scripts/build_review_guidance.py` trong thư mục backend. Danh mục lấy đề mục từ tài liệu Markdown, mục tiêu bài học của bộ Git/OOP/FastAPI và tình huống minh họa có trong tài liệu; không gọi AI hoặc suy diễn từ câu sai. Khóa tra cứu gồm tên khóa và tên bài đã chuẩn hóa, tránh lấy nội dung của môn khác có cùng tên bài. Dữ liệu danh mục được nạp một lần mỗi tiến trình; sau khi dựng lại cần khởi động lại backend.
+
+Kiểm tra database hiện tại có 138 bài: 137 bài khớp danh mục tài liệu, một bài thuộc “PYTEST Course” dùng mô tả bài học. Bài mới không có trong danh mục dùng mô tả hiện tại; nếu chưa có mô tả thì chỉ hướng dẫn ôn khái niệm/ví dụ/bài tập của cả bài, không tạo chi tiết giả. Mục ôn tài liệu và chủ đề có kết quả đúng/sai riêng được ghi nhãn phân biệt. Nội dung danh mục cần dựng lại nếu giảng viên thay đổi tài liệu; đây không phải trích xuất trực tiếp từ PDF vừa tải lên.
+
+Kiểm chứng: 62 kiểm thử backend đạt; kiểm tra chỉ đọc MySQL với 5 học viên, 28 đánh giá cấp bài đều có hướng dẫn. Đối chiếu danh mục với toàn bộ 138 bài; chưa kiểm chứng trực tiếp trên trình duyệt.
+
+Bài “Khái niệm về hệ điều hành” bổ sung khối “Bạn nên xem lại”: vai trò quản lý tài nguyên, CPU/bộ nhớ/I/O và việc cạnh tranh/chờ tài nguyên khi chạy nhiều ứng dụng. Nội dung được biên soạn từ tài liệu bổ sung của bài (`backend/training/lesson_docs/edition_20261029/generated/lesson_55_b7decac16b17.html`), cấu hình tại `backend/app/services/review_guidance.py`. Đây là hướng dẫn ôn ở cấp bài, được ghi rõ riêng với các chủ đề có số liệu cá nhân; không tạo số câu hay suy diễn điểm yếu chi tiết. Các bài khác chưa có hướng dẫn biên soạn vẫn dùng căn cứ chủ đề/chương/bài sẵn có. Kiểm tra sau bổ sung: 60 kiểm thử backend đạt và frontend build thành công; chưa kiểm chứng trên trình duyệt.
+
+Các gợi ý chương/bài bổ sung `review_topics`, tổng hợp chủ đề đã lưu tại lúc nộp từ chính tập câu trả lời đang làm căn cứ của chương/bài. Giao diện tóm tắt (mở “Vì sao?”), danh sách gợi ý và phần căn cứ chương/bài hiển thị tên chủ đề, số câu đúng/tổng và trạng thái. Chủ đề có ít nhất 5 nội dung khác nhau và dưới 70% được đề nghị ôn; chủ đề ít câu có câu sai chỉ được đề nghị kiểm tra thêm. Chủ đề đạt ngưỡng không đưa vào danh sách này. Không đọc phân loại hiện tại để tự thay tên chủ đề của kết quả đã lưu, không suy đoán từ từ khóa. Khi không có chủ đề đủ thông tin, giữ gợi ý ở cấp chương/bài. Phần này giải thích chi tiết các gợi ý chương/bài hiện có, không thay đổi cách chọn bài hoặc điểm chính thức.
+
+Kiểm tra: 59 kiểm thử knowledge/recommendations/question_evidence đạt; frontend build thành công. Chưa kiểm chứng hiển thị trực tiếp trên trình duyệt với tài khoản học viên.
+
 Cập nhật 31/10/2026. Hệ thống dùng quy tắc Python trên dữ liệu đúng/sai từng câu. Không dùng LLM để kết luận năng lực; nhập tay, Word và AI dùng chung quy tắc sau khi giáo viên duyệt câu hỏi.
 
 ## Gợi ý theo chương và bài học — ba cấp kiểm tra
+
+Trang kết quả quiz theo chương bổ sung khối “Bạn nên ôn bài nào, phần kiến thức nào?”. Khối dùng `knowledge` của chính lượt nộp (cả khi vừa nộp và tải lại lịch sử), hiển thị chủ đề cần chú ý và nội dung ôn của từng bài. Phần kiến thức được mở sẵn; các mục thiếu căn cứ vẫn nằm trong nhóm “Chưa đủ dữ liệu”. Nếu điểm chung của bài đạt ngưỡng nhưng chủ đề riêng đủ căn cứ dưới ngưỡng, vẫn hiển thị bài với nhãn “Có chủ đề cần ôn”. Giữ điểm chính thức, không suy đoán bài từ câu chỉ gắn chương. Không hiển thị danh sách Quiz làm căn cứ hoặc ghi chú dữ liệu cũ trong khối này. Kiểm tra: 64 kiểm thử backend đạt và frontend build thành công; chưa kiểm chứng trực tiếp bằng trình duyệt.
 
 Trang kết quả quiz hiển thị **Bạn nên ôn phần nào?** theo cây **Chương → Bài học → Nút ôn**, dựa trên câu trả lời của chính lượt đang xem. Chương/bài cần củng cố được ưu tiên; phần dưới 5 câu có câu sai vẫn hiện để ôn nhưng ghi **Chưa đủ dữ liệu**. Mỗi mục có số câu đúng/tổng, tỷ lệ đúng và liên kết ôn nội dung còn tồn tại. Nút **Xem câu sai** dẫn tới từng câu sai tương ứng trong trang kết quả. Bài cần củng cố vẫn hiển thị khi tổng chương đạt ngưỡng. Các phần còn lại, bảng kết quả chi tiết và gợi ý hiện tại từ tất cả quiz trong khóa được thu gọn. Không suy luận về nội dung chưa có câu hỏi; gợi ý tổng hợp có thể khác kết quả của lượt cũ đang xem.
 

@@ -1,4 +1,5 @@
 import { useAuth } from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 // Chữ viết tắt làm avatar: chữ cái đầu của 2 từ đầu trong tên
 function getInitials(fullname) {
@@ -35,7 +36,7 @@ export default function TeacherTopbar({ onToggleSidebar }) {
         </div>
       </div>
       <div className="topbar-right">
-        <div className="topbar-avatar">{initials}</div>
+        <Link to="/teacher/profile" className="topbar-avatar teacher-profile-link" aria-label="Mở hồ sơ cá nhân" title="Hồ sơ cá nhân">{initials}</Link>
       </div>
     </header>
   );

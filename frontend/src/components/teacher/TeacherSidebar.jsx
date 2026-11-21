@@ -69,18 +69,6 @@ export default function TeacherSidebar({ mobileOpen, onNavigate }) {
         </nav>
       </div>
 
-      <div className="sidebar-section">
-        <div className="sidebar-section-label">Báo cáo</div>
-        <nav className="sidebar-menu">
-          <NavLink to="/teacher/reports" className={navLinkClass}>
-            <span className="menu-icon">📊</span> Báo cáo
-          </NavLink>
-          <NavLink to="/teacher/profile" className={navLinkClass}>
-            <span className="menu-icon">👤</span> Hồ sơ cá nhân
-          </NavLink>
-        </nav>
-      </div>
-
       <div className="sidebar-footer">
         <div className="sidebar-user">
           <div className="avatar avatar-sm" style={{ background: 'var(--accent)' }}>
@@ -92,7 +80,7 @@ export default function TeacherSidebar({ mobileOpen, onNavigate }) {
           </div>
         </div>
         <button className="sidebar-logout" onClick={doTeacherLogout}>
-          🚪 Đăng xuất mọi thiết bị
+          🚪 Đăng xuất
         </button>
       </div>
     </aside>

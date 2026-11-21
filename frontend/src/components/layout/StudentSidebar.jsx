@@ -51,16 +51,12 @@ export default function StudentSidebar({ collapsed, mobileOpen }) {
           <span className="nav-icon">🤖</span>
           <span className="nav-label">AI Tutor</span>
         </NavLink>
-        <NavLink className={navClass} to="/student/profile">
-          <span className="nav-icon">👤</span>
-          <span className="nav-label">Hồ sơ cá nhân</span>
-        </NavLink>
       </nav>
 
       <div className="s-sidebar-footer">
         <button className="s-nav-item s-logout" onClick={handleLogout}>
           <span className="nav-icon">🚪</span>
-          <span className="nav-label">Đăng xuất mọi thiết bị</span>
+          <span className="nav-label">Đăng xuất</span>
         </button>
       </div>
     </aside>

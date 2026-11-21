@@ -1,0 +1,29 @@
+{
+  "mode": "production_build_mocked_api_no_real_credentials",
+  "passed": 23,
+  "checks": [
+    "Home does not download KaTeX or Chart.js",
+    "Home does not download role pages",
+    "Font stylesheet declared once",
+    "Loading status shown during delayed route chunk",
+    "Navbar and footer remain usable during route loading",
+    "Help route loads after chunk arrives",
+    "Public shell not remounted",
+    "Lazy login route works",
+    "No runtime errors on successful public routes",
+    "Chunk network failure has useful recovery UI",
+    "Chunk failure retains public navigation",
+    "Reload recovers failed chunk",
+    "Guest guard still redirects to login",
+    "Guest does not download admin Users chunk",
+    "student direct route opens",
+    "student route has no runtime errors",
+    "teacher direct route opens",
+    "teacher route has no runtime errors",
+    "admin direct route opens",
+    "admin route has no runtime errors",
+    "KaTeX loads only on a math-using route",
+    "Math rendered with KaTeX styles",
+    "Quiz result still hides suggestions"
+  ]
+}

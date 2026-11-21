@@ -44,7 +44,7 @@ export default function Navbar() {
               onClick={handleLogout}
               className="whitespace-nowrap px-3 sm:px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold text-sm rounded-lg transition-all"
             >
-              Đăng xuất mọi thiết bị<span className="hidden sm:inline"> ({user.fullname?.split(' ').pop()})</span>
+              Đăng xuất<span className="hidden sm:inline"> ({user.fullname?.split(' ').pop()})</span>
             </button>
           ) : (
             <>

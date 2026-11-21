@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { courseService } from '../../services/courseService';
 import { userService } from '../../services/userService';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import Modal from '../../components/common/Modal.jsx';
 import CourseThumb from '../../components/common/CourseThumb.jsx';
 
@@ -23,6 +24,7 @@ function fmtPrice(p) {
 /** Tương đương #coursesView trong _legacy/pages/admin/dashboard.html. */
 export default function AdminCourses() {
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const [allCourses, setAllCourses] = useState(null); // null = đang tải
   const [teachers, setTeachers] = useState([]);
   const [search, setSearch] = useState('');
@@ -109,13 +111,11 @@ export default function AdminCourses() {
 
   // Xóa khóa học (backend từ chối nếu đã có học viên / giao dịch -> nên chuyển sang Lưu trữ)
   async function handleDelete(id) {
-    if (
-      !window.confirm(
-        'Xóa vĩnh viễn khóa học này cùng toàn bộ chương, bài học, quiz?\n' +
-          '(Khóa đã có học viên hoặc giao dịch sẽ không xóa được — hãy chuyển sang "Lưu trữ".)',
-      )
-    )
-      return;
+    const ok = await confirm(
+      'Xóa vĩnh viễn khóa học này cùng toàn bộ chương, bài học, quiz? (Khóa đã có học viên hoặc giao dịch sẽ không xóa được — hãy chuyển sang "Lưu trữ".)',
+      { title: 'Xóa khóa học', confirmLabel: 'Xóa', tone: 'danger' },
+    );
+    if (!ok) return;
     try {
       const res = await courseService.deleteCourse(id);
       if (res?.ok && res.data?.success) {
@@ -219,9 +219,10 @@ export default function AdminCourses() {
                       })()}
                     </td>
                     <td style={{ textAlign: 'right' }}>
+                      <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem', whiteSpace: 'nowrap' }}>
                       <button
                         className="btn btn-outline btn-sm"
-                        style={{ padding: '0.25rem 0.5rem', marginRight: '0.25rem' }}
+                        style={{ padding: '0.25rem 0.5rem' }}
                         onClick={() => openEditModal(c)}
                       >
                         Sửa
@@ -233,6 +234,7 @@ export default function AdminCourses() {
                       >
                         Xóa
                       </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -272,7 +274,7 @@ export default function AdminCourses() {
                 <label className="form-label">Mô tả khóa học</label>
                 <textarea
                   className="form-control"
-                  rows={3}
+                  rows={2}
                   placeholder="Mô tả tóm tắt..."
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -331,7 +333,7 @@ export default function AdminCourses() {
                   </select>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.75rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem' }}>
                 <button type="button" className="btn btn-ghost btn-sm" onClick={() => setModalOpen(false)}>
                   Hủy
                 </button>

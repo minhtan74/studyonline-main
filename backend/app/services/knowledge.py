@@ -80,9 +80,9 @@ def snapshot(db, question, structure=None):
 
 def rows(db, user_id, course_id=None, result_id=None):
     return q_all(db, '''SELECT ra.question_id,ra.is_correct,ra.knowledge_chapter_id AS chapter_id,
-        ra.question_fingerprint,q.content AS question_content,q.option_a,q.option_b,q.option_c,q.option_d,
+        ra.question_fingerprint,ra.topic_name,ra.classification_version,q.content AS question_content,q.option_a,q.option_b,q.option_c,q.option_d,
         ra.knowledge_lesson_id AS lesson_id,ra.knowledge_chapter_name AS chapter_name,
-        ra.knowledge_lesson_name AS lesson_name,ra.knowledge_version,
+        ra.knowledge_lesson_name AS lesson_name,ra.knowledge_version,live_l.description AS lesson_description,
         CASE WHEN live_ch.id IS NOT NULL THEN 1 ELSE 0 END AS chapter_available,
         CASE WHEN live_l.id IS NOT NULL AND lesson_ch.course_id=qz.course_id THEN 1 ELSE 0 END AS lesson_available,
         r.id AS result_id,r.submit_time,qz.id AS quiz_id,qz.title AS quiz_title,
@@ -122,9 +122,14 @@ def summarize(evidence, latest=True):
                 key = (row['course_id'], kind, unit_id)
                 group = groups.setdefault(key, dict(kind=kind, id=unit_id, title=title,
                     course_id=row['course_id'], course_title=row['course_title'], chapter_id=row['chapter_id'],
-                    chapter_name=row['chapter_name'], answers={}, question_ids=set(), sources={}, reconstructed=False, identity_reconstructed=False,
-                    available=bool(row.get(f'{kind}_available', True))))
+                    chapter_name=row['chapter_name'], answers={}, topics={}, question_ids=set(), sources={}, reconstructed=False, identity_reconstructed=False,
+                    available=bool(row.get(f'{kind}_available', True)), lesson_description=row.get('lesson_description')))
                 group['answers'][evidence_key(row)] = int(row['is_correct'])
+                name = (row.get('topic_name') or '').strip()
+                if name:
+                    topic = group['topics'].setdefault(normalize_topic(name), dict(title=name, answers={}, reconstructed=False))
+                    topic['answers'][evidence_key(row)] = int(row['is_correct'])
+                    topic['reconstructed'] |= row.get('classification_version') == 1
                 group['question_ids'].add(row['question_id'])
                 group['identity_reconstructed'] |= not bool(row.get('question_fingerprint'))
                 group['reconstructed'] |= row.get('knowledge_version') == 1
@@ -139,6 +144,31 @@ def summarize(evidence, latest=True):
         n, correct = len(answers), sum(answers.values())
         sufficient = n >= MIN_TOPIC_QUESTIONS
         score = round(100 * correct / n, 1)
+        topics = []
+        wrong_topics = []
+        for topic in group.pop('topics').values():
+            topic_answers = topic.pop('answers')
+            count, right = len(topic_answers), sum(topic_answers.values())
+            percent = round(100 * right / count, 1)
+            enough = count >= MIN_TOPIC_QUESTIONS
+            if right < count:
+                wrong_topics.append(dict(**topic, answered=count, correct=right, wrong=count-right,
+                                         avg_score=percent, sufficient_data=enough,
+                                         needs_review=enough and percent < TOPIC_REVIEW_THRESHOLD))
+            if right < count and (not enough or percent < TOPIC_REVIEW_THRESHOLD):
+                topics.append(dict(**topic, answered=count, correct=right, avg_score=percent,
+                                   sufficient_data=enough, needs_review=enough and percent < TOPIC_REVIEW_THRESHOLD))
+        group['review_topics'] = sorted(topics, key=lambda t: (not t['needs_review'], t['avg_score'], -t['answered'], t['title']))
+        group['wrong_topics'] = sorted(wrong_topics, key=lambda t: (-t['wrong'], t['avg_score'], t['title']))
+        group['unclassified_wrong_answers'] = n - correct - sum(t['wrong'] for t in wrong_topics)
+        if group['kind'] == 'lesson' and correct < n:
+            points = [f"Xem lại {t['title']}: có {t['wrong']}/{t['answered']} câu trả lời sai."
+                      for t in group['wrong_topics']]
+            if group['unclassified_wrong_answers']:
+                points.append(f"Xem lại {group['unclassified_wrong_answers']} câu trả lời sai chưa được gắn chủ đề; chưa xác định phần kiến thức cụ thể.")
+            group['review_guidance'] = dict(scope='lesson', heading='Bạn nên xem lại',
+                                          points=points, example='', note='', source='wrong_answer_topics')
+        group.pop('lesson_description', None)
         group.update(answered=n, correct=correct, avg_score=score, sufficient_data=sufficient, question_ids=sorted(group['question_ids']), question_keys=sorted(answers),
                      needs_review=sufficient and score < TOPIC_REVIEW_THRESHOLD,
                      status='Insufficient' if not sufficient else 'Review' if score < TOPIC_REVIEW_THRESHOLD else 'Good',

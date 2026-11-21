@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { useToast } from '../../hooks/useToast';
+import { useConfirm } from '../../hooks/useConfirm';
 import { aiService } from '../../services/aiService';
 import { courseService } from '../../services/courseService';
 
@@ -15,6 +16,7 @@ const STATUS = {
 export default function TeacherDocuments() {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const confirm = useConfirm();
   const fileRef = useRef(null);
 
   const [courses, setCourses] = useState([]);
@@ -74,7 +76,8 @@ export default function TeacherDocuments() {
 
   // Xóa tài liệu khỏi AI Tutor (kèm các đoạn vector)
   async function handleDelete(id) {
-    if (!window.confirm('Xóa tài liệu này khỏi AI Tutor?')) return;
+    const ok = await confirm('Xóa tài liệu này khỏi AI Tutor?', { title: 'Xóa tài liệu', confirmLabel: 'Xóa', tone: 'danger' });
+    if (!ok) return;
     const res = await aiService.deleteDocument(id);
     if (res?.ok) {
       showToast('Đã xóa.', 'success');

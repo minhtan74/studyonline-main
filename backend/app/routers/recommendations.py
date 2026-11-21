@@ -3,6 +3,7 @@ from fastapi import APIRouter, Body, Depends, Query
 from sqlalchemy.orm import Session
 
 from app.ai import recommendation as rec
+from app.ai import study_advisor
 from app.core.database import get_db
 from app.core.dependencies import get_current_user
 from app.core.responses import ok, ApiError
@@ -45,7 +46,13 @@ def get_recommendations(
     if course_id and not can_access_course(db, user, course_id):
         raise ApiError('Bạn cần đăng ký khóa học để xem gợi ý của khóa này.', 403)
     current = rec.build(db, user["id"], course_id)
-    return ok(data={"current": current, "history": rec.history(db, user["id"], 10)})
+    history = rec.history(db, user["id"], 10)
+    # Gắn lại lời giải AI đã lưu (chỉ khi dữ liệu còn khớp); phần nào mới/đổi điểm -> tự sinh 1 lần rồi lưu
+    # để các lần tải trang sau dùng lại, không cần bấm nút thủ công. Dữ liệu không đổi -> không gọi LLM.
+    study_advisor.apply_cached_reasons(current, history)
+    if study_advisor.annotate(db, current):
+        rec.save(db, user["id"], course_id, current)
+    return ok(data={"current": current, "history": history})
 
 
 # POST /api/recommendations/refresh — người học bấm "Cập nhật gợi ý"
@@ -65,5 +72,7 @@ def refresh(
     if course_id and not can_access_course(db, user, course_id):
         raise ApiError('Bạn cần đăng ký khóa học để xem gợi ý của khóa này.', 403)
     current = rec.build(db, user["id"], course_id)
+    # Lớp AI diễn giải TỪNG gợi ý (có RAG trỏ tài liệu): chỉ sinh khi bấm "Cập nhật"; offline/lỗi -> giữ phần rule-based
+    study_advisor.annotate(db, current)
     saved = rec.save(db, user["id"], course_id, current)
     return ok("Đã cập nhật gợi ý học tập.", data=saved)

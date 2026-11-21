@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { formatStudyDate } from '../../utils/studyDate';
+import StudyKnowledgeTopics from './StudyKnowledgeTopics';
 import { STUDY_PRIORITY_LABELS, studyPracticeAction } from '../../utils/studyRecommendations';
 
 export default function StudyRecommendationCompactList({ rows, expanded, onExpand, minimumQuestions, reviewThreshold, busy, onStudy }) {
@@ -27,9 +27,7 @@ export default function StudyRecommendationCompactList({ rows, expanded, onExpan
         </div>
         {expanded === row.key && <div id={reasonId} className="study-compact-reason">
           <p>{uncertain ? `Chưa đủ dữ liệu: ghi nhận ${row.evidence.answered} câu khác nhau và có câu trả lời sai. Cần ít nhất ${minimumQuestions} câu để phân loại; chưa kết luận mức độ nắm vững kiến thức.` : `Tỷ lệ đúng ${row.evidence.avg_score}% dưới ngưỡng ôn tập ${reviewThreshold}%. Nên củng cố nội dung bài học này.`}</p>
-          <p>Câu có cùng nội dung và bộ phương án được tính một lần, dùng kết quả mới nhất.</p>
-          {row.evidence.identity_reconstructed && <p>Dữ liệu cũ dùng nội dung câu hỏi hiện có để nhận diện bản sao.</p>}
-          {!!row.evidence.sources?.length && <><strong>Kết quả Quiz làm căn cứ</strong><ul>{row.evidence.sources.map((source, index) => <li key={`${source.result_id}-${index}`}><Link to={`/student/quiz-result?result_id=${source.result_id}`}>{source.quiz_title}</Link> · đúng {source.correct}/{source.answered} câu · {formatStudyDate(source.submitted_at)}</li>)}</ul></>}
+          <StudyKnowledgeTopics evidence={row.evidence} />
         </div>}
       </article>;
     })}

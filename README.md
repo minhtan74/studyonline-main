@@ -80,7 +80,6 @@ Tại dấu nhắc `mysql>`, chạy:
 
 ```sql
 SOURCE database/studyonline_db.sql;
-SOURCE database/migration_add_payments.sql;
 SOURCE database/sample_data.sql;
 EXIT;
 ```
