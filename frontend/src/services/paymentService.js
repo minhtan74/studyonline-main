@@ -13,6 +13,10 @@ export const paymentService = {
   createVnpay(courseId) {
     return axiosClient.post('/api/payments/vnpay/create', { course_id: courseId });
   },
+  // Trang thanh toán giả lập (chỉ khi backend bật PAYMENT_SIMULATOR): result = 'success' | 'failed'
+  confirmSimulated(ref, result) {
+    return axiosClient.post('/api/payments/simulator/confirm', { ref, result });
+  },
   // Admin: danh sách giao dịch có phân trang + lọc (status, method, course_id, date_from, date_to, q)
   manage(params = {}) {
     const qs = new URLSearchParams(Object.entries(params).filter(([, v]) => v !== '' && v != null));

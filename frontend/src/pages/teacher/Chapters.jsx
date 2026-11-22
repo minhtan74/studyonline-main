@@ -104,7 +104,9 @@ export default function TeacherChapters() {
       return;
     }
     setEditingId(null);
-    setForm(emptyForm);
+    // Tự điền số thứ tự = số lớn nhất hiện có + 1 để chương mới nằm cuối; giảng viên vẫn sửa được để chèn vào giữa
+    const maxOrder = (chapters || []).reduce((m, ch) => Math.max(m, Number(ch.order_index) || 0), 0);
+    setForm({ ...emptyForm, order_index: (chapters || []).length ? maxOrder + 1 : 1 });
     setModalOpen(true);
   }
 

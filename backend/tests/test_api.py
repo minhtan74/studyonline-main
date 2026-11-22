@@ -35,6 +35,24 @@ def _h(tok):
     return {"Authorization": f"Bearer {tok}"}
 
 
+def _letter(view, text):
+    """Chữ cái đang hiển thị của đáp án có nội dung `text` (đề của học viên được đảo đáp án theo từng lượt làm)."""
+    for key in "ABCD":
+        if view.get(f"option_{key.lower()}") == text:
+            return key
+    raise AssertionError(f"Không thấy đáp án {text!r} trong câu hỏi {view}")
+
+
+def _take(headers, quiz_id, picks):
+    """Mở đề như học viên rồi nộp bài kèm attempt_token.
+    picks: {nội dung câu hỏi: nội dung đáp án chọn}. Trả về (đề đã mở, kết quả nộp bài)."""
+    opened = client.get(f"/api/quizzes/questions?quiz_id={quiz_id}", headers=headers).json()
+    answers = {str(q["id"]): _letter(q, picks[q["content"]]) for q in opened["data"]}
+    sub = client.post("/api/quizzes/submit", headers=headers, json={
+        "quiz_id": quiz_id, "answers": answers, "attempt_token": opened["attempt_token"]}).json()
+    return opened, sub
+
+
 @pytest.fixture(scope="module")
 def tokens():
     return {
@@ -219,8 +237,8 @@ def test_full_learning_flow(tokens, course):
                 json={"lesson_id": ls, "watched_sec": 60, "is_completed": 1})
     assert ls in client.get(f"/api/progress?course_id={course}", headers=S).json()["data"]
 
-    sub = client.post("/api/quizzes/submit", headers=S,
-                      json={"quiz_id": qz, "answers": {str(qid): "B"}}).json()
+    # Đáp án bị đảo theo lượt làm: chọn theo nội dung "4", không chọn cứng chữ B
+    _, sub = _take(S, qz, {"2+2=?": "4"})
     assert sub["score"] == 1 and sub["total"] == 1 and sub["percent"] == 100
 
     # Đã có lượt làm bài -> không xóa được quiz / câu hỏi (giữ điểm & dữ liệu phân tích).
@@ -342,7 +360,8 @@ def test_lesson_review_and_quiz_settings(tokens, course):
     client.post("/api/enrollments", headers=S, json={"course_id": course})
     got = client.get(f"/api/quizzes/questions?quiz_id={rq}", headers=S).json()
     assert got["time_limit_sec"] == 600 and got["attempt_token"]
-    answers = {str(q["id"]): "B" for q in got["data"]}
+    right = {"for dùng để?": "lặp", "range(3) sinh mấy số?": "3"}
+    answers = {str(q["id"]): _letter(q, right[q["content"]]) for q in got["data"]}
     # Không có / sửa token -> từ chối; token hợp lệ -> chấm, đạt
     assert client.post("/api/quizzes/submit", headers=S, json={"quiz_id": rq, "answers": answers}).status_code == 400
     aid, sig = got["attempt_token"].split(".")
@@ -378,24 +397,26 @@ def test_answers_hidden_until_last_attempt_and_fair_analytics(tokens, course):
     client.post("/api/enrollments", headers=S, json={"course_id": course})
     open1 = client.get(f"/api/quizzes/questions?quiz_id={qz}", headers=S).json()
     qid = open1["data"][0]["id"]
-    rqid = client.get(f"/api/quizzes/questions?quiz_id={rq}", headers=S).json()["data"][0]["id"]
 
+    # Đáp án bị đảo theo từng lượt: chọn theo nội dung ("sai" / "đúng"), kết quả cũng trả về chữ cái đang hiển thị
+    wrong1 = _letter(open1["data"][0], "sai")
     # Lượt 1/2: có đúng/sai nhưng KHÔNG có đáp án đúng; lượt 2/2 (cuối): có đáp án
     s1 = client.post("/api/quizzes/submit", headers=S, json={
-        "quiz_id": qz, "answers": {str(qid): "A"}, "attempt_token": open1["attempt_token"]}).json()
+        "quiz_id": qz, "answers": {str(qid): wrong1}, "attempt_token": open1["attempt_token"]}).json()
     assert s1["answers_revealed"] is False and s1["attempts_left"] == 1
     assert s1["details"][0]["correct_answer"] is None and s1["details"][0]["is_right"] is False
     open2 = client.get(f"/api/quizzes/questions?quiz_id={qz}", headers=S).json()
     s2 = client.post("/api/quizzes/submit", headers=S, json={
-        "quiz_id": qz, "answers": {str(qid): "B"}, "attempt_token": open2["attempt_token"]}).json()
-    assert s2["answers_revealed"] is True and s2["attempts_left"] == 0 and s2["details"][0]["correct_answer"] == "B"
+        "quiz_id": qz, "answers": {str(qid): _letter(open2["data"][0], "đúng")}, "attempt_token": open2["attempt_token"]}).json()
+    assert s2["answers_revealed"] is True and s2["attempts_left"] == 0
+    assert s2["details"][0]["correct_answer"] == _letter(open2["data"][0], "đúng")
     # Chủ khóa làm thử luôn thấy đáp án
     assert client.post("/api/quizzes/submit", headers=T, json={
         "quiz_id": qz, "answers": {}}).json()["details"][0]["correct_answer"] == "B"
     # Ôn tập không giới hạn lượt: luôn thấy đáp án. Làm sai 2 lần rồi đúng 1 lần
-    for ans in ("A", "A", "B"):
-        r = client.post("/api/quizzes/submit", headers=S, json={"quiz_id": rq, "answers": {str(rqid): ans}}).json()
-        assert r["answers_revealed"] is True and r["details"][0]["correct_answer"] == "B"
+    for pick in ("sai", "sai", "đúng"):
+        opened, r = _take(S, rq, {"Câu ÔT": pick})
+        assert r["answers_revealed"] is True and r["details"][0]["correct_answer"] == _letter(opened["data"][0], "đúng")
 
     # Điểm TB / số lượt chỉ tính bài chính thức: (0% + 100%) / 2 = 50%, 2 lượt (không tính 3 lượt ôn tập)
     # Điểm được tính theo cách tính của quiz (mặc định lượt cao nhất); 2 lượt 0% và 100%
@@ -412,7 +433,7 @@ def test_answers_hidden_until_last_attempt_and_fair_analytics(tokens, course):
     hist = client.get(f"/api/quizzes/results?quiz_id={qz}", headers=S).json()["data"]
     assert [h["attempt_no"] for h in hist] == [2, 1] and [h["counted"] for h in hist] == [True, False]
     first = client.get(f"/api/quizzes/results?id={hist[1]['id']}", headers=S).json()
-    assert first["percent"] == 0 and first["answers_revealed"] and first["details"][0]["chosen"] == "A"
+    assert first["percent"] == 0 and first["answers_revealed"] and first["details"][0]["chosen"] == wrong1
     # Người khác không xem được bài làm của học viên; chủ khóa thì xem được
     other = _h(_token("binh.tran@studyonline.vn", "123456"))
     assert client.get(f"/api/quizzes/results?id={hist[1]['id']}", headers=other).status_code == 403
@@ -420,13 +441,13 @@ def test_answers_hidden_until_last_attempt_and_fair_analytics(tokens, course):
     # Danh sách quiz của học viên kèm tình trạng làm bài
     st = [q for q in client.get("/api/quizzes", headers=S).json()["data"] if q["id"] == qz][0]["my_status"]
     assert st["submitted"] == 2 and st["graded_percent"] == 100 and st["attempts_left"] == 0
-    # Chủ đề: bài chính thức chỉ tính lượt được tính điểm theo cách tính của quiz (2 lượt: sai rồi đúng),
-    # ôn tập chỉ tính lượt gần nhất (đúng)
-    for method, expect in (("latest", (1, 1)), ("first", (1, 0)), ("average", (2, 1)), ("highest", (1, 1))):
+    # Chủ đề: thống kê kiến thức luôn dùng lượt NỘP GẦN NHẤT của mỗi quiz (2 lượt: sai rồi đúng -> đúng),
+    # độc lập với cách tính điểm chính thức của quiz (xem docs/recommendation.md); ôn tập cũng chỉ tính lượt gần nhất
+    for method in ("latest", "first", "average", "highest"):
         client.put("/api/quizzes", headers=T, json={
             "id": qz, "course_id": course, "title": "Chính thức", "max_attempts": 2, "grading_method": method})
         tp = {t["topic"]: t for t in client.get(f"/api/analytics/topics?course_id={course}", headers=S).json()["data"]}
-        assert (tp["Chủ đề CT"]["answered"], tp["Chủ đề CT"]["correct"]) == expect, method
+        assert (tp["Chủ đề CT"]["answered"], tp["Chủ đề CT"]["correct"]) == (1, 1), method
         assert (tp["Chủ đề ÔT"]["answered"], tp["Chủ đề ÔT"]["correct"]) == (1, 1)
     client.request("DELETE", f"/api/enrollments?course_id={course}", headers=S)
 
@@ -553,7 +574,8 @@ def test_recommendation_flow(tokens):
     S = _h(tokens["student"])
     cur = client.get("/api/recommendations", headers=S).json()["data"]
     assert "current" in cur and "history" in cur
-    assert cur["current"]["level"] in {"Weak", "Average", "Good", "Excellent"}
+    # "Insufficient" = học viên chưa làm đủ số câu tối thiểu theo chủ đề nên chưa kết luận mức độ
+    assert cur["current"]["level"] in {"Insufficient", "Weak", "Average", "Good", "Excellent"}
     assert isinstance(cur["current"]["items"], list) and cur["current"]["items"]
     ref = client.post("/api/recommendations/refresh", headers=S, json={}).json()
     assert ref["success"] and ref["data"]["id"]
@@ -932,9 +954,9 @@ def test_admin_reports_only_vnpay_across_summary_series_and_csv(tokens, course):
                 for key in ("total_revenue", "total_orders", "pending_orders", "failed_orders", "refunded_orders", "refunded_amount"):
                     assert data["overview"][key] == baseline[r]["overview"][key]
                 assert data["revenue_weekly"] == baseline[r]["revenue_weekly"]
-                assert all(row["method"] == "vnpay" for row in data["recent_payments"])
+                assert all(row["method"] in ("vnpay",) for row in data["recent_payments"])
                 fixture_courses = [row for row in data["top_courses"] if row["id"] == course]
-                assert all(row["revenue"] == 0 for row in fixture_courses)
+                assert all(float(row["revenue"]) == 0 for row in fixture_courses)
             for index, (status, amount) in enumerate((("completed", 111000), ("pending", 222000), ("failed", 333000), ("refunded", 444000)), 4):
                 insert("vnpay", status, amount, index)
             increments = {"total_revenue": 111000, "total_orders": 1, "pending_orders": 1, "failed_orders": 1, "refunded_orders": 1, "refunded_amount": 444000}
@@ -943,15 +965,15 @@ def test_admin_reports_only_vnpay_across_summary_series_and_csv(tokens, course):
                 for key, amount in increments.items():
                     assert data["overview"][key] == baseline[r]["overview"][key] + amount
                 assert sum(row["revenue"] for row in data["revenue_weekly"]) == sum(row["revenue"] for row in baseline[r]["revenue_weekly"]) + 111000
-                assert all(row["method"] == "vnpay" for row in data["recent_payments"])
-                assert all(row["method"] == "vnpay" for row in data["revenue_by_method"])
+                assert all(row["method"] in ("vnpay",) for row in data["recent_payments"])
+                assert all(row["method"] in ("vnpay",) for row in data["revenue_by_method"])
             response = client.get("/api/reports/export", headers=A, params={"type": "payments"})
             assert response.status_code == 200
             rows = list(csv.reader(io.StringIO(response.content.decode("utf-8-sig"))))[1:]
             exported_ids = {int(row[0]) for row in rows}
             assert not (exported_ids & set(ids["legacy"]))
             assert set(ids["vnpay"]) <= exported_ids
-            assert all(row[4] == "vnpay" for row in rows)
+            assert all(row[4] in ("vnpay",) for row in rows)
             courses_csv = client.get("/api/reports/export", headers=A, params={"type": "courses"})
             course_rows = list(csv.reader(io.StringIO(courses_csv.content.decode("utf-8-sig"))))[1:]
             assert float(next(row for row in course_rows if int(row[0]) == course)[-1]) == 111000

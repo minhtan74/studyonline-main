@@ -29,6 +29,15 @@ def _via_gateway(payment: dict) -> bool:
     return payment["method"] == METHOD and bool(payment.get("gateway_txn_no"))
 
 
+# Đơn do chế độ thanh toán giả lập tạo ra: mã đơn bắt đầu bằng "SIM".
+# Loại đơn này không bao giờ hỏi / hoàn tiền với VNPay vì VNPay không hề biết đến chúng.
+SIM_PREFIX = "SIM"
+
+
+def _is_simulated(payment: dict) -> bool:
+    return str(payment.get("transaction_ref") or "").startswith(SIM_PREFIX)
+
+
 # Kiểm tra user đã có giao dịch thanh toán thành công cho khóa học này chưa
 def _has_paid(db: Session, user_id: int, course_id: int) -> bool:
     return (
@@ -43,9 +52,11 @@ def _has_paid(db: Session, user_id: int, course_id: int) -> bool:
     )
 
 
-# Sinh mã giao dịch dạng SO + thời gian (yyMMddHHmmss) + 4 số ngẫu nhiên (dùng làm vnp_TxnRef)
-def _new_ref() -> str:
-    return "SO" + dt.datetime.now().strftime("%y%m%d%H%M%S") + str(random.randint(1000, 9999))
+# Sinh mã giao dịch dạng SO + thời gian (yyMMddHHmmss) + 4 số ngẫu nhiên (dùng làm vnp_TxnRef);
+# đơn giả lập dùng tiền tố SIM thay cho SO để luôn phân biệt được với đơn VNPay thật
+def _new_ref(simulated: bool = False) -> str:
+    prefix = SIM_PREFIX if simulated else "SO"
+    return prefix + dt.datetime.now().strftime("%y%m%d%H%M%S") + str(random.randint(1000, 9999))
 
 
 # Khóa học phải tồn tại, user chưa đăng ký, và (với học viên) khóa phải đang mở bán
@@ -151,7 +162,9 @@ def vnpay_create(
     if amount <= 0:
         _enroll(db, user["id"], course_id)
         return ok("Đăng ký thành công!", enrolled=True, payment_required=False)
-    if not vnpay.is_configured():
+    # Bật PAYMENT_SIMULATOR thì không cần khóa VNPay: đơn được xử lý bằng trang thanh toán giả lập
+    simulated = settings.payment_simulator
+    if not simulated and not vnpay.is_configured():
         raise ApiError("Hệ thống chưa cấu hình cổng thanh toán VNPay. Vui lòng liên hệ quản trị viên.", 503)
 
     # Đơn VNPay cũ còn chờ của cùng khóa: hỏi VNPay trước — nếu thực ra đã thanh toán thì ghi danh luôn,
@@ -171,7 +184,7 @@ def vnpay_create(
             )
 
     # Tạo đơn hàng ở trạng thái chờ thanh toán; lưu vnp_CreateDate để sau này truy vấn (querydr)
-    ref = _new_ref()
+    ref = _new_ref(simulated)
     create_date = vnpay.now_vn().strftime("%Y%m%d%H%M%S")
     execute(
         db,
@@ -183,6 +196,12 @@ def vnpay_create(
         ref=ref,
         cd=create_date,
     )
+
+    # Giả lập: chuyển học viên sang trang giả lập của giao diện, không gọi VNPay
+    if simulated:
+        url = f"{settings.frontend_url.rstrip('/')}/student/payment-simulator?{urlencode({'ref': ref})}"
+        return ok("Đã tạo đơn hàng (giả lập).", payment_url=url, transaction_ref=ref, amount=amount,
+                  payment_required=True, simulated=True)
 
     # IP của học viên (qua Nginx thì lấy từ X-Forwarded-For)
     ip = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip() or (
@@ -314,6 +333,37 @@ def payment_status(
             "enrolled": _is_enrolled(db, payment["user_id"], payment["course_id"]),
         }
     )
+
+
+# POST /api/payments/simulator/confirm {ref, result} — trang thanh toán giả lập báo kết quả.
+# Chỉ hoạt động khi PAYMENT_SIMULATOR=true, chỉ chủ đơn, chỉ đơn SIM còn "pending" và còn hạn.
+# Dùng lại _mark_paid / _mark_failed nên ghi danh, báo cáo, danh sách giao dịch chạy y như đơn thật.
+@router.post("/simulator/confirm")
+def simulator_confirm(
+    body: dict = Body(default={}),
+    user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if not settings.payment_simulator:
+        raise ApiError("Chế độ thanh toán giả lập đang tắt.", 403)
+    result = sv(body, "result")
+    if result not in ("success", "failed"):
+        raise ApiError("Kết quả thanh toán không hợp lệ.")
+    payment = q_one(db, "SELECT * FROM payments WHERE transaction_ref = :ref", ref=sv(body, "ref"))
+    if not payment or payment["user_id"] != user["id"] or not _is_simulated(payment):
+        raise ApiError("Không tìm thấy đơn hàng.", 404)
+    if payment["status"] != "pending":
+        raise ApiError("Đơn hàng này đã được xử lý.", 409)
+    if _is_expired(payment):
+        _mark_failed(db, payment, note="Hết hạn thanh toán (giả lập).")
+        raise ApiError("Đơn hàng đã hết hạn thanh toán. Vui lòng tạo đơn mới.", 410)
+
+    if result == "success":
+        # Không có mã giao dịch VNPay -> _via_gateway = False, đơn này chỉ hoàn tiền thủ công
+        _mark_paid(db, payment, bank="SIMULATOR", code="00", note="Thanh toán giả lập — không phải giao dịch thật.")
+    else:
+        _mark_failed(db, payment, bank="SIMULATOR", code="24", note="Học viên hủy ở trang thanh toán giả lập.")
+    return ok("Đã ghi nhận kết quả giả lập.", status="completed" if result == "success" else "failed")
 
 
 # ── Quản lý giao dịch (admin) ──────────────────────────────────────────────
@@ -459,8 +509,8 @@ def reconcile_payment(db: Session, payment: dict, *, cancel_note: str | None = N
         return "not_pending", ""
     expired = _is_expired(payment)
 
-    # Đơn không qua cổng thanh toán (đơn giả lập cũ): không có gì để hỏi -> hết hạn thì hủy
-    if payment["method"] != METHOD:
+    # Đơn không qua cổng thanh toán (đơn giả lập, dữ liệu cũ): không có gì để hỏi -> hết hạn thì hủy
+    if payment["method"] != METHOD or _is_simulated(payment):
         if cancel_note or expired:
             _mark_failed(db, payment, note=cancel_note or "Đơn không qua cổng thanh toán, đã quá hạn — hủy.")
             return ("cancelled" if cancel_note else "expired"), ""

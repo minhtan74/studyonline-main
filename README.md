@@ -108,6 +108,7 @@ Các biến quan trọng trong `backend/.env`:
 | `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASS` | Kết nối MySQL (mặc định `127.0.0.1:3306`; ứng dụng dùng `studyonline_app`) |
 | `LLM_PROVIDER`, `LLM_API_KEY` | `gemini` + khoá Gemini; để trống khoá -> AI chạy offline |
 | `VNPAY_TMN_CODE`, `VNPAY_HASH_SECRET` | Khoá VNPay Sandbox; để trống -> nút thanh toán báo "chưa cấu hình" |
+| `PAYMENT_SIMULATOR` | `true` = thanh toán giả lập thay VNPay (chỉ demo, mặc định `false`) |
 
 **3. Frontend.**
 
@@ -332,6 +333,13 @@ Khóa có phí chỉ thanh toán qua VNPay; cần kết nối mạng để mở 
 `completed` + ghi danh; thất bại / huỷ: đơn `failed`, không ghi danh → chuyển về `/student/payment-result`.
 `/api/payments/vnpay/ipn` là URL IPN (VNPay gọi thẳng server), chỉ dùng được khi backend có địa chỉ công khai;
 chạy local thì dựa vào return URL.
+
+
+**Thanh toán giả lập (dự phòng khi demo):** nếu VNPay sandbox không dùng được, đặt `PAYMENT_SIMULATOR=true` trong
+`backend/.env` và khởi động lại backend. Bấm thanh toán sẽ mở trang `/student/payment-simulator` (có dòng cảnh báo
+"CHẾ ĐỘ GIẢ LẬP — KHÔNG PHẢI GIAO DỊCH THẬT") với hai nút *Thanh toán thành công* / *Hủy*; sau đó ghi danh, danh sách
+giao dịch và báo cáo chạy như đơn thật. Mã đơn bắt đầu bằng `SIM`, ngân hàng `SIMULATOR`, không có mã giao dịch VNPay
+nên không hỏi / hoàn tiền với VNPay. Mặc định tắt; đặt lại `false` để dùng VNPay thật.
 
 **Đối soát đơn "đang chờ"** (học viên trả tiền xong nhưng đóng tab trước khi quay về web):
 - Admin → **Quản lý Giao dịch** → tab *Đang chờ* → bấm đơn → **Kiểm tra với VNPay**, hoặc nút

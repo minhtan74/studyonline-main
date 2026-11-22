@@ -43,6 +43,9 @@ class Settings(BaseSettings):
     vnpay_api_url: str = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
     vnpay_return_url: str = "http://127.0.0.1:8080/api/payments/vnpay/return"
     frontend_url: str = "http://localhost:5173"
+    # Thanh toán giả lập (PAYMENT_SIMULATOR=true): chỉ để demo khi VNPay sandbox không dùng được.
+    # Mặc định tắt; bật thì học viên được chuyển tới trang giả lập thay vì VNPay, không có tiền thật.
+    payment_simulator: bool = False
     # Chu kỳ (giây) tự đối soát đơn VNPay đang chờ đã quá hạn; 0 = tắt
     payment_reconcile_interval: int = 300
 

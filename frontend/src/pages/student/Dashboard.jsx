@@ -6,6 +6,7 @@ import { enrollmentService } from '../../services/enrollmentService';
 import { progressService } from '../../services/progressService';
 import WeeklyBarChart from '../../components/common/WeeklyBarChart';
 import StudyRecommendationSummary from '../../components/common/StudyRecommendationSummary';
+import CourseThumb from '../../components/common/CourseThumb';
 import { buildDashboardOverview } from '../../utils/dashboardOverview';
 import { formatStudyDate } from '../../utils/studyDate';
 import '../../assets/css/student-courses.css';
@@ -134,7 +135,7 @@ export default function Dashboard() {
               const level = {beginner:['Cơ bản','level-begin'],intermediate:['Trung cấp','level-mid'],advanced:['Nâng cao','level-adv']}[course.level];
               const price = course.price == null ? null : Number(course.price);
               return <article className="s-course-card dash-discover-course" key={course.id}>
-                <div className="s-course-thumb" style={{background:`linear-gradient(135deg,${colors[index % colors.length]})`}} aria-hidden="true"><span>{icons[index % icons.length]}</span></div>
+                <div className="s-course-thumb" style={{background:`linear-gradient(135deg,${colors[index % colors.length]})`}} aria-hidden="true"><CourseThumb src={course.thumbnail} style={{ width: '100%', height: '100%', objectFit: 'cover' }} fallback={<span>{icons[index % icons.length]}</span>} /></div>
                 <div className="s-course-body">
                   <h3><Link to={`/chapters?course_id=${course.id}`}>{course.title}</Link></h3>
                   <p className="teacher">👨‍🏫 {course.teacher_name || 'Giảng viên StudyOnline'}</p>

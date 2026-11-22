@@ -35,6 +35,7 @@ const StudentRecommendations = lazy(() => import('../pages/student/Recommendatio
 const StudentQuizResult = lazy(() => import('../pages/student/QuizResult.jsx'));
 const StudentAiTutor = lazy(() => import('../pages/student/AiTutor.jsx'));
 const StudentPaymentResult = lazy(() => import('../pages/student/PaymentResult.jsx'));
+const StudentPaymentSimulator = lazy(() => import('../pages/student/PaymentSimulator.jsx'));
 
 // Trang của admin
 const AdminOverview = lazy(() => import('../pages/admin/Overview.jsx'));
@@ -123,6 +124,7 @@ export default function AppRoutes() {
         <Route path="/student/ai-tutor" element={<StudentAiTutor />} />
         {/* VNPay chuyển về đây (qua backend) sau khi thanh toán */}
         <Route path="/student/payment-result" element={<StudentPaymentResult />} />
+        <Route path="/student/payment-simulator" element={<StudentPaymentSimulator />} />
       </Route>
 
       {/* Khu vực admin: chỉ vai trò admin */}

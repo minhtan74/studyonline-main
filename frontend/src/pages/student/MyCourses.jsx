@@ -4,6 +4,7 @@ import { courseService } from '../../services/courseService';
 import { enrollmentService } from '../../services/enrollmentService';
 import { progressService } from '../../services/progressService';
 import { buildDashboardOverview } from '../../utils/dashboardOverview';
+import CourseThumb from '../../components/common/CourseThumb';
 import '../../assets/css/my-courses.css';
 
 // Biểu tượng và màu nền trang trí thẻ khóa học
@@ -136,7 +137,7 @@ export default function MyCourses() {
             return (
               <div key={c.id} className="s-course-card">
                 <div className="s-course-thumb" style={{ background: `linear-gradient(135deg,${COLORS[idx % COLORS.length]})` }}>
-                  <span style={{ fontSize: '2.5rem' }}>{EMOJIS[idx % EMOJIS.length]}</span>
+                  <CourseThumb src={c.thumbnail} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} fallback={<span style={{ fontSize: '2.5rem' }}>{EMOJIS[idx % EMOJIS.length]}</span>} />
                 </div>
                 <div className="s-course-body">
                   <h3>{c.title || 'Khóa học'}</h3>

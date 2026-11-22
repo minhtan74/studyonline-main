@@ -4,6 +4,7 @@ import { courseService } from '../../services/courseService';
 import { enrollmentService } from '../../services/enrollmentService';
 import { paymentService } from '../../services/paymentService';
 import { useToast } from '../../hooks/useToast';
+import CourseThumb from '../../components/common/CourseThumb';
 import '../../assets/css/student-courses.css';
 
 // Biểu tượng và màu nền trang trí thẻ khóa học (chọn theo id khóa)
@@ -315,7 +316,7 @@ export default function Courses() {
             return (
               <div key={c.id} className="s-course-card" id={`card-${c.id}`}>
                 <div className="s-course-thumb" style={{ background: `linear-gradient(135deg,${color})` }}>
-                  <span style={{ fontSize: '2.5rem' }}>{emoji}</span>
+                  <CourseThumb src={c.thumbnail} alt={c.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} fallback={<span style={{ fontSize: '2.5rem' }}>{emoji}</span>} />
                 </div>
                 <div className="s-course-body">
                   <h3>{c.title || 'Khóa học'}</h3>
@@ -364,7 +365,7 @@ export default function Courses() {
                     borderRadius: '12px 12px 0 0',
                   }}
                 >
-                  {EMOJIS[origIdx % EMOJIS.length]}
+                  <CourseThumb src={detailCourse.thumbnail} alt={detailCourse.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '12px 12px 0 0' }} fallback={EMOJIS[origIdx % EMOJIS.length]} />
                 </div>
                 <div className="modal-body">
                   <div style={{ display: 'flex', gap: '.5rem', flexWrap: 'wrap', marginBottom: '.75rem' }}>
@@ -449,7 +450,7 @@ export default function Courses() {
                         flexShrink: 0,
                       }}
                     >
-                      {EMOJIS[origIdx % EMOJIS.length]}
+                      <CourseThumb src={paymentCourse.thumbnail} alt={paymentCourse.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 10 }} fallback={EMOJIS[origIdx % EMOJIS.length]} />
                     </div>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: '.9rem' }}>{paymentCourse.title}</div>
